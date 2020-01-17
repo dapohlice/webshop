@@ -1,0 +1,30 @@
+version: '3'
+
+services: 
+  rest_db:
+    image: mariadb:10.3
+    ports:
+      - "3306:3306"
+    expose:
+      - "3306"
+    environment:
+      - MYSQL_ROOT_PASSWORD=passw0rd
+    volumes:
+      - ./database:/docker-entrypoint-initdb.d
+  server:
+    image: node:8
+    user: "node"
+    working_dir: /home/node/app
+    environment: 
+      - NODE_ENV=development
+    volumes:
+      - ./server:/home/node/app
+    expose: 
+      - "3001"
+    ports:
+      - "3001:3001"
+    command: "npm start"
+    external_links:
+      - rest_db
+    depends_on: 
+      - rest_db
