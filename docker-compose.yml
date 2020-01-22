@@ -1,0 +1,90 @@
+version: '3'
+
+services: 
+  order_db:
+    image: mariadb:10.3
+    ports:
+      - "3306:3306"
+    volumes:
+      - ./database/order:/docker-entrypoint-initdb.d
+    expose: 
+      - "3306"
+    environment: 
+      - "MYSQL_ROOT_PASSWORD=passw0rd"
+  order:
+    build: dockerfiles/order
+    environment: 
+      - NODE_ENV=development
+      - PORT=3001
+    volumes:
+      - ./services/services/order:/home/node/src
+    expose: 
+      - "3001"
+    ports:
+      - "3001:3001"
+    command: "npm start"
+    external_links:
+      - order_db
+    depends_on: 
+      - order_db
+  product:
+    build: dockerfiles/product
+    environment: 
+      - NODE_ENV=development
+      - PORT=3002
+    volumes:
+      - ./services/services/product:/home/node/src
+    expose: 
+      - "3002"
+    ports:
+      - "3002:3002"
+    command: "npm start"  
+  user:
+    build: dockerfiles/user
+    environment: 
+      - NODE_ENV=development
+      - PORT=3003
+    volumes:
+      - ./services/services/user:/home/node/src
+    expose: 
+      - "3003"
+    ports:
+      - "3003:3003"
+    command: "npm start"
+  picture:
+    build: dockerfiles/picture
+    environment: 
+      - NODE_ENV=development
+      - PORT=3004
+    volumes:
+      - ./services/services/picture:/home/node/src
+    expose: 
+      - "3004"
+    ports:
+      - "3004:3004"
+    command: "npm start"
+  admin:
+    build: dockerfiles/admin
+    environment: 
+      - NODE_ENV=development
+      - PORT=3010
+    volumes:
+      - ./services/web/admin:/home/node/src
+    expose: 
+      - "3010"
+    ports:
+      - "3010:3010"
+    command: "npm start"
+  shop:
+    build: dockerfiles/shop
+    environment: 
+      - NODE_ENV=development
+      - PORT=3011
+    volumes:
+      - ./services/web/shop:/home/node/src
+    expose: 
+      - "3011"
+    ports:
+      - "3011:3011"
+    command: "npm start"
+
