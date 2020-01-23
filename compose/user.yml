@@ -1,0 +1,14 @@
+version: '3'
+services: 
+  user:
+    build: dockerfiles/user
+    environment: 
+      - NODE_ENV=development
+      - PORT=3003
+    volumes:
+      - ./services/services/user:/home/node/src
+    expose: 
+      - "3003"
+    ports:
+      - "3003:3003"
+    command: "npm start"

@@ -1,0 +1,18 @@
+version: '3'
+services: 
+  order:
+    build: dockerfiles/order
+    environment: 
+      - NODE_ENV=development
+      - PORT=3001
+    volumes:
+      - ./services/services/order:/home/node/src
+    expose: 
+      - "3001"
+    ports:
+      - "3001:3001"
+    command: "npm start"
+    external_links:
+      - order_db
+    depends_on: 
+      - order_db

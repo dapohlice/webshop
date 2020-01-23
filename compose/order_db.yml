@@ -1,0 +1,15 @@
+version: '3'
+services: 
+  order_db:
+    image: mariadb:10.3
+    ports:
+      - "3306:3306"
+    expose: 
+      - "3306"
+    volumes:
+      - ./database/order:/docker-entrypoint-initdb.d
+      - order_db_data:/var/lib/mysql
+    environment: 
+      - "MYSQL_ROOT_PASSWORD=passw0rd"
+volumes:
+  order_db_data:

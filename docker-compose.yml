@@ -21,7 +21,7 @@ services:
     environment:
       - "MONGO_INITDB_ROOT_USERNAME=root"
       - "MONGO_INITDB_ROOT_PASSWORD=passw0rd"
-      - "MONGO_INITDB_DATABASE=product"
+      - "MONGO_DATABASE=product"
     volumes:
       - ./database/product:/docker-entrypoint-initdb.d
   product_mongo_express:

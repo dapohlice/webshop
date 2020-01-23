@@ -1,0 +1,14 @@
+version: '3'
+services: 
+  picture:
+    build: dockerfiles/picture
+    environment: 
+      - NODE_ENV=development
+      - PORT=3004
+    volumes:
+      - ./services/services/picture:/home/node/src
+    expose: 
+      - "3004"
+    ports:
+      - "3004:3004"
+    command: "npm start"

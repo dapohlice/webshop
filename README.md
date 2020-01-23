@@ -17,13 +17,29 @@ Webshop
 
 ### Container erstellen
 
+- Alle
 ```bash
-./updateContainer.sh
+./build.sh
+```
+- Datenbank mit neuer Datenbank, **alte Datenbank wird gelöscht**
+```bash
+./update<Order/Product>DB.sh
 ```
 
+
 ### Container starten
+- Alle 
+  - außer Product Admin Seite
 ```bash
-docker-compose up
+./start.sh
+```
+- Nur Order mit Datenbank
+```bash
+./startOrder.sh
+```
+- Nur Product mit Datenbank und Admin Seite
+```bash
+./startProduct.sh
 ```
 
 ## Anpassen

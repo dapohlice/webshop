@@ -1,0 +1,18 @@
+version: '3'
+services: 
+  product:
+    build: dockerfiles/product
+    environment: 
+      - NODE_ENV=development
+      - PORT=3002
+    volumes:
+      - ./services/services/product:/home/node/src
+    expose: 
+      - "3002"
+    ports:
+      - "3002:3002"
+    command: "npm start"
+    external_links:
+      - product_db
+    depends_on: 
+      - product_db

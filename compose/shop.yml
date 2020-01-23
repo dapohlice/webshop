@@ -1,0 +1,14 @@
+version: '3'
+services: 
+  shop:
+    build: dockerfiles/shop
+    environment: 
+      - NODE_ENV=development
+      - PORT=3011
+    volumes:
+      - ./services/web/shop:/home/node/src
+    expose: 
+      - "3011"
+    ports:
+      - "3011:3011"
+    command: "npm start"

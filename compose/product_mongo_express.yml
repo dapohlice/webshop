@@ -1,0 +1,16 @@
+version: '3'
+services: 
+  product_mongo_express:
+    image: mongo-express:0.49
+    ports:
+      - "8081:8081"
+    expose:
+      - "8081"
+    environment:
+      - "ME_CONFIG_MONGODB_ADMINUSERNAME=root"
+      - "ME_CONFIG_MONGODB_ADMINPASSWORD=passw0rd"
+      - "ME_CONFIG_MONGODB_SERVER=product_db"
+    external_links:
+      - product_db
+    depends_on: 
+      - product_db
