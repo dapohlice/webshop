@@ -28,4 +28,21 @@
 ## Databases
 ### Order_DB
 - Port: 3306
-- Password: passw0rd
+- Root-User: root
+- Root-Password: passw0rd
+
+- Database: test
+  - user: test
+  - password: test
+
+### Product_DB
+- Port: 27017
+- Root-User: root
+- Root-Password: passw0rd
+- Database: product
+
+#### Admin
+- Port: 8081
+
+
+

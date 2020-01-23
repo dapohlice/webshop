@@ -28,8 +28,9 @@ docker-compose up
 
 ## Anpassen
 
-- Code wird in services angepasst
-- node dependecies werden in den dateien **package.json** im jeweiligen Ordner in dockerfiles angepasst
+- Code wird in **services** angepasst
+- node dependecies werden in den dateien **package.json** im jeweiligen Ordner in **dockerfiles** angepasst
+- Hauptanwendung muss immer **index.js** sein
 
 
 
