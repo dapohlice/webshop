@@ -29,6 +29,7 @@ app.use(logError);
  */
 
  app.set('view engine', 'pug');
+ app.set('views', __dirname + '/views');
  // serve static files from the `public` folder
  app.use(express.static(__dirname + '/public'));+
 
