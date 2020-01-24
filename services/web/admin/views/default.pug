@@ -1,17 +1,19 @@
 doctype html
-html(lang="en")
+html(lang="de")
   head
     meta(charset="utf-8")
     meta(name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no")
     meta(http-equiv="x-ua-compatible" content="ie=edge")
     title #{title}
     //- link(rel='stylesheet' href='/cssB/bootstrap.min.css')
-    //- 
-    link(rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css')
+    
+    link(href='css/style.css' type='text/css' rel='stylesheet' )
+    link(href='https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css' type="text/css" rel="stylesheet" media="screen")
+    link(href='https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css' type="text/css" rel="stylesheet" media="screen")
 
-    link(rel='stylesheet' type='text/css' href='css/style.css')
+
     //- link(rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css')
-    body
+    body.fixed-sn.light-blue-skin
 
       div#mySidebar.sidebar
         a.closebtn(href="javascript:void(0)" onclick="closeNav()")
@@ -24,8 +26,7 @@ html(lang="en")
           | Category
         hr
         center
-          h2
-          Order
+          h2.text-white Order
         a(href=`#`)
           | Open
         a(href=`#`)
@@ -39,21 +40,21 @@ html(lang="en")
           | Logout 
 
 
-        div#main
-          block header
-            nav.navbar.navbar-expand-md.bg-dark.navbar-dark
-              a.navbar-brand(href="#")
-                | Navbar
-              button.openbtn(type="button" onclick="openNav()")
-                span.navbar-toggler-icon
-          block content
+      main#main
+        block header
+          nav.navbar.navbar-expand-md.bg-dark.navbar-dark
+            button.openbtn(type="button" onclick="openNav()")
+              span.navbar-toggler-icon
+            a.navbar-brand(href="#")(style=`padding-left: 1%;`)
+              | Logo
+        block content
           
-      block footer
-        footer.page-footer.font-small
-          div.footer-copyright.text-center.py-3
-            | © 2020 Webshop Team:
-            a(href=`#`)
-                |  www.webshop.de
+        block footer
+          footer.page-footer.font-small
+            div.footer-copyright.text-center.py-3
+              | © 2020 Webshop Team:
+              a(href=`#`)
+                  |  www.webshop.de
                 
   //- script(src='https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js')
   script(src='https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js')

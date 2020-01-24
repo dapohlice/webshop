@@ -33,27 +33,27 @@ app.use(logError);
 /**
  * Hauptapp
  */
-app.set('views', __dirname + '/views');
 app.set('view engine', 'pug');
+app.set('views', __dirname + '/views');
  // serve static files from the `public` folder
 app.use(express.static(__dirname + '/public'));
 // app.use('/jsB', express.static('/node_modules/jquery/dist')); // redirect JS jQuery
 // app.use('/cssB', express.static('/node_modules/bootstrap/dist/css')); // redirect CSS bootstrap
 
- app.get('/', (req, res) => {
-   res.render('index', {
-     title: 'Webshop Dashboard',
-     people: people.profiles
-   });
- });
+app.get('/', (req, res) => {
+  res.render('index', {
+    title: 'Administration Dashboard',
+  });
+});
 
-   app.get('/profile', (req, res) => {
-     const person = people.profiles.find(p => p.id === req.query.id);
-     res.render('profile', {
-       title: `About ${person.firstname} ${person.lastname}`,
-       person,
-     });
- });
+
+// app.get('/profile', (req, res) => {
+//   const person = people.profiles.find(p => p.id === req.query.id);
+//   res.render('profile', {
+//     title: `About ${person.firstname} ${person.lastname}`,
+//     person,
+//   });
+// });
 
 
 /**
