@@ -2,25 +2,39 @@ extends default
 
 block content
   div.col.pt-2
-    h2
-      | Striped Rows
+    h2.text-center
+      | Willkommen Mitarbeiter
     p
-      | The .table-striped class adds zebra-stripes to a table:
+      | Liste mit offenen Bestellungen
     table.table.table-striped
       thead
         tr
           th
-            | Firstname
+            | Artikelnummer
           th
-            | Lastname
+            | Kundennummer
           th
-            | E-Mail
+            | Bestelldatum
       tbody
         tr
           td
-            | John
+            | #{order+2}
           td
-            | Doe
+            | #{order+1000000}
           td
-            | john@example.com            
+            | #{date}           
+        tr
+          td
+            | #{order+1}
+          td
+            | #{order+1000000}
+          td
+            | #{date}        
+        tr
+          td
+            | #{order-1}
+          td
+            | #{order+1000000}
+          td
+            | #{date}             
               

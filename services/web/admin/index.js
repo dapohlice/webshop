@@ -6,12 +6,10 @@ const port = process.env.PORT;
 const stage = process.env.NODE_ENV;
 
 const people = require('./people.json');
-// Versuch bootstrap als node-module einzubinden
-// var jquery = require('jquery');
-// var bootstrap = require('bootstrap');
-// var scss_boot = require('~bootstrap/scss/bootstrap');
-// var scss = require('./scss/app.scss');
 
+// Spaß mit Clocks
+const start = Date.now();
+const startDateTime = new Date(1995,11,4,0,0,0,0); // Erstes Release von Javascript
 /* loging functions
 */
 // jeden Request
@@ -37,12 +35,13 @@ app.set('view engine', 'pug');
 app.set('views', __dirname + '/views');
  // serve static files from the `public` folder
 app.use(express.static(__dirname + '/public'));
-// app.use('/jsB', express.static('/node_modules/jquery/dist')); // redirect JS jQuery
-// app.use('/cssB', express.static('/node_modules/bootstrap/dist/css')); // redirect CSS bootstrap
 
 app.get('/', (req, res) => {
+  const millis = Date.now() - start;
   res.render('index', {
     title: 'Administration Dashboard',
+    order: Math.floor(millis/1000),
+    date: startDateTime
   });
 });
 

@@ -41,12 +41,14 @@ body {
 .nav-link[data-toggle]:not(.collapsed):after {
     content: "▴";
 }
+
 .openbtn {
+  display: none;
   font-size: 20px;
   cursor: pointer;
   background-color: #111;
   color: white;
-  padding: 10px 15px;
+  padding: 4px 10px;
   border: none;
   text-align: right;
 }
@@ -55,7 +57,11 @@ body {
   background-color: #444;
 }
 
+#mySidebar {
+  width: 250px;
+}
 #main {
+  margin-left: 250px;
   transition: margin-left .5s;
   /* padding: 16px; */
 }

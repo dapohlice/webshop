@@ -1,5 +1,5 @@
 doctype html
-html(lang="de")
+html(lang="en")
   head
     meta(charset="utf-8")
     meta(name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no")
@@ -7,13 +7,12 @@ html(lang="de")
     title #{title}
     //- link(rel='stylesheet' href='/cssB/bootstrap.min.css')
     
-    link(href='css/style.css' type='text/css' rel='stylesheet' )
-    link(href='https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css' type="text/css" rel="stylesheet" media="screen")
-    link(href='https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css' type="text/css" rel="stylesheet" media="screen")
-
-
-    //- link(rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css')
+    link(rel='stylesheet' href='css/style.css' type='text/css')
+    link(rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css' type='text/css' media='screen')
+    link(rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css' type='text/css' media='screen')
+    
     body.fixed-sn.light-blue-skin
+      //- script(src='js/loader.js')
 
       div#mySidebar.sidebar
         a.closebtn(href="javascript:void(0)" onclick="closeNav()")
@@ -43,10 +42,10 @@ html(lang="de")
       main#main
         block header
           nav.navbar.navbar-expand-md.bg-dark.navbar-dark
-            button.openbtn(type="button" onclick="openNav()")
-              span.navbar-toggler-icon
-            a.navbar-brand(href="#")(style=`padding-left: 1%;`)
+            a.navbar-brand(href="#")
               | Logo
+            button.openbtn(type="button" onclick="openNav()")(style=`padding-left: 1%;`)
+              span.navbar-toggler-icon          
         block content
           
         block footer
@@ -62,4 +61,4 @@ html(lang="de")
   script(src='https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js')
   //- script(src='/jsB/jquery.js')
   //- script(src='/jsB/bootstrap.min.js')
-  script(src='js/adb_startpage.js')
+  script(src='js/db_sidebar.js')
