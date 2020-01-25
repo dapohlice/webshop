@@ -39,7 +39,16 @@ app.use(express.static(__dirname + '/public'));
 app.get('/', (req, res) => {
   const millis = Date.now() - start;
   res.render('index', {
-    title: 'Administration Dashboard',
+    title: 'Welcome Employee - Administration Dashboard',
+    order: Math.floor(millis/1000),
+    date: startDateTime
+  });
+});
+
+app.get('/user', (req, res) => {
+  const millis = Date.now() - start;
+  res.render('user', {
+    title: 'User - Administration Dashboard',
     order: Math.floor(millis/1000),
     date: startDateTime
   });

@@ -5,8 +5,7 @@ html(lang="en")
     meta(name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no")
     meta(http-equiv="x-ua-compatible" content="ie=edge")
     title #{title}
-    //- link(rel='stylesheet' href='/cssB/bootstrap.min.css')
-    
+
     link(rel='stylesheet' href='css/style.css' type='text/css')
     link(rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css' type='text/css' media='screen')
     link(rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css' type='text/css' media='screen')
@@ -17,7 +16,7 @@ html(lang="en")
       div#mySidebar.sidebar
         a.closebtn(href="javascript:void(0)" onclick="closeNav()")
           | &times;
-        a(href=`#`)
+        a(href=`/user`)
           | User
         a(href=`#`)
           | Article
@@ -42,7 +41,7 @@ html(lang="en")
       main#main
         block header
           nav.navbar.navbar-expand-md.bg-dark.navbar-dark
-            a.navbar-brand(href="#")
+            a.navbar-brand(href=`/`)
               | Logo
             button.openbtn(type="button" onclick="openNav()")(style=`padding-left: 1%;`)
               span.navbar-toggler-icon          
@@ -52,7 +51,7 @@ html(lang="en")
           footer.page-footer.font-small
             div.footer-copyright.text-center.py-3
               | © 2020 Webshop Team:
-              a(href=`#`)
+              a(href=`/`)
                   |  www.webshop.de
                 
   //- script(src='https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js')

@@ -1,0 +1,110 @@
+extends default
+
+block content
+  div.col.pt-2
+    h2.text-center
+      | User
+    div.search-bar
+      button(type="button")
+        | Add
+      div.search-container
+        form(action="#")
+          input(type="text" placeholder="Search.." name="search")
+          button(type="submit")
+            i.fa.fa-search
+
+    table.table.table-striped
+      thead
+        tr
+          th
+            | ID
+          th
+            | Test1
+          th
+            | Test2
+          th
+            | Test3
+          th
+            | Test4
+          th
+            | Order date
+      tbody
+        tr
+          td
+            | #{order+2}
+          td
+            | #{order+1000002}
+          td
+            | placeholder           
+          td
+            | placeholder           
+          td
+            | placeholder           
+          td
+            | #{date}           
+        tr
+          td
+            | #{order+1}
+          td
+            | #{order+1000001}
+          td
+            | placeholder           
+          td
+            | placeholder           
+          td
+            | placeholder           
+          td
+            | #{date}        
+        tr
+          td
+            | #{order-1}
+          td
+            | #{order+1000000}
+          td
+            | placeholder           
+          td
+            | placeholder           
+          td
+            | placeholder           
+          td
+            | #{date}             
+        tr
+          td
+            | #{order-1}
+          td
+            | #{order+1000000}
+          td
+            | placeholder           
+          td
+            | placeholder           
+          td
+            | placeholder           
+          td
+            | #{date}             
+        tr
+          td
+            | #{order-1}
+          td
+            | #{order+1000000}
+          td
+            | placeholder           
+          td
+            | placeholder           
+          td
+            | placeholder           
+          td
+            | #{date}             
+        tr
+          td
+            | #{order-1}
+          td
+            | #{order+1000000}
+          td
+            | placeholder           
+          td
+            | placeholder           
+          td
+            | placeholder           
+          td
+            | #{date}             
+              
