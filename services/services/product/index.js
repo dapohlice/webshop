@@ -1,9 +1,8 @@
 const express = require('express');
+const productsapp = express();
 
-const app = express();
-
-const port = process.env.PORT;
-const stage = process.env.NODE_ENV;
+const mongoClient = require('mongodb').mongoClient;
+const url = "mongodb://root:passw0rd@localhost:27017/";
 
 /* loging functions
 */
@@ -13,7 +12,7 @@ function logRequest(req,res,next)
     console.log(`Request ${req.method} ${req.originalUrl} from ${req.ip}`)
     next()
 }
-app.use(logRequest);
+productsapp.use(logRequest);
 
 // jeden Fehler
 function logError(err,req,res,next)
@@ -21,18 +20,31 @@ function logError(err,req,res,next)
     console.error(`Request ${req.method} ${req.originalUrl} from ${req.ip} FAILED`)
     console.error(err);
 }
-app.use(logError);
+productsapp.use(logError);
 
-/**
- * Hauptapp
- */
+/*Get-Requests ab der Wurzel abfangen*/
+productsapp.get('/',(reg,res) => {
 
+  /*Get-Request zum anzeigen aller Artikels*/
+  productsapp.get('/article',(reg,res) =>{});
 
-app.get('/', (req, res) => res.send('Hello World!'))
+  /*Get-Request zum abzeigen eines Artikels über die Artikel-ID*/
+  productsapp.get('/article/:id', (reg,res) => {
+    let id = reg.params.id;
+  });
+});
 
+/*Post-Request ab der Wurzel abfangen*/
+productsapp.post('/',(reg,res) => {
 
-/**
- * Starten
- */
-app.listen(port, () => console.log(`Picture Service (${stage}) Listen On ${port}`))
+  /*Post-Request zum anlegen eines neuen Artikeldatensatzes*/
+  productsapp.post('/article',(reg,res) => {});
+});
 
+/*Put-Request ab der Wurzel abgfangen*/
+productsapp.put('/',(reg,res) => {
+  /*Put-Request zum bearbeiten eines Artikeldatensatzes über seine ID*/
+  productsapp.put('/article/:id',(reg,res) =>{
+    let id = reg.params.id;
+  });
+});

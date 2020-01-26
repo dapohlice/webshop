@@ -1,12 +1,40 @@
 extends default
 
 block content
-  div.container
-    each person in people
-          div.person
-            div.person-image(style=`background: url('/images/${person.imgSrc}') top center
-            no-repeat; background-size: cover;`)
-            h2.person-name
-              | #{person.firstname} #{person.lastname}
-            a(href=`/profile?id=${person.id}`)
-              | View Profile
+  div.col.pt-2
+    h2.text-center
+      | Welcome Employee
+    p
+      | List of open orders
+    table.table.table-striped
+      thead
+        tr
+          th
+            | Item number
+          th
+            | Custom number
+          th
+            | Order date
+      tbody
+        tr
+          td
+            | #{order+2}
+          td
+            | #{order+1000002}
+          td
+            | #{date}           
+        tr
+          td
+            | #{order+1}
+          td
+            | #{order+1000001}
+          td
+            | #{date}        
+        tr
+          td
+            | #{order-1}
+          td
+            | #{order+1000000}
+          td
+            | #{date}             
+              

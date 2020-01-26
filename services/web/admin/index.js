@@ -6,6 +6,10 @@ const port = process.env.PORT;
 const stage = process.env.NODE_ENV;
 
 const people = require('./people.json');
+
+// Spaß mit Clocks
+const start = Date.now();
+const startDateTime = new Date(1995,11,4,0,0,0,0); // Erstes Release von Javascript
 /* loging functions
 */
 // jeden Request
@@ -27,26 +31,37 @@ app.use(logError);
 /**
  * Hauptapp
  */
-
- app.set('view engine', 'pug');
- app.set('views', __dirname + '/views');
+app.set('view engine', 'pug');
+app.set('views', __dirname + '/views');
  // serve static files from the `public` folder
- app.use(express.static(__dirname + '/public'));+
+app.use(express.static(__dirname + '/public'));
 
- app.get('/', (req, res) => {
-   res.render('index', {
-     title: 'Homepage',
-     people: people.profiles
-   });
- });
+app.get('/', (req, res) => {
+  const millis = Date.now() - start;
+  res.render('index', {
+    title: 'Welcome Employee - Administration Dashboard',
+    order: Math.floor(millis/1000),
+    date: startDateTime
+  });
+});
 
- app.get('/profile', (req, res) => {
-   const person = people.profiles.find(p => p.id === req.query.id);
-   res.render('profile', {
-     title: `About ${person.firstname} ${person.lastname}`,
-     person,
-   });
- });
+app.get('/user', (req, res) => {
+  const millis = Date.now() - start;
+  res.render('user', {
+    title: 'User - Administration Dashboard',
+    order: Math.floor(millis/1000),
+    date: startDateTime
+  });
+});
+
+
+// app.get('/profile', (req, res) => {
+//   const person = people.profiles.find(p => p.id === req.query.id);
+//   res.render('profile', {
+//     title: `About ${person.firstname} ${person.lastname}`,
+//     person,
+//   });
+// });
 
 
 /**
