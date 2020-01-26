@@ -5,13 +5,15 @@ block content
     h2.text-center
       | User
     div.search-bar
-      button(type="button")
+      button(type="button" data-tooltip="tooltip" data-placement="bottom" title="Create a new user" data-toggle="modal" data-target="#adduserModal")
         | Add
       div.search-container
-        form(action="#")
+        form(action="/userSearching")
           input(type="text" placeholder="Search.." name="search")
           button(type="submit")
             i.fa.fa-search
+            
+    include adduser
 
     table.table.table-striped
       thead
@@ -19,15 +21,15 @@ block content
           th
             | ID
           th
-            | Test1
+            | Username
           th
-            | Test2
+            | First name
           th
-            | Test3
+            | Last name
           th
-            | Test4
+            | Email adresse
           th
-            | Order date
+            | Profession
       tbody
         tr
           td
@@ -35,13 +37,13 @@ block content
           td
             | #{order+1000002}
           td
-            | placeholder           
+            | Max           
           td
-            | placeholder           
+            | Musterman           
           td
-            | placeholder           
+            | test@web.de           
           td
-            | #{date}           
+            | Manager           
         tr
           td
             | #{order+1}
@@ -54,7 +56,7 @@ block content
           td
             | placeholder           
           td
-            | #{date}        
+            | Owner       
         tr
           td
             | #{order-1}
@@ -67,7 +69,7 @@ block content
           td
             | placeholder           
           td
-            | #{date}             
+            | Accountant          
         tr
           td
             | #{order-1}
@@ -80,7 +82,7 @@ block content
           td
             | placeholder           
           td
-            | #{date}             
+            | Supervisor            
         tr
           td
             | #{order-1}
@@ -93,7 +95,7 @@ block content
           td
             | placeholder           
           td
-            | #{date}             
+            | Supervisor             
         tr
           td
             | #{order-1}
@@ -106,5 +108,5 @@ block content
           td
             | placeholder           
           td
-            | #{date}             
-              
+            | Administrator        
+        
