@@ -1,5 +1,5 @@
 const Mongoose = require('mongoose');
-
+/*Datenstruktur eines Datensatzes für die Produktdatenbank*/
 let pschema = new Mongoose.Schema({
   productid:
   {
@@ -38,6 +38,6 @@ let pschema = new Mongoose.Schema({
   }
 });
 /*Aus dem Schema eine Model bauen
-  dieese Model dient als Grundlage für eine Collection*/
+  diese Model dient als Grundlage für eine Collection*/
 let pmodel = Mongoose.model("product", pschema);
 module.exports = pmodel;
