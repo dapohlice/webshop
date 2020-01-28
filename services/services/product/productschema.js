@@ -1,4 +1,5 @@
 const Mongoose = require('mongoose');
+const SubProductSchema = require('./subproductschema');
 /*Datenstruktur eines Datensatzes für die Produktdatenbank*/
 let pschema = new Mongoose.Schema({
   productid:
