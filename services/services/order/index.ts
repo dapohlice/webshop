@@ -1,6 +1,7 @@
 import "reflect-metadata";
 import {createConnection} from "typeorm";
 import * as express from 'express';
+import OrderRouter from "./router/OrderRouter";
 
 const port = process.env.PORT;
 const stage = process.env.NODE_ENV;
@@ -27,9 +28,9 @@ createConnection().then(async connection => {
     // convert body to json
     app.use(express.json());
 
-    app.get('/', (req, res) => res.send('Hello World!'))
+    app.use('/order', new OrderRouter().getRouter())
 
     // start app
-    app.listen(port, () => console.log(`Picture Service (${stage}) Listen On ${port}`))
+    app.listen(port, () => console.log(`Order Service (${stage}) Listen On ${port}`))
 
 }).catch(error => console.log(error));
