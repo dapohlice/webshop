@@ -1,4 +1,4 @@
-FROM node:13.7
+FROM node:12.14
 
 WORKDIR /home/node
 
