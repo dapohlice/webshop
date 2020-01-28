@@ -1,0 +1,17 @@
+version: '3'
+services: 
+  user_db:
+    image: mongo:4.2
+    ports:
+      - "27018:27017"
+    expose: 
+      - "27017"
+    environment:
+      - "MONGO_INITDB_ROOT_USERNAME=root"
+      - "MONGO_INITDB_ROOT_PASSWORD=passw0rd"
+      - "MONGO_DATABASE=user"
+    volumes:
+      - ./database/user:/docker-entrypoint-initdb.d
+      - user_db_data:/data/db
+volumes:
+  user_db_data:

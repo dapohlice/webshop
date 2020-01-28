@@ -34,5 +34,5 @@ app.get('/', (req, res) => res.send('Hello World!'))
 /**
  * Starten
  */
-app.listen(port, () => console.log(`Picture Service (${stage}) Listen On ${port}`))
+app.listen(port, () => console.log(`User Service (${stage}) Listen On ${port}`))
 

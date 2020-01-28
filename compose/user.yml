@@ -12,3 +12,7 @@ services:
     ports:
       - "3003:3003"
     command: "npm start"
+    external_links:
+      - user_db
+    depends_on: 
+      - user_db

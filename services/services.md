@@ -44,5 +44,12 @@
 #### Admin
 - Port: 8081
 
+### User_DB
+- Port: 27018
+- Root-User: root
+- Root-Password: passw0rd
+- Database: user
 
+#### Admin
+- Port: 8082
 
