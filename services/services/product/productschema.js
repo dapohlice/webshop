@@ -32,6 +32,10 @@ let pschema = new Mongoose.Schema({
     type: Date,
     require: true,
   },
+  subproduct:
+  {
+    type: [SubProductSchema],
+  },
   catagory:
   {
     type: String,
