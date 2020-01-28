@@ -1,4 +1,3 @@
-CREATE DATABASE test;
 CREATE USER 'test'@'%';
 ALTER USER 'test'@'%'
 IDENTIFIED BY 'test' ;
