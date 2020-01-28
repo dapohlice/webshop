@@ -28,11 +28,10 @@ app.use(logError);
  */
 
 
-app.get('/', (req, res) => res.send('Hello World!'))
+app.get('/', (req, res) => res.send('Hello World 2!'))
 
 
 /**
  * Starten
  */
 app.listen(port, () => console.log(`Picture Service (${stage}) Listen On ${port}`))
-
