@@ -1,7 +1,7 @@
 const Express = require('express');
 const Mongoose = require('mongoose');
 const BParser = require('body-parser');
-const PModel = require('./pschema');
+const PModel = require('./productschema');
 const Productsapp = Express();
 /* loging functions*/
 // jeden Request
@@ -45,11 +45,8 @@ Productsapp.get("/article:id", async (reg,res) =>
 {
   try
   {
-      if(reg.body.id)
-      {
-        let result = PModel.find({productid: reg.body.id});
+        let result = PModel.find({productid: reg.params.id});
         res.send(result);
-      }
   }
   catch (err)
   {
@@ -58,19 +55,11 @@ Productsapp.get("/article:id", async (reg,res) =>
 });
 
 /*Post-Request zum erstellen eines neuen Artikeldatensatzes*/
-Productsapp.post("/articel", async (req,res) =>
+Productsapp.post("/article", async (req,res) =>
 {
-  //Überprüfung des Request auf Fehlerhaft übermittelte Datenbank
-  // Wird später noch in die valitor.js ausgelagert
-  if(reg.body.name && reg.body.price)
-  {
     try
     {
-      let data = {
-        name: reg.body.name,
-        price: reg.body.price,
-      }
-      let article = new PModel(data);
+      let article = new PModel(reg.body);
       let result =  await article.save();
       res.send(result);
     }
@@ -78,13 +67,39 @@ Productsapp.post("/articel", async (req,res) =>
     {
       res.status(500).send(err);
     }
-  }
 });
 
 /*Put-Request zum bearbeiten eines Artikeldatensatzes*/
-Productsapp.put("/artikel:id", async (reg,res) =>
+Productsapp.put("/article:id", async (reg,res) =>
 {
-  if(reg.body.id)
+  try
   {
+    dest = await PModel.find({productid: reg.params.id}).exec();
+    dest.set(reg.body);
+    let result = await dest.save();
+    res.send(result);
+  }
+  catch (err)
+  {
+    res.send(result);
+  }
+});
+
+/*Patch-Request zum aktivieren und deaktivieren eines Artikeldatensatzes*/
+Productsapp.patch("/article:id", async (reg,res) =>
+{
+  try
+  {
+    if(reg.body.state)
+    {
+    let dest = await PModel.find({productid: reg.params.id}).exec();
+    dest.set({state: reg.body.state});
+    let result = await dest.save();
+    res.send(result);
+    }
+  }
+  catch (err)
+  {
+    res.status(500).send(err);
   }
 });
