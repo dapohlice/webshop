@@ -21,9 +21,29 @@ export default class OrderRouter extends BaseRouter{
      */
     async get(req: Request, res: Response)
     {
+        let orders = await OrderMapper.getAllOrders()
+        let result = [];
+        orders.forEach(order => {
+            result.push({
+                id: order.id,
+                mail: order.mail,
+                timestamp: order.timestamp,
+                status: order.status.id
+            });
+        });
         res.json(
-            await OrderMapper.getAllOrders()
+           result
         );
+    }
+
+    /**
+     * Erstellt eine neue Bestellung
+     * @param req 
+     * @param res 
+     */
+    async post(req: Request, res: Response)
+    {
+        console.log(req.body);
     }
 
     /**
@@ -80,20 +100,30 @@ export default class OrderRouter extends BaseRouter{
             res.sendStatus(400);
             return;   
         }
-
-        if(!status)
-        {
-            let result = await OrderMapper.setNextStatus(id,info);
-            if(result == false)
+        try{
+            if(!status)
+            {
+                
+                let result = await OrderMapper.setNextStatus(id,info);
+                if(result == false)
+                {
+                    res.sendStatus(400);
+                    return;
+                }
+                res.json(result);
+                return;
+            }
+            let res_status = await OrderMapper.setStatus(id,info,status);
+            if(res_status==false)
             {
                 res.sendStatus(400);
                 return;
             }
-            res.json(result);
-            return;
+            res.json(res_status);
+        }catch(error)
+        {
+            res.sendStatus(500);
         }
-
-        res.json(await OrderMapper.setStatus(id,info,status));
     }
 
 }

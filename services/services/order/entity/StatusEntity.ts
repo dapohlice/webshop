@@ -11,7 +11,7 @@ export class StatusEntity extends BaseEntity
     @Column("varchar",{length: 20})
     name: string;
 
-    @Column("boolean",{select: false})
+    @Column("boolean")
     needsPermission: boolean;
 
     @OneToOne(type => StatusEntity)

@@ -1,5 +1,19 @@
 # Order-Service
 
+## GET /status
+gibt alle Statuse zurück
+
+### Rückgabe
+```json
+[
+    {
+        "id": 0,
+        "name": "Created",
+    },
+]
+```
+
+
 ## GET /order
 gibt alle Bestellungen mit Status zurück
 
@@ -10,10 +24,7 @@ gibt alle Bestellungen mit Status zurück
             "id": "number",
             "mail": "string",
             "timestamp": "Datetime(2020-01-28T22:38:05.000Z)",
-            "status":{
-                "id": 0,
-                "name": "string"
-            }
+            "status":0 
         },
     ]
 ```
@@ -23,48 +34,38 @@ gibt eine Bestellung zurück
 
 ```json 
 {
-    "id": "4",
-    "mail": "h.simpson@aol.com",
-    "timestamp": "2020-01-28T22:38:05.000Z",
-    "status": {
-        "id": 4,
-        "name": "Shiped"
-    },
+    "id": "1",
+    "mail": "hans.meiser@gmx.de",
+    "status": "Packed",
     "address": {
-        "id": "4",
-        "firstname": "Homer",
-        "lastname": "Simpson",
-        "street": "Evergreenterace",
-        "streetnumber": "74",
-        "plz": "00001",
-        "town": "Springfield",
-        "state": "State",
-        "country": "United States"
+        "id": "2",
+        "firstname": "Hans",
+        "lastname": "Meier",
+        "street": "Robert-Blum-StraÃŸe",
+        "streetnumber": "45a",
+        "plz": "01556",
+        "town": "Stadt",
+        "state": null,
+        "country": "Deutschland"
     },
     "logs": [
         {
-            "id": "1",
-            "timestamp": "2020-01-28T22:45:54.000Z",
             "user": "dummy",
             "info": null,
-            "status": {
-                "id": 3,
-                "name": "Packed"
-            }
+            "status": "Ordered",
+            "timestamp": "2020-01-29T10:30:00.000Z"
         }
     ],
-    "articles": [
+    "article": [
         {
-            "id": "6",
-            "amount": 7,
-            "property": "",
-            "article": {
-                "id": "6",
-                "article_id": "0",
-                "name": "Calendar 2020",
-                "timestamp": "2020-01-28T22:38:05.000Z",
-                "price": 2200
-            }
+            "amount": 1,
+            "property": "M",
+            "name": "T-Shirt",
+            "price": 1200,
+            "total": 1200,
+            "subarticle_id": "1",
+            "article_id": "0",
+            "mapping_id": "1"
         }
     ]
 }

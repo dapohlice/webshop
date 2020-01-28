@@ -118,8 +118,9 @@ class PRequest{
                 }
             }
 
-            this.request.onerror = function(){
+            this.request.onerror = function(error){
                 console.error("Request ERROR");
+                console.error(error);
             }
 
 
