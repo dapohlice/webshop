@@ -7,14 +7,15 @@
   "license": "ISC",
   "dependencies": {
     "nodemon": "^2.0.2",
-    "express": "^4.17.1"
+    "express": "^4.17.1",
+    "pug": "^2.0.4"
   },
   "scripts": {
     "start": "nodemon",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "nodemonConfig":{
-    "ignore": 
+    "ignore":
        [
           ".git",
           "node_modules"

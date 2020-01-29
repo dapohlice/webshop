@@ -1,0 +1,112 @@
+extends default
+
+block content
+  div.col.pt-2
+    h2.text-center
+      | User
+    div.search-bar
+      button(type="button" data-tooltip="tooltip" data-placement="bottom" title="Create a new user" data-toggle="modal" data-target="#adduserModal")
+        | Add
+      div.search-container
+        form(action="/userSearching")
+          input(type="text" placeholder="Search.." name="search")
+          button(type="submit")
+            i.fa.fa-search
+            
+    include adduser
+
+    table.table.table-striped
+      thead
+        tr
+          th
+            | ID
+          th
+            | Username
+          th
+            | First name
+          th
+            | Last name
+          th
+            | Email adresse
+          th
+            | Profession
+      tbody
+        tr
+          td
+            | #{order+2}
+          td
+            | #{order+1000002}
+          td
+            | Max           
+          td
+            | Musterman           
+          td
+            | test@web.de           
+          td
+            | Manager           
+        tr
+          td
+            | #{order+1}
+          td
+            | #{order+1000001}
+          td
+            | placeholder           
+          td
+            | placeholder           
+          td
+            | placeholder           
+          td
+            | Owner       
+        tr
+          td
+            | #{order-1}
+          td
+            | #{order+1000000}
+          td
+            | placeholder           
+          td
+            | placeholder           
+          td
+            | placeholder           
+          td
+            | Accountant          
+        tr
+          td
+            | #{order-1}
+          td
+            | #{order+1000000}
+          td
+            | placeholder           
+          td
+            | placeholder           
+          td
+            | placeholder           
+          td
+            | Supervisor            
+        tr
+          td
+            | #{order-1}
+          td
+            | #{order+1000000}
+          td
+            | placeholder           
+          td
+            | placeholder           
+          td
+            | placeholder           
+          td
+            | Supervisor             
+        tr
+          td
+            | #{order-1}
+          td
+            | #{order+1000000}
+          td
+            | placeholder           
+          td
+            | placeholder           
+          td
+            | placeholder           
+          td
+            | Administrator        
+        
