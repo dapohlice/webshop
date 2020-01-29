@@ -1,3 +1,12 @@
+/*
+Vorschlag für zukünftigen Farbcode:
+Text: 000000
+Hintergrund: ffffff
+Navigationsbar: 005951
+Highlights-Alternativ-Hintergrund: e2d8bf
+Wichtiges-Links-Warnungen: f9a03f
+https://coolors.co/000000-ffffff-005951-e2d8bf-f9a03f */
+
 * {box-sizing: border-box;}
 
 body {
@@ -6,7 +15,7 @@ body {
 }
 
 hr.white {
-  border-top: 1px solid white;
+  border-top: 1px solid grey;
 }
 
 .sidebar {
@@ -48,12 +57,15 @@ hr.white {
 .nav-link[data-toggle]:not(.collapsed):after {
     content: "▴";
 }
+#mySidebar .nav-link.active  {
+    background-color: darkgrey;
+}
 
 .openbtn {
   display: none;
   font-size: 20px;
   cursor: pointer;
-  background-color: #111;
+  background-color: #343a40;
   color: white;
   padding: 4px 10px;
   border: none;
@@ -61,7 +73,7 @@ hr.white {
 }
 
 .openbtn:hover {
-  background-color: #444;
+  background-color: darkgrey;
 }
 
 #mySidebar {

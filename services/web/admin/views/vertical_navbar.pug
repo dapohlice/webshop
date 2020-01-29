@@ -1,0 +1,51 @@
+block vertical_navbar
+  div#mySidebar.sidebar.nav-pills.bg-dark.navbar-dark
+    a.closebtn(
+      href="javascript:void(0)"
+      onclick="closeNav()"
+    )
+      | &times;
+    a.nav-link(
+      class=(name === "user" ? "active" : undefined)
+      href=`/user`
+    )
+      | User
+    a.nav-link(
+      class=(name === "article" ? "active" : undefined)
+      href=`#`
+    )
+      | Article
+    a.nav-link(
+      class=(name === "category" ? "active" : undefined)
+      href=`#`
+    )
+      | Category
+    hr.white
+    center
+      h2.text-secondary Order
+    a.nav-link(
+      class=(name === "order?open" ? "active" : undefined)
+      href=`/order`
+    )
+      | Open
+    a.nav-link(
+      class=(name === "order?paid" ? "active" : undefined)
+      href=`/#`
+    )
+      | Paid
+    a.nav-link(
+      class=(name === "order?packed" ? "active" : undefined)
+      href=`/#`
+    )
+      | Packed
+    a.nav-link(
+      class=(name === "order?order" ? "active" : undefined)
+      href=`/#`
+    )
+      | Returns
+    hr.white
+    a.nav-link(
+      class=(name === "logout" ? "active" : undefined)
+      href=`#`
+    )
+      | Logout 

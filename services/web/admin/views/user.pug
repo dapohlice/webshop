@@ -1,4 +1,7 @@
-extends default
+extends layout
+
+block nav
+  - var cur = "user"
 
 block content
   div.col.pt-2
@@ -27,7 +30,7 @@ block content
           th
             | Last name
           th
-            | Email adresse
+            | Email address
           th
             | Profession
       tbody
