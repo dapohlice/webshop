@@ -2,7 +2,7 @@
   "name": "admin",
   "version": "1.0.0",
   "description": "",
-  "main": "src/index.js",
+  "main": "src/app.js",
   "author": "",
   "license": "ISC",
   "dependencies": {
@@ -22,7 +22,7 @@
     "watch": [
       "src"
     ],
-    "exec": "node src/index.js",
+    "exec": "node src/app.js",
     "ext": "js"
   }
 }

@@ -26,9 +26,13 @@ app.use(logError);
 /**
  * Hauptapp
  */
+app.set('view engine', 'pug');
+app.set('views',__dirname + '/views');
 
 
-app.get('/', (req, res) => res.send('Hello World 2!'))
+app.get('/', (req, res) => {
+  res.render('index');
+});
 
 
 /**

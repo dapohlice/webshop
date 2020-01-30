@@ -1,0 +1,18 @@
+extends layout
+
+block nav
+  - var cur = "order"
+
+block content
+  div.col.pt-2
+    h2.text-center #{title}
+    div.search-bar
+      button(type="button" data-tooltip="tooltip" data-placement="bottom" title="Sort status" data-toggle="modal" data-target="#setStatusModal")
+        | Status
+      div.search-container
+        form(action="/userSearching")
+          input(type="text" placeholder="Search.." name="search")
+          button(type="submit")
+            i.fa.fa-search
+            
+      

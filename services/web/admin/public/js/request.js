@@ -130,7 +130,7 @@ class PRequest{
                 this.request.setRequestHeader("Authorization",`Bearer ${jwt}`);
             }
 
-            
+
 
             if(this.data == null)
                 this.request.send();
