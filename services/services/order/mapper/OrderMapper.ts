@@ -56,7 +56,7 @@ export async function getFullOrder(orderId: number)
     {
         id:order.id,
         mail: order.mail,
-        status: order.status.name,
+        status: order.status.id,
         address: order.address,
         logs: Convert.PrettiefyLogs(order.logs),
         article: Convert.PrettiefyArticles(order.articles)

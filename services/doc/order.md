@@ -1,5 +1,19 @@
 # Order-Service
 
+## GET /status
+gibt alle Statuse zurück
+
+### Rückgabe
+```json
+[
+    {
+        "id": 0,
+        "name": "Created",
+    },
+]
+```
+
+
 ## GET /order
 gibt alle Bestellungen mit Status zurück
 
@@ -10,10 +24,7 @@ gibt alle Bestellungen mit Status zurück
             "id": "number",
             "mail": "string",
             "timestamp": "Datetime(2020-01-28T22:38:05.000Z)",
-            "status":{
-                "id": 0,
-                "name": "string"
-            }
+            "status":0 
         },
     ]
 ```

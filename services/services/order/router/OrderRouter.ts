@@ -21,8 +21,18 @@ export default class OrderRouter extends BaseRouter{
      */
     async get(req: Request, res: Response)
     {
+        let orders = await OrderMapper.getAllOrders()
+        let result = [];
+        orders.forEach(order => {
+            result.push({
+                id: order.id,
+                mail: order.mail,
+                timestamp: order.timestamp,
+                status: order.status.id
+            });
+        });
         res.json(
-            await OrderMapper.getAllOrders()
+           result
         );
     }
 

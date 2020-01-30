@@ -52,7 +52,7 @@ export function PrettiefyLog(log):PrettyLog
     let result = new PrettyLog();
     result.user = log.user;
     result.info = log.info;
-    result.status = log.status.name;
+    result.status = log.status.id;
     result.timestamp = log.timestamp;
     return result;
 }

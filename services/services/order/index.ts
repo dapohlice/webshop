@@ -2,6 +2,8 @@ import "reflect-metadata";
 import {createConnection} from "typeorm";
 import * as express from 'express';
 import OrderRouter from "./router/OrderRouter";
+import StatusRouter from "./router/StatusRouter";
+
 
 const port = process.env.PORT;
 const stage = process.env.NODE_ENV;
@@ -36,6 +38,8 @@ createConnection().then(async connection => {
     app.use(express.json());
 
     app.use('/order', new OrderRouter().getRouter())
+
+    app.use('/status',new StatusRouter().getRouter())
 
     // start app
     app.listen(port, () => console.log(`Order Service (${stage}) Listen On ${port}`))
