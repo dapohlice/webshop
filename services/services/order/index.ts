@@ -30,6 +30,7 @@ createConnection().then(async connection => {
     // log every request
     app.use(logRequest);
     app.use(logError);
+    app.use(setHeader);
 
     // convert body to json
     app.use(express.json());

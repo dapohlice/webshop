@@ -26,7 +26,7 @@ function getOrderStatus() {
   var request = new PRequest();
   request.GET('http://localhost:3001/order');
   request.onSucces(function(data,header){console.log(data,header)});
-  // request.setData({name: "name"});
+  request.addData({name: "name"});
   request.send(true);
 
   console.log("weiter");
