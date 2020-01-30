@@ -11,19 +11,12 @@ import {OrderLogEntity} from '../entity/OrderLogEntity'
  */
 export async function createLog(order: OrderEntity, info: string, status: StatusEntity)
 {
-    try{
         let log = new OrderLogEntity();
         log.info = info;
         log.order = order;
         log.user = "dummy";
         log.status = status;
-        return await log.save();
-    }catch(error)
-    {
-        console.error(error);
-        return false;
-    }
-    
+        return log.save();  
 }
 
 

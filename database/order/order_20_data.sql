@@ -30,6 +30,28 @@ INSERT INTO orderDB.`order`(mail,addressId,statusId) VALUES
 	('chloe.du89',5,1),
 	('moreau5.1976',6,5);
 
+INSERT INTO orderDB.orderlog(orderId,statusId,user,info) VALUES
+	(1,1,"dummy","message"),
+	(1,2,"dummy","message"),
+	(1,3,"dummy","message"),
+	(1,4,"dummy","message"),
+	(1,5,"dummy","message"),
+	(1,6,"dummy","message"),
+	(3,1,"dummy","message"),
+	(3,2,"dummy","message"),
+	(3,3,"dummy","message"),
+	(4,1,"dummy","message"),
+	(4,2,"dummy","message"),
+	(4,3,"dummy","message"),
+	(4,4,"dummy","message"),
+	(5,1,"dummy","message"),
+	(6,1,"dummy","message"),
+	(6,2,"dummy","message"),
+	(6,3,"dummy","message"),
+	(6,4,"dummy","message"),
+	(6,5,"dummy","message");
+
+
 /**
  * ArticleOrderMap
  */

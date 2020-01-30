@@ -19,6 +19,12 @@ function logError(err,req: express.Request,res: express.Response,next)
     console.error(err);
 }
 
+function setHeader(req: express.Request, res: express.Response,next)
+{
+    res.set('Access-Control-Allow-Origin','*')
+    next();
+}
+
 createConnection().then(async connection => {
     const app = express()
     // log every request

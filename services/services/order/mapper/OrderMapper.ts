@@ -2,6 +2,7 @@ import {getRepository} from "typeorm";
 import {OrderEntity} from '../entity/OrderEntity' 
 import * as OrderLog from './OrderLogMapper' 
 import {StatusEntity} from '../entity/StatusEntity' 
+import * as Convert from './Converter';
 
 /**
  * gibt alle Bestellungen mit Status zurück
@@ -41,7 +42,7 @@ export async function getAllOrdersByStatus(statusId: number)
 export async function getFullOrder(orderId: number)
 {
     const orderRep = getRepository(OrderEntity)
-    let orders = orderRep.createQueryBuilder("order")
+    let order = await orderRep.createQueryBuilder("order")
     .leftJoinAndSelect("order.status", "status")
     .leftJoinAndSelect("order.address", "address")
     .leftJoinAndSelect("order.logs", "logs")
@@ -50,7 +51,19 @@ export async function getFullOrder(orderId: number)
     .leftJoinAndSelect("articles.article", "article")
     .where("order.id = :id",{id: orderId})
     .getOne();
-    return orders;
+
+    let result = 
+    {
+        id:order.id,
+        mail: order.mail,
+        status: order.status.name,
+        address: order.address,
+        logs: Convert.PrettiefyLogs(order.logs),
+        article: Convert.PrettiefyArticles(order.articles)
+    }
+
+
+    return result;
 }
 
 /**
@@ -58,7 +71,7 @@ export async function getFullOrder(orderId: number)
  * @param orderId Bestellungsid
  * @param info Zusatzinformation
  */
-export async function setNextStatus(orderId: number ,info: string)
+export async function setNextStatus(orderId: number ,info: string):Promise<boolean>
 {
     const orderRep = getRepository(OrderEntity)
     let order = await orderRep.createQueryBuilder("order")
@@ -66,6 +79,9 @@ export async function setNextStatus(orderId: number ,info: string)
     .leftJoinAndSelect("status.next", "next")
     .where("order.id = :id",{id: orderId})
     .getOne();
+
+    if(order == undefined)
+        return false;
 
     if(order.status.needsPermission)
     {
@@ -79,19 +95,12 @@ export async function setNextStatus(orderId: number ,info: string)
     {
         order.status = nextStatus;
         let log = await OrderLog.createLog(order,info,nextStatus);
-        if(log == false)
-        {
-            throw new Error("Failed creating log");
-        }
-        try{
-            let res = await order.save();
-        }catch(error)
-        {
-            console.error(error);
-            //todo: delete
-            throw error;
-        }
+        if(log == undefined)
+            return false;
         
+        let res = await order.save();
+        if(res == undefined)
+            return false;        
     }else{
         return false;
     }
@@ -106,7 +115,39 @@ export async function setNextStatus(orderId: number ,info: string)
  * @param info Zusatzinformation
  * @param statusId Statusid
  */
-export async function setStatus(orderId: number ,info: string, statusId: number)
+export async function setStatus(orderId: number ,info: string, statusId: number):Promise<boolean>
 {
-    return false;
+    const orderRep = getRepository(OrderEntity)
+    let order = await orderRep.createQueryBuilder("order")
+    .leftJoinAndSelect("order.status", "status")
+    .where("order.id = :id",{id: orderId})
+    .getOne();
+
+    if(order == undefined)
+        return false;
+
+    if(order.status.needsPermission)
+    {
+        //todo permission checking
+        console.error("No Permisiion Checking in OrderMapper setNextStatus");
+    }
+    const newStatus = await StatusEntity.findOne({where: {id: statusId}});
+    if(newStatus == undefined)
+        return false;
+    
+    order.status = newStatus;
+
+    let log = await OrderLog.createLog(order,info,newStatus);
+    if(log == undefined)
+        return false;
+
+
+    let res = await order.save();
+    if(res == undefined)
+    {
+        //todo: delte log
+        return false;
+    }
+    
+    return true;
 }
