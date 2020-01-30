@@ -24,6 +24,7 @@ app.use(express.static(__dirname + '/public'));
 
 app.get('/', (req, res) => {
   const millis = Date.now() - start;
+
   res.render('index', {
     name : 'index',
     title: 'Welcome Employee - Administration Dashboard',
@@ -50,6 +51,12 @@ app.get('/order', (req, res) => {
 });
 
 
+function setHeader(req,res,next)
+{
+  res.set('Access-Control-Allow-Origin', '*')
+  next()
+}
+app.use(setHeader);
 /* loging functions
 */
 

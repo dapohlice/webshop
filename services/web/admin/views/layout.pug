@@ -11,7 +11,8 @@ block header
     link(rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css' type='text/css' media='screen')
     link(rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css' type='text/css' media='screen')
     
-  body.fixed-sn.light-blue-skin
+  block body  
+    body
     
   block nav
     - var active = "index"
@@ -51,4 +52,3 @@ block header
     script(type='text/javascript' src='js/db_sidebar.js')
     script(type='text/javascript' src='js/tooltip.js')
     script(type='text/javascript' src='js/user_validator.js')
-    script(type='text/javascript' src='js/form_data.js' defer='defer')
