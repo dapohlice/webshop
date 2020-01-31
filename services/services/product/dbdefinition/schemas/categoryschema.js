@@ -11,3 +11,5 @@ picturepath:
   require: true,
 },
 });
+
+module.exports = cschema;
