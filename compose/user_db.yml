@@ -9,7 +9,7 @@ services:
     environment:
       - "MONGO_INITDB_ROOT_USERNAME=root"
       - "MONGO_INITDB_ROOT_PASSWORD=passw0rd"
-      - "MONGO_DATABASE=user"
+      - "MONGO_INITDB_DATABASE=user"
     volumes:
       - ./database/user:/docker-entrypoint-initdb.d
       - user_db_data:/data/db
