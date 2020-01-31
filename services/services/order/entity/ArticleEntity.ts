@@ -1,4 +1,4 @@
-import {Entity,PrimaryColumn,Column,BaseEntity} from "typeorm";
+import {Entity,PrimaryGeneratedColumn,Column,BaseEntity} from "typeorm";
 
 /**
  * Artikeldatensatz
@@ -6,7 +6,7 @@ import {Entity,PrimaryColumn,Column,BaseEntity} from "typeorm";
 @Entity("article")
 export class ArticleEntity extends BaseEntity
 {   
-    @PrimaryColumn()
+    @PrimaryGeneratedColumn()
     id: number;
 
     @Column("bigint")

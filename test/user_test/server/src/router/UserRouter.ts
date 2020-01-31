@@ -37,12 +37,14 @@ export default class UserRouter extends BaseRouter{
     async post(req: Request, res: Response)
     {
         let user = req.body;
+        console.log(user);
         if(
-            user["firstName"] != undefined &&
-            user["lastName"] != undefined &&
-            user["age"] != undefined
+            user["firstName"] == undefined ||
+            user["lastName"] == undefined ||
+            user["age"] == undefined
         ){
             res.status(400).end();
+
             return;
         }
             

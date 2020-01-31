@@ -1,7 +1,9 @@
 const Mongoose = require('mongoose');
 const SubProductSchema = require('./subproductschema');
+const CategorySchema = require('./categoryschema');
+
 /*Datenstruktur eines Datensatzes für die Produktdatenbank*/
-let pschema = new Mongoose.Schema({
+let PSchema = new Mongoose.Schema({
   productid:
   {
     type: Number,
@@ -38,11 +40,8 @@ let pschema = new Mongoose.Schema({
   },
   catagory:
   {
-    type: String,
+    type: [CategorySchema],
     require: true,
   }
 });
-/*Aus dem Schema eine Model bauen
-  diese Model dient als Grundlage für eine Collection*/
-let pmodel = Mongoose.model("product", pschema);
-module.exports = pmodel;
+module.exports = PSchema;

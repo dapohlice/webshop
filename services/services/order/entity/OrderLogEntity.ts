@@ -1,6 +1,6 @@
 import {
     Entity,
-    PrimaryColumn,
+    PrimaryGeneratedColumn,
     Column,
     BaseEntity,
     OneToOne,
@@ -15,7 +15,7 @@ import { StatusEntity } from "./StatusEntity";
 @Entity("orderlog")
 export class OrderLogEntity extends BaseEntity
 {   
-    @PrimaryColumn()
+    @PrimaryGeneratedColumn()
     id: number;
 
     @Column("datetime")

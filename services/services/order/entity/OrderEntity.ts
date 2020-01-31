@@ -1,13 +1,13 @@
 import {
     Entity,
-    PrimaryColumn,
+    PrimaryGeneratedColumn,
     Column,
     BaseEntity,
     OneToOne,
     JoinColumn,
     OneToMany
 } from "typeorm";
-import {AddressEntity} from "./AddressEntity"
+import { AddressEntity } from "./AddressEntity"
 import { StatusEntity } from "./StatusEntity";
 import { OrderLogEntity } from "./OrderLogEntity";
 import { ArticleOrderEntity } from "./ArticleOrderEntity";
@@ -18,7 +18,7 @@ import { ArticleOrderEntity } from "./ArticleOrderEntity";
 @Entity("order")
 export class OrderEntity extends BaseEntity
 {   
-    @PrimaryColumn()
+    @PrimaryGeneratedColumn()
     id: number;
 
     @Column("varchar",{length: 1000})

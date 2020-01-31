@@ -1,11 +1,11 @@
-import {Entity,PrimaryColumn,Column,BaseEntity,OneToOne,JoinColumn} from "typeorm";
+import {Entity,PrimaryGeneratedColumn,Column,BaseEntity,OneToOne,JoinColumn} from "typeorm";
 /**
  * Statusdatensatz
  */
 @Entity("orderstatus")
 export class StatusEntity extends BaseEntity
 {   
-    @PrimaryColumn()
+    @PrimaryGeneratedColumn()
     id: number;
 
     @Column("varchar",{length: 20})
