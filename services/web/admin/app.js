@@ -10,6 +10,31 @@ const start = Date.now();
 const startDateTime = new Date(1995,11,4,0,0,0,0); // Erstes Release von Javascript
 
 // functions
+function setHeader(req,res,next)
+{
+  res.set('Access-Control-Allow-Origin', '*')
+  next()
+}
+app.use(setHeader);
+/* loging functions
+*/
+
+// jeden Request
+function logRequest(req,res,next)
+{
+    console.log(`Request ${req.method} ${req.originalUrl} from ${req.ip}`)
+    next()
+}
+app.use(logRequest);
+
+// jeden Fehler
+function logError(err,req,res,next)
+{
+    console.error(`Request ${req.method} ${req.originalUrl} from ${req.ip} FAILED`)
+    console.error(err);
+}
+app.use(logError);
+
 
 
 /**
@@ -49,32 +74,6 @@ app.get('/order', (req, res) => {
     title: 'Order - Administration Dashboard',
   });
 });
-
-
-function setHeader(req,res,next)
-{
-  res.set('Access-Control-Allow-Origin', '*')
-  next()
-}
-app.use(setHeader);
-/* loging functions
-*/
-
-// jeden Request
-function logRequest(req,res,next)
-{
-    console.log(`Request ${req.method} ${req.originalUrl} from ${req.ip}`)
-    next()
-}
-app.use(logRequest);
-
-// jeden Fehler
-function logError(err,req,res,next)
-{
-    console.error(`Request ${req.method} ${req.originalUrl} from ${req.ip} FAILED`)
-    console.error(err);
-}
-app.use(logError);
 
 
 /**
