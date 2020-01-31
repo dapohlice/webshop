@@ -101,6 +101,7 @@ class PRequest{
                         if(isJson)
                         {
                             result = JSON.parse(this.responseText);
+                            renderHTML(result);
                         }else{
                             result = this.responseText;
                         }

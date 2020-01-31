@@ -1,5 +1,18 @@
+var orderContainer = document.getElementById('jsonobjekt');
+var btn = document.getElementById("btn");
+
+// btn.addEventListener("click", function() {
+//   var ourRequest = new XMLHttpRequest();
+//   ourRequest.open('GET', 'http://localhost:3001/order/status/0.json');
+//   ourRequest.onload = function() {
+//     var ourData = JSON.parse(ourRequest.responseText);
+//     renderHTML(ourData);
+//   };
+//   ourRequest.send();
+// });
+
 function XHR(type, url) {
-  var promise = $.ajax({
+  promise = $.ajax({
     type: type,
     dataType: 'json',
     url: url,
@@ -8,13 +21,46 @@ function XHR(type, url) {
   promise.done(function (data) {
     console.log(data);
     console.log('Sucessfull data check');
-    return this.data;
+    renderHTML(data);
   });
   promise.fail(function () {
     console.log('A failure occurred');
   });
-  return this.data;
 }
+
+
+function renderHTML(data) {
+  var test = "";
+
+  // for (i = 0; i < data.length; i++) {
+  //   test += "<p>" + "this " + data[i].id + " is a " + data[i].mail + "</p>";
+  // }
+
+  var htmlString = '';
+  var table = $('<table class="table table-striped"></table>');
+  table.append('<thead><tr><th>ID</th><th>mail</th><th>timestamp</th></tr></thead');
+
+  for (i = 0; i < data.length; i++) {
+      var tbody = $('<tbody/>');
+      var tr = $('<tr/>');
+
+      // var id = data[i].id;
+      // var mail = data[i].mail;
+      // var timestamp = data[i].timestamp;
+
+      tr.append('<td>' + data[i].id + '</td>');
+      tr.append('<td>' + data[i].mail + '</td>');
+      tr.append('<td>' + data[i].timestamp + '</td>');
+
+      tbody.append(tr);
+      table.append(tbody);
+
+  }
+
+  orderContainer.append(table);
+
+}
+
 
 
 // $.ajax({
