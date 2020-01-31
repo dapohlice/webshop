@@ -3,6 +3,7 @@ import {OrderEntity} from '../entity/OrderEntity'
 import * as OrderLog from './OrderLogMapper' 
 import {StatusEntity} from '../entity/StatusEntity' 
 import * as Convert from './Converter';
+import { AddressEntity } from "../entity/AddressEntity";
 
 /**
  * gibt alle Bestellungen mit Status zurück
@@ -150,4 +151,17 @@ export async function setStatus(orderId: number ,info: string, statusId: number)
     }
     
     return true;
+}
+
+
+export async function createOrder(mail:string, address: AddressEntity)
+{
+    let status = await StatusEntity.findOne({id: 1});
+       
+    let order = new OrderEntity();
+    order.mail = mail;
+    order.status = status;
+    order.address = address;
+    let result = await order.save();
+    return result;
 }
