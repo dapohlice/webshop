@@ -1,11 +1,11 @@
-import {Entity,PrimaryColumn,Column,BaseEntity} from "typeorm";
+import {Entity,PrimaryGeneratedColumn,Column,BaseEntity} from "typeorm";
 /**
  * Addressdatensatz
  */
 @Entity("address")
 export class AddressEntity extends BaseEntity
 {   
-    @PrimaryColumn()
+    @PrimaryGeneratedColumn()
     id: number;
 
     @Column("varchar")

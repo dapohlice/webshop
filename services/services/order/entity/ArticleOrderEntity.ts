@@ -1,6 +1,6 @@
 import {
     Entity,
-    PrimaryColumn,
+    PrimaryGeneratedColumn,
     Column,
     BaseEntity,
     OneToOne,
@@ -16,7 +16,7 @@ import { ArticleEntity } from "./ArticleEntity";
 @Entity("articleOrderMap")
 export class ArticleOrderEntity extends BaseEntity
 {   
-    @PrimaryColumn()
+    @PrimaryGeneratedColumn()
     id: number;
 
     @Column("int")
