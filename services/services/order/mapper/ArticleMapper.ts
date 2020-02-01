@@ -5,6 +5,9 @@ import { ArticleOrderEntity } from "../entity/ArticleOrderEntity";
 
 export async function createArticle(article)
 {
+    if(article === undefined)
+        return undefined;
+
     let price = parseInt(article.price);
     let id = parseInt(article.article_id);
     if((!price && isNaN(price)) || !article.name || (!id && isNaN(id)))
@@ -47,6 +50,9 @@ async function getArticle(articleId: number):Promise<ArticleEntity>
                     .getOne();
     console.log(article)
     
+    if(o_product === undefined)
+        return undefined;
+
     if(article == undefined || o_product.timestamp > article.timestamp)
     {
         article = await createArticle(o_product);
@@ -54,30 +60,51 @@ async function getArticle(articleId: number):Promise<ArticleEntity>
     return article;
 }
 
-export async function addArticle(amount: number, articleId: number, subarticleId: number, order: OrderEntity)
+/**
+ * Fügt einen Article mit Unterartikel einer Bestellung hinzu
+ * @param article {amount, articleId, subarticleId}
+ * @param order Bestellung
+ * @return Übersicht der Erstellten Daten | undefined
+ */
+export async function addArticle(article, order: OrderEntity)
 {
-    let article = await getArticle(articleId);
-    if(article == undefined)
-        return false;
+
+    // TODO: bessere Rückgabe bei nicht möglichem Erstellen 
+    if(article === undefined)
+        return undefined;
+    
+    let amount = parseInt(article.amount);
+    let articleId = parseInt(article.articleId);
+    let subarticleId = parseInt(article.subarticleId);
+    
+    if(amount === NaN || articleId === NaN || subarticleId === NaN)
+        return undefined;
+    
+
+    let article_entitiy = await getArticle(articleId);
+    if(article === undefined)
+        return undefined;
 
     let subarticle = await getSubarticle(subarticleId,amount);
+    if(subarticle === undefined )
+        return undefined;
 
     let orderarticle = new ArticleOrderEntity();
     orderarticle.amount = subarticle.amount;
-    orderarticle.article = article;
+    orderarticle.article =  article_entitiy;
     orderarticle.order = order;
     orderarticle.property = subarticle.property;
 
     let db_result = await orderarticle.save();
     if(db_result === undefined)
-        return false;
+        return undefined;
     
     let result = {
         amount:  orderarticle.amount,
         property: orderarticle.property,
-        name: article.name,
-        price: article.price,
-        total: article.price * orderarticle.amount
+        name:  article_entitiy.name,
+        price:  article_entitiy.price,
+        total:  article_entitiy.price * orderarticle.amount
     }
     return result;
 }

@@ -4,6 +4,9 @@ import * as OrderLog from './OrderLogMapper'
 import {StatusEntity} from '../entity/StatusEntity' 
 import * as Convert from './Converter';
 import { AddressEntity } from "../entity/AddressEntity";
+import * as UserKey from "./UserKey";
+import {createAddress} from "../mapper/AddressMapper"
+import {addArticle, createArticle} from "../mapper/ArticleMapper"
 
 /**
  * gibt alle Bestellungen mit Status zurück
@@ -16,7 +19,7 @@ export async function getAllOrders()
     .getMany();
     return orders;
 }
-
+/*
 export async function getAllCreatedOrders():Promise<OrderEntity[]>
 {
     const orderRep = getRepository(OrderEntity)
@@ -27,32 +30,16 @@ export async function getAllCreatedOrders():Promise<OrderEntity[]>
     .getMany();
 
     return order;
-}
-
-export async function deleteOrder(order:OrderEntity)
-{
-    let address = order.address;
-    let articles = order.articles;
-
-    if( await order.remove() === undefined )
-        console.error("Failed removing Order: "+order.id);
-
-    if( await address.remove() === undefined )
-        console.error("Failed removing Address: "+address.id);
-
-    for(let i = 0; i < articles.length; i++)
-    {
-        if(articles[i].remove() === undefined)
-            console.error("Failed removing ArticleOrderMap: "+articles[i].id);   
-    }
-}
+}*/
 
 /**
  * gibt alle Bestellungen eines Status zurück
  * @param statusId status Id
  */
-export async function getAllOrdersByStatus(statusId: number)
+export async function getAllOrdersByStatus(statusId: number):Promise<OrderEntity[]>
 {
+    if(statusId === 0)
+        return [];
     const orderRep = getRepository(OrderEntity)
     let orders = await orderRep.createQueryBuilder("order")
     .leftJoin("order.status", "status")
@@ -70,6 +57,7 @@ export async function getAllOrdersByStatus(statusId: number)
  *      - logs
  *      - articles
  * @param orderId Bestellungsid
+ * @returns prettiefied Order oder undefined
  */
 export async function getFullOrder(orderId: number)
 {
@@ -83,6 +71,11 @@ export async function getFullOrder(orderId: number)
     .leftJoinAndSelect("articles.article", "article")
     .where("order.id = :id",{id: orderId})
     .getOne();
+
+    if(order === undefined)
+    {
+        return undefined;
+    }
 
     let result = 
     {
@@ -149,6 +142,9 @@ export async function setNextStatus(orderId: number ,info: string):Promise<boole
  */
 export async function setStatus(orderId: number ,info: string, statusId: number):Promise<boolean>
 {
+    if(statusId === 0)
+        return false;
+
     const orderRep = getRepository(OrderEntity)
     let order = await orderRep.createQueryBuilder("order")
     .leftJoinAndSelect("order.status", "status")
@@ -184,8 +180,12 @@ export async function setStatus(orderId: number ,info: string, statusId: number)
     return true;
 }
 
-
-export async function createOrder(mail:string, address: AddressEntity)
+/**
+ * Erstellt eine neue Bestellung
+ * @param mail Kunden-Email
+ * @param address Kunden-Adresse
+ */
+async function createOrder(mail:string, address: AddressEntity)
 {
     let status = await StatusEntity.findOne({id: 0});
        
@@ -195,4 +195,45 @@ export async function createOrder(mail:string, address: AddressEntity)
     order.address = address;
     let result = await order.save();
     return result;
+}
+
+
+export async function addOrder(mail: string,address,articles){
+    let address_entity = await createAddress(address);
+
+    if(address_entity === undefined)
+    {
+        return undefined;
+    }
+    
+    let order = await createOrder(mail,address_entity);
+    if(order === undefined)
+    {
+        return undefined;
+    }
+
+    let savedArticles = [];
+    for(let i = 0; i < articles.length; i++)
+    {
+        let createdArticle = await addArticle(articles[i].amount,order);
+        savedArticles.push(createdArticle);
+    }
+
+    let user_key = UserKey.addOrder(order.id);
+
+    return {
+        mail: order.mail,
+        address: order.address,
+        articles: savedArticles,
+        user_key: user_key
+    };
+}
+
+export async function submitOrder(user_key: string)
+{
+    let order_id = UserKey.getOrder(user_key);
+    if(order_id === undefined)
+        return false;
+
+    return await setStatus(order_id,undefined,1);
 }

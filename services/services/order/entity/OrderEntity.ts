@@ -15,7 +15,7 @@ import { ArticleOrderEntity } from "./ArticleOrderEntity";
 /**
  * Bestellungsdatensatz
  */
-@Entity("order")
+@Entity("orders")
 export class OrderEntity extends BaseEntity
 {   
     @PrimaryGeneratedColumn()
