@@ -82,52 +82,14 @@ app.get('/', (req, res) => {
         title: 'Welcome Employee - Administration Dashboard',
       });
   }
-  // if (req.query.order === 'open') {
-  //   res.render('order', {
-  //     name : 'openOrder',
-  //     title: 'Open Order - Administration Dashboard',
-  //   });
-  // } else if (req.query.order === 'paid') {
-  //   res.render('order', {
-  //     name : 'paidOrder',
-  //     title: 'Paid Order - Administration Dashboard',
-  //   });
-  // } else if (req.query.order === 'packed') {
-  //   res.render('order', {
-  //     name : 'packedOrder',
-  //     title: 'Packed Order - Administration Dashboard',
-  //   });
-  // } else if (req.query.order === 'returns') {
-  //   res.render('order', {
-  //     name : 'returnsOrder',
-  //     title: 'Returns Order - Administration Dashboard',
-  //   });
-  // } else {
-  //   res.render('index', {
-  //     name : 'index',
-  //     title: 'Welcome Employee - Administration Dashboard',
-  //   });
-  // }
-
 });
 
 app.get('/user', (req, res) => {
   res.render('user', {
     name : 'user',
     title: 'User - Administration Dashboard',
-    order: Math.floor(millis/1000),
-    date: startDateTime
   });
 });
-
-// app.get('/order', (req, res) => {
-//
-//   res.render('order', {
-//     name : 'open',
-//     title: 'Open Order - Administration Dashboard',
-//   });
-// });
-
 
 
 /**
