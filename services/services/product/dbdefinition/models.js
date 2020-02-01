@@ -3,7 +3,7 @@ const PSchema = require('./schemas/productschema.js');
 const CSchema = require('./schemas/categoryschema.js');
 
 const Models = {};
-Models.productmodel = Mongoose.model("product", PSchema);
-Models.categorymodel = Mongoose.model("category", CSchema);
+Models.ProductModel = Mongoose.model("article", PSchema);
+Models.CategoryModel = Mongoose.model("category", CSchema);
 
 module.exports = Models;
