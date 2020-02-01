@@ -48,18 +48,70 @@ app.set('views', __dirname + '/views');
 app.use(express.static(__dirname + '/public'));
 
 app.get('/', (req, res) => {
-  const millis = Date.now() - start;
+  for (const key in req.query) {
+    console.log(key, req.query.order[key])
+  }
+  switch(req.query.order) {
+    case 'open':
+      res.render('order', {
+        name : 'openOrder',
+        title: 'Open Order - Administration Dashboard',
+      });
+      break;
+    case 'paid':
+      res.render('order', {
+        name : 'paidOrder',
+        title: 'Paid Order - Administration Dashboard',
+      });
+      break;
+    case 'packed':
+      res.render('order', {
+        name : 'packedOrder',
+        title: 'Packed Order - Administration Dashboard',
+      });
+      break;
+    case 'returns':
+      res.render('order', {
+        name : 'returnsOrder',
+        title: 'Returns Order - Administration Dashboard',
+      });
+      break;
+    default:
+      res.render('index', {
+        name : 'index',
+        title: 'Welcome Employee - Administration Dashboard',
+      });
+  }
+  // if (req.query.order === 'open') {
+  //   res.render('order', {
+  //     name : 'openOrder',
+  //     title: 'Open Order - Administration Dashboard',
+  //   });
+  // } else if (req.query.order === 'paid') {
+  //   res.render('order', {
+  //     name : 'paidOrder',
+  //     title: 'Paid Order - Administration Dashboard',
+  //   });
+  // } else if (req.query.order === 'packed') {
+  //   res.render('order', {
+  //     name : 'packedOrder',
+  //     title: 'Packed Order - Administration Dashboard',
+  //   });
+  // } else if (req.query.order === 'returns') {
+  //   res.render('order', {
+  //     name : 'returnsOrder',
+  //     title: 'Returns Order - Administration Dashboard',
+  //   });
+  // } else {
+  //   res.render('index', {
+  //     name : 'index',
+  //     title: 'Welcome Employee - Administration Dashboard',
+  //   });
+  // }
 
-  res.render('index', {
-    name : 'index',
-    title: 'Welcome Employee - Administration Dashboard',
-    order: Math.floor(millis/1000),
-    date: startDateTime
-  });
 });
 
 app.get('/user', (req, res) => {
-  const millis = Date.now() - start;
   res.render('user', {
     name : 'user',
     title: 'User - Administration Dashboard',
@@ -68,12 +120,14 @@ app.get('/user', (req, res) => {
   });
 });
 
-app.get('/order', (req, res) => {
-  res.render('order', {
-    name : 'order?open',
-    title: 'Order - Administration Dashboard',
-  });
-});
+// app.get('/order', (req, res) => {
+//
+//   res.render('order', {
+//     name : 'open',
+//     title: 'Open Order - Administration Dashboard',
+//   });
+// });
+
 
 
 /**

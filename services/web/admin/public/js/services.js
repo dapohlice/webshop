@@ -1,15 +1,38 @@
+var currentStatus = 0;
 var orderContainer = document.getElementById('jsonobjekt');
 var btn = document.getElementById("btn");
 
-// btn.addEventListener("click", function() {
-//   var ourRequest = new XMLHttpRequest();
-//   ourRequest.open('GET', 'http://localhost:3001/order/status/0.json');
-//   ourRequest.onload = function() {
-//     var ourData = JSON.parse(ourRequest.responseText);
-//     renderHTML(ourData);
-//   };
-//   ourRequest.send();
-// });
+function getUrlVars() {
+    var vars = {};
+    var parts = window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, function(m,key,value) {
+        vars[key] = value;
+    });
+    return vars;
+}
+
+function setStatus() {
+  getUrlVars();
+  var currentPage = getUrlVars()["order"];
+
+  switch(currentPage) {
+    case 'open':
+      currentStatus = 0;
+      break;
+    case 'paid':
+      currentStatus = 1;
+      break;
+    case 'packed':
+      currentStatus = 2;
+      break;
+    case 'returns':
+      currentStatus = 3;
+      break;
+    default:
+      currentStatus = 0;
+  }
+  $('#jsonobjekt').nextAll('div').remove();
+  var res = new XHR('GET','http://localhost:3001/order/status/' + currentStatus + '.json');
+}
 
 function XHR(type, url) {
   promise = $.ajax({
@@ -22,46 +45,35 @@ function XHR(type, url) {
     console.log(data);
     console.log('Sucessfull data check');
     renderHTML(data);
+
   });
   promise.fail(function () {
     console.log('A failure occurred');
   });
+
 }
 
 
 function renderHTML(data) {
-  var test = "";
+  var htmlString = "<table class=\"table table-striped\">";
+  htmlString += "<thead><tr><th>ID</th><th>mail</th><th>timestamp</th></tr></thead>";
 
-  // for (i = 0; i < data.length; i++) {
-  //   test += "<p>" + "this " + data[i].id + " is a " + data[i].mail + "</p>";
-  // }
+    for(let i = 0; i < data.length; i++) {
+        htmlString += "<tbody>";
+        htmlString += "<tr>";
+        htmlString += "<td>" + data[i].id + "</td>";
+        htmlString += "<td>" + data[i].mail + "</td>";
+        htmlString += "<td>" + data[i].timestamp + "</td>";
+        htmlString += "</tr>";
+        htmlString += "</tbody>";
+    }
+    htmlString += "</table>"
 
-  var htmlString = '';
-  var table = $('<table class="table table-striped"></table>');
-  table.append('<thead><tr><th>ID</th><th>mail</th><th>timestamp</th></tr></thead');
-
-  for (i = 0; i < data.length; i++) {
-      var tbody = $('<tbody/>');
-      var tr = $('<tr/>');
-
-      // var id = data[i].id;
-      // var mail = data[i].mail;
-      // var timestamp = data[i].timestamp;
-
-      tr.append('<td>' + data[i].id + '</td>');
-      tr.append('<td>' + data[i].mail + '</td>');
-      tr.append('<td>' + data[i].timestamp + '</td>');
-
-      tbody.append(tr);
-      table.append(tbody);
-
-  }
-
-  orderContainer.append(table);
+  orderContainer.insertAdjacentHTML('beforeend', htmlString);
 
 }
 
-
+//********* NOCH IN ARBEIT *********
 
 // $.ajax({
 //   type: “GET”,

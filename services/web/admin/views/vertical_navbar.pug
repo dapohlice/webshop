@@ -24,23 +24,23 @@ block vertical_navbar
     center
       h2.text-secondary Order
     a.nav-link(
-      class=(name === "order?open" ? "active" : undefined)
-      href=`/order`
+      class=(name === "openOrder" ? "active" : undefined)
+      href=`/?order=open`
     )
       | Open
     a.nav-link(
-      class=(name === "order?paid" ? "active" : undefined)
-      href=`/#`
+      class=(name === "paidOrder" ? "active" : undefined)
+      href=`/?order=paid`
     )
       | Paid
     a.nav-link(
-      class=(name === "order?packed" ? "active" : undefined)
-      href=`/#`
+      class=(name === "packedOrder" ? "active" : undefined)
+      href=`/?order=packed`
     )
       | Packed
     a.nav-link(
-      class=(name === "order?order" ? "active" : undefined)
-      href=`/#`
+      class=(name === "returnsOrder" ? "active" : undefined)
+      href=`/?order=returns`
     )
       | Returns
     hr.white

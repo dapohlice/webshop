@@ -1,7 +1,7 @@
 extends layout
 
 block body  
-  body(onload="getOrderStatus()")
+  body(onload="setStatus()")
 
 block nav
   - var cur = "order"
@@ -9,16 +9,32 @@ block nav
 block content
   div.col.pt-2
     h2.text-center #{title}
-    div.search-bar
-      button#btn(type="button" data-tooltip="tooltip" data-placement="bottom" title="Sort status" data-toggle="modal" data-target="#setStatusModal")
-        | Status
-      div.search-container
-        form
-          input(type="text" placeholder="Search.." name="search")
-          button(type="submit" onclick=("orderSearch()"))
-            i.fa.fa-search
-    div
-      p#test
+    div.nav.navbar.search-bar
+      div.dropdown
+        button#btn.btn-secondary.dropdown-toggle(type="button" data-tooltip="tooltip" data-placement="bottom" title="Set status" data-toggle="dropdown")
+          | Status
+        div.dropdown-menu
+          a.dropdown-item(
+              href=`?order=open`  
+          )
+            | Open
+          a.dropdown-item(
+              href=`?order=paid`              
+          )
+            | Paid
+          a.dropdown-item(
+              href=`?order=packed`              
+          )
+            | Packed
+          a.dropdown-item(
+              href=`?order=returns`
+          )
+            | Returns
+        div.search-container
+          form
+            input(type="text" placeholder="Search.." name="search")
+            button(type="submit" onclick=("orderSearch()"))
+              i.fa.fa-search
     div#jsonobjekt
 
       
