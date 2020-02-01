@@ -16,6 +16,37 @@ export async function getAllOrders()
     .getMany();
     return orders;
 }
+
+export async function getAllCreatedOrders():Promise<OrderEntity[]>
+{
+    const orderRep = getRepository(OrderEntity)
+    let order = await orderRep.createQueryBuilder("order")
+    .leftJoinAndSelect("order.address", "address")
+    .leftJoinAndSelect("order.articles", "articles")
+    .where("order.statusId = 0")
+    .getMany();
+
+    return order;
+}
+
+export async function deleteOrder(order:OrderEntity)
+{
+    let address = order.address;
+    let articles = order.articles;
+
+    if( await order.remove() === undefined )
+        console.error("Failed removing Order: "+order.id);
+
+    if( await address.remove() === undefined )
+        console.error("Failed removing Address: "+address.id);
+
+    for(let i = 0; i < articles.length; i++)
+    {
+        if(articles[i].remove() === undefined)
+            console.error("Failed removing ArticleOrderMap: "+articles[i].id);   
+    }
+}
+
 /**
  * gibt alle Bestellungen eines Status zurück
  * @param statusId status Id
@@ -156,7 +187,7 @@ export async function setStatus(orderId: number ,info: string, statusId: number)
 
 export async function createOrder(mail:string, address: AddressEntity)
 {
-    let status = await StatusEntity.findOne({id: 1});
+    let status = await StatusEntity.findOne({id: 0});
        
     let order = new OrderEntity();
     order.mail = mail;
