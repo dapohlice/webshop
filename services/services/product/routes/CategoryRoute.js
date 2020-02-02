@@ -42,7 +42,7 @@ CategoryRoute.delete("/:id", async function (req,res)
 CategoryRoute.get("/", async function(req,res)
 {
   try {
-    let result = await Assistant.Category.getAll();
+    let result = await Assistant.Category.getAllCategorys();
     res.send(result);
   } catch (err) {
     send.status(404).send(err);
