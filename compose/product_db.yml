@@ -1,15 +1,15 @@
 version: '3'
-services: 
+services:
   product_db:
     image: mongo:4.2
     ports:
       - "27017:27017"
-    expose: 
+    expose:
       - "27017"
     environment:
       - "MONGO_INITDB_ROOT_USERNAME=root"
       - "MONGO_INITDB_ROOT_PASSWORD=passw0rd"
-      - "MONGO_DATABASE=product"
+      - "MONGO_INITDB_DATABASE=product"
     volumes:
       - ./database/product:/docker-entrypoint-initdb.d
       - product_db_data:/data/db
