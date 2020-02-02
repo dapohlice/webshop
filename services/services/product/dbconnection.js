@@ -14,8 +14,8 @@ class DBConnection
     try
     {
       /*Verbindung zur Datenbank erstellen*/
-      Mongoose.connect("mongodb://product_db:27017/product",{user: "test",
-                                                             pass: "test34",useNewUrlParser: true,
+      Mongoose.connect("mongodb://product_db:27017/product",{user: "testuser",
+                                                             pass: "12test34",useNewUrlParser: true,
                                                              useUnifiedTopology: true },
                                                              function(err){});
     }
