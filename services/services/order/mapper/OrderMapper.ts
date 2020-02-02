@@ -10,6 +10,7 @@ import {addArticle, createArticle} from "../mapper/ArticleMapper"
 
 /**
  * gibt alle Bestellungen mit Status zurück
+ * @returns Liste mit Bestellungen
  */
 export async function getAllOrders()
 {
@@ -19,22 +20,10 @@ export async function getAllOrders()
     .getMany();
     return orders;
 }
-/*
-export async function getAllCreatedOrders():Promise<OrderEntity[]>
-{
-    const orderRep = getRepository(OrderEntity)
-    let order = await orderRep.createQueryBuilder("order")
-    .leftJoinAndSelect("order.address", "address")
-    .leftJoinAndSelect("order.articles", "articles")
-    .where("order.statusId = 0")
-    .getMany();
-
-    return order;
-}*/
-
 /**
  * gibt alle Bestellungen eines Status zurück
  * @param statusId status Id
+ * @returns Alle Bestellungen eines Statuses
  */
 export async function getAllOrdersByStatus(statusId: number):Promise<OrderEntity[]>
 {
@@ -57,7 +46,7 @@ export async function getAllOrdersByStatus(statusId: number):Promise<OrderEntity
  *      - logs
  *      - articles
  * @param orderId Bestellungsid
- * @returns prettiefied Order oder undefined
+ * @returns Wesentliche Informationen über eine Bestellung | undefined
  */
 export async function getFullOrder(orderId: number)
 {
@@ -77,8 +66,7 @@ export async function getFullOrder(orderId: number)
         return undefined;
     }
 
-    let result = 
-    {
+    return {
         id:order.id,
         mail: order.mail,
         status: order.status.id,
@@ -86,15 +74,13 @@ export async function getFullOrder(orderId: number)
         logs: Convert.PrettiefyLogs(order.logs),
         article: Convert.PrettiefyArticles(order.articles)
     }
-
-
-    return result;
 }
 
 /**
  * setzt den nächsten Status einer Bestellung
  * @param orderId Bestellungsid
  * @param info Zusatzinformation
+ * @returns false: Fehlerhaft | true: nächster Status gesätzt
  */
 export async function setNextStatus(orderId: number ,info: string):Promise<boolean>
 {
@@ -151,29 +137,38 @@ export async function setStatus(orderId: number ,info: string, statusId: number)
     .where("order.id = :id",{id: orderId})
     .getOne();
 
-    if(order == undefined)
+    if(order === undefined)
         return false;
 
     if(order.status.needsPermission)
     {
-        //todo permission checking
+        // TODO: permission checking
         console.error("No Permisiion Checking in OrderMapper setNextStatus");
     }
     const newStatus = await StatusEntity.findOne({where: {id: statusId}});
-    if(newStatus == undefined)
+    if(newStatus === undefined)
         return false;
     
     order.status = newStatus;
 
     let log = await OrderLog.createLog(order,info,newStatus);
-    if(log == undefined)
+    if(log === undefined)
+    {
+        console.error(`Failed creating Log in OrderMapper:setStatus for: ${order.id},${newStatus.id}`)
         return false;
+    }
+        
 
 
     let res = await order.save();
-    if(res == undefined)
+    if(res === undefined)
     {
-        //todo: delte log
+        console.error(`Failed creating saving Order in OrderMapper:setStatus for: ${order.id}`)
+        if(log.remove() === undefined)  
+        {
+            console.error(`Failed deleting Log after failing detling Order in OrderMapper:setStatus for: ${order.id}`)
+        }
+
         return false;
     }
     
@@ -184,6 +179,7 @@ export async function setStatus(orderId: number ,info: string, statusId: number)
  * Erstellt eine neue Bestellung
  * @param mail Kunden-Email
  * @param address Kunden-Adresse
+ * @returns Bestellung | undefined
  */
 async function createOrder(mail:string, address: AddressEntity)
 {
@@ -197,7 +193,13 @@ async function createOrder(mail:string, address: AddressEntity)
     return result;
 }
 
-
+/**
+ * Erstellt eine neue Bestellung mit Adresse und den Artikeln
+ * @param mail Kunden-E-Mail
+ * @param address Kunden-Adresse
+ * @param articles Bestellte Artikel 
+ * @returns Wichtige Informationen einer Bestellung | undefined
+ */
 export async function addOrder(mail: string,address,articles){
     let address_entity = await createAddress(address);
 
@@ -229,7 +231,12 @@ export async function addOrder(mail: string,address,articles){
     };
 }
 
-export async function submitOrder(user_key: string)
+/**
+ * Bestätigt eine Bestellung
+ * @param user_key Benutzer-Key
+ * @returns true | false
+ */
+export async function submitOrder(user_key: string):Promise<boolean>
 {
     let order_id = UserKey.getOrder(user_key);
     if(order_id === undefined)

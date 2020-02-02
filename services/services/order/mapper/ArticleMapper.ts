@@ -3,6 +3,11 @@ import {ArticleEntity} from '../entity/ArticleEntity'
 import { OrderEntity } from "../entity/OrderEntity";
 import { ArticleOrderEntity } from "../entity/ArticleOrderEntity";
 
+/**
+ * Erstellt einen neuen Artikel
+ * @param article Artikel
+ * @returns Erstellten Artikel | undefined
+ */
 export async function createArticle(article)
 {
     if(article === undefined)
@@ -20,6 +25,11 @@ export async function createArticle(article)
     return entity.save();    
 }
 
+/**
+ * Ruft einen Produktdatensatz von dem enstrechenden Service ab
+ * @param articleId Artikel Id
+ * @returns Produktdatensatz | undefined 
+ */
 async function getProduct(articleId: number)
 {
     return {
@@ -30,6 +40,12 @@ async function getProduct(articleId: number)
     }
 }
 
+/**
+ * Ruft einen Unterartikeldatensatz von dem entrechenden Service ab
+ * @param subarticleId Unterartikeldatensatz
+ * @param amount Anzahl des gekauften Unterartikels
+ * @returns Unterdatensatz mit der Reservierten Anzahl | undefined
+ */
 async function getSubarticle(subarticleId: number, amount: number)
 {
     return {
@@ -39,6 +55,12 @@ async function getSubarticle(subarticleId: number, amount: number)
     }
 }
 
+/**
+ * Gibt einen Artikeldatensatz zurück
+ *  sollte dieser nicht vorhanden sein, so wird dieser von dem entsprechenden Service abgerufen
+ * @param articleId Artikel-Id
+ * @returns Artikeldatensatz | undefined
+ */
 async function getArticle(articleId: number):Promise<ArticleEntity>
 {
     let o_product = await getProduct(articleId)

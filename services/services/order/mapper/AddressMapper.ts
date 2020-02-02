@@ -1,6 +1,12 @@
 import {getRepository} from "typeorm";
 import {AddressEntity} from '../entity/AddressEntity' 
 
+
+/**
+ * Erstellt eine neue Adresse
+ * @param address: Adresse
+ * @returns Addressdatensatz
+ */
 export async function createAddress(address):Promise<AddressEntity>
 {
     if(

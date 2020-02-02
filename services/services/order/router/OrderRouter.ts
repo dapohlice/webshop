@@ -67,7 +67,7 @@ export default class OrderRouter extends BaseRouter{
     }
 
     /**
-     * Gibt einen kompletten Status zurück
+     * Gibt eine komplette Bestellung zurück
      * @param req 
      * @param res 
      */
@@ -161,6 +161,11 @@ export default class OrderRouter extends BaseRouter{
         res.send(result);
     }
 
+    /**
+     * Bestätigt eine Bestellung
+     * @param req 
+     * @param res 
+     */
     async submitOrder(req: Request, res: Response)
     {
         console.log("submit Order");
