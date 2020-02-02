@@ -1,6 +1,6 @@
 const Mongoose = require('mongoose');
-const PSchema = require('./schemas/productschema.js');
-const CSchema = require('./schemas/categoryschema.js');
+const PSchema = require('./schemas/ProductSchema.js');
+const CSchema = require('./schemas/CategorySchema.js');
 
 const Models = {};
 Models.ProductModel = Mongoose.model("article", PSchema);

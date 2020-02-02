@@ -1,6 +1,6 @@
 const Mongoose = require('mongoose');
-const SubProductSchema = require('./subproductschema');
-const CategorySchema = require('./categoryschema');
+const SubProductSchema = require('./SubProductSchema');
+const CategorySchema = require('./CategorySchema');
 
 /*Datenstruktur eines Datensatzes für die Produktdatenbank*/
 let PSchema = new Mongoose.Schema({

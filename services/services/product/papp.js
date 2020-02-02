@@ -1,7 +1,7 @@
 const Express = require('express');
 const Productsapp = Express();
 const BParser = require('body-parser');
-const Assistant = require('./queryassistant.js');
+const Assistant = require('./QueryAssistant.js');
 
 const port = process.env.PORT;
 const stage = process.env.NODE_ENV;

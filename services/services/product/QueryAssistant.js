@@ -1,6 +1,6 @@
 const Mongoose = require('mongoose');
-const DBConnection = require('./dbconnection.js');
-const Models = require('./dbdefinition/models.js');
+const DBConnection = require('./DBConnection.js');
+const Models = require('./dbdefinition/Models.js');
 
 const connection = new DBConnection();
 
