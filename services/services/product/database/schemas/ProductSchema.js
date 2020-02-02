@@ -11,6 +11,6 @@ let PSchema = new Mongoose.Schema({
   state: { type: Boolean, required: true },
   timestamp: { type: Date, require: true },
   subproduct: { type: [SubProductSchema] },
-  catagory: { type: [CategorySchema], require: true }
+  catagory: { type: String, require: true }
 });
 module.exports = PSchema;
