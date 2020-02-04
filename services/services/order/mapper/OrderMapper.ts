@@ -18,7 +18,7 @@ export async function getAllOrders()
     let orders = await orderRep.createQueryBuilder("order")
     .leftJoinAndSelect("order.status", "status")
     .getMany();
-    return orders;
+    return Convert.PrettiefyOrders(orders);
 }
 /**
  * gibt alle Bestellungen eines Status zurück
@@ -34,8 +34,25 @@ export async function getAllOrdersByStatus(statusId: number):Promise<OrderEntity
     .leftJoin("order.status", "status")
     .where("status.id = :id",{id: statusId})
     .getMany();
-    
     return orders;
+}
+
+/**
+ * gibt alle Bestellungen eines Status zurück
+ * @param statusId status Id
+ * @returns Alle Bestellungen eines Statuses
+ */
+export async function getAllOrdersByMultiplyStatus(statusId: number[]):Promise<OrderEntity[]>
+{
+    if(statusId.length < 1)
+        throw new Error("It musst be at least one Status Id given.")
+    const orderRep = getRepository(OrderEntity)
+    let builder = orderRep.createQueryBuilder("order")
+        .leftJoinAndSelect("order.status", "status")
+        .where("status.id IN (:id)",{id: statusId})
+    
+    let orders = await builder.getMany();
+    return Convert.PrettiefyOrders(orders);
 }
 
 /**

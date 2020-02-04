@@ -85,3 +85,24 @@ export function PrettiefyLogs(logs)
     });
     return result;
 }
+
+
+export function PrettiefyOrder(order)
+{
+    return {
+        id: order.id,
+        mail: order.mail,
+        timestamp: order.timestamp,
+        status: order.status.id
+    }
+}
+
+
+export function PrettiefyOrders(orders)
+{
+    let result = [];
+    orders.forEach(order => {
+        result.push(PrettiefyOrder(order))
+    });
+    return result;
+}

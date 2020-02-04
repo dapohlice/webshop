@@ -12,6 +12,8 @@ export default class OrderRouter extends BaseRouter{
 
     initialiseRouter(){
         this.router.get('/',this.get);
+        this.router.get('/status/finished',this.getByFinishStatus);
+        this.router.get('/status/return',this.getByReturnStatus);
         this.router.get('/status/:status',this.getByStatus);
         this.router.get('/:id',this.getOneFull);
         this.router.post('/submit',this.submitOrder);
@@ -34,17 +36,8 @@ export default class OrderRouter extends BaseRouter{
             return;            
         }
 
-        let result = [];
-        orders.forEach(order => {
-            result.push({
-                id: order.id,
-                mail: order.mail,
-                timestamp: order.timestamp,
-                status: order.status.id
-            });
-        });
         res.json(
-           result
+            orders
         );
     }
 
@@ -64,6 +57,56 @@ export default class OrderRouter extends BaseRouter{
 
         let result,err;
         [result,err] = await resolve(OrderMapper.getAllOrdersByStatus(statusId));
+        if(err !== null)
+        {
+            res.sendStatus(500);
+            return;            
+        }
+        if(result === undefined)
+        {
+            res.sendStatus(404);
+            return;
+        }
+
+        res.json(
+            result
+        );
+    }
+
+    /**
+     * Gibt alle Bestellungen die Zurückgeben wurden
+     * @param req 
+     * @param res 
+     */
+    async getByReturnStatus(req: Request, res: Response)
+    {
+        let result,err;
+        [result,err] = await resolve(OrderMapper.getAllOrdersByMultiplyStatus([6,7,8]));
+        if(err !== null)
+        {
+            res.sendStatus(500);
+            return;            
+        }
+        if(result === undefined)
+        {
+            res.sendStatus(404);
+            return;
+        }
+
+        res.json(
+            result
+        );
+    }
+
+    /**
+     * Gibt alle Bestellungen die Fertig sind zurück
+     * @param req 
+     * @param res 
+     */
+    async getByFinishStatus(req: Request, res: Response)
+    {
+        let result,err;
+        [result,err] = await resolve(OrderMapper.getAllOrdersByMultiplyStatus([4,5,9]));
         if(err !== null)
         {
             res.sendStatus(500);
