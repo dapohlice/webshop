@@ -63,6 +63,8 @@ async function getSubarticle(subarticleId: number, amount: number)
  */
 async function getArticle(articleId: number):Promise<ArticleEntity>
 {
+    if(isNaN(articleId) || articleId === undefined)
+        throw new Error(`${articleId} ist not a number`);
     let o_product = await getProduct(articleId)
     let article = await getRepository(ArticleEntity)
                     .createQueryBuilder("article")
@@ -70,7 +72,7 @@ async function getArticle(articleId: number):Promise<ArticleEntity>
                     .orderBy("article.timestamp")
                     .take(1)
                     .getOne();
-    console.log(article)
+    
     
     if(o_product === undefined)
         return undefined;
@@ -99,7 +101,7 @@ export async function addArticle(article, order: OrderEntity)
     let articleId = parseInt(article.articleId);
     let subarticleId = parseInt(article.subarticleId);
     
-    if(amount === NaN || articleId === NaN || subarticleId === NaN)
+    if(isNaN(amount) || isNaN(articleId) || isNaN(subarticleId))
         return undefined;
     
 

@@ -217,7 +217,7 @@ export async function addOrder(mail: string,address,articles){
     let savedArticles = [];
     for(let i = 0; i < articles.length; i++)
     {
-        let createdArticle = await addArticle(articles[i].amount,order);
+        let createdArticle = await addArticle(articles[i],order);
         savedArticles.push(createdArticle);
     }
 

@@ -152,7 +152,8 @@ export default class OrderRouter extends BaseRouter{
             return;
         }
 
-        let result = OrderMapper.addOrder(req.body.mail,req.body.address,req.body.articles);
+        let result = await OrderMapper.addOrder(req.body.mail,req.body.address,req.body.articles);
+        
         if(result === undefined)
         {
             res.sendStatus(400);

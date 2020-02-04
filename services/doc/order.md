@@ -37,7 +37,7 @@ gibt eine Bestellung zurück
 {
     "id": "1",
     "mail": "hans.meiser@gmx.de",
-    "status": "Packed",
+    "status": 1,
     "address": {
         "id": "2",
         "firstname": "Hans",
@@ -53,7 +53,7 @@ gibt eine Bestellung zurück
         {
             "user": "dummy",
             "info": null,
-            "status": "Ordered",
+            "status": 1,
             "timestamp": "2020-01-29T10:30:00.000Z"
         }
     ],
@@ -82,7 +82,8 @@ Body:
 ```json
     {
         "info": "string",   //Zusatzinformation(kann null/leer/nicht vorhanden sein)
-        ("status": 0)         //Status auf den die Bestellung gesetzt werden soll
+        "status": 0         //kann gesetzt werden, ansonsten wird der nächste Status ausgewählt
+                            //Status auf den die Bestellung gesetzt werden soll
     }
 ```
 wenn der **status** nicht angegeben ist, dann wird der nächste ausgewählt
