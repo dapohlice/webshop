@@ -11,33 +11,46 @@ block content
     h2.text-center #{title}
     div.nav.navbar.search-bar
       div.dropdown
-        button#btn.btn-secondary.dropdown-toggle(type="button" data-tooltip="tooltip" data-placement="bottom" title="Set status" data-toggle="dropdown")
+        button.btn.btn-secondary.dropdown-toggle(
+          type="button" 
+          data-tooltip="tooltip" 
+          data-placement="bottom" 
+          title="Set status" 
+          data-toggle="dropdown"
+          onload="changeDropDownTitle()"
+          )
           | Status
-        div.dropdown-menu
-          a.dropdown-item(
-              href=`?order=open`  
-          )
-            | Open
-          a.dropdown-item(
-              href=`?order=paid`              
-          )
-            | Paid
-          a.dropdown-item(
-              href=`?order=packed`              
-          )
-            | Packed
-          a.dropdown-item(
-              href=`?order=returns`
-          )
-            | Returns
+          span.caret
+        ul.dropdown-menu
+          li
+            a.dropdown-item(
+                href=`?order=open`  
+            )
+              | Open
+          li
+            a.dropdown-item(
+                href=`?order=paid`              
+            )
+              | Paid
+          li
+            a.dropdown-item(
+                href=`?order=packed`              
+            )
+              | Packed
+          li
+            a.dropdown-item(
+                href=`?order=returns`
+            )
+              | Returns
         div.search-container
           form
             input(type="text" placeholder="Search.." name="search")
             button(type="submit" onclick=("orderSearch()"))
               i.fa.fa-search
-    div#jsonobjekt
 
-      
+    include changeorder
+
+    div#jsonobjekt
       
 block scripts
   script(src='https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js')
@@ -48,6 +61,7 @@ block scripts
   script(type='text/javascript' src='js/request.js' defer='defer')
   script(type='text/javascript' src='js/db_sidebar.js')
   script(type='text/javascript' src='js/tooltip.js')
+  script(type='text/javascript' src='js/helper.js')
 
     
             
