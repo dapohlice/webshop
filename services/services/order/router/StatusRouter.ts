@@ -1,7 +1,7 @@
 import * as StatusMapper from "../mapper/StatusMapper"
-import {Router,Request,Response} from "express";
-import * as OrderMapper from "../mapper/OrderMapper";
+import {Request,Response} from "express";
 import {BaseRouter} from "./BaseRouter";
+import resolve from '../resolver'
 
 /**
  * express Router für Bestellungen
@@ -18,12 +18,15 @@ export default class StatusRouter extends BaseRouter{
      */
     async get(req: Request, res: Response)
     {
-        let status = await StatusMapper.getAllStatus();
-        if(status === undefined)
+        let status,err;
+
+        [status,err] = await resolve(StatusMapper.getAllStatus());
+        if(err !== null || status === undefined)
         {
             res.sendStatus(500);
             return;
         }
+        
         res.json(
             status
         );
