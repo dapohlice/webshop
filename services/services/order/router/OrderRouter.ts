@@ -13,7 +13,7 @@ export default class OrderRouter extends BaseRouter{
     initialiseRouter(){
         this.router.get('/',this.get);
         this.router.get('/status/finished',this.getByFinishStatus);
-        this.router.get('/status/return',this.getByReturnStatus);
+        this.router.get('/status/returned',this.getByReturnStatus);
         this.router.get('/status/:status',this.getByStatus);
         this.router.get('/:id',this.getOneFull);
         this.router.post('/submit',this.submitOrder);

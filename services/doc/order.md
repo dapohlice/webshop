@@ -2,16 +2,32 @@
 
 ## GET /status
 gibt alle Statuse zurück
-
 ### Rückgabe
+
 ```json
 [
     {
         "id": 0,
         "name": "Created",
+        "next": 1 | null
     },
 ]
 ```
+- **next** gibt den nächsten Status zurück oder null, wenn es diesen nicht gibt
+
+- das sind: (siehe datbase/order/order_03_orderstatus.sql)
+  - 0 'Created' (nur für den Kunden)
+  - 1 'Ordered'           (open)
+  - 2 'Payed'             (open)
+  - 3 'Packed'            (open)
+  - 4 'Shiped'            (finished)
+  - 5 'Canceled'          (finished)
+  - 6 'Returned'          (returned)
+  - 7 'Return Checked'    (returned)
+  - 8 'Return Failed'     (returned)
+  - 9 'Payed Back'        (finished)
+
+
 
 ## GET /order
 gibt alle Bestellungen mit Status zurück
@@ -98,6 +114,9 @@ wenn der **status** nicht angegeben ist, dann wird der nächste ausgewählt
 ## GET /order/status/:id
 - **id**: Status-Id
 Gibt alle Bestellungen eines Status zurück
+- für **id** können auch folgende Eingaben verwendet werden:
+  - **returned**: liefert 6 (Returned), 7 (Return Checked), 8 (Return Failed)
+  - **finished**: liefert 4 (Shiped), 5 (Canceled), 9 (Payed Back)
 
 ### Rückgabe
 ```json
