@@ -95,7 +95,6 @@ hr.white {
   display: block;
   color: black;
   text-align: center;
-  padding: 14px 16px;
   text-decoration: none;
   font-size: 17px;
 }
@@ -110,7 +109,7 @@ hr.white {
   color: white;
 }
 .search-bar button {
-  padding: 6px 10px;
+  padding: 6px 6px;
   margin-top: 8px;
   margin-right: 16px;
   color: #000;
@@ -124,6 +123,11 @@ hr.white {
 }
 .search-bar .search-container {
   float: right;
+  border-color: black;
+}
+.search-bar .search-container {
+  float: right;
+  border-color: black;
 }
 
 .search-bar input[type=text] {
@@ -135,7 +139,7 @@ hr.white {
 
 .search-bar .search-container button {
   float: right;
-  padding: 6px 10px;
+  padding: 6px 6px;
   margin-top: 8px;
   margin-right: 16px;
   background: #ddd;

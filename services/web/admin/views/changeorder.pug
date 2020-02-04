@@ -1,0 +1,133 @@
+block changeorder
+
+  div#OrderDetailModal.modal.fade
+    div.modal-dialog.modal-lg
+      div.modal-content
+        //- Modal Header
+        div.modal-header
+          h4.modal-title
+            | Order Details - #{orderID}           
+          button.close(
+            type="button"
+            data-dismiss="modal"
+          ) 
+            | &times;
+        //- Modal Body
+        div.modal-body
+          div.container
+            div.row
+              div.col.col-lg-6
+                h5 Warenkorb
+                table.table.table-striped
+                  thead
+                    tr
+                      th Articel name                
+                      th Description                
+                      th Pieces                
+                      th Price                
+                  tbody
+                    tr
+                      td Boots
+                      td White & Shiny
+                      td 3
+                      td 70,24 €
+              div.col.col-lg-6
+                div.row
+                  div.col
+                    table
+                      thead
+                        tr
+                          th Shipping adress                    
+                      tbody
+                        tr
+                          td Name:
+                        tr
+                          td Street:
+                        tr
+                          td Nr.:
+                        tr
+                          td City:
+                        tr
+                          td Post Code:
+                  hr
+                  div.col
+                    table
+                      thead
+                        tr
+                          th Billing adress                    
+                      tbody
+                        tr
+                          td Name:
+                        tr
+                          td Street:
+                        tr
+                          td Nr.:
+                        tr
+                          td City:
+                        tr
+                          td Post Code:
+                hr
+                h Edit status:
+                div.row
+                  div.col
+                    div.dropdown
+                      button.btn.btn-secondary.dropdown-toggle(
+                        type="button" 
+                        data-tooltip="tooltip" 
+                        data-placement="bottom" 
+                        title="Set a new status" 
+                        data-toggle="dropdown"
+                        )
+                        | Status
+                        span.caret
+                      ul.dropdown-menu
+                        li
+                          a.dropdown-item(
+                              href=`#`  
+                              data-value="open"
+                          )
+                            | Open
+                        li
+                          a.dropdown-item(
+                              href=`#`         
+                              data-value="paid"     
+                          )
+                            | Paid
+                        li
+                          a.dropdown-item(
+                              href=`#`          
+                              data-value="packed"    
+                          )
+                            | Packed
+                        li
+                          a.dropdown-item(
+                              href=`#`
+                              data-value="returns"
+                          )
+                            | Returns
+                  div.col
+                    button.btn.btn-secondary(
+                      type="button"
+                      action="#"
+                      data-tooltip="tooltip"
+                      data-placement="bottom"
+                      title="Ask you, if you want to set a new status" 
+                      data-toggle="modal"
+                      data-target="#changeOrderStatusModal"
+                    )
+                      | Change
+                  hr
+                  p
+                    span
+                      b Info: 
+                      br
+                    span
+                      | After your next aggreement, you changed the status permanently. 
+
+        //- Modal Footer
+        div.modal-footer
+          button.btn.btn-danger(
+            type="button"
+            data-dismiss="modal"
+          )
+            | Abort
