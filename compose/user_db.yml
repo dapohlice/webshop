@@ -1,17 +1,15 @@
 version: '3'
 services: 
   user_db:
-    image: mongo:4.2
+    image: mariadb:10.3
     ports:
-      - "27018:27017"
+      - "3307:3306"
     expose: 
-      - "27017"
-    environment:
-      - "MONGO_INITDB_ROOT_USERNAME=root"
-      - "MONGO_INITDB_ROOT_PASSWORD=passw0rd"
-      - "MONGO_INITDB_DATABASE=user"
+      - "3306"
     volumes:
       - ./database/user:/docker-entrypoint-initdb.d
-      - user_db_data:/data/db
+      - user_db_data:/var/lib/mysql
+    environment: 
+      - "MYSQL_ROOT_PASSWORD=passw0rd"
 volumes:
   user_db_data:
