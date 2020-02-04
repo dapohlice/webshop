@@ -18,7 +18,7 @@ const DBOps = {};
     /*Selektiere Kategorie durch ID ->  ID ist die erzeugte ID der MongoDB*/
     getCategoryByID: async function(id){
       try {
-        return await Models.CategoryModel.findById({_id: id}).exec();
+        return await Models.CategoryModel.findById({id}).exec();
       } catch (err) {
         throw err;
       }
