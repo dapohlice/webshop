@@ -1,5 +1,5 @@
 const Mongoose = require('mongoose');
-const PropertySchema = require('./SubProductSchema');
+const PropertySchema = require('./PropertySchema');
 const CategorySchema = require('./CategorySchema');
 
 /*Datenstruktur eines Datensatzes für die Produktdatenbank*/

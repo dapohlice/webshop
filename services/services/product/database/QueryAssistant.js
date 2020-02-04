@@ -89,13 +89,13 @@ const DBOps = {};
           throw err;
         }
       },
-      /*Finde Produkt über seine ID -> ID ist Produktid*/
-      getProductsBy: async function(id){
-        try {
-          return Models.ProductModel.find({productid: id});
-        } catch (err) {
-          throw err;
-        }
+    /*Finde Produkt über seine ID -> ID ist Produktid*/
+    getProductsByID: async function(id){
+      try {
+        return Models.ProductModel.find({productid: id});
+      } catch (err) {
+        throw err;
       }
+    }
   }
 module.exports = DBOps;
