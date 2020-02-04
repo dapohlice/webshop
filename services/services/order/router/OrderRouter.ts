@@ -2,11 +2,7 @@ import {Router,Request,Response} from "express";
 
 import * as OrderMapper from "../mapper/OrderMapper";
 import {BaseRouter} from "./BaseRouter";
-import {createAddress} from "../mapper/AddressMapper"
-import {addArticle, createArticle} from "../mapper/ArticleMapper"
-import { OrderEntity } from "../entity/OrderEntity";
 
-var customerOrderMap: Map<string,number> = new Map<string,number>();
 
 /**
  * express Router für Bestellungen
@@ -17,9 +13,10 @@ export default class OrderRouter extends BaseRouter{
         this.router.get('/',this.get);
         this.router.get('/status/:status',this.getByStatus);
         this.router.get('/:id',this.getOneFull);
+        this.router.post('/submit',this.submitOrder);
         this.router.patch('/:id',this.setStatus);
         this.router.post('/',this.createOrder);
-        this.router.patch('/submit',this.submitOrder);
+        
     }
     /**
      * Gibt alle Bestellungen zurück
@@ -57,8 +54,15 @@ export default class OrderRouter extends BaseRouter{
             return;   
         }
 
+        let result = await OrderMapper.getAllOrdersByStatus(statusId);
+        if(result === undefined)
+        {
+            res.sendStatus(404);
+            return;
+        }
+
         res.json(
-            await OrderMapper.getAllOrdersByStatus(statusId)
+            result
         );
     }
 
@@ -76,8 +80,16 @@ export default class OrderRouter extends BaseRouter{
             return;   
         }
 
+        let result = await OrderMapper.getFullOrder(id);
+
+        if(result === undefined)
+        {
+            res.sendStatus(404);
+            return;
+        }
+
         res.json(
-            await OrderMapper.getFullOrder(id)
+            result
         );
     }
 
@@ -140,65 +152,26 @@ export default class OrderRouter extends BaseRouter{
             return;
         }
 
-        let address = await createAddress(req.body.address);
-
-        if(address == undefined)
+        let result = OrderMapper.addOrder(req.body.mail,req.body.address,req.body.articles);
+        if(result === undefined)
         {
-            res.sendStatus(500);
-            return;
-        }
-        
-        let order = await OrderMapper.createOrder(req.body.mail,address);
-        if(order == undefined)
-        {
-            res.sendStatus(500);
-            return;
+            res.sendStatus(400);
         }
 
-        let savedArticles = [];
-        let articles = req.body.articles;
-        for(let i = 0; i < articles.length; i++)
-        {
-            if(
-                (!articles[i].amount && Number.isInteger(articles[i].amount)) ||
-                (!articles[i].articleId && Number.isInteger(articles[i].articleId)) ||
-                (!articles[i].subarticleId && Number.isInteger(articles[i].subarticleId))
-            ){
-                continue;
-            }
-            let createdArticle = await addArticle(articles[i].amount,articles[i].articleId,articles[i].subarticleId,order);
-            savedArticles.push(createdArticle);
-        }
-
-
-        let user_key = Math.random().toString(36).substring(2,15)+Math.random().toString(36).substring(2,15);
-
-        customerOrderMap.set(user_key,order.id);
-
-        res.send({
-            mail: order.mail,
-            address: order.address,
-            articles: savedArticles,
-            user_key: user_key
-        });
+        res.send(result);
     }
 
     async submitOrder(req: Request, res: Response)
     {
+        console.log("submit Order");
+
         let user_key = req.body.user_key;
 
-        let order_id = customerOrderMap.get(user_key);
-        if(order_id === undefined)
+        
+        if(OrderMapper.submitOrder(user_key))
         {
             res.sendStatus(400);
             return;
-        }
-
-        if(await OrderMapper.setStatus(order_id,undefined,1))
-        {
-            res.sendStatus(200);
-        }else{
-            res.sendStatus(500);
         }
     }
 

@@ -4,6 +4,6 @@ CREATE TABLE orderDB.articleOrderMap(
     orderId BIGINT NOT NULL,
     amount INT NOT NULL,
     property varchar(250),
-    FOREIGN KEY (orderId) REFERENCES orderDB.order(Id),
+    FOREIGN KEY (orderId) REFERENCES orderDB.orders(Id),
     FOREIGN KEY (articleId) REFERENCES orderDB.article(Id)
 );

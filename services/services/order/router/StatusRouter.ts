@@ -19,6 +19,11 @@ export default class StatusRouter extends BaseRouter{
     async get(req: Request, res: Response)
     {
         let status = await StatusMapper.getAllStatus();
+        if(status === undefined)
+        {
+            res.sendStatus(500);
+            return;
+        }
         res.json(
             status
         );

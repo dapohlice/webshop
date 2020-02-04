@@ -1,0 +1,45 @@
+doctype html
+block header
+  head
+    meta(charset="utf-8")
+    meta(name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no")
+    meta(http-equiv="x-ua-compatible" content="ie=edge")
+    title #{title}
+
+    link(rel='stylesheet' href='css/style.css' type='text/css')
+    link(rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css' type='text/css' media='screen')
+    link(rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css' type='text/css' media='screen')
+
+  body.fixed-sn.light-blue-skin
+
+      block navbar
+        nav.navbar.navbar-expand-md.bg-dark.navbar-dark.fixed-top
+          a.navbar-brand.nav-link.active(
+            href=`/`
+            )
+              | Logo
+
+          form.form-inline.my-2.my-lg-0.ml-auto.mx-auto(action="/action_page.js")
+            input.form-control.mr-sm-2(type="text" placeholder="Search" aria-label="Search")
+            button.btn.btn-success(type="submit")
+              | Search
+
+          button.button.info(type='button')
+            | about
+
+          button.button.buttonround
+              i.fas.fa-user(style='font-size:24px')
+
+          button.button.buttonround
+            i.fas(style='font-size:24px')
+              | &#xf07a;
+
+      block content
+
+      block footer
+        footer.page-footer.font-small
+          div.footer-copyright.text-center.py-3
+            | © 2020 Webshop Team
+
+            block scripts
+              <script src='https://kit.fontawesome.com/a076d05399.js'></script>

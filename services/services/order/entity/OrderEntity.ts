@@ -15,7 +15,7 @@ import { ArticleOrderEntity } from "./ArticleOrderEntity";
 /**
  * Bestellungsdatensatz
  */
-@Entity("order")
+@Entity("orders")
 export class OrderEntity extends BaseEntity
 {   
     @PrimaryGeneratedColumn()
@@ -36,8 +36,8 @@ export class OrderEntity extends BaseEntity
     status: StatusEntity;
 
     @OneToMany(type => OrderLogEntity, log =>log.order)
-    logs: OrderLogEntity
+    logs: OrderLogEntity[]
 
     @OneToMany(type => ArticleOrderEntity, article =>article.order)
-    articles: OrderLogEntity
+    articles: ArticleOrderEntity[]
 }

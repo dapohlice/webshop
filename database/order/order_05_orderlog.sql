@@ -5,7 +5,7 @@ CREATE TABLE orderDB.orderlog(
     user varchar(250) NOT NULL,
     statusId TINYINT NOT NULL,
     info text,
-    FOREIGN KEY (orderId) REFERENCES orderDB.order(Id),
+    FOREIGN KEY (orderId) REFERENCES orderDB.orders(Id),
     FOREIGN KEY (statusId) REFERENCES orderDB.orderstatus(Id)
 );
 

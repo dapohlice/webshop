@@ -22,7 +22,7 @@ INSERT INTO orderDB.article(article_id,name,price) VALUES
  * Order
  */
 
-INSERT INTO orderDB.`order`(mail,addressId,statusId) VALUES
+INSERT INTO orderDB.orders(mail,addressId,statusId) VALUES
 	('hans.meiser@gmx.de',2,0),
 	('rick.sanchez@secret.net',1,6),
 	('jos1992',3,3),
@@ -31,12 +31,12 @@ INSERT INTO orderDB.`order`(mail,addressId,statusId) VALUES
 	('moreau5.1976',6,5);
 
 INSERT INTO orderDB.orderlog(orderId,statusId,user,info) VALUES
-	(1,1,"dummy","message"),
-	(1,2,"dummy","message"),
-	(1,3,"dummy","message"),
-	(1,4,"dummy","message"),
-	(1,5,"dummy","message"),
-	(1,6,"dummy","message"),
+	(2,1,"dummy","message"),
+	(2,2,"dummy","message"),
+	(2,3,"dummy","message"),
+	(2,4,"dummy","message"),
+	(2,5,"dummy","message"),
+	(2,6,"dummy","message"),
 	(3,1,"dummy","message"),
 	(3,2,"dummy","message"),
 	(3,3,"dummy","message"),

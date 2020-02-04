@@ -1,4 +1,4 @@
-CREATE TABLE orderDB.order(
+CREATE TABLE orderDB.orders(
     id BIGINT AUTO_INCREMENT PRIMARY KEY,
     mail varchar(1000) NOT NULL,
     addressId BIGINT NOT NULL,
@@ -11,7 +11,7 @@ CREATE TABLE orderDB.order(
 DELIMITER $$
 CREATE TRIGGER orderDB.orderInsertTrigger
     BEFORE INSERT
-    ON orderDB.order FOR EACH ROW
+    ON orderDB.orders FOR EACH ROW
 BEGIN
     SET NEW.timestamp = NOW();
 END $$
