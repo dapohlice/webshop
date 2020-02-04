@@ -64,6 +64,7 @@ function renderHTML(data) {
         htmlString += "<td>" + data[i].id + "</td>";
         htmlString += "<td>" + data[i].mail + "</td>";
         htmlString += "<td>" + data[i].timestamp + "</td>";
+        htmlString += "<td>" + "<button type=\"button\" data-tooltip=\"tooltip\" data-placement=\"bottom\" title=\"Edit this order\" data-toggle=\"modal\" data-target=\"#OrderDetailModal\">Edit</button></td>";
         htmlString += "</tr>";
         htmlString += "</tbody>";
     }
