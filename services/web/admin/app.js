@@ -52,16 +52,16 @@ app.get('/', (req, res) => {
     console.log(key, req.query.order[key])
   }
   switch(req.query.order) {
-    case 'open':
+    case 'ordered':
       res.render('order', {
         name : 'openOrder',
-        title: 'Open Order - Administration Dashboard',
+        title: 'Ordered - Administration Dashboard',
       });
       break;
-    case 'paid':
+    case 'payed':
       res.render('order', {
         name : 'paidOrder',
-        title: 'Paid Order - Administration Dashboard',
+        title: 'Payed Order - Administration Dashboard',
       });
       break;
     case 'packed':
@@ -70,10 +70,22 @@ app.get('/', (req, res) => {
         title: 'Packed Order - Administration Dashboard',
       });
       break;
-    case 'returns':
+    case 'finished':
       res.render('order', {
-        name : 'returnsOrder',
-        title: 'Returns Order - Administration Dashboard',
+        name : 'finishedOrder',
+        title: 'Finished Order - Administration Dashboard',
+      });
+      break;
+    case 'returned':
+      res.render('order', {
+        name : 'returnedOrder',
+        title: 'Returned Order - Administration Dashboard',
+      });
+      break;
+    case 'all':
+      res.render('order', {
+        name : 'allOrder',
+        title: 'All Order - Administration Dashboard',
       });
       break;
     default:

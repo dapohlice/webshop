@@ -13,25 +13,38 @@ function getUrlVars() {
 function setStatus() {
   getUrlVars();
   var currentPage = getUrlVars()["order"];
+  var url = '';
 
   switch(currentPage) {
-    case 'open':
-      currentStatus = 0;
-      break;
-    case 'paid':
+    case 'ordered':
       currentStatus = 1;
+      $(this).parents(".dropdown").find('.btn').val('Hello World');
       break;
-    case 'packed':
+    case 'payed':
       currentStatus = 2;
       break;
-    case 'returns':
+    case 'packed':
       currentStatus = 3;
+      break;
+    case 'finished':
+      currentStatus = 4;
+      break;
+    case 'returned':
+      currentStatus = 5;
+      break;
+    case 'all':
+      currentStatus = 0;
       break;
     default:
       currentStatus = 0;
   }
   $('#jsonobjekt').nextAll('div').remove();
-  var res = new XHR('GET','http://localhost:3001/order/status/' + currentStatus + '.json');
+  if(currentStatus == 0) {
+    url = 'http://localhost:3001/order'
+  } else {
+    url = 'http://localhost:3001/order/status/' + currentStatus + '.json'
+  }
+  var res = new XHR('GET', url);
 }
 
 function XHR(type, url) {

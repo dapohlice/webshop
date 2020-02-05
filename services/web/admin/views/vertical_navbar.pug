@@ -24,13 +24,13 @@ block vertical_navbar
     center
       h2.text-secondary Order
     a.nav-link(
-      class=(name === "openOrder" ? "active" : undefined)
-      href=`/?order=open`
+      class=(name === "orderedOrder" ? "active" : undefined)
+      href=`/?order=ordered`
     )
-      | Open
+      | Ordered
     a.nav-link(
-      class=(name === "paidOrder" ? "active" : undefined)
-      href=`/?order=paid`
+      class=(name === "payedOrder" ? "active" : undefined)
+      href=`/?order=payed`
     )
       | Paid
     a.nav-link(
@@ -39,10 +39,20 @@ block vertical_navbar
     )
       | Packed
     a.nav-link(
-      class=(name === "returnsOrder" ? "active" : undefined)
-      href=`/?order=returns`
+      class=(name === "finishedOrder" ? "active" : undefined)
+      href=`/?order=finished`
     )
-      | Returns
+      | Finished
+    a.nav-link(
+      class=(name === "returnedOrder" ? "active" : undefined)
+      href=`/?order=returned`
+    )
+      | Returned
+    a.nav-link(
+      class=(name === "allOrder" ? "active" : undefined)
+      href=`/?order=all`
+    )
+      | All
     hr.white
     a.nav-link(
       class=(name === "logout" ? "active" : undefined)

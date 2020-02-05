@@ -14,7 +14,7 @@ block content
         button.btn.btn-secondary.dropdown-toggle(
           type="button" 
           data-tooltip="tooltip" 
-          data-placement="bottom" 
+          data-placement="top" 
           title="Set status" 
           data-toggle="dropdown"
           onload="changeDropDownTitle()"
@@ -24,14 +24,14 @@ block content
         ul.dropdown-menu
           li
             a.dropdown-item(
-                href=`?order=open`  
+                href=`?order=ordered`  
             )
-              | Open
+              | Ordered
           li
             a.dropdown-item(
-                href=`?order=paid`              
+                href=`?order=payed`              
             )
-              | Paid
+              | Payed
           li
             a.dropdown-item(
                 href=`?order=packed`              
@@ -39,16 +39,26 @@ block content
               | Packed
           li
             a.dropdown-item(
-                href=`?order=returns`
+                href=`?order=finished`
             )
-              | Returns
+              | Finished
+          li
+            a.dropdown-item(
+                href=`?order=returned`
+            )
+              | Returned
+          li
+            a.dropdown-item(
+                href=`?order=all`
+            )
+              | All
         div.search-container
           form
             input(type="text" placeholder="Search.." name="search")
             button(type="submit" onclick=("orderSearch()"))
               i.fa.fa-search
 
-    include changeorder
+    include order_details
 
     div#jsonobjekt
       

@@ -1,7 +1,7 @@
-block changeorder
+block order_details
 
   div#OrderDetailModal.modal.fade
-    div.modal-dialog.modal-lg
+    div.modal-dialog.modal-xl
       div.modal-content
         //- Modal Header
         div.modal-header
@@ -10,6 +10,9 @@ block changeorder
           button.close(
             type="button"
             data-dismiss="modal"
+            data-tooltip="tooltip" 
+            data-placement="bottom" 
+            title="Close order details" 
           ) 
             | &times;
         //- Modal Body
@@ -37,24 +40,7 @@ block changeorder
                     table
                       thead
                         tr
-                          th Shipping adress                    
-                      tbody
-                        tr
-                          td Name:
-                        tr
-                          td Street:
-                        tr
-                          td Nr.:
-                        tr
-                          td City:
-                        tr
-                          td Post Code:
-                  hr
-                  div.col
-                    table
-                      thead
-                        tr
-                          th Billing adress                    
+                          th Shipping address                    
                       tbody
                         tr
                           td Name:
@@ -67,14 +53,14 @@ block changeorder
                         tr
                           td Post Code:
                 hr
-                h Edit status:
+                h Current status:
                 div.row
                   div.col
                     div.dropdown
                       button.btn.btn-secondary.dropdown-toggle(
                         type="button" 
                         data-tooltip="tooltip" 
-                        data-placement="bottom" 
+                        data-placement="top" 
                         title="Set a new status" 
                         data-toggle="dropdown"
                         )
@@ -84,15 +70,15 @@ block changeorder
                         li
                           a.dropdown-item(
                               href=`#`  
-                              data-value="open"
+                              data-value="ordered"
                           )
-                            | Open
+                            | Ordered
                         li
                           a.dropdown-item(
                               href=`#`         
-                              data-value="paid"     
+                              data-value="payed"     
                           )
-                            | Paid
+                            | Payed
                         li
                           a.dropdown-item(
                               href=`#`          
@@ -102,9 +88,21 @@ block changeorder
                         li
                           a.dropdown-item(
                               href=`#`
-                              data-value="returns"
+                              data-value="finished"
                           )
-                            | Returns
+                            | Finished
+                        li
+                          a.dropdown-item(
+                              href=`#`
+                              data-value="returned"
+                          )
+                            | Returned
+                        li
+                          a.dropdown-item(
+                              href=`#`
+                              data-value="all"
+                          )
+                            | All
                   div.col
                     button.btn.btn-secondary(
                       type="button"
@@ -129,5 +127,8 @@ block changeorder
           button.btn.btn-danger(
             type="button"
             data-dismiss="modal"
+            data-tooltip="tooltip" 
+            data-placement="bottom" 
+            title="Close order details" 
           )
             | Abort
