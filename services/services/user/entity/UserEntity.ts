@@ -3,7 +3,7 @@ import {GroupEntity} from "./GroupEntity"
 /**
  * Benutzerdatensatz
  */
-@Entity("user")
+@Entity("webuser")
 export class UserEntity extends BaseEntity
 {   
     @PrimaryGeneratedColumn()

@@ -1,6 +1,6 @@
-create table userDB.group(
+create table userDB.webgroup(
     id bigint AUTO_INCREMENT PRIMARY KEY,
-    name varchar(250) NOT NULL,
+    groupname varchar(250) NOT NULL,
     auth_user boolean NOT NULL DEFAULT FALSE,
     auth_product boolean NOT NULL DEFAULT FALSE,
     auth_group boolean NOT NULL DEFAULT FALSE,

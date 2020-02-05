@@ -3,14 +3,14 @@ import {UserEntity} from "./UserEntity"
 /**
  * Gruppendatensatz
  */
-@Entity("group")
+@Entity("webgroup")
 export class GroupEntity extends BaseEntity
 {   
     @PrimaryGeneratedColumn()
     id: number;
 
     @Column("varchar")
-    name: string;
+    groupname: string;
 
     @Column("boolean")
     auth_user: boolean;

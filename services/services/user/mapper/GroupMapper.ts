@@ -25,7 +25,7 @@ export async function getAllGroups()
         .createQueryBuilder("group")
         .select([
             "group.id",
-            "group.name"
+            "group.groupname"
         ])
         .getMany());
     if(err !== null)
@@ -63,7 +63,7 @@ export async function createGroup(
         return undefined;
 
     let group = new GroupEntity();
-    group.name = name;
+    group.groupname = name;
     
     let result,err;
     [result,err] = await resolve(group.save());

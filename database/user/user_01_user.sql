@@ -1,4 +1,4 @@
-create table userDB.user(
+create table userDB.webuser(
     id bigint AUTO_INCREMENT PRIMARY KEY,
     firstname varchar(250) NOT NULL,
     lastname varchar(250) NOT NULL,
@@ -10,7 +10,7 @@ create table userDB.user(
 DELIMITER $$
 CREATE TRIGGER userDB.user_input_trigger 
 BEFORE INSERT
-   ON userDB.user FOR EACH ROW
+   ON userDB.webuser FOR EACH ROW
 BEGIN
 	if CHAR_LENGTH(NEW.firstname ) < 3 OR CHAR_LENGTH(NEW.lastname) < 3
     then
@@ -23,7 +23,7 @@ BEGIN
 	WHILE(@cname > 0) DO
 		SET @lname = CONCAT(SUBSTRING(NEW.firstname,1,@flength),".",SUBSTRING(NEW.lastname,1,20-@flength));
 
-		SELECT count(id) FROM userDB.user WHERE loginname = @lname INTO @cname;
+		SELECT count(id) FROM userDB.webuser WHERE loginname = @lname INTO @cname;
 		SET @flength = @flength+1;
 	END WHILE;
 
