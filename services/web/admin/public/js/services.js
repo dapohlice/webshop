@@ -1,8 +1,9 @@
 var currentStatus = 0;
 var orderContainer = document.getElementById('jsonobjekt');
 var btn = document.getElementById("btn");
-var currentUrl = getUrlVars();
+var statusString = '';
 
+// getUrlVars() zum Abruf der Parameter
 function getUrlVars() {
     var vars = {};
     var parts = window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, function(m,key,value) {
@@ -10,16 +11,15 @@ function getUrlVars() {
     });
     return vars;
 }
+var currentUrl = getUrlVars();
+var currentOrder = getUrlVars()["order"];
 
 function getOrders() {
-  // getUrlVars()
-  var currentPage = getUrlVars()["order"];
   var url = '';
 
-  switch(currentPage) {
+  switch(currentOrder) {
     case 'ordered':
       currentStatus = 1;
-      $(this).parents(".dropdown").find('.btn').val('Hello World');
       break;
     case 'payed':
       currentStatus = 2;
@@ -29,9 +29,11 @@ function getOrders() {
       break;
     case 'finished':
       currentStatus = 4;
+      statusString = "finished";
       break;
     case 'returned':
-      currentStatus = 5;
+      currentStatus = 6;
+      statusString = "returned";
       break;
     case 'all':
       currentStatus = 0;
@@ -40,12 +42,16 @@ function getOrders() {
       currentStatus = 99;
   }
   $('#jsonobjekt').nextAll('div').remove();
+
   if(currentStatus == 0 || currentStatus == 99) {
-    url = 'http://localhost:3001/order'
+    url = 'http://localhost:3001/order';
+  } else if (statusString != '' && (currentStatus == 4 || currentStatus == 6)) {
+    url = 'http://localhost:3001/order/status/' + statusString;
   } else {
-    url = 'http://localhost:3001/order/status/' + currentStatus + '.json'
+    url = 'http://localhost:3001/order/status/' + currentStatus + '.json';
   }
   var res = new XHR('GET', url);
+
 
   console.log("UrlParams: ");
   console.log(currentUrl);
@@ -62,7 +68,10 @@ function XHR(type, url) {
   promise.done(function (data) {
     console.log(data);
     console.log('Sucessfull data check');
-    renderHTML(data);
+    if (JSON.stringify(data) !== JSON.stringify([])) {
+      console.log("Objekt leer");
+      renderHTML(data);
+    }
 
   });
   promise.fail(function () {
@@ -79,23 +88,52 @@ function renderHTML(data) {
     htmlString += "<th>status</th>";
   }
   htmlString += "</tr></thead>";
-
-    for(let i = 0; i < data.length; i++) {
-        htmlString += "<tbody>";
-        htmlString += "<tr>";
-        htmlString += "<td>" + data[i].id + "</td>";
-        htmlString += "<td>" + data[i].mail + "</td>";
-        htmlString += "<td>" + data[i].timestamp + "</td>";
-        if (currentStatus == 0 || currentStatus == 99) {
-          htmlString += "<td>" + data[i].status + "</td>";
-        }
-        if (currentStatus != 99) {
-          htmlString += "<td>" + "<button type=\"button\" data-tooltip=\"tooltip\" data-placement=\"bottom\" title=\"Edit this order\" data-toggle=\"modal\" data-target=\"#OrderDetailModal\">Edit</button></td>";
-        }
-        htmlString += "</tr>";
-        htmlString += "</tbody>";
+  htmlString += "<tbody>";
+  for(let i = 0; i < data.length; i++) {
+    htmlString += "<tr>";
+    htmlString += "<td>" + data[i].id + "</td>";
+    htmlString += "<td>" + data[i].mail + "</td>";
+    htmlString += "<td>" + data[i].timestamp + "</td>";
+    if (currentStatus == 0 || currentStatus == 99) {
+      switch(data[i].status) {
+        case 1:
+          htmlString += "<td>ordered</td>";
+          break;
+        case 2:
+          htmlString += "<td>payed</td>";
+          break;
+        case 3:
+          htmlString += "<td>packed</td>";
+          break;
+        case 4:
+          htmlString += "<td>finished</td>";
+          break;
+        case 5:
+          htmlString += "<td>canceled</td>";
+          break;
+        case 6:
+          htmlString += "<td>returned</td>";
+          break;
+        case 7:
+          htmlString += "<td>return checked</td>";
+          break;
+        case 8:
+          htmlString += "<td>return failed</td>";
+          break;
+        case 9:
+          htmlString += "<td>payed back</td>";
+          break;
+        default:
+          htmlString += "<td>no status set</td>";
+      }
     }
-    htmlString += "</table>"
+    if (currentStatus != 99) {
+      htmlString += "<td>" + "<button type=\"button\" data-tooltip=\"tooltip\" data-placement=\"bottom\" title=\"Edit this order\" data-toggle=\"modal\" data-target=\"#OrderDetailModal\">Edit</button></td>";
+    }
+    htmlString += "</tr>";
+  }
+  htmlString += "</tbody>";
+  htmlString += "</table>"
 
   orderContainer.insertAdjacentHTML('beforeend', htmlString);
   console.log(currentUrl);
