@@ -17,6 +17,7 @@ export async function login(loginname:string, password:string)
         .select("user.pword")
         .addSelect("user.id")
         .addSelect("user.loginname")
+        .addSelect("user.status")
         .where("user.loginname = :name",{name: loginname});
 
     [user,err] = await resolve(builder.getOne());
@@ -24,6 +25,10 @@ export async function login(loginname:string, password:string)
         return [401,null];
     if(err !== null)
         return [500,null];
+
+    if(user.status === false)
+        return [401,null];
+
 
     let result = await Password.comparePassword(password,user.pword);    
     if(!result)
@@ -33,15 +38,21 @@ export async function login(loginname:string, password:string)
 
     let privateKey = fs.readFileSync(dir);   
 
-    let auth = getUserPermission(user.id)
-
+    let auth = await getUserPermission(user.id)
+    let data = {
+        name: user.loginname, auth: auth
+    }
+    let options = {
+        algorithm: 'RS256',
+        expiresIn: "1h"
+    }
 
     try{
-        let token = sign({ name: user.loginname, auth: auth }, privateKey, { algorithm: 'RS256'});   
+        let token = sign(data,privateKey,options);
         return [200,token];
     }catch(error)
     {
-        console.log(error);
+        console.error(error);
         return [500,null]; 
     }
     

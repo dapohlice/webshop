@@ -10,7 +10,12 @@ import resolve from '../resolver';
  */
 export default class UserRouter extends BaseRouter{
 
+    constructor(){
+        super(true);
+    }
+
     initialiseRouter(){
+        this.router.use(this.checkPermission);
         this.router.get('/',this.get);
         this.router.post('/',this.createUser);
         this.router.get('/:id',this.getOne);
@@ -20,6 +25,19 @@ export default class UserRouter extends BaseRouter{
         this.router.get('/:id/permission',this.getPermission)
         
     }
+
+    checkPermission(req,res,next)
+    {
+        console.log("check Permission")
+        if(
+            req.jwt !== undefined &&
+            req.jwt.auth.auth_user === true
+        )
+            next();
+        else
+            res.sendStatus(403);
+    }
+
     /**
      * Gibt alle Bestellungen zurück
      * @param req 

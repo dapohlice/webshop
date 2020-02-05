@@ -10,6 +10,11 @@ import resolve from '../resolver';
  */
 export default class GroupRouter extends BaseRouter{
 
+    constructor()
+    {
+        super(true);
+    }
+
     initialiseRouter(){
         this.router.get('/',this.get);
         this.router.post('/',this.create);
@@ -17,7 +22,16 @@ export default class GroupRouter extends BaseRouter{
         this.router.delete('/:id',this.delete);
         this.router.patch('/:id/add',this.addUser);
         this.router.patch('/:id/remove',this.removeUser);
+        this.router.use(this.checkPermission)
     }
+
+    checkPermission(req,res,next)
+    {
+        if(this.getJwt().auth.auth_user === true)
+            next();
+        res.sendStatus(403);
+    }
+
     /**
      * Gibt alle Bestellungen zurück
      * @param req 

@@ -4,7 +4,8 @@ import * as GroupMapper from "../mapper/GroupMapper";
 import {BaseRouter} from "./BaseRouter";
 import * as Login from "../mapper/LoginMapper";
 import resolve from '../resolver';
-import {verify} from "../jwt/verify"
+import {verifyJWT} from "../jwt/verify"
+import { hashPassword } from "../mapper/Password";
 
 
 /**
@@ -32,12 +33,13 @@ export default class GroupRouter extends BaseRouter{
         [status,result] = await Login.login(loginname,password);
         if(result !== null)
             res.send(result);
-        res.sendStatus(status);
+        else
+            res.sendStatus(status);
     }
 
     async logout(req: Request, res: Response)
     {
-        res.send(verify(req.body.token));
+        res.send(await hashPassword(req.body.pw))
     }
 }
 
