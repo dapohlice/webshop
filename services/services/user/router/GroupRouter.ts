@@ -129,6 +129,17 @@ export default class GroupRouter extends BaseRouter{
         }else{
             res.sendStatus(400);
         }
+    }
+
+    async change(req: Request, res: Response)
+    {
+        let groupId = parseInt(req.params.id);
+        if(!Number.isInteger(groupId))
+        {
+            res.sendStatus(400);
+            return;   
+        }
+        
 
     }
 

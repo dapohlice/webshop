@@ -1,5 +1,6 @@
 import {getRepository} from "typeorm";
 import {UserEntity} from '../entity/UserEntity' 
+import {IPermission} from './GroupMapper' 
 import * as Password from "./Password";
 import resolve from '../resolver';
 
@@ -10,14 +11,17 @@ import resolve from '../resolver';
 export async function getAllUsers()
 {
     const userRep = getRepository(UserEntity)
-    let users = await userRep
+    let users,err;
+    [users,err] = await resolve(userRep
         .createQueryBuilder("user")
         .select([
             "user.id",
             "user.firstname",
             "user.lastname"
             ])
-        .getMany();
+        .getMany());
+    if(err !== null)
+        return undefined;
     return users;
 }
 
@@ -31,11 +35,14 @@ export async function getOneUser(userId: number)
     if(isNaN(userId) || userId === undefined)
         return undefined;
     const userRep = getRepository(UserEntity)
-    let users = await userRep
+    let builder = userRep
         .createQueryBuilder("user")
         .leftJoinAndSelect("user.groups", "group")
         .where("user.id = :id",{id: userId})
-        .getOne();
+    let users,err
+    [users,err] = await resolve(builder.getOne());
+    if(err !== null)
+        return undefined;
     return users;
 }
 
@@ -87,8 +94,9 @@ export async function changeUser(
 )
 { 
 
-    let user = await UserEntity.findOne({id: userId});
-    if(user === undefined)
+    let user,err;
+    [user,err] = await resolve(UserEntity.findOne({id: userId}));
+    if(user === undefined || err !== null)
         return undefined;
     
     if(mail != undefined)
@@ -100,12 +108,11 @@ export async function changeUser(
     if(lastname != undefined)
         user.lastname = lastname;
     
-    let result,err;
-    [result,err] = await resolve(user.save());
+    [user,err] = await resolve(user.save());
     if(err != null)
         return undefined;
     
-    return result;
+    return user;
 }
 
 /**
@@ -122,14 +129,17 @@ export async function changePassword(
 ): Promise<number>
 {
     const userRep = getRepository(UserEntity)
-    let user = await userRep
+    let builder = userRep
         .createQueryBuilder("user")
         .addSelect("user.pword")
-        .where("user.id = :id",{id: userId})
-        .getOne();
-    console.log(user);
+        .where("user.id = :id",{id: userId});
+    let user,err;
+    [user,err] = await resolve(builder.getOne());
 
-    if(user === undefined)
+    if(err !== null)
+        return 500;
+
+    if(user === undefined )
         return 404;
     
     if(!await Password.comparePassword(oldPassword,user.pword))
@@ -141,8 +151,7 @@ export async function changePassword(
     let password = await Password.hashPassword(newPassword);
     user.pword = password;
 
-    let result,err;
-    [result,err] = await resolve(user.save());
+    [user,err] = await resolve(user.save());
     if(err != null)
         return 500;
     return 200;
@@ -155,19 +164,17 @@ export async function changePassword(
  */
 export async function changeStatus(userId: number, status: boolean)
 {
-    let user = await UserEntity.findOne({id: userId});
-    console.log(user);
+    let user,err;
+    [user,err] = await resolve(UserEntity.findOne({id: userId}));
     
-    if(user === undefined)
+    if(user === undefined || err !== null)
         return undefined;
     
     user.status = status;
     
-    let result,err;
-    [result,err] = await resolve(user.save());
-    console.log(err);
+    [user,err] = await resolve(user.save());
     
-    if(err != null)
+    if(user === undefined || err !== null)
         return false;
     return true;
 }
@@ -175,11 +182,13 @@ export async function changeStatus(userId: number, status: boolean)
 export async function getUserPermission(userId: number)
 {
     const userRep = getRepository(UserEntity)
-    let user = await userRep
+    let user,err;
+    let builder = userRep
         .createQueryBuilder("user")
         .leftJoinAndSelect("user.groups", "group")
-        .where("user.id = :id",{id: userId})
-        .getOne();
+        .where("user.id = :id",{id: userId});
+    [user,err] = await resolve(builder.getOne());
+
     let result = {
         auth_user: false,
         auth_product: false,
