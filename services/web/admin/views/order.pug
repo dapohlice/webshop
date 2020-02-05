@@ -1,7 +1,8 @@
 extends layout
 
 block body  
-  body(onload="getOrders()")
+  body(onload="getOrders(), loadOrderVal()")
+  //- , setStatusOnButton()
 
 block nav
   - var cur = "order"
@@ -11,13 +12,12 @@ block content
     h2.text-center #{title}
     div.nav.navbar.search-bar
       div.dropdown
-        button.btn.btn-secondary.dropdown-toggle(
+        button#statusbtn.btn.btn-secondary.dropdown-toggle(
           type="button" 
           data-tooltip="tooltip" 
           data-placement="top" 
           title="Set status" 
           data-toggle="dropdown"
-          onload="changeDropDownTitle()"
           )
           | Status
           span.caret

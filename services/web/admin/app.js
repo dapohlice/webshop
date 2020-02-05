@@ -54,13 +54,13 @@ app.get('/', (req, res) => {
   switch(req.query.order) {
     case 'ordered':
       res.render('order', {
-        name : 'openOrder',
+        name : 'orderedOrder',
         title: 'Ordered - Administration Dashboard',
       });
       break;
     case 'payed':
       res.render('order', {
-        name : 'paidOrder',
+        name : 'payedOrder',
         title: 'Payed Order - Administration Dashboard',
       });
       break;
