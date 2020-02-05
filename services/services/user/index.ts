@@ -3,6 +3,7 @@ import {createConnection} from "typeorm";
 import * as express from 'express';
 import UserRouter from "./router/UserRouter";
 import GroupRouter from "./router/GroupRouter";
+import LoginRouter from "./router/LoginRouter";
 
 const port = process.env.PORT;
 const stage = process.env.NODE_ENV;
@@ -38,6 +39,7 @@ createConnection().then(async connection => {
 
     app.use('/user', new UserRouter().getRouter())
     app.use('/group', new GroupRouter().getRouter())
+    app.use('/', new LoginRouter().getRouter())
 
     // start app
     app.listen(port, () => console.log(`User Service (${stage}) Listen On ${port}`))
