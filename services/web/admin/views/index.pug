@@ -1,5 +1,8 @@
 extends layout
 
+block body  
+  body(onload="getOrders()")
+
 block nav
   - var cur = "index"
   
@@ -9,35 +12,6 @@ block content
       | Welcome Employee
     p
       | List of open orders
-    table.table.table-striped
-      thead
-        tr
-          th
-            | Item number
-          th
-            | Custom number
-          th
-            | Order date
-      tbody
-        tr
-          td
-            | #{order+2}
-          td
-            | #{order+1000002}
-          td
-            | #{date}           
-        tr
-          td
-            | #{order+1}
-          td
-            | #{order+1000001}
-          td
-            | #{date}        
-        tr
-          td
-            | #{order-1}
-          td
-            | #{order+1000000}
-          td
-            | #{date}             
+    
+    div#jsonobjekt
               

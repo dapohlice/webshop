@@ -1,6 +1,7 @@
 var currentStatus = 0;
 var orderContainer = document.getElementById('jsonobjekt');
 var btn = document.getElementById("btn");
+var currentUrl = getUrlVars();
 
 function getUrlVars() {
     var vars = {};
@@ -10,8 +11,8 @@ function getUrlVars() {
     return vars;
 }
 
-function setStatus() {
-  getUrlVars();
+function getOrders() {
+  // getUrlVars()
   var currentPage = getUrlVars()["order"];
   var url = '';
 
@@ -36,15 +37,19 @@ function setStatus() {
       currentStatus = 0;
       break;
     default:
-      currentStatus = 0;
+      currentStatus = 99;
   }
   $('#jsonobjekt').nextAll('div').remove();
-  if(currentStatus == 0) {
+  if(currentStatus == 0 || currentStatus == 99) {
     url = 'http://localhost:3001/order'
   } else {
     url = 'http://localhost:3001/order/status/' + currentStatus + '.json'
   }
   var res = new XHR('GET', url);
+
+  console.log("UrlParams: ");
+  console.log(currentUrl);
+
 }
 
 function XHR(type, url) {
@@ -69,7 +74,11 @@ function XHR(type, url) {
 
 function renderHTML(data) {
   var htmlString = "<table class=\"table table-striped\">";
-  htmlString += "<thead><tr><th>ID</th><th>mail</th><th>timestamp</th></tr></thead>";
+  htmlString += "<thead><tr><th>ID</th><th>mail</th><th>timestamp</th>";
+  if (currentStatus == 0 || currentStatus == 99) {
+    htmlString += "<th>status</th>";
+  }
+  htmlString += "</tr></thead>";
 
     for(let i = 0; i < data.length; i++) {
         htmlString += "<tbody>";
@@ -77,14 +86,19 @@ function renderHTML(data) {
         htmlString += "<td>" + data[i].id + "</td>";
         htmlString += "<td>" + data[i].mail + "</td>";
         htmlString += "<td>" + data[i].timestamp + "</td>";
-        htmlString += "<td>" + "<button type=\"button\" data-tooltip=\"tooltip\" data-placement=\"bottom\" title=\"Edit this order\" data-toggle=\"modal\" data-target=\"#OrderDetailModal\">Edit</button></td>";
+        if (currentStatus == 0 || currentStatus == 99) {
+          htmlString += "<td>" + data[i].status + "</td>";
+        }
+        if (currentStatus != 99) {
+          htmlString += "<td>" + "<button type=\"button\" data-tooltip=\"tooltip\" data-placement=\"bottom\" title=\"Edit this order\" data-toggle=\"modal\" data-target=\"#OrderDetailModal\">Edit</button></td>";
+        }
         htmlString += "</tr>";
         htmlString += "</tbody>";
     }
     htmlString += "</table>"
 
   orderContainer.insertAdjacentHTML('beforeend', htmlString);
-
+  console.log(currentUrl);
 }
 
 //********* NOCH IN ARBEIT *********
