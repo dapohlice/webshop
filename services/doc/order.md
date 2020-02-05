@@ -2,16 +2,32 @@
 
 ## GET /status
 gibt alle Statuse zurück
-
 ### Rückgabe
+
 ```json
 [
     {
         "id": 0,
         "name": "Created",
+        "next": 1 | null
     },
 ]
 ```
+- **next** gibt den nächsten Status zurück oder null, wenn es diesen nicht gibt
+
+- das sind: (siehe datbase/order/order_03_orderstatus.sql)
+  - 0 'Created' (nur für den Kunden)
+  - 1 'Ordered'           (open)
+  - 2 'Payed'             (open)
+  - 3 'Packed'            (open)
+  - 4 'Shiped'            (finished)
+  - 5 'Canceled'          (finished)
+  - 6 'Returned'          (returned)
+  - 7 'Return Checked'    (returned)
+  - 8 'Return Failed'     (returned)
+  - 9 'Payed Back'        (finished)
+
+
 
 ## GET /order
 gibt alle Bestellungen mit Status zurück
@@ -37,7 +53,7 @@ gibt eine Bestellung zurück
 {
     "id": "1",
     "mail": "hans.meiser@gmx.de",
-    "status": "Packed",
+    "status": 1,
     "address": {
         "id": "2",
         "firstname": "Hans",
@@ -53,7 +69,7 @@ gibt eine Bestellung zurück
         {
             "user": "dummy",
             "info": null,
-            "status": "Ordered",
+            "status": 1,
             "timestamp": "2020-01-29T10:30:00.000Z"
         }
     ],
@@ -82,7 +98,8 @@ Body:
 ```json
     {
         "info": "string",   //Zusatzinformation(kann null/leer/nicht vorhanden sein)
-        ("status": 0)         //Status auf den die Bestellung gesetzt werden soll
+        "status": 0         //kann gesetzt werden, ansonsten wird der nächste Status ausgewählt
+                            //Status auf den die Bestellung gesetzt werden soll
     }
 ```
 wenn der **status** nicht angegeben ist, dann wird der nächste ausgewählt
@@ -97,6 +114,9 @@ wenn der **status** nicht angegeben ist, dann wird der nächste ausgewählt
 ## GET /order/status/:id
 - **id**: Status-Id
 Gibt alle Bestellungen eines Status zurück
+- für **id** können auch folgende Eingaben verwendet werden:
+  - **returned**: liefert 6 (Returned), 7 (Return Checked), 8 (Return Failed)
+  - **finished**: liefert 4 (Shiped), 5 (Canceled), 9 (Payed Back)
 
 ### Rückgabe
 ```json

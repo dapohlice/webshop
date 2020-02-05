@@ -2,7 +2,7 @@ FROM node:12.14
 
 WORKDIR /home/node
 
-COPY package.json ./package.json
+COPY ./* ./
 
 RUN npm install
 

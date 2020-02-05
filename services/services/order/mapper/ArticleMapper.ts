@@ -3,6 +3,11 @@ import {ArticleEntity} from '../entity/ArticleEntity'
 import { OrderEntity } from "../entity/OrderEntity";
 import { ArticleOrderEntity } from "../entity/ArticleOrderEntity";
 
+/**
+ * Erstellt einen neuen Artikel
+ * @param article Artikel
+ * @returns Erstellten Artikel | undefined
+ */
 export async function createArticle(article)
 {
     if(article === undefined)
@@ -20,6 +25,11 @@ export async function createArticle(article)
     return entity.save();    
 }
 
+/**
+ * Ruft einen Produktdatensatz von dem enstrechenden Service ab
+ * @param articleId Artikel Id
+ * @returns Produktdatensatz | undefined 
+ */
 async function getProduct(articleId: number)
 {
     return {
@@ -30,6 +40,12 @@ async function getProduct(articleId: number)
     }
 }
 
+/**
+ * Ruft einen Unterartikeldatensatz von dem entrechenden Service ab
+ * @param subarticleId Unterartikeldatensatz
+ * @param amount Anzahl des gekauften Unterartikels
+ * @returns Unterdatensatz mit der Reservierten Anzahl | undefined
+ */
 async function getSubarticle(subarticleId: number, amount: number)
 {
     return {
@@ -39,8 +55,16 @@ async function getSubarticle(subarticleId: number, amount: number)
     }
 }
 
+/**
+ * Gibt einen Artikeldatensatz zurück
+ *  sollte dieser nicht vorhanden sein, so wird dieser von dem entsprechenden Service abgerufen
+ * @param articleId Artikel-Id
+ * @returns Artikeldatensatz | undefined
+ */
 async function getArticle(articleId: number):Promise<ArticleEntity>
 {
+    if(isNaN(articleId) || articleId === undefined)
+        throw new Error(`${articleId} ist not a number`);
     let o_product = await getProduct(articleId)
     let article = await getRepository(ArticleEntity)
                     .createQueryBuilder("article")
@@ -48,7 +72,7 @@ async function getArticle(articleId: number):Promise<ArticleEntity>
                     .orderBy("article.timestamp")
                     .take(1)
                     .getOne();
-    console.log(article)
+    
     
     if(o_product === undefined)
         return undefined;
@@ -77,7 +101,7 @@ export async function addArticle(article, order: OrderEntity)
     let articleId = parseInt(article.articleId);
     let subarticleId = parseInt(article.subarticleId);
     
-    if(amount === NaN || articleId === NaN || subarticleId === NaN)
+    if(isNaN(amount) || isNaN(articleId) || isNaN(subarticleId))
         return undefined;
     
 

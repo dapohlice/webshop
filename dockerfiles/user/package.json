@@ -5,9 +5,19 @@
   "main": "src/index.js",
   "author": "",
   "license": "ISC",
+  "devDependencies": {
+    "ts-node": "3.3.0",
+    "@types/node": "^8.0.29",
+    "typescript": "3.3.3333",
+    "nodemon": "^2.0.2"
+  },
   "dependencies": {
-    "nodemon": "^2.0.2",
-    "express": "^4.17.1"
+    "express": "^4.17.1",
+    "mysql": "^2.14.1",
+    "reflect-metadata": "^0.1.10",
+    "typeorm": "0.2.22",
+    "bcrypt": "^3.0.7",
+    "jsonwebtoken": "^8.5.1"
   },
   "scripts": {
     "start": "nodemon",
@@ -20,7 +30,7 @@
           "node_modules"
        ],
     "watch": ["src"],
-    "exec": "node src/index.js",
-    "ext": "js"
+    "exec": "ts-node src/index.ts",
+    "ext": "ts"
  }
 }

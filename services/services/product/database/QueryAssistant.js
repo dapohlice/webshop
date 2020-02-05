@@ -18,7 +18,7 @@ const DBOps = {};
     /*Selektiere Kategorie durch ID ->  ID ist die erzeugte ID der MongoDB*/
     getCategoryByID: async function(id){
       try {
-        return await Models.CategoryModel.findById({_id: id}).exec();
+        return await Models.CategoryModel.findById({id}).exec();
       } catch (err) {
         throw err;
       }
@@ -89,13 +89,13 @@ const DBOps = {};
           throw err;
         }
       },
-      /*Finde Produkt über seine ID -> ID ist Produktid*/
-      getProductsBy: async function(id){
-        try {
-          return Models.ProductModel.find({productid: id});
-        } catch (err) {
-          throw err;
-        }
+    /*Finde Produkt über seine ID -> ID ist Produktid*/
+    getProductsByID: async function(id){
+      try {
+        return Models.ProductModel.find({productid: id});
+      } catch (err) {
+        throw err;
       }
+    }
   }
 module.exports = DBOps;

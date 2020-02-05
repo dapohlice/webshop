@@ -10,36 +10,77 @@ block header
     link(rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css' type='text/css' media='screen')
     link(rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css' type='text/css' media='screen')
 
-  body.fixed-sn.light-blue-skin
+//  body.fixed-sn.light-blue-skin
 
-      block navbar
-        nav.navbar.navbar-expand-md.bg-dark.navbar-dark.fixed-top
-          a.navbar-brand.nav-link.active(
-            href=`/`
-            )
-              | Logo
+block body
+  body
 
-          form.form-inline.my-2.my-lg-0.ml-auto.mx-auto(action="/action_page.js")
-            input.form-control.mr-sm-2(type="text" placeholder="Search" aria-label="Search")
-            button.btn.btn-success(type="submit")
-              | Search
+    block navbar
+      nav.navbar.navbar-expand-md.bg-dark.navbar-dark.fixed-top
+        a.navbar-brand.nav-link.active(href=`/`)
+            | Logo
 
-          button.button.info(type='button')
-            | about
+        form.form-inline.my-2.my-lg-0.ml-auto.mx-auto(action="/action_page.js")
+          input.form-control.mr-sm-2(type="text" placeholder="Search" aria-label="Search")
+          button.btn.btn-success(type="submit")
+            | Search
 
-          button.button.buttonround
-              i.fas.fa-user(style='font-size:24px')
+        button.button.info(type='button')
+          | about
 
-          button.button.buttonround
-            i.fas(style='font-size:24px')
-              | &#xf07a;
+        button.button.buttonround
+          i.fas.fa-user(style='font-size:24px')
 
-      block content
+        button.button.buttonround
+          i.fas(style='font-size:24px')
+            | &#xf07a;
 
-      block footer
-        footer.page-footer.font-small
-          div.footer-copyright.text-center.py-3
-            | © 2020 Webshop Team
+    block content
 
-            block scripts
-              <script src='https://kit.fontawesome.com/a076d05399.js'></script>
+    block footer
+      div.footer.container-fluid
+        div.row
+          div.column(style="background-color:#aaa;")
+            h2(style="text-align:center")
+              | description of the shop
+            p
+              | Some text..
+
+          div.column(style="background-color:#bbb;")
+            h2(style="text-align:center")
+              | legal pages
+
+            div.container.ul
+              li
+                a(href=`/`)
+                  | imprint
+              li
+                a(href=`/`)
+                  | data protection
+              li
+                a(href=`/`)
+                  | conditions
+              li
+                a(href=`/`)
+                  | notice of cancellation
+
+          div.column(style="background-color:#ccc;")
+            h2(style="text-align:center")
+              | sitemap
+
+            div.container-fluid.ul
+              li
+                a(href=`/`)
+                  | startsite
+              li
+                a(href=`/`)
+                  | contact
+              li
+                a(href=`/`)
+                  | about
+              li
+                a(href=`/`)
+                  | approach
+
+  block scripts
+    script(src='https://kit.fontawesome.com/a076d05399.js')

@@ -1,7 +1,8 @@
-import {Router,Request,Response} from "express";
+import {Request,Response} from "express";
 
 import * as OrderMapper from "../mapper/OrderMapper";
 import {BaseRouter} from "./BaseRouter";
+import resolve from '../resolver';
 
 
 /**
@@ -11,6 +12,8 @@ export default class OrderRouter extends BaseRouter{
 
     initialiseRouter(){
         this.router.get('/',this.get);
+        this.router.get('/status/finished',this.getByFinishStatus);
+        this.router.get('/status/returned',this.getByReturnStatus);
         this.router.get('/status/:status',this.getByStatus);
         this.router.get('/:id',this.getOneFull);
         this.router.post('/submit',this.submitOrder);
@@ -25,18 +28,16 @@ export default class OrderRouter extends BaseRouter{
      */
     async get(req: Request, res: Response)
     {
-        let orders = await OrderMapper.getAllOrders()
-        let result = [];
-        orders.forEach(order => {
-            result.push({
-                id: order.id,
-                mail: order.mail,
-                timestamp: order.timestamp,
-                status: order.status.id
-            });
-        });
+        let orders,err;
+        [orders,err] = await resolve(OrderMapper.getAllOrders());
+        if(err !== null || orders === undefined)
+        {
+            res.sendStatus(500);
+            return;            
+        }
+
         res.json(
-           result
+            orders
         );
     }
 
@@ -54,7 +55,13 @@ export default class OrderRouter extends BaseRouter{
             return;   
         }
 
-        let result = await OrderMapper.getAllOrdersByStatus(statusId);
+        let result,err;
+        [result,err] = await resolve(OrderMapper.getAllOrdersByStatus(statusId));
+        if(err !== null)
+        {
+            res.sendStatus(500);
+            return;            
+        }
         if(result === undefined)
         {
             res.sendStatus(404);
@@ -67,7 +74,57 @@ export default class OrderRouter extends BaseRouter{
     }
 
     /**
-     * Gibt einen kompletten Status zurück
+     * Gibt alle Bestellungen die Zurückgeben wurden
+     * @param req 
+     * @param res 
+     */
+    async getByReturnStatus(req: Request, res: Response)
+    {
+        let result,err;
+        [result,err] = await resolve(OrderMapper.getAllOrdersByMultiplyStatus([6,7,8]));
+        if(err !== null)
+        {
+            res.sendStatus(500);
+            return;            
+        }
+        if(result === undefined)
+        {
+            res.sendStatus(404);
+            return;
+        }
+
+        res.json(
+            result
+        );
+    }
+
+    /**
+     * Gibt alle Bestellungen die Fertig sind zurück
+     * @param req 
+     * @param res 
+     */
+    async getByFinishStatus(req: Request, res: Response)
+    {
+        let result,err;
+        [result,err] = await resolve(OrderMapper.getAllOrdersByMultiplyStatus([4,5,9]));
+        if(err !== null)
+        {
+            res.sendStatus(500);
+            return;            
+        }
+        if(result === undefined)
+        {
+            res.sendStatus(404);
+            return;
+        }
+
+        res.json(
+            result
+        );
+    }
+
+    /**
+     * Gibt eine komplette Bestellung zurück
      * @param req 
      * @param res 
      */
@@ -80,7 +137,13 @@ export default class OrderRouter extends BaseRouter{
             return;   
         }
 
-        let result = await OrderMapper.getFullOrder(id);
+        let result,err;
+        [result,err] = await resolve(OrderMapper.getFullOrder(id));
+        if(err !== null)
+        {
+            res.sendStatus(500);
+            return;            
+        }
 
         if(result === undefined)
         {
@@ -109,30 +172,28 @@ export default class OrderRouter extends BaseRouter{
             res.sendStatus(400);
             return;   
         }
-        try{
-            if(!status)
-            {
-                
-                let result = await OrderMapper.setNextStatus(id,info);
-                if(result == false)
-                {
-                    res.sendStatus(400);
-                    return;
-                }
-                res.json(result);
-                return;
-            }
-            let res_status = await OrderMapper.setStatus(id,info,status);
-            if(res_status==false)
-            {
-                res.sendStatus(400);
-                return;
-            }
-            res.json(res_status);
-        }catch(error)
+        let result,err;
+
+        if(!status)
+        {
+            [result,err] = await resolve(OrderMapper.setNextStatus(id,info));
+        }else{
+            [result,err] = await resolve(OrderMapper.setStatus(id,info,status));
+        }
+        if(err !== null)
         {
             res.sendStatus(500);
+            return;
         }
+
+        if(result == false)
+        {
+            res.sendStatus(400);
+            return;
+        }
+
+        res.sendStatus(200);
+
     }
 
     /**
@@ -152,26 +213,45 @@ export default class OrderRouter extends BaseRouter{
             return;
         }
 
-        let result = OrderMapper.addOrder(req.body.mail,req.body.address,req.body.articles);
+        let result,err;
+        [result,err] = await resolve(OrderMapper.addOrder(req.body.mail,req.body.address,req.body.articles));
+        if(err !== null)
+        {
+            res.sendStatus(500);
+            return;            
+        }
         if(result === undefined)
         {
             res.sendStatus(400);
+            return;
         }
 
         res.send(result);
     }
 
+    /**
+     * Bestätigt eine Bestellung
+     * @param req 
+     * @param res 
+     */
     async submitOrder(req: Request, res: Response)
     {
-        console.log("submit Order");
-
         let user_key = req.body.user_key;
-
+        let result,err;
         
-        if(OrderMapper.submitOrder(user_key))
+        [result,err] = await resolve(OrderMapper.submitOrder(user_key));
+
+        if(err !== null)
+        {
+            res.sendStatus(500);
+            return;            
+        }
+
+        if(result)
         {
             res.sendStatus(400);
-            return;
+        }else{
+            res.sendStatus(200);
         }
     }
 

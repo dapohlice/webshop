@@ -8,6 +8,7 @@ import {OrderLogEntity} from '../entity/OrderLogEntity'
  * @param order Bestellung
  * @param info Zusatzinformation
  * @param status Status
+ * @returns Log-Datensatz | undefined
  */
 export async function createLog(order: OrderEntity, info: string, status: StatusEntity)
 {
