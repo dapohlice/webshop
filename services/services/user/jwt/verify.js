@@ -30,7 +30,17 @@ function verifyJWT(token)
     }
 } 
 
-exports.processJwt = function (auth)
+
+/**
+ * Verarbeitet einen JWT-Token
+ * @param {*} auth Authentication-Header aus Request
+ * @returns [StatusCode,JWT-Data]
+ *   - [200,JWT]: JWT-Token Verifiziert 
+ *   - [401,null]: Daten sind falsch
+ *   - [401,"Expired"]: JWT-Token ist abgelaufen
+ *   - [500,null]: Fehler
+ */
+function processJWT(auth)
 {
     if(auth === undefined)
         return [401,null];
@@ -46,7 +56,6 @@ exports.processJwt = function (auth)
         return [200,jwt];
     }catch(err)
     {
-        console.error("json error");
         if(err.name === "JsonWebTokenError")
         {
             return [401,null]
@@ -60,3 +69,5 @@ exports.processJwt = function (auth)
         }
     }
 }
+
+exports.processJwt = processJWT;

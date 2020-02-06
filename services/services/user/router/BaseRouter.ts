@@ -1,5 +1,5 @@
 import {Router} from "express";
-import {processJwt} from "../jwt/verify"
+import * as JWT from "../jwt/verify"
 /**
  * Basisrouter für Express in Typescript
  */
@@ -40,7 +40,7 @@ export abstract class BaseRouter{
         
         let auth = req.get('Authorization');
         let status, jwt;
-        [status,jwt] = processJwt(auth);
+        [status,jwt] = JWT.processJwt(auth);
         if(status === 200)
         {
             req.jwt = jwt;
