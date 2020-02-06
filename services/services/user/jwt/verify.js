@@ -1,5 +1,5 @@
-import * as jwt from 'jsonwebtoken';
-import * as fs from 'fs';
+const jwt = require('jsonwebtoken');
+const fs = require('fs');
 
 /**
  * Überprüft den JWT
@@ -7,7 +7,7 @@ import * as fs from 'fs';
  * @returns jwt{loginname,auth} | false (unzureichende Daten)
  * @throws TokenExpiredError | JsonWebTokenError | Error
  */
-export function verifyJWT(token)
+function verifyJWT(token)
 {
     let publicKey = fs.readFileSync(__dirname+'/key.pub');
     try{
@@ -29,3 +29,34 @@ export function verifyJWT(token)
         throw err;
     }
 } 
+
+exports.processJwt = function (auth)
+{
+    if(auth === undefined)
+        return [401,null];
+    
+    let token_list = auth.split(' ');
+    if(token_list.length !== 2)
+        return [401,null];
+    
+    try{
+        let jwt = verifyJWT(token_list[1]);
+        if(jwt === false)
+            return [401,null]
+        return [200,jwt];
+    }catch(err)
+    {
+        console.error("json error");
+        if(err.name === "JsonWebTokenError")
+        {
+            return [401,null]
+        }
+        else if(err.name ==="TokenExpiredError")
+        {
+            return [401,"Expired"];
+        }else{
+            console.error(err);
+            return [500,null];
+        }
+    }
+}
