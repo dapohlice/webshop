@@ -44,6 +44,7 @@ export abstract class BaseRouter{
         if(status === 200)
         {
             req.jwt = jwt;
+            console.log(jwt);
             next();
         }else{
             res.status(status);
