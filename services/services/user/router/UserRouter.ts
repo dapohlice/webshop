@@ -11,7 +11,7 @@ import resolve from '../resolver';
 export default class UserRouter extends BaseRouter{
 
     constructor(){
-        super(true);
+        super(false);
     }
 
     initialiseRouter(){

@@ -12,7 +12,7 @@ export default class GroupRouter extends BaseRouter{
 
     constructor()
     {
-        super(true);
+        super(false);
     }
 
     initialiseRouter(){
