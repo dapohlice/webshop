@@ -1,7 +1,10 @@
 var currentStatus = 0;
-var orderContainer = document.getElementById('jsonobjekt');
+var orderTableContainer = document.getElementById('jsonTableObjekt');
+var orderDetailTableContainer = document.getElementById('jsonDetailTableObjekt');
 var btn = document.getElementById("btn");
 var statusString = '';
+var callOrderDetails = false;
+let lastID = 0;
 
 // getUrlVars() zum Abruf der Parameter
 function getUrlVars() {
@@ -41,7 +44,7 @@ function getOrders() {
     default:
       currentStatus = 99;
   }
-  $('#jsonobjekt').nextAll('div').remove();
+  $('#jsonTableObjekt').nextAll('div').remove();
 
   if(currentStatus == 0 || currentStatus == 99) {
     url = 'http://localhost:3001/order';
@@ -49,6 +52,20 @@ function getOrders() {
     url = 'http://localhost:3001/order/status/' + statusString;
   } else {
     url = 'http://localhost:3001/order/status/' + currentStatus + '.json';
+  }
+  var res = new XHR('GET', url);
+
+  console.log("UrlParams: ");
+  console.log(currentUrl);
+}
+function getOrderDetails(id) {
+  var url = '';
+  console.log("getOrder ID for details: ");
+  console.log(id);
+
+  if(id != null) {
+    callOrderDetails = true;
+    url = 'http://localhost:3001/order/' + id;
   }
   var res = new XHR('GET', url);
 
@@ -68,9 +85,12 @@ function XHR(type, url) {
   promise.done(function (data) {
     console.log(data);
     console.log('Sucessfull data check');
-    if (JSON.stringify(data) !== JSON.stringify([])) {
+    if ((JSON.stringify(data) !== JSON.stringify([])) && (callOrderDetails == false)) {
       console.log("Objekt leer");
-      renderHTML(data);
+      renderOrderTableHTML(data);
+    } else if (callOrderDetails == true) {
+      console.log("Call RenderHTML for OrderDetails");
+      renderOrderDetailsHTML(data);
     }
 
   });
@@ -81,7 +101,7 @@ function XHR(type, url) {
 }
 
 
-function renderHTML(data) {
+function renderOrderTableHTML(data) {
   var htmlString = "<table class=\"table table-striped\">";
   htmlString += "<thead><tr><th>ID</th><th>mail</th><th>timestamp</th>";
   if (currentStatus == 0 || currentStatus == 99) {
@@ -91,7 +111,7 @@ function renderHTML(data) {
   htmlString += "<tbody>";
   for(let i = 0; i < data.length; i++) {
     htmlString += "<tr>";
-    htmlString += "<td>" + data[i].id + "</td>";
+    htmlString += "<td class=\"id\"><span>" + data[i].id + "</span></td>";
     htmlString += "<td>" + data[i].mail + "</td>";
     htmlString += "<td>" + data[i].timestamp + "</td>";
     if (currentStatus == 0 || currentStatus == 99) {
@@ -128,15 +148,48 @@ function renderHTML(data) {
       }
     }
     if (currentStatus != 99) {
-      htmlString += "<td>" + "<button type=\"button\" data-tooltip=\"tooltip\" data-placement=\"bottom\" title=\"Edit this order\" data-toggle=\"modal\" data-target=\"#OrderDetailModal\">Edit</button></td>";
+      htmlString += "<td>" + "<button class=\"editOrderButton\" type=\"button\" data-tooltip=\"tooltip\" data-placement=\"bottom\" title=\"Edit this order\" data-toggle=\"modal\" data-target=\"#OrderDetailModal\">Edit</button></td>";
     }
     htmlString += "</tr>";
   }
   htmlString += "</tbody>";
   htmlString += "</table>"
 
-  orderContainer.insertAdjacentHTML('beforeend', htmlString);
+  orderTableContainer.insertAdjacentHTML('beforeend', htmlString);
   console.log(currentUrl);
+  helper();
+}
+
+function renderOrderDetailsHTML(data) {
+  var htmlString = "<table class=\"table table-striped\">";
+  var amountPrice = 0.00;
+  var total = 0.00;
+  htmlString += "<thead><tr><th>Name</th><th>Property</th><th>Amount</th><th>Price</th>";
+  htmlString += "</tr></thead>";
+  htmlString += "<tbody>";
+  for(let i = 0; i < data.article.length; i++) {
+    amountPrice = ((data.article[i].price)*(data.article[i].amount));
+    htmlString += "<tr>";
+    htmlString += "<td class=\"id\">" + data.article[i].name + "</td>";
+    htmlString += "<td>" + data.article[i].property + "</td>";
+    htmlString += "<td>" + data.article[i].amount + "</td>";
+    htmlString += "<td>" + amountPrice + " €</td>";
+    htmlString += "</tr>";
+    total += amountPrice;
+  }
+  htmlString += "<tr class=\"orderTotal\">";
+  htmlString += "<td></td>";
+  htmlString += "<td></td>";
+  htmlString += "<td></td>";
+  htmlString += "<td><span class=\"double_underline\">" + total + " €</td>";
+  htmlString += "</tr>";
+
+  htmlString += "</tbody>";
+  htmlString += "</table>"
+
+  orderDetailTableContainer.insertAdjacentHTML('beforeend', htmlString);
+  console.log(currentUrl);
+  lastID = data.id;
 }
 
 //********* NOCH IN ARBEIT *********

@@ -1,7 +1,7 @@
 extends layout
 
 block body  
-  body(onload="getOrders(), loadOrderVal()")
+  body(onload="getOrders()")
   //- , setStatusOnButton()
 
 block nav
@@ -60,18 +60,18 @@ block content
 
     include order_details
 
-    div#jsonobjekt
+    div#jsonTableObjekt
       
 block scripts
   script(src='https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js')
   script(src='https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js')
   script(src='https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js')
+  script(type='text/javascript' src='js/helper.js')
   script(type='text/javascript' src='js/services.js' defer='defer')
   script(type='text/javascript' src='js/form_data.js' defer='defer')
   script(type='text/javascript' src='js/request.js' defer='defer')
   script(type='text/javascript' src='js/db_sidebar.js')
   script(type='text/javascript' src='js/tooltip.js')
-  script(type='text/javascript' src='js/helper.js')
 
     
             

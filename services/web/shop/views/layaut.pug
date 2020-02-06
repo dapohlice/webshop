@@ -24,7 +24,7 @@ block body
           button.btn.btn-success(type="submit")
             | Search
 
-        button.button.info(type='button')
+        button.info(type='button')
           | about
 
         button.button.buttonround
@@ -37,17 +37,31 @@ block body
     block content
       div.carousel.slide(id="demo" data-ride="carousel")
         ol.carousel-indicators
-          li.active(data-target="#carouselExampleIndicators" data-slide-to="0")
-          li(data-target="#carouselExampleIndicators" data-slide-to="1")
-          li(data-target="#carouselExampleIndicators" data-slide-to="2") 
+          li.active(data-target="#demo" data-slide-to="0")
+          li(data-target="#demo" data-slide-to="1")
+          li(data-target="#demo" data-slide-to="2")
 
         div.carousel-inner
           div.carousel-item.active
             img.d-block.w-100(src="https://www.w3schools.com/bootstrap4/la.jpg" alt="First slide")
+            div.carousel-caption.d-none.d-md-block
+              div
+                button.carouselbutton(type="button")
+                  | To the calendar
+                  button.carouselbutton(type="button")
+                    | all calendar
+              <h5>Calendar X</h5>
+              <p>description about the calendar</p>
           div.carousel-item
             img.d-block.w-100(src="https://www.w3schools.com/bootstrap4/chicago.jpg" alt="second slide")
+            div.carousel-caption.d-none.d-md-block
+              <h5>Calendar Y</h5>
+              <p>description about the calendar</p>
           div.carousel-item
             img.d-block.w-100(src="https://www.w3schools.com/bootstrap4/ny.jpg" alt="Third slide")
+            div.carousel-caption.d-none.d-md-block
+              <h5>Calendar Z</h5>
+              <p>description about the calendar</p>
 
         a.carousel-control-prev(href="#demo" role="button" data-slide="prev")
           span.carousel-control-prev-icon(href="#demo" role="button" data-slide="prev")
