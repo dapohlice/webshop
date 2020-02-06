@@ -21,14 +21,18 @@ export default class UserRouter extends BaseRouter{
         this.router.get('/:id',this.getOne);
         this.router.put('/:id',this.changeUser);
         this.router.patch('/:id',this.changeStatus);
-        this.router.patch('/:id/password',this.changePassword)
+        this.router.patch('/:id/resetpassword',this.resetPassword)
         this.router.get('/:id/permission',this.getPermission)
         
     }
-
+    /**
+     * Überprüft die Berechtigung
+     * @param req 
+     * @param res 
+     * @param next 
+     */
     checkPermission(req,res,next)
     {
-        console.log("check Permission")
         if(
             req.jwt !== undefined &&
             req.jwt.auth.auth_user === true
@@ -39,27 +43,25 @@ export default class UserRouter extends BaseRouter{
     }
 
     /**
-     * Gibt alle Bestellungen zurück
+     * Gibt alle Benutzer zurück
      * @param req 
      * @param res 
      */
     async get(req: Request, res: Response)
     {
-        let orders,err;
-        [orders,err] = await resolve(UserMapper.getAllUsers());
-        if(err !== null || orders === undefined)
+        let users,err;
+        [users,err] = await resolve(UserMapper.getAllUsers());
+        if(err !== null || users === undefined)
         {
             res.sendStatus(500);
             return;            
         }
 
-        res.json(
-            orders
-        );
+        res.json(users);
     }
 
     /**
-     * Gibt eine komplette Bestellung zurück
+     * Gibt eine komplette Benutzer zurück
      * @param req 
      * @param res 
      */
@@ -86,13 +88,11 @@ export default class UserRouter extends BaseRouter{
             return;
         }
 
-        res.json(
-            result
-        );
+        res.json(result);
     }
 
     /**
-     * setzt den Status einer Bestellung
+     * Ändert einen Benutzer
      * @param req 
      * @param res 
      */
@@ -125,7 +125,7 @@ export default class UserRouter extends BaseRouter{
             return;
         }
 
-        if(result == false)
+        if(result === undefined)
         {
             res.sendStatus(400);
             return;
@@ -136,7 +136,7 @@ export default class UserRouter extends BaseRouter{
     }
 
     /**
-     * Erstellt eine neue Bestellung
+     * Erstellt einen neuen Benutzer
      * @param req 
      * @param res 
      */
@@ -173,9 +173,7 @@ export default class UserRouter extends BaseRouter{
      * @param res 
      */
     async changeStatus(req: Request, res: Response)
-    {
-        console.log("change");
-        
+    {        
         let id = parseInt(req.params.id);
         if(!Number.isInteger(id))
         {
@@ -184,9 +182,9 @@ export default class UserRouter extends BaseRouter{
         }
 
         let status;
-        if(req.body.status == "active")
+        if(req.body.status === true)
             status = true;
-        else if(req.body.status == "inactive")
+        else if(req.body.status === false)
         {
             status = false;
         }else{
@@ -194,7 +192,6 @@ export default class UserRouter extends BaseRouter{
             return;
         }
 
-        
         let result,err;
         [result,err] = await resolve(UserMapper.changeStatus(id,status));
 
@@ -202,6 +199,11 @@ export default class UserRouter extends BaseRouter{
         {
             res.sendStatus(500);
             return;            
+        }
+        if(result === undefined)
+        {
+            res.sendStatus(400);
+            return;
         }
 
         if(result)
@@ -212,7 +214,12 @@ export default class UserRouter extends BaseRouter{
         }
     }
 
-    async changePassword(req: Request, res: Response)
+    /**
+     * Ändert das Passwort eines Benutzers
+     * @param req 
+     * @param res 
+     */
+    async resetPassword(req: Request, res: Response)
     {
         let id = parseInt(req.params.id);
         if(!Number.isInteger(id))
@@ -220,16 +227,10 @@ export default class UserRouter extends BaseRouter{
             res.sendStatus(400);
             return;   
         }
-        let newPassword = req.body.newPassword;
-        let oldPassword = req.body.oldPassword;
-        if(!newPassword && !oldPassword)
-        {
-            res.sendStatus(400);
-            return;
-        }
+        let newPassword = req.body.password;
 
         let result,err;
-        [result,err] = await resolve(UserMapper.changePassword(id,oldPassword,newPassword));
+        [result,err] = await resolve(UserMapper.resetPassword(id,newPassword));
 
         if(err !== null)
         {
@@ -241,6 +242,11 @@ export default class UserRouter extends BaseRouter{
 
     }
 
+    /**
+     * Gibt die Berechtigungen eines Benutzers
+     * @param req 
+     * @param res 
+     */
     async getPermission(req: Request, res: Response){
         let id = parseInt(req.params.id);
         if(!Number.isInteger(id))
@@ -248,10 +254,13 @@ export default class UserRouter extends BaseRouter{
             res.sendStatus(400);
             return;   
         }
-        res.send(await UserMapper.getUserPermission(id))
+        let result = await UserMapper.getUserPermission(id);
+        if(result === undefined){
+            res.sendStatus(404);
+            return;
+        }
+        res.send(result);
     }
-
-
 }
 
 
