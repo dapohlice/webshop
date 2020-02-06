@@ -25,35 +25,43 @@ export default class GroupRouter extends BaseRouter{
         this.router.use(this.checkPermission)
     }
 
+    /**
+     * Überprüft die Berechtigung auf dem JWT-Token
+     * @param req 
+     * @param res 
+     * @param next 
+     */
     checkPermission(req,res,next)
     {
-        if(this.getJwt().auth.auth_user === true)
+        if(
+            req.jwt !== undefined &&
+            req.jwt.auth.auth_group === true
+        )
             next();
-        res.sendStatus(403);
+        else
+            res.sendStatus(403);
     }
 
     /**
-     * Gibt alle Bestellungen zurück
+     * Gibt alle Gruppen zurück
      * @param req 
      * @param res 
      */
     async get(req: Request, res: Response)
     {
-        let orders,err;
-        [orders,err] = await resolve(GroupMapper.getAllGroups());
-        if(err !== null || orders === undefined)
+        let groups,err;
+        [groups,err] = await resolve(GroupMapper.getAllGroups());
+        if(err !== null || groups === undefined)
         {
             res.sendStatus(500);
             return;            
         }
 
-        res.json(
-            orders
-        );
+        res.json(groups);
     }
 
     /**
-     * Gibt eine komplette Bestellung zurück
+     * Gibt eine Gruppe zurück
      * @param req 
      * @param res 
      */
@@ -80,13 +88,11 @@ export default class GroupRouter extends BaseRouter{
             return;
         }
 
-        res.json(
-            result
-        );
+        res.json(result);
     }
 
     /**
-     * Erstellt eine neue Bestellung
+     * Erstellt eine neue Gruppe
      * @param req 
      * @param res 
      */
@@ -116,7 +122,7 @@ export default class GroupRouter extends BaseRouter{
     }
 
      /**
-     * Gibt eine komplette Bestellung zurück
+     * Löscht eine Gruppe
      * @param req 
      * @param res 
      */
@@ -145,6 +151,11 @@ export default class GroupRouter extends BaseRouter{
         }
     }
 
+    /**
+     * Ändert die Berechtigung einer Gruppe
+     * @param req 
+     * @param res 
+     */
     async change(req: Request, res: Response)
     {
         let groupId = parseInt(req.params.id);
@@ -153,10 +164,40 @@ export default class GroupRouter extends BaseRouter{
             res.sendStatus(400);
             return;   
         }
-        
+        let auth = req.body.auth;
+        if(
+            auth !== undefined ||
+            auth.auth_allOrders !== undefined ||
+            auth.auth_group !== undefined ||
+            auth.auth_normalOrders !== undefined ||
+            auth.auth_product !== undefined ||
+            auth.auth_user !== undefined
+        )
+        {
+            res.sendStatus(400);
+            return;
+        }
+        let result,err;
+        [result,err] = await resolve(GroupMapper.changeGroup(groupId,auth));
+        if(result === undefined || err !== null)
+        {
+            res.sendStatus(500);
+            return;
+        }
+        if(result)
+        {
+            res.sendStatus(200);
+        }else{
+            res.sendStatus(400);
+        }
 
     }
 
+    /**
+     * Fügt einen Benutzer einer Gruppe hinzu
+     * @param req 
+     * @param res 
+     */
     async addUser(req: Request, res: Response)
     {
         let groupId = parseInt(req.params.id);
@@ -180,6 +221,12 @@ export default class GroupRouter extends BaseRouter{
         }
 
     }
+
+    /**
+     * Entfernt einen Benutzer aus einer Gruppe
+     * @param req 
+     * @param res 
+     */
     async removeUser(req: Request, res: Response)
     {
         let groupId = parseInt(req.params.id);

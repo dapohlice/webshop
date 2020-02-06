@@ -120,7 +120,7 @@ export async function changeUser(
  * @param userId Benutzer-Id
  * @param oldPassword Altes Passwort
  * @param newPassword Neues Passwort
- * @returns HttpResponseCode
+ * @returns HttpStatusCode
  */
 export async function changePassword(
     userId: number,
@@ -164,6 +164,9 @@ export async function changePassword(
  */
 export async function changeStatus(userId: number, status: boolean)
 {
+    if(userId === undefined || isNaN(userId))
+        return undefined;
+
     let user,err;
     [user,err] = await resolve(UserEntity.findOne({id: userId}));
     
@@ -179,8 +182,16 @@ export async function changeStatus(userId: number, status: boolean)
     return true;
 }
 
+/**
+ * Gibt die Berechtigung eines Benutzers zurück
+ * @param userId BenutzerID
+ * @returns auth | undefined
+ */
 export async function getUserPermission(userId: number)
 {
+    if(userId === undefined || isNaN(userId))
+        return undefined;
+
     const userRep = getRepository(UserEntity)
     let user,err;
     let builder = userRep
@@ -188,6 +199,8 @@ export async function getUserPermission(userId: number)
         .leftJoinAndSelect("user.groups", "group")
         .where("user.id = :id",{id: userId});
     [user,err] = await resolve(builder.getOne());
+    if(user === undefined || err !== null)
+        return undefined;
 
     let result = {
         auth_user: false,
@@ -204,5 +217,4 @@ export async function getUserPermission(userId: number)
         result.auth_allOrders = result.auth_allOrders || element.auth_allOrders;
     });
     return result;
-
 }

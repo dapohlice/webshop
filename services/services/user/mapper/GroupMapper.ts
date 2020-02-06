@@ -15,7 +15,7 @@ export interface IPermission {
 
 /**
  * gibt alle Gruppen zurück
- * @returns Liste der Gruppen
+ * @returns Liste der Gruppen | undefinded
  */
 export async function getAllGroups()
 {
@@ -36,11 +36,11 @@ export async function getAllGroups()
 /**
  * Gibt eine Gruppe zurück
  * @param userId Gruppen-Id
- * @returns Gruppe
+ * @returns Gruppe | undefined
  */
 export async function getOneGroup(groupId: number)
 {
-    if(isNaN(groupId) || groupId === undefined)
+    if(groupId === undefined || isNaN(groupId))
         return undefined;
     const groupRep = getRepository(GroupEntity)
     let builder = groupRep.createQueryBuilder("group")
@@ -54,10 +54,12 @@ export async function getOneGroup(groupId: number)
     return group;
 }
 
-
-export async function createGroup(
-    name: string
-)
+/**
+ * Erstellt eine neue Gruppe
+ * @param name Gruppenname
+ * @returns Gruppe | undefined
+ */
+export async function createGroup(name: string)
 { 
     if(name === undefined)
         return undefined;
@@ -72,7 +74,12 @@ export async function createGroup(
     return result;
 }
 
-export async function deleteGroup(groupId: number)
+/**
+ * Löscht eine Gruppe
+ * @param groupId Gruppen-Id
+ * @returns true | false
+ */
+export async function deleteGroup(groupId: number):Promise<boolean>
 {
     if(isNaN(groupId))
         return false;
@@ -89,10 +96,23 @@ export async function deleteGroup(groupId: number)
     
 }
 
+/**
+ * Fügt einen Benutzer einer Gruppe hinzu
+ * @param groupId Gruppen-Id
+ * @param userId Benutzer-Id
+ * @returns true | false
+ */
 export async function addUser(groupId: number, userId: number)
 {
-    let err,user,group;
+    if(
+        groupId === undefined || 
+        isNaN(groupId) ||
+        userId === undefined ||
+        isNaN(userId)
+    )
+        return false;
 
+    let err,user,group;
     [user,err] = await resolve(UserEntity.findOne({id: userId}));
     if(user === undefined || err != null)
         return false;
@@ -114,8 +134,22 @@ export async function addUser(groupId: number, userId: number)
     return true;            
 }
 
-export async function removeUser(groupId: number, userId: number)
+/**
+ * Entfernt einen Benutzer von einer Gruppe
+ * @param groupId Gruppen-Id
+ * @param userId Benutzer-Id
+ * @returns true | false
+ */
+export async function removeUser(groupId: number, userId: number):Promise<boolean>
 {
+    if(
+        groupId === undefined || 
+        isNaN(groupId) ||
+        userId === undefined ||
+        isNaN(userId)
+    )
+        return false;
+
     let group,err;
     let builder = getRepository(GroupEntity)
         .createQueryBuilder("group")
@@ -136,8 +170,21 @@ export async function removeUser(groupId: number, userId: number)
     return true;            
 }
 
+/**
+ * Ändert die Berechtigungen einer Gruppe
+ * @param groupId Gruppen-Id
+ * @param permission Berechtigung
+ * @returns true | false
+ */
 export async function changeGroup(groupId: number,permission: IPermission)
 {
+    if(
+        groupId === undefined || 
+        isNaN(groupId) ||
+        permission === undefined
+    )
+        return false;
+        
     let group,err;
     [group,err] = await resolve(GroupEntity.findOne({id: groupId}));
     if(err !== null || group === undefined)
