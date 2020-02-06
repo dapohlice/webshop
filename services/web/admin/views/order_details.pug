@@ -21,19 +21,9 @@ block order_details
             div.row
               div.col.col-lg-6
                 h5 Warenkorb
-                table.table.table-striped
-                  thead
-                    tr
-                      th Articel name                
-                      th Description                
-                      th Pieces                
-                      th Price                
-                  tbody
-                    tr
-                      td Boots
-                      td White & Shiny
-                      td 3
-                      td 70,24 €
+                
+                div#jsonDetailTableObjekt
+
               div.col.col-lg-6
                 div.row
                   div.col
@@ -124,7 +114,7 @@ block order_details
 
         //- Modal Footer
         div.modal-footer
-          button.btn.btn-danger(
+          button#closeDetailButton.btn.btn-danger(
             type="button"
             data-dismiss="modal"
             data-tooltip="tooltip" 

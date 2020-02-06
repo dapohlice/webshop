@@ -1,27 +1,41 @@
-// Set Name of Dropdown-Button's
-$(".dropdown-menu li a").click(function(){
-  var currentButton = $(this).parents(".dropdown").find('.btn').html($(this).text() + ' <span class="caret"></span>');
-  sessionStorage.setItem("loadStore", "currentButton");
+// Alle Aufrufe
+function helper() {
+  $(".editOrderButton").click(function() {
+    console.log("click editOrderButton");       // Prints out test text
+    var id = $(this).closest("tr").find(".id").text();
+    console.log(id);
+    if (lastID == id) {
+      console.log("Keine Neuzuweisung, da lastID = id")
 
-    //
-    // var selected = localStorage.getItem($(this).parents(".dropdown").find('.btn').html($(this).text() + ' <span class="caret"></span>'));
-    // if (selected) {
-    //   $(this).parents(".dropdown").find('.btn').val($(this).data('value'));
-    // }
-    //
-    //
-    // $(this).parents(".dropdown").find('.btn').val($(this).data('value').change(function() {
-    //   localStorage.setItem('selected', $(this).val());
-    //   location.reload();
-    // });
-
-});
-
-function loadOrderVal() {
-  var store = sessionStorage.getItem("loadStore");
-  $(this).parents(".dropdown").find('.btn').val($(this).store);
-
+    } else {
+      console.log("Neuzuweisung auf: lastId = id")
+      $('#jsonDetailTableObjekt').children('table').eq(0).remove();
+      getOrderDetails(id);
+    }
+    // callOrderDetails = false;
+  });
 }
+  // Set Name of Dropdown-Button's
+  // ToDo! :Funktionert nach dem laden der Orderseite noch nicht.
+  // Name von DropDown Button value eventuell im Cache zwischenspeichern
+  $(".dropdown-menu li a").click(function(){
+    var currentButton = $(this).parents(".dropdown").find('.btn').html($(this).text() + ' <span class="caret"></span>');
+    sessionStorage.setItem("loadStore", "currentButton");
+
+      //
+      // var selected = localStorage.getItem($(this).parents(".dropdown").find('.btn').html($(this).text() + ' <span class="caret"></span>'));
+      // if (selected) {
+      //   $(this).parents(".dropdown").find('.btn').val($(this).data('value'));
+      // }
+      //
+      //
+      // $(this).parents(".dropdown").find('.btn').val($(this).data('value').change(function() {
+      //   localStorage.setItem('selected', $(this).val());
+      //   location.reload();
+      // });
+
+  });
+
 // When the user clicks the button...
 localStorage.setItem('no_display', 'true');
 

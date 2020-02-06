@@ -177,6 +177,14 @@ hr.white {
 .error-text{
   border:1px solid red !important;
 }
+.double_underline {
+  border-bottom: double 3px red;
+  color: red;
+}
+.orderTotal {
+  border-top: 2px solid #000000;
+}
+
 
 /* On smaller screens, where height is less than 450px, change the style of the sidenav (less padding and a smaller font size) */
 @media screen and (max-height: 450px) {
