@@ -33,8 +33,21 @@
   color: white;
 }
 
+.carouselbutton {
+  border-radius: 12px;
+  background-color: white;
+  color: black;
+  border: 4px solid #6c757d;
+  padding: 4px 32px;
+  margin: 4px 32px;
+}
+
+.carouselbutton:hover {
+  background-color: #6c757d;
+  color: white;
+}
 .footer {
-   position: fixed;
+  // position: fixed;
    left: 0;
    bottom: 0;
    width: 100%;
@@ -55,7 +68,7 @@
   clear: both;
 }
 
-/*.carousel-inner img {
-      width: 100%;
-      height: 100%;
-  }*/
+.scrollbar {
+-ms-scrollbar-base-color: #007bff;
+margin-bottom: 200%;
+}
