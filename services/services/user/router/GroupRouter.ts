@@ -20,6 +20,7 @@ export default class GroupRouter extends BaseRouter{
         this.router.post('/',this.create);
         this.router.get('/:id',this.getOne);
         this.router.delete('/:id',this.delete);
+        this.router.put('/:id',this.change);
         this.router.patch('/:id/add',this.addUser);
         this.router.patch('/:id/remove',this.removeUser);
         this.router.use(this.checkPermission)
@@ -98,7 +99,7 @@ export default class GroupRouter extends BaseRouter{
      */
     async create(req: Request, res: Response)
     {
-        let name = req.body.name;
+        let name = req.body.groupname;
         if(!name)
         {
             res.sendStatus(400);
@@ -164,14 +165,19 @@ export default class GroupRouter extends BaseRouter{
             res.sendStatus(400);
             return;   
         }
-        let auth = req.body.auth;
+        let auth = {
+            auth_allOrders: req.body.auth_allOrders,
+            auth_group: req.body.auth_group,
+            auth_normalOrders: req.body.auth_normalOrders,
+            auth_product: req.body.auth_product,
+            auth_user: req.body.auth_user
+        } ;
         if(
-            auth !== undefined ||
-            auth.auth_allOrders !== undefined ||
-            auth.auth_group !== undefined ||
-            auth.auth_normalOrders !== undefined ||
-            auth.auth_product !== undefined ||
-            auth.auth_user !== undefined
+            auth.auth_allOrders === undefined ||
+            auth.auth_group === undefined ||
+            auth.auth_normalOrders === undefined ||
+            auth.auth_product === undefined ||
+            auth.auth_user === undefined
         )
         {
             res.sendStatus(400);

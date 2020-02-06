@@ -44,7 +44,17 @@ export async function getOneGroup(groupId: number)
         return undefined;
     const groupRep = getRepository(GroupEntity)
     let builder = groupRep.createQueryBuilder("group")
-        .leftJoinAndSelect("group.users", "user")
+        .select("group.id")
+        .addSelect("group.groupname")
+        .addSelect("group.auth_user")
+        .addSelect("group.auth_product")
+        .addSelect("group.auth_group")
+        .addSelect("group.auth_normalOrders")
+        .addSelect("group.auth_allOrders")
+        .addSelect("user.id")
+        .addSelect("user.firstname")
+        .addSelect("user.lastname")
+        .leftJoin("group.users", "user")
         .where("group.id = :id",{id: groupId});
 
     let group,err;

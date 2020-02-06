@@ -21,7 +21,7 @@ export default class UserRouter extends BaseRouter{
         this.router.get('/:id',this.getOne);
         this.router.put('/:id',this.changeUser);
         this.router.patch('/:id',this.changeStatus);
-        this.router.patch('/:id/password',this.changePassword)
+        this.router.patch('/:id/resetpassword',this.resetPassword)
         this.router.get('/:id/permission',this.getPermission)
         
     }
@@ -182,9 +182,9 @@ export default class UserRouter extends BaseRouter{
         }
 
         let status;
-        if(req.body.status == "active")
+        if(req.body.status === true)
             status = true;
-        else if(req.body.status == "inactive")
+        else if(req.body.status === false)
         {
             status = false;
         }else{
@@ -219,7 +219,7 @@ export default class UserRouter extends BaseRouter{
      * @param req 
      * @param res 
      */
-    async changePassword(req: Request, res: Response)
+    async resetPassword(req: Request, res: Response)
     {
         let id = parseInt(req.params.id);
         if(!Number.isInteger(id))
@@ -227,16 +227,10 @@ export default class UserRouter extends BaseRouter{
             res.sendStatus(400);
             return;   
         }
-        let newPassword = req.body.newPassword;
-        let oldPassword = req.body.oldPassword;
-        if(!newPassword && !oldPassword)
-        {
-            res.sendStatus(400);
-            return;
-        }
+        let newPassword = req.body.password;
 
         let result,err;
-        [result,err] = await resolve(UserMapper.changePassword(id,oldPassword,newPassword));
+        [result,err] = await resolve(UserMapper.resetPassword(id,newPassword));
 
         if(err !== null)
         {

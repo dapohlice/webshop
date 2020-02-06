@@ -9,6 +9,8 @@ const SALT_ROUNDS = 8;
  */
 export function checkPassword(password: string):boolean
 {
+    if(password === undefined || password === null)
+        return false;
     return password.match("(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}") !== null;
 }
 

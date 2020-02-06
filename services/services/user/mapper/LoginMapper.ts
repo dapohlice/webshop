@@ -35,7 +35,6 @@ export async function login(loginname:string, password:string)
     if(user.status === false)
         return [401,null];
 
-
     let result = await Password.comparePassword(password,user.pword);    
     if(!result)
         return [401,null];
