@@ -55,7 +55,7 @@
   clear: both;
 }
 
-/*.carousel-inner img {
-      width: 100%;
-      height: 100%;
-  }*/
+.scrollbar {
+-ms-scrollbar-base-color: #007bff;
+margin-bottom: 200%;
+}
