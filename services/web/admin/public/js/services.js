@@ -240,22 +240,6 @@ function renderOrderDetailsHTML(data) {
   console.log(lastID);
 }
 
-
-// table
-//   thead
-//     tr
-//       th Shipping address
-//   tbody
-//     tr
-//       td Name:
-//     tr
-//       td Street:
-//     tr
-//       td Nr.:
-//     tr
-//       td City:
-//     tr
-//       td Post Code:
 function renderOrderShippingAddressHTML(data) {
   var htmlString = "<table class=\"table\">";
   // htmlString += "<thead><tr><th></th>";
