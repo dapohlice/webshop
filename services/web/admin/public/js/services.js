@@ -1,6 +1,7 @@
 var currentStatus = 0;
 var orderTableContainer = document.getElementById('jsonTableObjekt');
 var orderDetailTableContainer = document.getElementById('jsonDetailTableObjekt');
+var admincContainer = document.getElementById('adminc');
 var btn = document.getElementById("btn");
 var statusString = '';
 var callOrderDetails = false;
@@ -44,6 +45,7 @@ function getOrders() {
     default:
       //für Startseite
       currentStatus = 99;
+      statusString = "open";
   }
   $('#jsonTableObjekt').nextAll('div').remove();
   console.log("currentStatus: ");
@@ -51,7 +53,7 @@ function getOrders() {
   if(currentStatus == 0) {
     url = 'http://localhost:3001/order';
   } else if (currentStatus == 99) {
-    url = 'http://localhost:3001/order/status/' + 1 + '.json';
+    url = 'http://localhost:3001/order/status/' + statusString;
   } else if (statusString != '' && (currentStatus == 4 || currentStatus == 6)) {
     url = 'http://localhost:3001/order/status/' + statusString;
   } else {
@@ -86,7 +88,8 @@ function XHR(type, url) {
     url: url,
     cache: false
     });
-  promise.done(function (data) {
+  promise.done(function (data, statusText) {
+    console.log(statusText + " - " + xhr.status);
     console.log('Sucessfull data check');
     console.log('XHR liefert folgendes Ergebnis zurück:');
     console.log(data);
@@ -97,16 +100,18 @@ function XHR(type, url) {
       console.log("Rufe RenderOrderDetailsHTML auf");
       renderOrderDetailsHTML(data);
     } else {
-      renderErrorHTML();
+      renderErrorTableHTML();
     }
 
   });
-  promise.fail(function () {
+  promise.fail(function (xhr, statusText) {
+    console.log(statusText + " - " + xhr.status);
     console.log('A failure occurred');
+    $('#adminc').empty();
+    renderErrorHTML(xhr, statusText);
   });
 
 }
-
 
 function renderOrderTableHTML(data) {
   console.log("renderOrderTableHTML gestartet")
@@ -168,14 +173,34 @@ function renderOrderTableHTML(data) {
   helper();
 }
 
-function renderErrorHTML() {
+function renderErrorHTML(xhr, statusText) {
+  console.log(statusText + " - " + xhr.status);
+  console.log('A failure occurred');
+  var htmlString = "<div class=\"error-template\">";
+  htmlString += "<h1>Oops!</h1>";
+  htmlString += "<h2>" + xhr.status + " " + statusText + "</h2>";
+  htmlString += "<div class=\"error-details\">Sorry, an error has occured, Requested page not found!</div>";
+  htmlString += "<div class=\"error-actions\">";
+  htmlString += "<a href=\"/\" class=\"btn btn-secondary btn-lg\">";
+  htmlString += "<span class=\"glyphicon glyphicon-home\"></span>";
+  htmlString += "Zurück zur Startseite";
+  htmlString += "</a>";
+  htmlString += "<a href=\"#\" class=\"btn btn-danger btn-lg\">";
+  htmlString += "<span class=\"glyphicon glyphicon-home\"></span>";
+  htmlString += " Contact Support ";
+  htmlString += "</a>";
+  htmlString += "</div>";
+
+  htmlString += "</div>";
+  admincContainer.insertAdjacentHTML('beforeend', htmlString);
+  console.log("Output: Error page");
+}
+function renderErrorTableHTML() {
   var htmlString = "<table class=\"table table-striped\">";
   htmlString += "<thead><tr><th>ID</th><th>mail</th><th>timestamp</th>";
   htmlString += "</tr></thead>";
   htmlString += "<tbody>";
-  htmlString += "<td></td>";
   htmlString += "<td>No entries available! Try again later.</td>";
-  htmlString += "<td></td>";
   htmlString += "</tr>";
   htmlString += "</tbody>";
   htmlString += "</table>"

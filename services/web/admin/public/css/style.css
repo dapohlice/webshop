@@ -185,6 +185,19 @@ hr.white {
   border-top: 2px solid #000000;
 }
 
+/* Error Adc Pages */
+.error-template {
+  padding: 40px 15px;
+  text-align: center;
+}
+.error-actions {
+  margin-top:15px;
+  margin-bottom:15px;
+}
+.error-actions .btn {
+  margin-right:10px;
+}
+
 
 /* On smaller screens, where height is less than 450px, change the style of the sidenav (less padding and a smaller font size) */
 @media screen and (max-height: 450px) {
