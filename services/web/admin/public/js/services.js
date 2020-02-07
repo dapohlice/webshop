@@ -42,12 +42,16 @@ function getOrders() {
       currentStatus = 0;
       break;
     default:
+      //für Startseite
       currentStatus = 99;
   }
   $('#jsonTableObjekt').nextAll('div').remove();
-
-  if(currentStatus == 0 || currentStatus == 99) {
+  console.log("currentStatus: ");
+  console.log(currentStatus);
+  if(currentStatus == 0) {
     url = 'http://localhost:3001/order';
+  } else if (currentStatus == 99) {
+    url = 'http://localhost:3001/order/status/' + 1 + '.json';
   } else if (statusString != '' && (currentStatus == 4 || currentStatus == 6)) {
     url = 'http://localhost:3001/order/status/' + statusString;
   } else {
@@ -55,7 +59,7 @@ function getOrders() {
   }
   var res = new XHR('GET', url);
 
-  console.log("UrlParams: ");
+  console.log("GetXHR Klasse wurde aufgerufen mit folgenden Objekt:");
   console.log(currentUrl);
 }
 function getOrderDetails(id) {
@@ -83,14 +87,17 @@ function XHR(type, url) {
     cache: false
     });
   promise.done(function (data) {
-    console.log(data);
     console.log('Sucessfull data check');
+    console.log('XHR liefert folgendes Ergebnis zurück:');
+    console.log(data);
     if ((JSON.stringify(data) !== JSON.stringify([])) && (callOrderDetails == false)) {
-      console.log("Objekt leer");
+      console.log("Objekt in der Antwort ist nicht leer");
       renderOrderTableHTML(data);
     } else if (callOrderDetails == true) {
-      console.log("Call RenderHTML for OrderDetails");
+      console.log("Rufe RenderOrderDetailsHTML auf");
       renderOrderDetailsHTML(data);
+    } else {
+      renderErrorHTML();
     }
 
   });
@@ -102,9 +109,10 @@ function XHR(type, url) {
 
 
 function renderOrderTableHTML(data) {
+  console.log("renderOrderTableHTML gestartet")
   var htmlString = "<table class=\"table table-striped\">";
   htmlString += "<thead><tr><th>ID</th><th>mail</th><th>timestamp</th>";
-  if (currentStatus == 0 || currentStatus == 99) {
+  if (currentStatus == 0) {
     htmlString += "<th>status</th>";
   }
   htmlString += "</tr></thead>";
@@ -114,7 +122,7 @@ function renderOrderTableHTML(data) {
     htmlString += "<td class=\"id\"><span>" + data[i].id + "</span></td>";
     htmlString += "<td>" + data[i].mail + "</td>";
     htmlString += "<td>" + data[i].timestamp + "</td>";
-    if (currentStatus == 0 || currentStatus == 99) {
+    if (currentStatus == 0) {
       switch(data[i].status) {
         case 1:
           htmlString += "<td>ordered</td>";
@@ -156,10 +164,25 @@ function renderOrderTableHTML(data) {
   htmlString += "</table>"
 
   orderTableContainer.insertAdjacentHTML('beforeend', htmlString);
-  console.log(currentUrl);
+  console.log("Ab jetzt wird helper Klasse aufgerufen...");
   helper();
 }
 
+function renderErrorHTML() {
+  var htmlString = "<table class=\"table table-striped\">";
+  htmlString += "<thead><tr><th>ID</th><th>mail</th><th>timestamp</th>";
+  htmlString += "</tr></thead>";
+  htmlString += "<tbody>";
+  htmlString += "<td></td>";
+  htmlString += "<td>No entries available! Try again later.</td>";
+  htmlString += "<td></td>";
+  htmlString += "</tr>";
+  htmlString += "</tbody>";
+  htmlString += "</table>"
+
+  orderTableContainer.insertAdjacentHTML('beforeend', htmlString);
+  console.log("Keine Bestellungen gefunden");
+}
 function renderOrderDetailsHTML(data) {
   var htmlString = "<table class=\"table table-striped\">";
   var amountPrice = 0.00;
@@ -188,8 +211,9 @@ function renderOrderDetailsHTML(data) {
   htmlString += "</table>"
 
   orderDetailTableContainer.insertAdjacentHTML('beforeend', htmlString);
-  console.log(currentUrl);
+  console.log("Tabelle mit Bestelldetails erstellt für ID:");
   lastID = data.id;
+  console.log(lastID);
 }
 
 //********* NOCH IN ARBEIT *********
