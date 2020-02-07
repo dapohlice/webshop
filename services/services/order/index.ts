@@ -41,6 +41,8 @@ createConnection().then(async connection => {
 
     app.use('/status',new StatusRouter().getRouter())
 
+    app.use('/customer', new OrderRouter().getRouter())
+
     // start app
     app.listen(port, () => console.log(`Order Service (${stage}) Listen On ${port}`))
 
