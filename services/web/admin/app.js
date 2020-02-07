@@ -49,7 +49,7 @@ app.use(express.static(__dirname + '/public'));
 
 app.get('/', (req, res) => {
   for (const key in req.query) {
-    console.log(key, req.query.order[key])
+    console.log(key, req.query.order[key]);
   }
   switch(req.query.order) {
     case 'ordered':

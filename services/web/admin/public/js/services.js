@@ -2,11 +2,16 @@ var currentStatus = 0;
 var orderTableContainer = document.getElementById('jsonTableObjekt');
 var orderDetailTableContainer = document.getElementById('jsonDetailTableObjekt');
 var orderShippingAddressTableContainer = document.getElementById('jsonAddressTableObjekt');
+var modalTitelContainer = document.getElementById('modalDetailTitel');
+var modalTitelLogContainer = document.getElementById('modalDetailLogTitel');
+var orderStatusButtonContainer = document.getElementById('curStatusButton');
+var orderLogContainer = document.getElementById('orderLogContent');
 var admincContainer = document.getElementById('adminc');
 var btn = document.getElementById("btn");
 var statusString = '';
 var callOrderDetails = false;
 let lastID = 0;
+let curLog = 0;
 
 // getUrlVars() zum Abruf der Parameter
 function getUrlVars() {
@@ -18,6 +23,7 @@ function getUrlVars() {
 }
 var currentUrl = getUrlVars();
 var currentOrder = getUrlVars()["order"];
+var currentID = getUrlVars()["id"];
 
 function getOrders() {
   var url = '';
@@ -72,6 +78,7 @@ function getOrderDetails(id) {
   if(id != null) {
     callOrderDetails = true;
     url = 'http://localhost:3001/order/' + id;
+    addParam(id, currentOrder);
   }
   var res = new XHR('GET', url);
 
@@ -79,6 +86,11 @@ function getOrderDetails(id) {
   console.log("UrlParams: ");
   console.log(currentUrl);
 
+}
+
+//speichere ID von Order-Detail Response in parameter in addresszeile
+function addParam(curID, curOrder){
+	history.pushState({id: curID}, "orderid", "?order=" + curOrder + "&id=" + curID);
 }
 
 function XHR(type, url) {
@@ -100,6 +112,8 @@ function XHR(type, url) {
       console.log("Rufe RenderOrderDetailsHTML auf");
       renderOrderDetailsHTML(data);
       renderOrderShippingAddressHTML(data);
+      renderOrderStatusButtonHTML(data);
+      renderOrderLogHTML(data);
     } else {
       renderErrorTableHTML();
     }
@@ -208,6 +222,9 @@ function renderErrorTableHTML() {
   console.log("Keine Bestellungen gefunden");
 }
 function renderOrderDetailsHTML(data) {
+  lastID = data.id;
+  var modalTitelString = "<span>Order Details - ID: " + lastID + "</span>";
+  modalTitelContainer.insertAdjacentHTML('beforeend', modalTitelString);
   var htmlString = "<table class=\"table table-striped\">";
   var amountPrice = 0.00;
   var total = 0.00;
@@ -236,7 +253,6 @@ function renderOrderDetailsHTML(data) {
 
   orderDetailTableContainer.insertAdjacentHTML('beforeend', htmlString);
   console.log("Tabelle mit Bestelldetails erstellt für ID:");
-  lastID = data.id;
   console.log(lastID);
 }
 
@@ -262,6 +278,72 @@ function renderOrderShippingAddressHTML(data) {
   htmlString += "</table>"
 
   orderShippingAddressTableContainer.insertAdjacentHTML('beforeend', htmlString);
+}
+
+function renderOrderStatusButtonHTML(data) {
+  var htmlString = "<button class=\"btn btn-secondary disabled\" type=\"button\" data-tooltip=\"tooltip\" data-placement=\"top\" title=\"Current Status\">";
+  switch(data.status) {
+    case 1:
+      htmlString += "ordered";
+      break;
+    case 2:
+      htmlString += "<td>payed";
+      break;
+    case 3:
+      htmlString += "packed";
+      break;
+    case 4:
+      htmlString += "finished";
+      break;
+    case 5:
+      htmlString += "canceled";
+      break;
+    case 6:
+      htmlString += "returned";
+      break;
+    case 7:
+      htmlString += "return checked";
+      break;
+    case 8:
+      htmlString += "return failed";
+      break;
+    case 9:
+      htmlString += "payed back";
+      break;
+    default:
+      htmlString += "no status set";
+  }
+  htmlString += "</button>";
+
+  orderStatusButtonContainer.insertAdjacentHTML('beforeend', htmlString);
+}
+function renderOrderLogHTML(data) {
+  lastID = data.id;
+  var modalTitelString = "<span>Order Logs for ID: " + lastID + "</span>";
+  modalTitelLogContainer.insertAdjacentHTML('beforeend', modalTitelString);
+
+  var htmlString = "<table class=\"table table-striped\">";
+  htmlString += "<thead>";
+  htmlString += "<tr>";
+  htmlString += "<th>user</th>";
+  htmlString += "<th>info</th>";
+  htmlString += "<th>status</th>";
+  htmlString += "<th>timestamp</th>";
+  htmlString += "</tr>";
+  htmlString += "</thead>";
+  htmlString += "<tbody>";
+  for(let i = 0; i < data.logs.length; i++) {
+    htmlString += "<tr>";
+    htmlString += "<td>" + data.logs[i].user + "</td>";
+    htmlString += "<td>" + data.logs[i].info + "</td>";
+    htmlString += "<td>" + data.logs[i].status + "</td>";
+    htmlString += "<td>" + data.logs[i].timestamp + "</td>";
+    htmlString += "</tr>";
+  }
+  htmlString += "</tbody>";
+  htmlString += "</table>";
+
+  orderLogContainer.insertAdjacentHTML('beforeend', htmlString);
 }
 
 //********* NOCH IN ARBEIT *********

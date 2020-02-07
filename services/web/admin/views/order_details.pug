@@ -5,8 +5,7 @@ block order_details
       div.modal-content
         //- Modal Header
         div.modal-header
-          h4.modal-title
-            | Order Details - #{orderID}           
+          h4#modalDetailTitel.modal-title        
           button.close(
             type="button"
             data-dismiss="modal"
@@ -32,56 +31,10 @@ block order_details
                 hr
                 h Current status:
                 div.row
+                  div#curStatusButton.col
+                    
                   div.col
-                    div.dropdown
-                      button.btn.btn-secondary.dropdown-toggle(
-                        type="button" 
-                        data-tooltip="tooltip" 
-                        data-placement="top" 
-                        title="Set a new status" 
-                        data-toggle="dropdown"
-                        )
-                        | Status
-                        span.caret
-                      ul.dropdown-menu
-                        li
-                          a.dropdown-item(
-                              href=`#`  
-                              data-value="ordered"
-                          )
-                            | Ordered
-                        li
-                          a.dropdown-item(
-                              href=`#`         
-                              data-value="payed"     
-                          )
-                            | Payed
-                        li
-                          a.dropdown-item(
-                              href=`#`          
-                              data-value="packed"    
-                          )
-                            | Packed
-                        li
-                          a.dropdown-item(
-                              href=`#`
-                              data-value="finished"
-                          )
-                            | Finished
-                        li
-                          a.dropdown-item(
-                              href=`#`
-                              data-value="returned"
-                          )
-                            | Returned
-                        li
-                          a.dropdown-item(
-                              href=`#`
-                              data-value="all"
-                          )
-                            | All
-                  div.col
-                    button.btn.btn-secondary(
+                    button#changeStatusButton.btn.btn-danger(
                       type="button"
                       action="#"
                       data-tooltip="tooltip"
@@ -91,13 +44,24 @@ block order_details
                       data-target="#changeOrderStatusModal"
                     )
                       | Change
+                  div.col
+                    button#openLogButton.btn.btn-primary(
+                      type="button"
+                      action="#"
+                      data-tooltip="tooltip"
+                      data-placement="bottom"
+                      title="Open all logs of current order" 
+                      data-toggle="modal"
+                      data-target="#orderLogModal"
+                    )
+                      | Log
                 hr
                 p
                   span
                     b Info: 
                     br
                   span
-                    | After your next aggreement, you changed the status permanently. 
+                    | After your next aggreement, you change the status permanently. 
 
         //- Modal Footer
         div.modal-footer

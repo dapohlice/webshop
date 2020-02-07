@@ -11,6 +11,10 @@ function helper() {
       console.log("Neuzuweisung auf: lastId = id")
       $('#jsonDetailTableObjekt').children('table').eq(0).remove();
       $('#jsonAddressTableObjekt').children('table').eq(0).remove();
+      $('#curStatusButton').children('button').eq(0).remove();
+      $('#modalDetailTitel').children('span').eq(0).remove();
+      $('#modalDetailLogTitel').children('span').eq(0).remove();
+      $('#orderLogContent').children('table').eq(0).remove();
       getOrderDetails(id);
     }
     // callOrderDetails = false;
