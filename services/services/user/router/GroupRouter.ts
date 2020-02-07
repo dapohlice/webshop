@@ -23,7 +23,7 @@ export default class GroupRouter extends BaseRouter{
         this.router.put('/:id',this.change);
         this.router.patch('/:id/add',this.addUser);
         this.router.patch('/:id/remove',this.removeUser);
-        this.router.use(this.checkPermission)
+        //this.router.use(this.checkPermission)
     }
 
     /**
