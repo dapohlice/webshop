@@ -10,6 +10,7 @@ function helper() {
     } else {
       console.log("Neuzuweisung auf: lastId = id")
       $('#jsonDetailTableObjekt').children('table').eq(0).remove();
+      $('#jsonAddressTableObjekt').children('table').eq(0).remove();
       getOrderDetails(id);
     }
     // callOrderDetails = false;

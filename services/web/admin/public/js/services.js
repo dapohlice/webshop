@@ -1,6 +1,7 @@
 var currentStatus = 0;
 var orderTableContainer = document.getElementById('jsonTableObjekt');
 var orderDetailTableContainer = document.getElementById('jsonDetailTableObjekt');
+var orderShippingAddressTableContainer = document.getElementById('jsonAddressTableObjekt');
 var admincContainer = document.getElementById('adminc');
 var btn = document.getElementById("btn");
 var statusString = '';
@@ -98,6 +99,7 @@ function XHR(type, url) {
     } else if (callOrderDetails == true) {
       console.log("Rufe RenderOrderDetailsHTML auf");
       renderOrderDetailsHTML(data);
+      renderOrderShippingAddressHTML(data);
     } else {
       renderErrorTableHTML();
     }
@@ -236,6 +238,46 @@ function renderOrderDetailsHTML(data) {
   console.log("Tabelle mit Bestelldetails erstellt für ID:");
   lastID = data.id;
   console.log(lastID);
+}
+
+
+// table
+//   thead
+//     tr
+//       th Shipping address
+//   tbody
+//     tr
+//       td Name:
+//     tr
+//       td Street:
+//     tr
+//       td Nr.:
+//     tr
+//       td City:
+//     tr
+//       td Post Code:
+function renderOrderShippingAddressHTML(data) {
+  var htmlString = "<table class=\"table\">";
+  // htmlString += "<thead><tr><th></th>";
+  // htmlString += "</tr></thead>";
+  htmlString += "<tbody>";
+
+  htmlString += "<tr><td>" + data.address.firstname + " " + data.address.lastname + "<br/>";
+  htmlString += data.address.street + " " + data.address.streetnumber + "<br/>";
+  htmlString += data.address.plz + " " + data.address.town + "<br/>";
+  if (data.address.state != null) {
+    htmlString += data.address.state;
+  }
+  if (data.address.country != null) {
+    htmlString += data.address.country;
+  }
+  htmlString += "</td></tr>";
+
+
+  htmlString += "</tbody>";
+  htmlString += "</table>"
+
+  orderShippingAddressTableContainer.insertAdjacentHTML('beforeend', htmlString);
 }
 
 //********* NOCH IN ARBEIT *********

@@ -20,28 +20,15 @@ block order_details
           div.container
             div.row
               div.col.col-lg-6
-                h5 Warenkorb
+                h5 Shopping cart
                 
                 div#jsonDetailTableObjekt
 
               div.col.col-lg-6
-                div.row
-                  div.col
-                    table
-                      thead
-                        tr
-                          th Shipping address                    
-                      tbody
-                        tr
-                          td Name:
-                        tr
-                          td Street:
-                        tr
-                          td Nr.:
-                        tr
-                          td City:
-                        tr
-                          td Post Code:
+                h5 Shipping Address
+                
+                div#jsonAddressTableObjekt
+                
                 hr
                 h Current status:
                 div.row
@@ -104,13 +91,13 @@ block order_details
                       data-target="#changeOrderStatusModal"
                     )
                       | Change
-                  hr
-                  p
-                    span
-                      b Info: 
-                      br
-                    span
-                      | After your next aggreement, you changed the status permanently. 
+                hr
+                p
+                  span
+                    b Info: 
+                    br
+                  span
+                    | After your next aggreement, you changed the status permanently. 
 
         //- Modal Footer
         div.modal-footer
