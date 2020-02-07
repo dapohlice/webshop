@@ -17,7 +17,8 @@ export async function getAllUsers()
         .select([
             "user.id",
             "user.firstname",
-            "user.lastname"
+            "user.lastname",
+            "user.status"
             ])
         .getMany());
     if(err !== null)
@@ -45,6 +46,23 @@ export async function getOneUser(userId: number)
         return undefined;
     return users;
 }
+/**
+ * Gibt die Id oder Undefined zu einem Loginnamen
+ * @param loginname Loginname
+ */
+export async function getUserIdByLoginname(loginname: string):Promise<number>
+{
+    const userRep = getRepository(UserEntity)
+    let builder = userRep
+        .createQueryBuilder("user")
+        .select("user.id")
+        .where("user.loginname = :name",{name: loginname});
+    let user,err
+    [user,err] = await resolve(builder.getOne());
+    if(err !== null || user === undefined)
+        return undefined;
+    return user.id;
+}
 
 
 /**
@@ -71,10 +89,17 @@ export async function createUser(
     
     let result,err;
     [result,err] = await resolve(user.save());
-    if(err != null)
+    if(err !== null)
+        return undefined;
+    
+    
+
+    [result,err] = await resolve (UserEntity.findOne({id: result.id}));
+    if(result === undefined || err !== null)
         return undefined;
     
     result.pword = password;
+    
     return result;
 }
 
@@ -120,7 +145,7 @@ export async function changeUser(
  * @param userId Benutzer-Id
  * @param oldPassword Altes Passwort
  * @param newPassword Neues Passwort
- * @returns HttpResponseCode
+ * @returns HttpStatusCode
  */
 export async function changePassword(
     userId: number,
@@ -139,7 +164,7 @@ export async function changePassword(
     if(err !== null)
         return 500;
 
-    if(user === undefined )
+    if(user === undefined)
         return 404;
     
     if(!await Password.comparePassword(oldPassword,user.pword))
@@ -156,6 +181,38 @@ export async function changePassword(
         return 500;
     return 200;
 }
+
+export async function resetPassword(
+    userId: number, 
+    newPassword: string
+): Promise<number>
+{
+    const userRep = getRepository(UserEntity)
+    let builder = userRep
+        .createQueryBuilder("user")
+        .addSelect("user.pword")
+        .where("user.id = :id",{id: userId});
+    let user,err;
+    [user,err] = await resolve(builder.getOne());
+
+    if(err !== null)
+        return 500;
+
+    if(user === undefined )
+        return 404;
+
+    if(!Password.checkPassword(newPassword))
+        return 400;
+    
+    let password = await Password.hashPassword(newPassword);
+    user.pword = password;
+
+    [user,err] = await resolve(user.save());
+    if(err != null)
+        return 500;
+    return 200;
+}
+
 /**
  * Ändert den Status eines Benutzers
  * @param userId Benutzer-Id
@@ -164,6 +221,9 @@ export async function changePassword(
  */
 export async function changeStatus(userId: number, status: boolean)
 {
+    if(userId === undefined || isNaN(userId))
+        return undefined;
+
     let user,err;
     [user,err] = await resolve(UserEntity.findOne({id: userId}));
     
@@ -179,8 +239,16 @@ export async function changeStatus(userId: number, status: boolean)
     return true;
 }
 
+/**
+ * Gibt die Berechtigung eines Benutzers zurück
+ * @param userId BenutzerID
+ * @returns auth | undefined
+ */
 export async function getUserPermission(userId: number)
 {
+    if(userId === undefined || isNaN(userId))
+        return undefined;
+
     const userRep = getRepository(UserEntity)
     let user,err;
     let builder = userRep
@@ -188,6 +256,8 @@ export async function getUserPermission(userId: number)
         .leftJoinAndSelect("user.groups", "group")
         .where("user.id = :id",{id: userId});
     [user,err] = await resolve(builder.getOne());
+    if(user === undefined || err !== null)
+        return undefined;
 
     let result = {
         auth_user: false,
@@ -204,5 +274,4 @@ export async function getUserPermission(userId: number)
         result.auth_allOrders = result.auth_allOrders || element.auth_allOrders;
     });
     return result;
-
 }

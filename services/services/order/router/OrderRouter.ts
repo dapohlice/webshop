@@ -11,6 +11,7 @@ import resolve from '../resolver';
 export default class OrderRouter extends BaseRouter{
 
     initialiseRouter(){
+        this.router.use(this.checkPermission)
         this.router.get('/',this.get);
         this.router.get('/status/finished',this.getByFinishStatus);
         this.router.get('/status/returned',this.getByReturnStatus);
@@ -21,6 +22,24 @@ export default class OrderRouter extends BaseRouter{
         this.router.post('/',this.createOrder);
         
     }
+
+    /**
+     * Überprüft die Berechtigung auf dem JWT-Token
+     * @param req 
+     * @param res 
+     * @param next 
+     */
+    checkPermission(req,res,next)
+    {
+        if(
+            req.jwt !== undefined &&
+            req.jwt.auth.auth_auth_normalOrders === true
+        )
+            next();
+        else
+            res.sendStatus(403);
+    }
+
     /**
      * Gibt alle Bestellungen zurück
      * @param req 

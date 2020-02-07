@@ -8,6 +8,12 @@ import * as path from 'path';
 import { sign } from 'jsonwebtoken';
 import * as process from 'process';
 
+/**
+ * Loggt einen Benutzer ein und erstellt einen JWT
+ * @param loginname Benutzername
+ * @param password Passwort
+ * @returns [http-Status,jwt]
+ */
 export async function login(loginname:string, password:string)
 {
     const userRep = getRepository(UserEntity)
@@ -28,7 +34,6 @@ export async function login(loginname:string, password:string)
 
     if(user.status === false)
         return [401,null];
-
 
     let result = await Password.comparePassword(password,user.pword);    
     if(!result)
