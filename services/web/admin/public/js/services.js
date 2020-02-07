@@ -45,7 +45,6 @@ function getOrders() {
     default:
       //für Startseite
       currentStatus = 99;
-      statusString = "open";
   }
   $('#jsonTableObjekt').nextAll('div').remove();
   console.log("currentStatus: ");
@@ -53,7 +52,7 @@ function getOrders() {
   if(currentStatus == 0) {
     url = 'http://localhost:3001/order';
   } else if (currentStatus == 99) {
-    url = 'http://localhost:3001/order/status/' + statusString;
+    url = 'http://localhost:3001/order/status/' + 1 + '.json';
   } else if (statusString != '' && (currentStatus == 4 || currentStatus == 6)) {
     url = 'http://localhost:3001/order/status/' + statusString;
   } else {
@@ -89,7 +88,7 @@ function XHR(type, url) {
     cache: false
     });
   promise.done(function (data, statusText) {
-    console.log(statusText + " - " + xhr.status);
+    console.log(statusText + " - " + data.status);
     console.log('Sucessfull data check');
     console.log('XHR liefert folgendes Ergebnis zurück:');
     console.log(data);
@@ -106,7 +105,6 @@ function XHR(type, url) {
   });
   promise.fail(function (xhr, statusText) {
     console.log(statusText + " - " + xhr.status);
-    console.log('A failure occurred');
     $('#adminc').empty();
     renderErrorHTML(xhr, statusText);
   });
@@ -174,7 +172,6 @@ function renderOrderTableHTML(data) {
 }
 
 function renderErrorHTML(xhr, statusText) {
-  console.log(statusText + " - " + xhr.status);
   console.log('A failure occurred');
   var htmlString = "<div class=\"error-template\">";
   htmlString += "<h1>Oops!</h1>";
