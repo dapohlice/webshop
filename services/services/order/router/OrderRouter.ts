@@ -268,9 +268,9 @@ export default class OrderRouter extends BaseRouter{
 
         if(result)
         {
-            res.sendStatus(400);
-        }else{
             res.sendStatus(200);
+        }else{
+            res.sendStatus(400);
         }
     }
 
