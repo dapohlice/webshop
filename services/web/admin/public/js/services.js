@@ -1,74 +1,41 @@
-var currentStatus = 0;
-var orderTableContainer = document.getElementById('jsonTableObjekt');
-var orderDetailTableContainer = document.getElementById('jsonDetailTableObjekt');
-var orderShippingAddressTableContainer = document.getElementById('jsonAddressTableObjekt');
-var modalTitelContainer = document.getElementById('modalDetailTitel');
-var modalTitelLogContainer = document.getElementById('modalDetailLogTitel');
-var orderStatusButtonContainer = document.getElementById('curStatusButton');
-var orderLogContainer = document.getElementById('orderLogContent');
-var admincContainer = document.getElementById('adminc');
-var btn = document.getElementById("btn");
-var statusString = '';
-var callOrderDetails = false;
-let lastID = 0;
-let curLog = 0;
-
-// getUrlVars() zum Abruf der Parameter
-function getUrlVars() {
-    var vars = {};
-    var parts = window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, function(m,key,value) {
-        vars[key] = value;
-    });
-    return vars;
-}
-var currentUrl = getUrlVars();
-var currentOrder = getUrlVars()["order"];
-var currentID = getUrlVars()["id"];
-
 function getOrders() {
   var url = '';
+  var urlParamStatus = 0;
+  urlParamStatus = getCurrentOrderFromParam(currentOrder);
 
-  switch(currentOrder) {
-    case 'ordered':
-      currentStatus = 1;
-      break;
-    case 'payed':
-      currentStatus = 2;
-      break;
-    case 'packed':
-      currentStatus = 3;
-      break;
-    case 'finished':
-      currentStatus = 4;
-      statusString = "finished";
-      break;
-    case 'returned':
-      currentStatus = 6;
-      statusString = "returned";
-      break;
-    case 'all':
-      currentStatus = 0;
-      break;
-    default:
-      //für Startseite
-      currentStatus = 99;
-  }
-  $('#jsonTableObjekt').nextAll('div').remove();
+  // $('#jsonTableObjekt').nextAll('div').remove();
   console.log("currentStatus: ");
-  console.log(currentStatus);
-  if(currentStatus == 0) {
+  console.log(urlParamStatus);
+  if(urlParamStatus == 0) {
     url = 'http://localhost:3001/order';
-  } else if (currentStatus == 99) {
+  } else if (urlParamStatus == 99) {
     url = 'http://localhost:3001/order/status/' + 1 + '.json';
-  } else if (statusString != '' && (currentStatus == 4 || currentStatus == 6)) {
+  } else if (statusString != '' && (urlParamStatus == 4 || urlParamStatus == 6)) {
     url = 'http://localhost:3001/order/status/' + statusString;
   } else {
-    url = 'http://localhost:3001/order/status/' + currentStatus + '.json';
+    url = 'http://localhost:3001/order/status/' + urlParamStatus + '.json';
   }
   var res = new XHR('GET', url);
 
   console.log("GetXHR Klasse wurde aufgerufen mit folgenden Objekt:");
   console.log(currentUrl);
+}
+function setNextStatus() {
+  var url = '';
+  var urlParamStatus = 0;
+  urlParamStatus = getUrlVars()["status"];
+  console.log("SetNextStatus, nimmt folgenden Status entgegen: ")
+  console.log(urlParamStatus);
+
+  if(urlParamStatus != null) {
+    setNewStatus = true;
+    url = 'http://localhost:3001/order/' + urlParamStatus;
+  }
+
+  var res = new XHR('PATCH', url);
+
+  console.log("PatchXHR Klasse wurde aufgerufen mit folgenden Objekt:");
+  console.log(res);
 }
 function getOrderDetails(id) {
   var url = '';
@@ -78,7 +45,6 @@ function getOrderDetails(id) {
   if(id != null) {
     callOrderDetails = true;
     url = 'http://localhost:3001/order/' + id;
-    addParam(id, currentOrder);
   }
   var res = new XHR('GET', url);
 
@@ -86,11 +52,6 @@ function getOrderDetails(id) {
   console.log("UrlParams: ");
   console.log(currentUrl);
 
-}
-
-//speichere ID von Order-Detail Response in parameter in addresszeile
-function addParam(curID, curOrder){
-	history.pushState({id: curID}, "orderid", "?order=" + curOrder + "&id=" + curID);
 }
 
 function XHR(type, url) {
@@ -105,8 +66,11 @@ function XHR(type, url) {
     console.log('Sucessfull data check');
     console.log('XHR liefert folgendes Ergebnis zurück:');
     console.log(data);
-    if ((JSON.stringify(data) !== JSON.stringify([])) && (callOrderDetails == false)) {
+    if ((JSON.stringify(data) !== JSON.stringify([])) && callOrderDetails == false && setNewStatus == false) {
       console.log("Objekt in der Antwort ist nicht leer");
+      renderOrderTableHTML(data);
+    } else if (setNewStatus == true) {
+      console.log("Neuen Status erfolgreich gesetzt");
       renderOrderTableHTML(data);
     } else if (callOrderDetails == true) {
       console.log("Rufe RenderOrderDetailsHTML auf");
@@ -114,6 +78,7 @@ function XHR(type, url) {
       renderOrderShippingAddressHTML(data);
       renderOrderStatusButtonHTML(data);
       renderOrderLogHTML(data);
+      rendernextButtonHTML(data);
     } else {
       renderErrorTableHTML();
     }
@@ -127,224 +92,7 @@ function XHR(type, url) {
 
 }
 
-function renderOrderTableHTML(data) {
-  console.log("renderOrderTableHTML gestartet")
-  var htmlString = "<table class=\"table table-striped\">";
-  htmlString += "<thead><tr><th>ID</th><th>mail</th><th>timestamp</th>";
-  if (currentStatus == 0) {
-    htmlString += "<th>status</th>";
-  }
-  htmlString += "</tr></thead>";
-  htmlString += "<tbody>";
-  for(let i = 0; i < data.length; i++) {
-    htmlString += "<tr>";
-    htmlString += "<td class=\"id\"><span>" + data[i].id + "</span></td>";
-    htmlString += "<td>" + data[i].mail + "</td>";
-    htmlString += "<td>" + data[i].timestamp + "</td>";
-    if (currentStatus == 0) {
-      switch(data[i].status) {
-        case 1:
-          htmlString += "<td>ordered</td>";
-          break;
-        case 2:
-          htmlString += "<td>payed</td>";
-          break;
-        case 3:
-          htmlString += "<td>packed</td>";
-          break;
-        case 4:
-          htmlString += "<td>finished</td>";
-          break;
-        case 5:
-          htmlString += "<td>canceled</td>";
-          break;
-        case 6:
-          htmlString += "<td>returned</td>";
-          break;
-        case 7:
-          htmlString += "<td>return checked</td>";
-          break;
-        case 8:
-          htmlString += "<td>return failed</td>";
-          break;
-        case 9:
-          htmlString += "<td>payed back</td>";
-          break;
-        default:
-          htmlString += "<td>no status set</td>";
-      }
-    }
-    if (currentStatus != 99) {
-      htmlString += "<td>" + "<button class=\"editOrderButton\" type=\"button\" data-tooltip=\"tooltip\" data-placement=\"bottom\" title=\"Edit this order\" data-toggle=\"modal\" data-target=\"#OrderDetailModal\">Edit</button></td>";
-    }
-    htmlString += "</tr>";
-  }
-  htmlString += "</tbody>";
-  htmlString += "</table>"
 
-  orderTableContainer.insertAdjacentHTML('beforeend', htmlString);
-  console.log("Ab jetzt wird helper Klasse aufgerufen...");
-  helper();
-}
-
-function renderErrorHTML(xhr, statusText) {
-  console.log('A failure occurred');
-  var htmlString = "<div class=\"error-template\">";
-  htmlString += "<h1>Oops!</h1>";
-  htmlString += "<h2>" + xhr.status + " " + statusText + "</h2>";
-  htmlString += "<div class=\"error-details\">Sorry, an error has occured, Requested page not found!</div>";
-  htmlString += "<div class=\"error-actions\">";
-  htmlString += "<a href=\"/\" class=\"btn btn-secondary btn-lg\">";
-  htmlString += "<span class=\"glyphicon glyphicon-home\"></span>";
-  htmlString += "Zurück zur Startseite";
-  htmlString += "</a>";
-  htmlString += "<a href=\"#\" class=\"btn btn-danger btn-lg\">";
-  htmlString += "<span class=\"glyphicon glyphicon-home\"></span>";
-  htmlString += " Contact Support ";
-  htmlString += "</a>";
-  htmlString += "</div>";
-
-  htmlString += "</div>";
-  admincContainer.insertAdjacentHTML('beforeend', htmlString);
-  console.log("Output: Error page");
-}
-function renderErrorTableHTML() {
-  var htmlString = "<table class=\"table table-striped\">";
-  htmlString += "<thead><tr><th>ID</th><th>mail</th><th>timestamp</th>";
-  htmlString += "</tr></thead>";
-  htmlString += "<tbody>";
-  htmlString += "<td>No entries available! Try again later.</td>";
-  htmlString += "</tr>";
-  htmlString += "</tbody>";
-  htmlString += "</table>"
-
-  orderTableContainer.insertAdjacentHTML('beforeend', htmlString);
-  console.log("Keine Bestellungen gefunden");
-}
-function renderOrderDetailsHTML(data) {
-  lastID = data.id;
-  var modalTitelString = "<span>Order Details - ID: " + lastID + "</span>";
-  modalTitelContainer.insertAdjacentHTML('beforeend', modalTitelString);
-  var htmlString = "<table class=\"table table-striped\">";
-  var amountPrice = 0.00;
-  var total = 0.00;
-  htmlString += "<thead><tr><th>Name</th><th>Property</th><th>Amount</th><th>Price</th>";
-  htmlString += "</tr></thead>";
-  htmlString += "<tbody>";
-  for(let i = 0; i < data.article.length; i++) {
-    amountPrice = ((data.article[i].price)*(data.article[i].amount));
-    htmlString += "<tr>";
-    htmlString += "<td class=\"id\">" + data.article[i].name + "</td>";
-    htmlString += "<td>" + data.article[i].property + "</td>";
-    htmlString += "<td>" + data.article[i].amount + "</td>";
-    htmlString += "<td>" + amountPrice + " €</td>";
-    htmlString += "</tr>";
-    total += amountPrice;
-  }
-  htmlString += "<tr class=\"orderTotal\">";
-  htmlString += "<td></td>";
-  htmlString += "<td></td>";
-  htmlString += "<td></td>";
-  htmlString += "<td><span class=\"double_underline\">" + total + " €</td>";
-  htmlString += "</tr>";
-
-  htmlString += "</tbody>";
-  htmlString += "</table>"
-
-  orderDetailTableContainer.insertAdjacentHTML('beforeend', htmlString);
-  console.log("Tabelle mit Bestelldetails erstellt für ID:");
-  console.log(lastID);
-}
-
-function renderOrderShippingAddressHTML(data) {
-  var htmlString = "<table class=\"table\">";
-  // htmlString += "<thead><tr><th></th>";
-  // htmlString += "</tr></thead>";
-  htmlString += "<tbody>";
-
-  htmlString += "<tr><td>" + data.address.firstname + " " + data.address.lastname + "<br/>";
-  htmlString += data.address.street + " " + data.address.streetnumber + "<br/>";
-  htmlString += data.address.plz + " " + data.address.town + "<br/>";
-  if (data.address.state != null) {
-    htmlString += data.address.state;
-  }
-  if (data.address.country != null) {
-    htmlString += data.address.country;
-  }
-  htmlString += "</td></tr>";
-
-
-  htmlString += "</tbody>";
-  htmlString += "</table>"
-
-  orderShippingAddressTableContainer.insertAdjacentHTML('beforeend', htmlString);
-}
-
-function renderOrderStatusButtonHTML(data) {
-  var htmlString = "<button class=\"btn btn-secondary disabled\" type=\"button\" data-tooltip=\"tooltip\" data-placement=\"top\" title=\"Current Status\">";
-  switch(data.status) {
-    case 1:
-      htmlString += "ordered";
-      break;
-    case 2:
-      htmlString += "<td>payed";
-      break;
-    case 3:
-      htmlString += "packed";
-      break;
-    case 4:
-      htmlString += "finished";
-      break;
-    case 5:
-      htmlString += "canceled";
-      break;
-    case 6:
-      htmlString += "returned";
-      break;
-    case 7:
-      htmlString += "return checked";
-      break;
-    case 8:
-      htmlString += "return failed";
-      break;
-    case 9:
-      htmlString += "payed back";
-      break;
-    default:
-      htmlString += "no status set";
-  }
-  htmlString += "</button>";
-
-  orderStatusButtonContainer.insertAdjacentHTML('beforeend', htmlString);
-}
-function renderOrderLogHTML(data) {
-  lastID = data.id;
-  var modalTitelString = "<span>Order Logs for ID: " + lastID + "</span>";
-  modalTitelLogContainer.insertAdjacentHTML('beforeend', modalTitelString);
-
-  var htmlString = "<table class=\"table table-striped\">";
-  htmlString += "<thead>";
-  htmlString += "<tr>";
-  htmlString += "<th>user</th>";
-  htmlString += "<th>info</th>";
-  htmlString += "<th>status</th>";
-  htmlString += "<th>timestamp</th>";
-  htmlString += "</tr>";
-  htmlString += "</thead>";
-  htmlString += "<tbody>";
-  for(let i = 0; i < data.logs.length; i++) {
-    htmlString += "<tr>";
-    htmlString += "<td>" + data.logs[i].user + "</td>";
-    htmlString += "<td>" + data.logs[i].info + "</td>";
-    htmlString += "<td>" + data.logs[i].status + "</td>";
-    htmlString += "<td>" + data.logs[i].timestamp + "</td>";
-    htmlString += "</tr>";
-  }
-  htmlString += "</tbody>";
-  htmlString += "</table>";
-
-  orderLogContainer.insertAdjacentHTML('beforeend', htmlString);
-}
 
 //********* NOCH IN ARBEIT *********
 

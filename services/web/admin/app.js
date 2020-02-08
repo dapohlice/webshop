@@ -13,6 +13,10 @@ const startDateTime = new Date(1995,11,4,0,0,0,0); // Erstes Release von Javascr
 function setHeader(req,res,next)
 {
   res.set('Access-Control-Allow-Origin', '*')
+  res.set('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
+  res.set('Access-Control-Max-Age', '86400'); // 24 hours
+  res.set('Access-Control-Allow-Headers', 'X-Requested-With, X-HTTP-Method-Override, Content-Type, Accept');
+  res.set('Access-Control-Allow-Credentials', false);
   next()
 }
 app.use(setHeader);

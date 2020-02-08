@@ -5,7 +5,7 @@ block order_change_status
       div.modal-content
         //- Modal Header
         div.modal-header
-          h4.modal-title          
+          h4#modalChangeOrderTitel.modal-title          
           button.close(
             type="button"
             data-dismiss="modal"
@@ -20,16 +20,13 @@ block order_change_status
             div.row
               div.col.col-lg-6
                 h5 Next status:
-                button#changeStatusButton.btn.btn-secondary(
-                  type="button"
-                  action="#"
-                  data-tooltip="tooltip"
-                  data-placement="bottom"
-                  title="next status" 
-                )
-                  | Payed
-              div.col.col-lg-6
+
+                div#nextStatusButton
                 
+              div.col.col-lg-6
+                h5 Information:
+                span 
+                  b Do you really want to set the status to the next status?                
                 
         //- Modal Footer
         div.modal-footer
@@ -37,15 +34,16 @@ block order_change_status
             type="button"
             data-dismiss="modal"
             data-tooltip="tooltip" 
-            data-placement="bottom" 
+            data-placement="bottom"
             title="Abort to change status" 
           )
-            | Abort
+            | No
           button#acceptStatusButton.btn.btn-success(
             type="button"
-            href="#"
+            data-dismiss="modal"
             data-tooltip="tooltip" 
-            data-placement="bottom" 
+            data-placement="bottom"
+            onclick="setNextStatus()" 
             title="Change order status now" 
           )
-            | Accept
+            | Yes
