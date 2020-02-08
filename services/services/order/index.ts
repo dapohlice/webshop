@@ -24,6 +24,7 @@ function logError(err,req: express.Request,res: express.Response,next)
 function setHeader(req: express.Request, res: express.Response,next)
 {
     res.set('Access-Control-Allow-Origin','*')
+    res.set('Access-Control-Allow-Methods','GET, POST, PATCH, POST, PUT, OPTIONS, DELETE')
     next();
 }
 

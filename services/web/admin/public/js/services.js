@@ -23,7 +23,7 @@ function getOrders() {
 function setNextStatus() {
   var url = '';
   var urlParamStatus = 0;
-  urlParamStatus = getUrlVars()["status"];
+  urlParamStatus = getUrlVars()["id"];
   console.log("SetNextStatus, nimmt folgenden Status entgegen: ")
   console.log(urlParamStatus);
 
