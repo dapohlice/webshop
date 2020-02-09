@@ -28,7 +28,7 @@ function setNextStatus() {
   urlParamID = getUrlVars()["id"];
   status = getUrlVars()["status"];
 
-  if((urlParamID != null) && (status < 4)) {
+  if((urlParamID != null) && (status < 4) && (status != 0)) {
     setNewStatus = true;
     callOrderDetails = false;
     console.log("SetNextStatus() setzt die folgende ID: ");
@@ -38,6 +38,8 @@ function setNextStatus() {
 
     url = 'http://localhost:3001/order/' + urlParamID;
     var res = new XHR('PATCH', url);
+    //setze lastID = 0 (Standartwert), sonst werden die OrderDetails nicht neu geladen!
+    lastID = 0;
     return true;
   } else {
     console.log("Statusänderung nicht erlaubt!")
