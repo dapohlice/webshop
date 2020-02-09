@@ -2,6 +2,8 @@ function getOrders() {
   var url = '';
   var urlParamStatus = 0;
   urlParamStatus = getCurrentOrderFromParam(currentOrder);
+  $('#jsonTableObjekt').children('table').eq(0).remove();
+  setNewStatus = false;
 
   // $('#jsonTableObjekt').nextAll('div').remove();
   console.log("currentStatus: ");
@@ -22,17 +24,30 @@ function getOrders() {
 }
 function setNextStatus() {
   var url = '';
-  var urlParamStatus = 0;
-  urlParamStatus = getUrlVars()["id"];
-  console.log("SetNextStatus, nimmt folgenden Status entgegen: ")
-  console.log(urlParamStatus);
+  var urlParamID = 0;
+  urlParamID = getUrlVars()["id"];
+  status = getUrlVars()["status"];
 
-  if(urlParamStatus != null) {
+  if((urlParamID != null) && (status < 4)) {
     setNewStatus = true;
-    url = 'http://localhost:3001/order/' + urlParamStatus;
+    callOrderDetails = false;
+    console.log("SetNextStatus() setzt die folgende ID: ");
+    console.log(urlParamID);
+    console.log("auf den nächsten Status: ");
+    console.log(status);
+
+    url = 'http://localhost:3001/order/' + urlParamID;
+    var res = new XHR('PATCH', url);
+    return true;
+  } else {
+    console.log("Statusänderung nicht erlaubt!")
+
+    //show info status
+    showStatusInfo("Statusänderung für ID = " + urlParamID + " nicht erlaubt!");
+    //end of show info status
+    return false;
   }
 
-  var res = new XHR('PATCH', url);
 
   console.log("PatchXHR Klasse wurde aufgerufen mit folgenden Objekt:");
   console.log(res);
@@ -44,6 +59,7 @@ function getOrderDetails(id) {
 
   if(id != null) {
     callOrderDetails = true;
+    setNewStatus = false;
     url = 'http://localhost:3001/order/' + id;
   }
   var res = new XHR('GET', url);
@@ -57,10 +73,9 @@ function getOrderDetails(id) {
 function XHR(type, url) {
   promise = $.ajax({
     type: type,
-    dataType: 'json',
     url: url,
     cache: false
-    });
+  });
   promise.done(function (data, statusText) {
     console.log(statusText + " - " + data.status);
     console.log('Sucessfull data check');
@@ -70,8 +85,11 @@ function XHR(type, url) {
       console.log("Objekt in der Antwort ist nicht leer");
       renderOrderTableHTML(data);
     } else if (setNewStatus == true) {
-      console.log("Neuen Status erfolgreich gesetzt");
-      renderOrderTableHTML(data);
+      $('#OrderDetailModal').modal('hide');
+      //show info status
+      showStatusInfo("Status wurde erfolgreich geändert!");
+      //end of show info status
+      getOrders();
     } else if (callOrderDetails == true) {
       console.log("Rufe RenderOrderDetailsHTML auf");
       renderOrderDetailsHTML(data);
@@ -84,7 +102,14 @@ function XHR(type, url) {
     }
 
   });
-  promise.fail(function (xhr, statusText) {
+  // promise.statusCode(function (dataType) {
+  //   console.log("ResponseText");
+  //   console.log(dataType);
+  //   if (setNewStatus == true) {
+  //     getOrders();
+  //   }
+  // });
+  promise.fail(function (xhr, statusText, errorThrown) {
     console.log(statusText + " - " + xhr.status);
     $('#adminc').empty();
     renderErrorHTML(xhr, statusText);
@@ -101,7 +126,7 @@ function XHR(type, url) {
 //   dataType: “json”,
 //   url: “/server/tasks.json”, cache: false,
 //   success: function(data) {
-//   console.log(data); }
+//   console.log('data'); }
 // });
 
 // $.getJSON(“/server/tasks.json”, function (data) {

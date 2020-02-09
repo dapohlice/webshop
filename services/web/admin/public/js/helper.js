@@ -124,6 +124,14 @@ function clearParam(){
 	history.pushState({}, "");
 }
 
+//show info status
+function showStatusInfo(content){
+  var info = document.getElementById('status');
+  info.innerHTML = content;
+  info.className = "show";
+  setTimeout(function(){ info.className = info.className.replace("show", ""); }, 3000);
+}
+
 // Wandelt den String Parameter aus der Browser-Addresszeile in eine numerische Zahl um
 function getCurrentOrderFromParam(string) {
   var currentOrderInt = 0;
@@ -215,6 +223,7 @@ function renderErrorTableHTML() {
   htmlString += "<thead><tr><th>ID</th><th>mail</th><th>timestamp</th>";
   htmlString += "</tr></thead>";
   htmlString += "<tbody>";
+  htmlString += "<tr>";
   htmlString += "<td>No entries available! Try again later.</td>";
   htmlString += "</tr>";
   htmlString += "</tbody>";
