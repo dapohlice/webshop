@@ -107,6 +107,13 @@ app.get('/user', (req, res) => {
   });
 });
 
+app.get('/category', (req, res) => {
+  res.render('category', {
+    name : 'category',
+    title: 'Categories - Administration Dashboard',
+  });
+});
+
 
 /**
  * Starten
