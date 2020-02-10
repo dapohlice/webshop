@@ -69,6 +69,12 @@
 }
 
 .scrollbar {
--ms-scrollbar-base-color: #007bff;
-margin-bottom: 200%;
+  -ms-scrollbar-base-color: #007bff;
+  margin-bottom: 200%;
 }
+
+.border {
+   display: inline-block;
+   padding:16px;
+   margin: 6px;
+ }
