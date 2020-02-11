@@ -1,6 +1,7 @@
 // Rufe alle Container auf um dynamisch den Inhalt derer zu ändern:
 var btn = document.getElementById("btn");
 var orderTableContainer = document.getElementById('jsonTableObjekt');
+var categoryTableContainer = document.getElementById('jsonTableCategoryObjekt');
 var orderDetailTableContainer = document.getElementById('jsonDetailTableObjekt');
 var orderShippingAddressTableContainer = document.getElementById('jsonAddressTableObjekt');
 var modalTitelContainer = document.getElementById('modalDetailTitel');
@@ -11,6 +12,8 @@ var orderNextButtonContainer = document.getElementById('nextStatusButton');
 var orderLogContainer = document.getElementById('orderLogContent');
 var admincContainer = document.getElementById('adminc');
 //  Helfer-Variablen, um den aktuellen Status zu speichern
+var getCategoryReq = false;
+var getOrderReq = false;
 var callOrderDetails = false;
 var setNewStatus = false;
 let lastID = 0;
@@ -195,6 +198,26 @@ function renderOrderTableHTML(data) {
   orderTableContainer.insertAdjacentHTML('beforeend', htmlString);
   console.log("Ab jetzt wird helper Klasse aufgerufen...");
   helper();
+}
+function renderCategoryTableHTML(data) {
+  console.log("renderCategoryTableHTML gestartet")
+  var htmlString = "<table class=\"table table-striped table-image\">";
+  htmlString += "<thead><tr><th>ID</th><th>name</th><th>image</th>";
+  htmlString += "</tr></thead>";
+  htmlString += "<tbody>";
+
+  for(let i = 0; i < data.length; i++) {
+    htmlString += "<tr>";
+    htmlString += "<td class=\"id\"><span>" + data[i]._id + "</span></td>";
+    htmlString += "<td>" + data[i].categoryname + "</td>";
+    htmlString += "<td class=\"w-25\"><img class=\"img-fluid\" src=\"" + data[i].picturepath + "\" alt=\"image\"></td>";
+    htmlString += "<td>" + "<button class=\"editCategoryButton\" type=\"button\" data-tooltip=\"tooltip\" data-placement=\"bottom\" title=\"Edit this order\" data-toggle=\"modal\" data-target=\"#CategoryDetailModal\">Edit</button></td>";
+    htmlString += "</tr>";
+  }
+  htmlString += "</tbody>";
+  htmlString += "</table>"
+
+  categoryTableContainer.insertAdjacentHTML('beforeend', htmlString);
 }
 
 function renderErrorHTML(xhr, statusText) {
