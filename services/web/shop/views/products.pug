@@ -1,50 +1,7 @@
 extends layout
 
 block content
-  div.container-fluid.carousel.slide(id="demo" data-ride="carousel")
-    ol.carousel-indicators
-      li.active(data-target="#demo" data-slide-to="0")
-      li(data-target="#demo" data-slide-to="1")
-      li(data-target="#demo" data-slide-to="2")
-
-    div.carousel-inner
-      div.carousel-item.active
-        img.d-block.w-100(src="https://www.w3schools.com/bootstrap4/la.jpg" alt="First slide")
-        div.carousel-caption.d-none.d-md-block
-          div
-            button.carouselbutton(type="button")
-              | To the calendar
-            button.carouselbutton(type="button")
-                | all calendar
-            h5
-              | Calendar X
-            p
-              | description about the calendar
-      div.carousel-item
-        img.d-block.w-100(src="https://www.w3schools.com/bootstrap4/chicago.jpg" alt="second slide")
-        div.carousel-caption.d-none.d-md-block
-          h5
-            | Calendar Y
-          p
-            | description about the calendar
-      div.carousel-item
-        img.d-block.w-100(src="https://www.w3schools.com/bootstrap4/ny.jpg" alt="Third slide")
-        div.carousel-caption.d-none.d-md-block
-          h5
-            | Calendar Z
-          p
-            | description about the calendar
-
-    a.carousel-control-prev(href="#demo" role="button" data-slide="prev")
-      span.carousel-control-prev-icon(href="#demo" role="button" data-slide="prev")
-      span.sr-only
-        | Previous
-    a.carousel-control-next(href="#demo" role="button" data-slide="next")
-      span.carousel-control-next-icon(href="#demo" role="button" data-slide="next")
-      span.sr-only
-        | Next
-
-  div.container-fluid.pt-3
+  div.container-fluid
     div.border.border-secondary.w-100.shadow-lg.bg-light
       div.btn-group.btn-group-lg.float-left
         button.btn.btn-outline-secondary
@@ -107,8 +64,53 @@ block content
               | Some quick example text to build on the card title and make up the bulk of the card's content.
             a.btn.btn-primary(href="#" data-toggle="tooltip" title="add in shopping card")
               i.fas.fa-plus(style='font-size:24px')
-
-  div.container-fluid.pb-3.text-right
-    span.border.border-0
-    a.btn.btn-outline-secondary(href=`/products` role="button")
-      | show more products
+    div.row(style='padding-top:20px')      
+      div.col-sm-4  
+        div.card.bg-light
+          img.card-img-top(src="https://www.w3schools.com/bootstrap4/cinqueterre.jpg" alt="Cinque Terre")
+          div.card-body
+            h5.card-title
+              | Name of the product4
+            p.card-text
+              | Some quick example text to build on the card title and make up the bulk of the card's content.
+            a.btn.btn-primary(href="#" data-toggle="tooltip" title="add in shopping card")
+              i.fas.fa-plus(style='font-size:24px')
+            
+      div.col-sm-4
+        div.card.bg-light
+          img.card-img-top(src="https://www.w3schools.com/bootstrap4/cinqueterre.jpg" alt="Cinque Terre")
+          div.card-body
+            h5.card-title
+              | Name of the product5
+            p.card-text
+              | Some quick example text to build on the card title and make up the bulk of the card's content.
+            a.btn.btn-primary(href="#" data-toggle="tooltip" title="add in shopping card")
+              i.fas.fa-plus(style='font-size:24px')
+        
+      div.col-sm-4          
+        div.card.bg-light
+          img.card-img-top(src="https://www.w3schools.com/bootstrap4/cinqueterre.jpg" alt="Cinque Terre")
+          div.card-body
+            h5.card-title
+              | Name of the product6
+            p.card-text
+              | Some quick example text to build on the card title and make up the bulk of the card's content.
+            a.btn.btn-primary(href="#" data-toggle="tooltip" title="add in shopping card")
+              i.fas.fa-plus(style='font-size:24px')
+              
+  div.ul.pagination.justify-content-center(style='padding-top:20px')
+    li.page-item
+      a.page-link(href="#")
+        | Previous
+    li.page-item
+      a.page-link(href="#")
+        | 1
+    li.page-item
+      a.page-link(href="#")
+        | 2
+    li.page-item
+      a.page-link(href="#")
+        | 3
+    li.page-item
+      a.page-link(href="#")
+        | Next
