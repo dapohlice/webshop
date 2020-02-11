@@ -4,6 +4,7 @@ const Assistant = require('../database/QueryAssistant.js');
 const ProductRoute = Express.Router();
 
 ProductRoute.use(BParser.json());
+ProductRoute.use(BParser.urlencoded({extended: true}));
 /*------------------------Hauptartikel----------------------------------------*/
 /*Post-Request zum erstellen eines neuen Artikeldatensatzes*/
 ProductRoute.post("/", async function (req,res){
@@ -53,7 +54,7 @@ ProductRoute.get("/", async function (req,res) {
 /*Get-Request für einen Artikeldatensatzes über seine ID*/
 ProductRoute.get("/:id", async function (reg,res) {
   try {
-    let result = await Assistant.Product.getProductsById(req.params.id)
+    let result = await Assistant.Product.getProductsById(req.params.id);
     res.send(result);
   } catch (err) {
     res.sendStatus(404);
@@ -61,38 +62,36 @@ ProductRoute.get("/:id", async function (reg,res) {
 });
 /*----------------------------------------------------------------------------*/
 /*-------------------------------Eigenschaften---------------------------------*/
-/*GET-Request zum Azeigen aller Unteratikeldatensätze eines Artikels*/
+/*GET-Request zum finden aller Eigenschaftsdatensätze eines Artikels*/
 ProductRoute.get("/:id/propertys", async function(req, res) {
   try {
-
+    let result = await Assistant.Product.getAllPropertys(req.params.id);
+    res.send(result);
   } catch (err) {
-
+    console.error(err);
+    res.status(404).send(err);
   }
 });
-/*POST-Request zum erstellen einer Eigenschaft zu einem Artikels*/
-ProductRoute.post("/:id/property", async function(req, res) {
-  try {
-
-  } catch (err) {
-
-  }
-});
-/*POST-Request zum erstellen mehrerer Eigenschafte zu einem Artikels*/
+/*POST-Request zum erstellen eines/mehrere SubArtikel zu einem Artikel*/
 ProductRoute.post("/:id/propertys", async function(req, res) {
   try {
-
+    console.log(req.body);
+    let result = await Assistant.Product.createProperty(req.params.id, req.body);
+    res.send(result);
   } catch (err) {
-
+    console.error(err);
+    res.status(404).send(err);
   }
 });
-/*PATCH-Request zum änderern der Artikelmenge*/
-ProductRoute.patch("/:id/property", async function(req, res)
+/*PATCH-Request zum ändern der Artikelmenge*/
+ProductRoute.patch("/:id/property/:subid", async function(req, res)
 {
   try {
-
+    let result = await Assistant.Product.changePropertyAmount(req.params.id, req.params.subid, req.body);
+    res.send(result);
   } catch (err) {
-
+    console.error(err);
+    res.status(404).send(err);
   }
 });
-
 module.exports = ProductRoute;
