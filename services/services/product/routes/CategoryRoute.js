@@ -4,7 +4,6 @@ const Assistant = require('../database/QueryAssistant.js');
 const CategoryRoute = Express.Router();
 
 CategoryRoute.use(BParser.json());
-
 /*POST-Request zum anlegen eines neue Kategoriedatensatzes*/
 CategoryRoute.post("/", async function(req,res)
 {
@@ -31,8 +30,9 @@ CategoryRoute.put("/:id", async function(req,res)
 CategoryRoute.delete("/:id", async function (req,res)
 {
   try {
-    let result = Models.Category.deleteCategory(req.params.id);
-    res.send(result);
+    console.log(req.params.id);
+    let result = Assistant.Category.deleteCategory(req.params.id);
+    res.send("Erfolgreich gelöscht!");
   } catch (err) {
     res.status(404).send(err);
   }
@@ -45,7 +45,7 @@ CategoryRoute.get("/", async function(req,res)
     let result = await Assistant.Category.getAllCategorys();
     res.send(result);
   } catch (err) {
-    send.status(404).send(err);
+    res.status(404).send(err);
   }
 });
 
@@ -53,10 +53,10 @@ CategoryRoute.get("/", async function(req,res)
 CategoryRoute.get("/:id", async function(req,res)
 {
   try {
-    let result = await Assistant.Category.getCategoryByID(reg.params.id)
+    let result = await Assistant.Category.getCategoryByID(req.params.id)
     res.send(result);
   } catch (err) {
-    send.status(404).send(err);
+    res.status(404).send(err);
   }
 });
 
