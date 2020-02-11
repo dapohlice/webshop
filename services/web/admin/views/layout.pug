@@ -12,48 +12,48 @@ block header
     link(rel='stylesheet' href='css/bs/bootstrap.min.css' type='text/css' media='screen')
     link(rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css' type='text/css' media='screen')
     
-  block body  
-    body
-    
-  block nav
-    - var active = "index"
-    
-  block navbar_vr
-    include vertical_navbar
+block body  
+  body
   
-  block main
-    main#main
-      block navbar_hr
-        nav.navbar.navbar-expand-md.bg-dark.navbar-dark
-          a.navbar-brand.nav-link.active(
-            href=`/`
-          )
-            | Logo
-          button.openbtn(
-            type="button"
-            onclick="openNav()"
-            style=`padding-left: 1%;`
-          )
-            span.navbar-toggler-icon          
+block nav
+  - var active = "index"
   
-        block content
-          
-        block footer
-          footer.page-footer.font-small
-            div.footer-copyright.text-center.py-3
-              | © 2020 Webshop Team:
-              a(href=`/`)
-                  |  admin.webshop.de
-  block scripts              
-    script(src='https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js')
-    script(src='https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.1/umd/popper.min.js')
-    //- script(src='https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js')
-    //- script(type='text/javascript' src='js/bs/jquery-3.4.1.min.js')
-    //- script(type='text/javascript' src='js/bs/popper.min.js')
-    script(type='text/javascript' src='js/bs/bootstrap.min.js')
+block navbar_vr
+  include vertical_navbar
 
-    script(type='text/javascript' src='js/services.js' defer='defer')
-    script(type='text/javascript' src='js/helper.js' defer='defer')
-    script(type='text/javascript' src='js/db_sidebar.js')
-    script(type='text/javascript' src='js/tooltip.js')
-    script(type='text/javascript' src='js/user_validator.js')
+block main
+  main#main
+    block navbar_hr
+      nav.navbar.navbar-expand-md.bg-dark.navbar-dark
+        a.navbar-brand.nav-link.active(
+          href=`/`
+        )
+          | Logo
+        button.openbtn(
+          type="button"
+          onclick="openNav()"
+          style=`padding-left: 1%;`
+        )
+          span.navbar-toggler-icon          
+
+      block content
+        
+      block footer
+        footer.page-footer.font-small
+          div.footer-copyright.text-center.py-3
+            | © 2020 Webshop Team:
+            a(href=`/`)
+                |  admin.webshop.de
+block scripts              
+  script(src='https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js')
+  script(src='https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.1/umd/popper.min.js')
+  //- script(src='https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js')
+  //- script(type='text/javascript' src='js/bs/jquery-3.4.1.min.js')
+  //- script(type='text/javascript' src='js/bs/popper.min.js')
+  script(type='text/javascript' src='js/bs/bootstrap.min.js')
+
+  script(type='text/javascript' src='js/services.js' defer='defer')
+  script(type='text/javascript' src='js/helper.js' defer='defer')
+  script(type='text/javascript' src='js/db_sidebar.js')
+  script(type='text/javascript' src='js/tooltip.js')
+  script(type='text/javascript' src='js/user_validator.js')

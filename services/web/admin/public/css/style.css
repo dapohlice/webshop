@@ -60,7 +60,14 @@ hr.white {
 #mySidebar .nav-link.active  {
     background-color: darkgrey;
 }
-
+.table > tbody > tr > td {
+     vertical-align: middle;
+}
+.table-image {
+  td, th {
+    vertical-align: middle;
+  }
+}
 .openbtn {
   display: none;
   font-size: 20px;

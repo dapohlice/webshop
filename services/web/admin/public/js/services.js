@@ -17,10 +17,25 @@ function getOrders() {
   } else {
     url = 'http://localhost:3001/order/status/' + urlParamStatus + '.json';
   }
+  getOrderReq = true;
   var res = new XHR('GET', url);
 
   console.log("GetXHR Klasse wurde aufgerufen mit folgenden Objekt:");
   console.log(currentUrl);
+}
+function getCategories() {
+  var url = '';
+
+  $('#jsonTableCategoryObjekt').children('table').eq(0).remove();
+
+  if(url == '') {
+    url = 'http://localhost:3002/category';
+    var res = new XHR('GET', url);
+    getCategoryReq = true;
+  }
+
+  console.log("GetXHR Klasse wurde aufgerufen mit folgenden Objekt:");
+  console.log(url);
 }
 function setNextStatus() {
   var url = '';
@@ -83,15 +98,19 @@ function XHR(type, url) {
     console.log('Sucessfull data check');
     console.log('XHR liefert folgendes Ergebnis zurück:');
     console.log(data);
-    if ((JSON.stringify(data) !== JSON.stringify([])) && callOrderDetails == false && setNewStatus == false) {
+    if ((JSON.stringify(data) !== JSON.stringify([])) && getOrderReq == true) {
       console.log("Objekt in der Antwort ist nicht leer");
       renderOrderTableHTML(data);
+      getOrderReq = false;
     } else if (setNewStatus == true) {
       $('#OrderDetailModal').modal('hide');
       //show info status
       showStatusInfo("Status wurde erfolgreich geändert!");
       //end of show info status
       getOrders();
+    } else if (getCategoryReq == true) {
+      renderCategoryTableHTML(data);
+      getCategoryReq = false;
     } else if (callOrderDetails == true) {
       console.log("Rufe RenderOrderDetailsHTML auf");
       renderOrderDetailsHTML(data);
