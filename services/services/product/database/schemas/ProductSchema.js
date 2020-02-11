@@ -1,5 +1,5 @@
 const Mongoose = require('mongoose');
-const PropertySchema = require('./PropertySchema');
+const SubSchema = require('./SubSchema');
 const CategorySchema = require('./CategorySchema');
 
 /*Datenstruktur eines Datensatzes für die Produktdatenbank*/
@@ -10,7 +10,8 @@ let PSchema = new Mongoose.Schema({
   price: { type: Number, required: true },
   state: { type: Boolean, required: true },
   timestamp: { type: Date, require: true },
-  propertys: { type: [PropertySchema] },
+  propertys: [SubSchema],
   catagory: { type: String, require: true }
 });
+PSchema.set('toJSON', { getters: true, virtuals: false});
 module.exports = PSchema;
