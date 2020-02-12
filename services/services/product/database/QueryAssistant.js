@@ -65,9 +65,7 @@ const DBOps = {};
     /*Ändern eines Produktdatensatzes*/
     updateProduct: async function(id, dataset){
       try {
-        dest = await Models.ProductModel.find({productid: id}).exec();
-        dest.set(dataset);
-        return await dest.save();
+        await Models.ProductModel.updateOne({productid: id}, dataset);
       } catch (err) {
         throw err;
       }
@@ -75,9 +73,7 @@ const DBOps = {};
     /*Ändern des Status eines Produktdatensatzes*/
     changeState: async function(id, state){
       try {
-        let dest = await Models.ProductModel.findOne({productid: id}).exec();
-        dest.set({state: state});
-        return await dest.save();
+        await Models.ProductModel.updateOne({productid: id}, {state: state});
       } catch (err) {
         throw err;
       }
@@ -91,7 +87,7 @@ const DBOps = {};
         }
       },
     /*Finde Produkt über seine ID -> ID ist Produktid*/
-    getProductsByID: async function(id){
+    getProductByID: async function(id){
       try {
         return await Models.ProductModel.findOne({productid: id}).exec();
       } catch (err) {
