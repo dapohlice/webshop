@@ -80,6 +80,12 @@ app.get('/', (req, res) => {
         title: 'Categories - Administration Dashboard',
       });
       break;
+    case 'ordered':
+      res.render('order', {
+        name : 'ordered',
+        title: 'Ordered Order - Administration Dashboard',
+      });
+      break;
     case 'payed':
       res.render('order', {
         name : 'payed',
