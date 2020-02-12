@@ -7,17 +7,23 @@ block content
   div#adminc.col.pt-2
     h2.text-center
       | User
-    div.nav.navbar.search-bar
+    div.nav.navbar.search-bar.header.shadow
       button#newUserBtn.btn.btn-secondary(type="button" data-tooltip="tooltip" data-placement="bottom" title="Create a new user" data-toggle="modal" data-target="#adduserModal")
-        i.fa.fa-plus
-          | Add
+        i.fa.fa-user-plus
+          |  Add
       div.search-container
         form(action="/userSearching")
           input(type="text" placeholder="Search.." name="search")
           button(type="submit")
             i.fa.fa-search
             
-    include adduser
+    include user_add
+    
+    div#jsonTableObjekt
+    
+    div#errorTableObjekt
+    
+    div#status.text-center
 
     table.table.table-striped
       thead

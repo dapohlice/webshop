@@ -10,7 +10,7 @@ block nav
 block content
   div#adminc.col.pt-2
     h2.text-center #{title}
-    div.nav.navbar.search-bar
+    div.nav.navbar.search-bar.header.shadow
       button#newCatBtn.btn.btn-secondary.btn-sm(type="button" data-tooltip="tooltip" data-placement="bottom" title="Create a new category" data-toggle="modal" data-target="#addCategoryModal")
         i.fa.fa-plus
           | Add
@@ -26,7 +26,7 @@ block content
     
     include category_change
     
-    div#jsonTableCategoryObjekt
+    div#jsonTableObjekt
     
     div#status.text-center
       

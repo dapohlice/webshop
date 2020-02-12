@@ -22,6 +22,11 @@ hr.white {
 
 i.fa {font-family: "FontAwesome", "Roboto", sans-serif}
 
+.header.shadow {
+  -webkit-box-shadow: 0 3px 5px rgba(57, 63, 72, 0.3);
+  -moz-box-shadow: 0 3px 5px rgba(57, 63, 72, 0.3);
+  box-shadow: 0 3px 5px rgba(57, 63, 72, 0.3);
+}
 .sidebar {
   height: 100%;
   width: 0;
@@ -38,7 +43,7 @@ i.fa {font-family: "FontAwesome", "Roboto", sans-serif}
 .sidebar a {
   padding: 8px 8px 8px 32px;
   text-decoration: none;
-  font-size: 25px;
+  font-size: 17px;
   color: #818181;
   display: block;
   transition: 0.3s;
@@ -46,6 +51,7 @@ i.fa {font-family: "FontAwesome", "Roboto", sans-serif}
 
 .sidebar a:hover {
   color: #f1f1f1;
+  text-decoration: none;
 }
 
 .sidebar .closebtn {

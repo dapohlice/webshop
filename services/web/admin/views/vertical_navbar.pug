@@ -5,57 +5,89 @@ block vertical_navbar
       onclick="closeNav()"
     )
       | &times;
-    a.nav-link(
+    div.header.shadow
+      left.text-secondary            
+        h5.pl-2
+          i#usermng.fa.fa-caret-down(onclick="hideNavs(\"usermng\",\"userNavs\")")
+            |  User Management
+    a.nav-link.userNavs(
       class=(name === "user" ? "active" : undefined)
-      href=`/user`
+      href=`/?ap=users`
     )
-      | User
-    a.nav-link(
+      i.fa.fa-address-book
+        |  Users
+    a.nav-link.userNavs(
+      class=(name === "group" ? "active" : undefined)
+      href=`/?ap=groups`
+    )
+      i.fa.fa-group
+        |  Groups
+    div.header.shadow.mt-3
+      left.text-secondary       
+        h5.pl-2
+          i.fa.fa-caret-down(onclick="hideNavs(\"usermng\",\"userNavs\")")
+            |  Product Management
+    a.nav-link.prdNavs(
       class=(name === "article" ? "active" : undefined)
-      href=`#`
+      href=`/?ap=articles`
     )
-      | Article
-    a.nav-link(
+      i.fa.fa-newspaper-o
+        |  Articles
+    a.nav-link.prdNavs(
       class=(name === "category" ? "active" : undefined)
-      href=`/category`
+      href=`/?ap=categories`
     )
-      | Categories
-    hr.white
-    center
-      h2.text-secondary Order Progress
-    a.nav-link(
-      class=(name === "orderedOrder" ? "active" : undefined)
-      href=`/?order=ordered`
+      i.fa.fa-window-restore
+        |  Categories
+    div.header.shadow.mt-3
+      left.text-secondary            
+        h5.pl-2
+          i#ordprog.fa.fa-caret-down(onclick="hideNavs(\"ordprog\",\"prdNavs\")")
+            |  Order Progress
+    a.nav-link.prdNavs(
+      class=(name === "ordered" ? "active" : undefined)
+      href=`/?ap=ordered`
     )
-      | Ordered
-    a.nav-link(
-      class=(name === "payedOrder" ? "active" : undefined)
-      href=`/?order=payed`
+      i.fa.fa-laptop
+        |  Ordered
+    a.nav-link.prdNavs(
+      class=(name === "payed" ? "active" : undefined)
+      href=`/?ap=payed`
     )
-      | Payed
-    a.nav-link(
-      class=(name === "packedOrder" ? "active" : undefined)
-      href=`/?order=packed`
+      i.fa.fa-money
+        |  Payed
+    a.nav-link.prdNavs(
+      class=(name === "packed" ? "active" : undefined)
+      href=`/?ap=packed`
     )
-      | Packed
-    a.nav-link(
-      class=(name === "finishedOrder" ? "active" : undefined)
-      href=`/?order=finished`
+      i.fa.fa-shopping-bag
+        |  Packed
+    a.nav-link.prdNavs(
+      class=(name === "finished" ? "active" : undefined)
+      href=`/?ap=finished`
     )
-      | Finished
-    a.nav-link(
-      class=(name === "returnedOrder" ? "active" : undefined)
-      href=`/?order=returned`
+      i.fa.fa-calendar-check-o
+        |  Finished
+    a.nav-link.prdNavs(
+      class=(name === "returned" ? "active" : undefined)
+      href=`/?ap=returned`
     )
-      | Returned
-    a.nav-link(
-      class=(name === "allOrder" ? "active" : undefined)
-      href=`/?order=all`
+      i.fa.fa-mail-reply
+        |  Returned
+    a.nav-link.prdNavs(
+      class=(name === "all" ? "active" : undefined)
+      href=`/?ap=all`
     )
-      | All
-    hr.white
-    a.nav-link(
+      i.fa.fa-newspaper-o
+        |  All
+    div.header.shadow.mt-3
+      left.text-secondary            
+        h5.pl-2
+          i#session.fa.fa-caret-down(onclick="hideNavs(\"session\",\"sesNav\")")
+            |  Session
+    a.nav-link.sesNav(
       class=(name === "logout" ? "active" : undefined)
       href=`#`
     )
-      | Logout 
+      i.fa.fa-sign-out
+        |  Logout 

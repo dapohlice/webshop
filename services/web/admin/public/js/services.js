@@ -26,7 +26,7 @@ function getOrders() {
 function getCategories() {
   var url = '';
 
-  $('#jsonTableCategoryObjekt').children('table').eq(0).remove();
+  $('#jsonTableObjekt').children('table').eq(0).remove();
 
   if(url == '') {
     url = 'http://localhost:3002/category';
@@ -47,7 +47,7 @@ function createCategory() {
   console.log(term2);
   var url = '';
 
-  $('#jsonTableCategoryObjekt').children('table').eq(0).remove();
+  $('#jsonTableObjekt').children('table').eq(0).remove();
 
   // Create an empty JSON object to return.
   var retJson = {};

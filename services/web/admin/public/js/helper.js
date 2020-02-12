@@ -1,8 +1,7 @@
 // Rufe alle Container auf um dynamisch den Inhalt derer zu ändern:
 var btn = document.getElementById("btn");
-var tableContainer = document.getElementById('errorTableObjekt');
-var orderTableContainer = document.getElementById('jsonTableObjekt');
-var categoryTableContainer = document.getElementById('jsonTableCategoryObjekt');
+var errorTableContainer = document.getElementById('errorTableObjekt');
+var jsonTableContainer = document.getElementById('jsonTableObjekt');
 var orderDetailTableContainer = document.getElementById('jsonDetailTableObjekt');
 var orderShippingAddressTableContainer = document.getElementById('jsonAddressTableObjekt');
 var modalTitelContainer = document.getElementById('modalDetailTitel');
@@ -56,7 +55,7 @@ function helper() {
 
     } else {
       console.log("Neuzuweisung auf: lastId = id")
-      $('#categoryDetailTableObjekt').children('table').eq(0).remove();
+      $('#jsonTableObjekt').children('table').eq(0).remove();
       $('#modalDetailTitel').children('span').eq(0).remove();
       // $('#modalDetailLogTitel').children('span').eq(0).remove();
       // $('#categoryLogContent').children('table').eq(0).remove();
@@ -135,7 +134,7 @@ function getUrlVars() {
     return vars;
 }
 var currentUrl = getUrlVars();
-var currentOrder = getUrlVars()["order"];
+var currentOrder = getUrlVars()["ap"];
 var currentID = getUrlVars()["id"];
 var currentCategoryName = getUrlVars()["categoryname"];
 var currentPicturePath = getUrlVars()["picturepath"];
@@ -228,7 +227,7 @@ function renderOrderTableHTML(data) {
   htmlString += "</tbody>";
   htmlString += "</table>"
 
-  orderTableContainer.insertAdjacentHTML('beforeend', htmlString);
+  jsonTableContainer.insertAdjacentHTML('beforeend', htmlString);
   console.log("Ab jetzt wird helper Klasse aufgerufen...");
   helper();
 }
@@ -249,7 +248,7 @@ function renderCategoryTableHTML(data) {
   htmlString += "</tbody>";
   htmlString += "</table>"
 
-  categoryTableContainer.insertAdjacentHTML('beforeend', htmlString);
+  jsonTableContainer.insertAdjacentHTML('beforeend', htmlString);
   console.log("Ab jetzt wird helper Klasse aufgerufen...");
   helper();
 }
@@ -286,7 +285,7 @@ function renderErrorTableHTML() {
   htmlString += "</tbody>";
   htmlString += "</table>"
 
-  tableContainer.insertAdjacentHTML('beforeend', htmlString);
+  errorTableContainer.insertAdjacentHTML('beforeend', htmlString);
   console.log("Keine Bestellungen gefunden");
 }
 function renderOrderDetailsHTML(data) {
