@@ -1,0 +1,71 @@
+block category_change
+
+  div#categoryChangeModal.modal.fade
+    div.modal-dialog.modal-md
+      div.modal-content
+        //- Modal Header
+        div.modal-header
+          h4#modalDetailTitel.modal-title    
+                                
+          button.close(
+            type="button"
+            data-dismiss="modal"
+            data-tooltip="tooltip" 
+            data-placement="bottom" 
+            title="Abort to patch current category" 
+          ) 
+            | &times;
+        //- Modal Body
+        div.modal-body
+        div.container
+          div.row
+            div.col.col-lg-12
+              h5 Category
+              
+              div#categoryDetailTableObjekt
+
+              form#patchCategoryAction.was-validated 
+                //(action="/newuser")
+                div.form-group
+                  label(
+                    for="patch_categoryname"
+                  )
+                    | Category Name
+                  input.form-control#patch_categoryname(
+                    type="name"
+                    placeholder="Enter name of category"
+                    name="patch_categoryname"
+                    required
+                  )
+                  div.valid-feedback
+                    | Valid.
+                  div.invalid-feedback
+                    | Please fill out this field.
+                div.form-group
+                  label(
+                    for="patch_categorypicture"
+                  )
+                    | Select Picture
+                  input.form-control#patch_categorypicture(
+                    type="datapath"
+                    placeholder="Upload a picture for this new category"
+                    name="patch_categorypicture"
+                  )                
+        //- Modal Footer
+        div.modal-footer
+          button#closePatchCategoryBtn.btn.btn-danger(
+            type="button"
+            data-dismiss="modal"
+            data-tooltip="tooltip" 
+            data-placement="bottom" 
+            title="Abort to patch current category" 
+          )
+            i.fa.fa-close
+              | Abort 
+          button#submitPatchCategoryBtn.btn.btn-primary(
+            type="submit"
+            onclick="updateCategory()"
+            data-dismiss="modal"
+          )
+            i.fa.fa-check
+              | Submit
