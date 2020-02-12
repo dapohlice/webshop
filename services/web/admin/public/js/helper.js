@@ -14,6 +14,8 @@ var admincContainer = document.getElementById('adminc');
 //  Helfer-Variablen, um den aktuellen Status zu speichern
 var callCategoryDetails = false;
 var createCategoryReq = false;
+var getGroupsReq = false;
+var getUsersReq = false;
 var getCategoryReq = false;
 var getOrderReq = false;
 var callOrderDetails = false;
@@ -62,7 +64,38 @@ function helper() {
       clearParam();
       getCategoryDetails(id);
     }
-    // callOrderDetails = false;
+  });
+  $(".editUserButton").click(function() {
+    console.log("click editUserButton");       // Prints out test text
+    var id = $(this).closest("tr").find(".id").text();
+    console.log(id);
+    if (lastID == id) {
+      console.log("Keine Neuzuweisung, da lastID = id")
+
+    } else {
+      console.log("Neuzuweisung auf: lastId = id")
+      $('#jsonTableObjekt').children('table').eq(0).remove();
+      $('#modalDetailTitel').children('span').eq(0).remove();
+
+      clearParam();
+      getUserDetails(id);
+    }
+  });
+  $(".editGroupButton").click(function() {
+    console.log("click groupDetailModal");       // Prints out test text
+    var id = $(this).closest("tr").find(".id").text();
+    console.log(id);
+    if (lastID == id) {
+      console.log("Keine Neuzuweisung, da lastID = id")
+
+    } else {
+      console.log("Neuzuweisung auf: lastId = id")
+      $('#jsonTableObjekt').children('table').eq(0).remove();
+      $('#modalDetailTitel').children('span').eq(0).remove();
+
+      clearParam();
+      getUserDetails(id);
+    }
   });
 }
   // Set Name of Dropdown-Button's
@@ -134,7 +167,7 @@ function getUrlVars() {
     return vars;
 }
 var currentUrl = getUrlVars();
-var currentOrder = getUrlVars()["ap"];
+var currentAdminPage = getUrlVars()["ap"];
 var currentID = getUrlVars()["id"];
 var currentCategoryName = getUrlVars()["categoryname"];
 var currentPicturePath = getUrlVars()["picturepath"];
@@ -231,6 +264,74 @@ function renderOrderTableHTML(data) {
   console.log("Ab jetzt wird helper Klasse aufgerufen...");
   helper();
 }
+function renderUserTableHTML(data) {
+  console.log("renderUserTableHTML gestartet")
+  // Ersetzen mit richtiger Login Berechtigung
+  var admin = 1;
+
+  var htmlString = "<table class=\"table table-striped table-hover\">";
+  htmlString += "<thead><tr><th>ID</th><th>Lastname</th><th>Firstname</th>";
+  if (admin == 1) {
+    htmlString += "<th>status</th>";
+  }
+  htmlString += "</tr></thead>";
+  htmlString += "<tbody>";
+  for(let i = 0; i < data.length; i++) {
+    if (admin == 1) {
+      htmlString += "<tr class=\"editUserButton table-row\" data-tooltip=\"tooltip\" data-placement=\"bottom\" title=\"Edit this user\" data-toggle=\"modal\" data-target=\"#userDetailModal\">";
+    } else {
+      htmlString += "<tr>";
+    }
+    htmlString += "<td class=\"id\"><span>" + data[i].id + "</span></td>";
+    htmlString += "<td>" + data[i].lastname + "</td>";
+    htmlString += "<td>" + data[i].firstname + "</td>";
+    if (admin == 1) {
+      htmlString += "<td>";
+      if (data[i].status) {
+        htmlString += "<i class=\"fa fa-check\" style=\"color:green\"></i>";
+      } else {
+        htmlString += "<i class=\"fa fa-close\" style=\"color:red\"></i>";
+      }
+      htmlString += "</td>";
+    }
+    htmlString += "</tr>";
+  }
+  htmlString += "</tbody>";
+  htmlString += "</table>"
+
+  jsonTableContainer.insertAdjacentHTML('beforeend', htmlString);
+  console.log("Ab jetzt wird helper Klasse aufgerufen...");
+  helper();
+}
+function renderGroupTableHTML(data) {
+  console.log("renderGroupTableHTML gestartet")
+  // Ersetzen mit richtiger Login Berechtigung
+  var admin = 1;
+
+  var htmlString = "<table class=\"table table-striped table-hover\">";
+  htmlString += "<thead><tr><th>ID</th><th>Groupname</th>";
+  htmlString += "</tr></thead>";
+  htmlString += "<tbody>";
+
+  for(let i = 0; i < data.length; i++) {
+    if (admin == 1) {
+      htmlString += "<tr class=\"editGroupButton table-row\" data-tooltip=\"tooltip\" data-placement=\"bottom\" title=\"Edit this group\" data-toggle=\"modal\" data-target=\"#groupDetailModal\">";
+    } else {
+      htmlString += "<tr>";
+    }
+    htmlString += "<td class=\"id\"><span>" + data[i].id + "</span></td>";
+    htmlString += "<td>" + data[i].groupname + "</td>";
+
+    htmlString += "</tr>";
+  }
+  htmlString += "</tbody>";
+  htmlString += "</table>"
+
+  jsonTableContainer.insertAdjacentHTML('beforeend', htmlString);
+  console.log("Ab jetzt wird helper Klasse aufgerufen...");
+  helper();
+}
+
 function renderCategoryTableHTML(data) {
   console.log("renderCategoryTableHTML gestartet")
   var htmlString = "<table class=\"table table-striped table-hover table-image\">";

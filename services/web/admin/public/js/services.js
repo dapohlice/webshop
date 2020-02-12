@@ -1,7 +1,7 @@
 function getOrders() {
   var url = '';
   var urlParamStatus = 0;
-  urlParamStatus = getCurrentOrderFromParam(currentOrder);
+  urlParamStatus = getCurrentOrderFromParam(currentAdminPage);
   $('#jsonTableObjekt').children('table').eq(0).remove();
   setNewStatus = false;
 
@@ -37,6 +37,35 @@ function getCategories() {
   }
 
 }
+function getUsers() {
+  var url = '';
+  urlParam = currentAdminPage;
+  console.log(urlParam);
+  $('#jsonTableObjekt').children('table').eq(0).remove();
+
+  if(urlParam == 'users') {
+    url = 'http://localhost:3003/user';
+    var res = new XHR('GET', url);
+    getUsersReq = true;
+    console.log("GetXHR Klasse wurde aufgerufen mit folgenden Objekt:");
+    console.log(url);
+  }
+}
+function getGroups() {
+  var url = '';
+  urlParam = currentAdminPage;
+  console.log(urlParam);
+  $('#jsonTableObjekt').children('table').eq(0).remove();
+
+  if(urlParam == 'groups') {
+    url = 'http://localhost:3003/group';
+    var res = new XHR('GET', url);
+    getGroupsReq = true;
+    console.log("GetXHR Klasse wurde aufgerufen mit folgenden Objekt:");
+    console.log(url);
+  }
+}
+
 function createCategory() {
 
   // Get some values from elements on the page:
@@ -177,6 +206,12 @@ function XHR(type, url, data) {
     } else if (createCategoryReq == true) {
       getCategories();
       createCategoryReq = false;
+    } else if (getUsersReq == true) {
+      renderUserTableHTML(data);
+      getUsersReq = false;
+    } else if (getGroupsReq == true) {
+      renderGroupTableHTML(data);
+      getGroupsReq = false;
     } else {
       renderErrorTableHTML();
     }

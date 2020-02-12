@@ -1,0 +1,48 @@
+block group_add
+
+  div#addGroupModal.modal.fade
+    div.modal-dialog.modal-xl
+      div.modal-content
+        //- Modal Header
+        div.modal-header
+          h4.modal-title
+            | Add a new group              
+          button.close(
+            type="button"
+            data-dismiss="modal"
+          ) 
+            | &times;
+        //- Modal Body
+        div.modal-body
+          form#addGroupAction.was-validated 
+            //(action="/newgroup")
+            div.form-group
+              label(
+                for="groupname"
+              )
+                | User name
+              input.form-control#groupname(
+                type="groupname"
+                placeholder="Enter group name"
+                name="groupname"
+                required
+              )
+              div.valid-feedback
+                | Valid.
+              div.invalid-feedback
+                | Please fill out this field.
+
+        //- Modal Footer
+        div.modal-footer
+          button.btn.btn-danger(
+            type="button"
+            data-dismiss="modal"
+          )
+            i.fa.fa-times
+              | Abort
+          button#newGroup.btn.btn-primary(
+            type="submit"
+            onclick="send()"
+          )
+            i.fa.fa-check
+              | Submit

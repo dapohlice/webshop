@@ -25,7 +25,7 @@ block vertical_navbar
     div.header.shadow.mt-3
       left.text-secondary       
         h5.pl-2
-          i.fa.fa-caret-down(onclick="hideNavs(\"usermng\",\"userNavs\")")
+          i#prdmng.fa.fa-caret-down(onclick="hideNavs(\"prdmng\",\"prdNavs\")")
             |  Product Management
     a.nav-link.prdNavs(
       class=(name === "article" ? "active" : undefined)
@@ -42,39 +42,39 @@ block vertical_navbar
     div.header.shadow.mt-3
       left.text-secondary            
         h5.pl-2
-          i#ordprog.fa.fa-caret-down(onclick="hideNavs(\"ordprog\",\"prdNavs\")")
+          i#ordprog.fa.fa-caret-down(onclick="hideNavs(\"ordprog\",\"ordNavs\")")
             |  Order Progress
-    a.nav-link.prdNavs(
+    a.nav-link.ordNavs(
       class=(name === "ordered" ? "active" : undefined)
       href=`/?ap=ordered`
     )
       i.fa.fa-laptop
         |  Ordered
-    a.nav-link.prdNavs(
+    a.nav-link.ordNavs(
       class=(name === "payed" ? "active" : undefined)
       href=`/?ap=payed`
     )
       i.fa.fa-money
         |  Payed
-    a.nav-link.prdNavs(
+    a.nav-link.ordNavs(
       class=(name === "packed" ? "active" : undefined)
       href=`/?ap=packed`
     )
       i.fa.fa-shopping-bag
         |  Packed
-    a.nav-link.prdNavs(
+    a.nav-link.ordNavs(
       class=(name === "finished" ? "active" : undefined)
       href=`/?ap=finished`
     )
       i.fa.fa-calendar-check-o
         |  Finished
-    a.nav-link.prdNavs(
+    a.nav-link.ordNavs(
       class=(name === "returned" ? "active" : undefined)
       href=`/?ap=returned`
     )
       i.fa.fa-mail-reply
         |  Returned
-    a.nav-link.prdNavs(
+    a.nav-link.ordNavs(
       class=(name === "all" ? "active" : undefined)
       href=`/?ap=all`
     )

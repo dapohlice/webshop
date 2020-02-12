@@ -126,14 +126,7 @@ block user_add
                 div.valid-feedback
                   | Looks Good!
                 div.invalid-feedback
-                  | Please choose a profession!
-                  
-              button#newuser.btn.btn-primary(
-                type="submit"
-                onclick="send()"
-              )
-                i.fa.fa-check
-                  | Submit
+                  | Please choose a profession!                  
         //- Modal Footer
         div.modal-footer
           button.btn.btn-danger(
@@ -142,3 +135,9 @@ block user_add
           )
             i.fa.fa-times
               | Abort
+          button#newuser.btn.btn-primary(
+            type="submit"
+            onclick="send()"
+          )
+            i.fa.fa-check
+              | Submit
