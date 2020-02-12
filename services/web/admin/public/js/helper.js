@@ -456,6 +456,7 @@ function timeConverter(UNIX_timestamp){
   return time;
 }
 function currencyConverter(eu_cent){
-  var eur = new Intl.NumberFormat('de-DE', { style: 'currency', currency: 'EUR' }).format(eu_cent)
+  var euro = eu_cent / 100;
+  eur = new Intl.NumberFormat('de-DE', { style: 'currency', currency: 'EUR' }).format(euro)
   return eur;
 }
