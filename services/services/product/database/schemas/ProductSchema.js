@@ -9,9 +9,8 @@ let PSchema = new Mongoose.Schema({
   description: { type: String, required: true },
   price: { type: Number, required: true },
   state: { type: Boolean, required: true },
-  timestamp: { type: Date, require: true },
   propertys: [SubSchema],
   catagory: { type: String, require: true }
-});
-PSchema.set('toJSON', { getters: true, virtuals: false});
+}, {timestamps: true}
+);
 module.exports = PSchema;
