@@ -53,9 +53,12 @@ block category_create_new
             data-placement="bottom" 
             title="Abort to add new category" 
           )
-            | Abort
+            i.fa.fa-close
+              | Abort
           button#submitNewCategoryBtn.btn.btn-primary(
             type="submit"
-            onclick="send()"
+            onclick="createCategory()"
+            data-dismiss="modal"
           )
-            | Submit
+            i.fa.fa-check
+              | Submit

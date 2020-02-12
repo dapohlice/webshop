@@ -7,16 +7,20 @@ Highlights-Alternativ-Hintergrund: e2d8bf
 Wichtiges-Links-Warnungen: f9a03f
 https://coolors.co/000000-ffffff-005951-e2d8bf-f9a03f */
 
-* {box-sizing: border-box;}
+* {
+  box-sizing: border-box;
+  font-family: 'Roboto', sans-serif;
+}
 
 body {
   margin: 0;
-  font-family: Arial, Helvetica, sans-serif;
 }
 
 hr.white {
   border-top: 1px solid grey;
 }
+
+i.fa {font-family: "FontAwesome", "Roboto", sans-serif}
 
 .sidebar {
   height: 100%;
@@ -62,6 +66,9 @@ hr.white {
 }
 .table > tbody > tr > td {
      vertical-align: middle;
+}
+.table-row{
+     cursor:pointer;
 }
 .table-image {
   td, th {

@@ -11,11 +11,11 @@ function getOrders() {
   if(urlParamStatus == 0) {
     url = 'http://localhost:3001/order';
   } else if (urlParamStatus == 99) {
-    url = 'http://localhost:3001/order/status/' + 1 + '.json';
+    url = 'http://localhost:3001/order/status/' + 1;
   } else if (statusString != '' && (urlParamStatus == 4 || urlParamStatus == 6)) {
     url = 'http://localhost:3001/order/status/' + statusString;
   } else {
-    url = 'http://localhost:3001/order/status/' + urlParamStatus + '.json';
+    url = 'http://localhost:3001/order/status/' + urlParamStatus;
   }
   getOrderReq = true;
   var res = new XHR('GET', url);
@@ -32,16 +32,54 @@ function getCategories() {
     url = 'http://localhost:3002/category';
     var res = new XHR('GET', url);
     getCategoryReq = true;
+    console.log("GetXHR Klasse wurde aufgerufen mit folgenden Objekt:");
+    console.log(url);
   }
 
-  console.log("GetXHR Klasse wurde aufgerufen mit folgenden Objekt:");
-  console.log(url);
+}
+function createCategory() {
+
+  // Get some values from elements on the page:
+  var term = $('#categoryname').val();
+  var term2 = $('#categorypicture').val();
+
+  console.log(term);
+  console.log(term2);
+  var url = '';
+
+  $('#jsonTableCategoryObjekt').children('table').eq(0).remove();
+
+  // Create an empty JSON object to return.
+  var retJson = {};
+  retJson.categoryname = term;
+  retJson.picturepath = term2;
+
+
+  if( (term != '') && (term2 != '') ) {
+    //todo: bei method: Post wird im request über ajax Json im Body nicht entgegen genommen
+
+    // var nojson = JSON.stringify({ "categoryname" : term, "picturepath" : term2 });
+    // console.log(nojson);
+    // // let data = JSON.parse(nojson);
+    // var data = JSON.stringify(trimdata);
+    console.log(retJson);
+    // console.log(JSON.stringify(retJson));
+
+    url = 'http://localhost:3002/category';
+    var res = new XHR('POST', url, retJson);
+
+    createCategoryReq = true;
+    console.log("POSTXHR Klasse wurde aufgerufen mit folgenden Objekt:");
+    console.log(url);
+  }
+
 }
 function setNextStatus() {
   var url = '';
   var urlParamID = 0;
-  urlParamID = getUrlVars()["id"];
-  status = getUrlVars()["status"];
+  var status = 0;
+  urlParamID = lastID;
+  status = lastStatus;
 
   if((urlParamID != null) && (status < 4) && (status != 0)) {
     setNewStatus = true;
@@ -53,8 +91,9 @@ function setNextStatus() {
 
     url = 'http://localhost:3001/order/' + urlParamID;
     var res = new XHR('PATCH', url);
-    //setze lastID = 0 (Standartwert), sonst werden die OrderDetails nicht neu geladen!
+    //setze lastID = 0 & lastStatus (Standartwert), sonst werden die OrderDetails nicht neu geladen!
     lastID = 0;
+    lastStatus = 0;
     return true;
   } else {
     console.log("Statusänderung nicht erlaubt!")
@@ -86,8 +125,25 @@ function getOrderDetails(id) {
   console.log(currentUrl);
 
 }
+function getCategoryDetails(id) {
+  var url = '';
+  console.log("getCategory ID for details: ");
+  console.log(id);
 
-function XHR(type, url) {
+  if(id != null) {
+    renderCategoryDetailsHTML(id);
+    // callCategoryDetails = true;
+    // url = 'http://localhost:3002/category/' + id;
+  }
+  // var res = new XHR('GET', url);
+
+
+  console.log("UrlParams: ");
+  console.log(currentUrl);
+
+}
+
+function XHR(type, url, data) {
   promise = $.ajax({
     type: type,
     url: url,
@@ -118,6 +174,9 @@ function XHR(type, url) {
       renderOrderStatusButtonHTML(data);
       renderOrderLogHTML(data);
       rendernextButtonHTML(data);
+    } else if (createCategoryReq == true) {
+      getCategories();
+      createCategoryReq = false;
     } else {
       renderErrorTableHTML();
     }
@@ -134,6 +193,7 @@ function XHR(type, url) {
     console.log(statusText + " - " + xhr.status);
     $('#adminc').empty();
     renderErrorHTML(xhr, statusText);
+    return false;
   });
 
 }

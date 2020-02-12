@@ -11,15 +11,20 @@ block content
   div#adminc.col.pt-2
     h2.text-center #{title}
     div.nav.navbar.search-bar
-      button#newCatBtn.btn.btn-secondary(type="button" data-tooltip="tooltip" data-placement="bottom" title="Create a new category" data-toggle="modal" data-target="#addCategoryModal")
-        | Add
+      button#newCatBtn.btn.btn-secondary.btn-sm(type="button" data-tooltip="tooltip" data-placement="bottom" title="Create a new category" data-toggle="modal" data-target="#addCategoryModal")
+        i.fa.fa-plus
+          | Add
       div.search-container
         form
           input(type="text" placeholder="Search.." name="search")
           button(type="submit" onclick=("orderSearch()"))
             i.fa.fa-search
+            
+    div#errorTableObjekt
 
     include category_create_new
+    
+    include category_change
     
     div#jsonTableCategoryObjekt
     

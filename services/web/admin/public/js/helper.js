@@ -1,5 +1,6 @@
 // Rufe alle Container auf um dynamisch den Inhalt derer zu ändern:
 var btn = document.getElementById("btn");
+var tableContainer = document.getElementById('errorTableObjekt');
 var orderTableContainer = document.getElementById('jsonTableObjekt');
 var categoryTableContainer = document.getElementById('jsonTableCategoryObjekt');
 var orderDetailTableContainer = document.getElementById('jsonDetailTableObjekt');
@@ -12,11 +13,14 @@ var orderNextButtonContainer = document.getElementById('nextStatusButton');
 var orderLogContainer = document.getElementById('orderLogContent');
 var admincContainer = document.getElementById('adminc');
 //  Helfer-Variablen, um den aktuellen Status zu speichern
+var callCategoryDetails = false;
+var createCategoryReq = false;
 var getCategoryReq = false;
 var getOrderReq = false;
 var callOrderDetails = false;
 var setNewStatus = false;
 let lastID = 0;
+let lastStatus = 0;
 let curLog = 0;
 
 // Alle Aufrufe
@@ -40,6 +44,24 @@ function helper() {
       $('#orderLogContent').children('table').eq(0).remove();
       clearParam();
       getOrderDetails(id);
+    }
+    // callOrderDetails = false;
+  });
+  $(".editCategoryButton").click(function() {
+    console.log("click editCategoryButton");       // Prints out test text
+    var id = $(this).closest("tr").find(".id").text();
+    console.log(id);
+    if (lastID == id) {
+      console.log("Keine Neuzuweisung, da lastID = id")
+
+    } else {
+      console.log("Neuzuweisung auf: lastId = id")
+      $('#categoryDetailTableObjekt').children('table').eq(0).remove();
+      $('#modalDetailTitel').children('span').eq(0).remove();
+      // $('#modalDetailLogTitel').children('span').eq(0).remove();
+      // $('#categoryLogContent').children('table').eq(0).remove();
+      clearParam();
+      getCategoryDetails(id);
     }
     // callOrderDetails = false;
   });
@@ -115,11 +137,21 @@ function getUrlVars() {
 var currentUrl = getUrlVars();
 var currentOrder = getUrlVars()["order"];
 var currentID = getUrlVars()["id"];
+var currentCategoryName = getUrlVars()["categoryname"];
+var currentPicturePath = getUrlVars()["picturepath"];
 var currentStatus = 0;
 var statusString = '';
 
 //speichere ID von Order-Detail Response in parameter in addresszeile
 function addParam(curID, curOrder, status){
+  if(curID != 'undefined' && curOrder == 'undefined' && status == 'undefined')
+  {
+    history.pushState({id: curID}, "&id=" + curID);
+  } else {
+    history.pushState({id: curID}, "orderid", "?order=" + curOrder + "&id=" + curID + "&status=" + status);
+  }
+}
+function addParamCategory(curID, curOrder, status){
 	history.pushState({id: curID}, "orderid", "?order=" + curOrder + "&id=" + curID + "&status=" + status);
 }
 //setze ADressverlauf zurück
@@ -170,7 +202,7 @@ function getCurrentOrderFromParam(string) {
 // Alle Render HTML Funktionen:
 function renderOrderTableHTML(data) {
   console.log("renderOrderTableHTML gestartet")
-  var htmlString = "<table class=\"table table-striped\">";
+  var htmlString = "<table class=\"table table-striped table-hover\">";
   htmlString += "<thead><tr><th>ID</th><th>mail</th><th>timestamp</th>";
   if (currentStatus == 0) {
     htmlString += "<th>status</th>";
@@ -178,17 +210,18 @@ function renderOrderTableHTML(data) {
   htmlString += "</tr></thead>";
   htmlString += "<tbody>";
   for(let i = 0; i < data.length; i++) {
-    htmlString += "<tr>";
+    if (currentStatus != 99) {
+      htmlString += "<tr class=\"editOrderButton table-row\" data-tooltip=\"tooltip\" data-placement=\"bottom\" title=\"Edit this order\" data-toggle=\"modal\" data-target=\"#OrderDetailModal\">";
+    } else {
+      htmlString += "<tr>";
+    }
     htmlString += "<td class=\"id\"><span>" + data[i].id + "</span></td>";
     htmlString += "<td>" + data[i].mail + "</td>";
-    htmlString += "<td>" + data[i].timestamp + "</td>";
+    htmlString += "<td>" + timeConverter(data[i].timestamp) + "</td>";
     if (currentStatus == 0) {
       htmlString += "<td>";
       htmlString += getStatus(data[i].status);
       htmlString += "</td>";
-    }
-    if (currentStatus != 99) {
-      htmlString += "<td>" + "<button class=\"editOrderButton\" type=\"button\" data-tooltip=\"tooltip\" data-placement=\"bottom\" title=\"Edit this order\" data-toggle=\"modal\" data-target=\"#OrderDetailModal\">Edit</button></td>";
     }
     htmlString += "</tr>";
   }
@@ -201,23 +234,24 @@ function renderOrderTableHTML(data) {
 }
 function renderCategoryTableHTML(data) {
   console.log("renderCategoryTableHTML gestartet")
-  var htmlString = "<table class=\"table table-striped table-image\">";
+  var htmlString = "<table class=\"table table-striped table-hover table-image\">";
   htmlString += "<thead><tr><th>ID</th><th>name</th><th>image</th>";
   htmlString += "</tr></thead>";
   htmlString += "<tbody>";
 
   for(let i = 0; i < data.length; i++) {
-    htmlString += "<tr>";
+    htmlString += "<tr class=\"editCategoryButton table-row\" data-tooltip=\"tooltip\" data-placement=\"bottom\" title=\"Edit this category\" data-toggle=\"modal\" data-target=\"#categoryChangeModal\">";
     htmlString += "<td class=\"id\"><span>" + data[i]._id + "</span></td>";
     htmlString += "<td>" + data[i].categoryname + "</td>";
     htmlString += "<td class=\"w-25\"><img class=\"img-fluid\" src=\"" + data[i].picturepath + "\" alt=\"image\"></td>";
-    htmlString += "<td>" + "<button class=\"editCategoryButton\" type=\"button\" data-tooltip=\"tooltip\" data-placement=\"bottom\" title=\"Edit this order\" data-toggle=\"modal\" data-target=\"#CategoryDetailModal\">Edit</button></td>";
     htmlString += "</tr>";
   }
   htmlString += "</tbody>";
   htmlString += "</table>"
 
   categoryTableContainer.insertAdjacentHTML('beforeend', htmlString);
+  console.log("Ab jetzt wird helper Klasse aufgerufen...");
+  helper();
 }
 
 function renderErrorHTML(xhr, statusText) {
@@ -247,18 +281,17 @@ function renderErrorTableHTML() {
   htmlString += "</tr></thead>";
   htmlString += "<tbody>";
   htmlString += "<tr>";
-  htmlString += "<td>No entries available! Try again later.</td>";
+  htmlString += "<td colspan=\"3\">No entries available! Try again later.</td>";
   htmlString += "</tr>";
   htmlString += "</tbody>";
   htmlString += "</table>"
 
-  orderTableContainer.insertAdjacentHTML('beforeend', htmlString);
+  tableContainer.insertAdjacentHTML('beforeend', htmlString);
   console.log("Keine Bestellungen gefunden");
 }
 function renderOrderDetailsHTML(data) {
   lastID = data.id;
-  status = data.status;
-  orderParam = getStatus(data.status);
+  lastStatus = data.status;
   var modalTitelString = "<span>Order Details - ID: " + lastID + "</span>";
   modalTitelContainer.insertAdjacentHTML('beforeend', modalTitelString);
   var htmlString = "<table class=\"table table-striped\">";
@@ -273,7 +306,7 @@ function renderOrderDetailsHTML(data) {
     htmlString += "<td class=\"id\">" + data.article[i].name + "</td>";
     htmlString += "<td>" + data.article[i].property + "</td>";
     htmlString += "<td>" + data.article[i].amount + "</td>";
-    htmlString += "<td>" + amountPrice + " €</td>";
+    htmlString += "<td>" + currencyConverter(amountPrice) + "</td>";
     htmlString += "</tr>";
     total += amountPrice;
   }
@@ -281,7 +314,7 @@ function renderOrderDetailsHTML(data) {
   htmlString += "<td></td>";
   htmlString += "<td></td>";
   htmlString += "<td></td>";
-  htmlString += "<td><span class=\"double_underline\">" + total + " €</td>";
+  htmlString += "<td><span class=\"double_underline\">" + currencyConverter(total) + "</td>";
   htmlString += "</tr>";
 
   htmlString += "</tbody>";
@@ -291,7 +324,14 @@ function renderOrderDetailsHTML(data) {
   console.log("Tabelle mit Bestelldetails erstellt für ID:");
   console.log(lastID);
   //Setze den aktuellen Status in die Params in die Addresszeile
-  addParam(lastID, orderParam, status);
+  // addParam(lastID, orderParam, status);
+}
+function renderCategoryDetailsHTML(id) {
+  lastID = id;
+  var modalTitelString = "<span>Category ID: " + lastID + "</span>";
+  modalTitelContainer.insertAdjacentHTML('beforeend', modalTitelString);
+
+  console.log(lastID);
 }
 
 function renderOrderShippingAddressHTML(data) {
@@ -359,7 +399,7 @@ function renderOrderLogHTML(data) {
     htmlString += "<td>" + data.logs[i].user + "</td>";
     htmlString += "<td>" + data.logs[i].info + "</td>";
     htmlString += "<td>" + data.logs[i].status + "</td>";
-    htmlString += "<td>" + data.logs[i].timestamp + "</td>";
+    htmlString += "<td>" + timeConverter(data.logs[i].timestamp) + "</td>";
     htmlString += "</tr>";
   }
   htmlString += "</tbody>";
@@ -402,4 +442,21 @@ function getStatus(status) {
       translateStatus += "no status set";
   }
   return translateStatus;
+}
+function timeConverter(UNIX_timestamp){
+  var a = new Date(UNIX_timestamp);
+  var months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  var year = a.getFullYear();
+  var month = months[a.getMonth()];
+  var date = a.getDate();
+  var hour = a.getHours();
+  var min = a.getMinutes();
+  var sec = a.getSeconds();
+  var time = date + '. ' + month + ' ' + year + ' ' + hour + ':' + min + ':' + sec ;
+  return time;
+}
+function currencyConverter(eu_cent){
+  var euro = eu_cent / 100;
+  eur = new Intl.NumberFormat('de-DE', { style: 'currency', currency: 'EUR' }).format(euro)
+  return eur;
 }

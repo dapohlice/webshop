@@ -9,7 +9,8 @@ block content
       | User
     div.nav.navbar.search-bar
       button#newUserBtn.btn.btn-secondary(type="button" data-tooltip="tooltip" data-placement="bottom" title="Create a new user" data-toggle="modal" data-target="#adduserModal")
-        | Add
+        i.fa.fa-plus
+          | Add
       div.search-container
         form(action="/userSearching")
           input(type="text" placeholder="Search.." name="search")
