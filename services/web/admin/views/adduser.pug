@@ -132,11 +132,13 @@ block adduser
                 type="submit"
                 onclick="send()"
               )
-                | Submit
+                i.fa.fa-check
+                  | Submit
         //- Modal Footer
         div.modal-footer
           button.btn.btn-danger(
             type="button"
             data-dismiss="modal"
           )
-            | Abort
+            i.fa.fa-times
+              | Abort

@@ -37,7 +37,8 @@ block order_change_status
             data-placement="bottom"
             title="Abort to change status" 
           )
-            | No
+            i.fa.fa-close
+              | No 
           button#acceptStatusButton.btn.btn-success(
             type="button"
             data-dismiss="modal"
@@ -46,4 +47,5 @@ block order_change_status
             onclick="setNextStatus()" 
             title="Change order status now" 
           )
-            | Yes
+            i.fa.fa-check
+              | Yes
