@@ -10,9 +10,9 @@ ProductRoute.use(BParser.urlencoded({extended: true}));
 ProductRoute.post("/", async function (req,res){
     try {
       let result = await Assistant.Product.createProduct(req.body);
-      res.send(result);
+      res.status(201).send(result);
     } catch (err) {
-      res.status(404).send(err);
+      res.sendStatus(404);
     }
 });
 
@@ -20,11 +20,11 @@ ProductRoute.post("/", async function (req,res){
 ProductRoute.put("/:id", async function (req,res) {
   try {
     let result = await Assistant.Product.updateProduct(req.params.id, req.body);
-    res.send(result);
+    res.status(200).send(result);
   }
   catch (err)
   {
-    res.status(404).send(err);
+    res.status(404);
   }
 });
 
@@ -33,11 +33,11 @@ ProductRoute.patch("/:id", async function (req,res) {
   try {
     if(reg.body.state)
     {
-      let result = await Assistant.Product.changeState(req.params.id, req.body.state);
-      res.send(result);
+      await Assistant.Product.changeState(req.params.id, req.body.state);
+      res.sendStatus(200);
     }
   } catch (err) {
-    res.status(404).send(err);
+    res.sendStatus(404);
   }
 });
 
@@ -45,17 +45,17 @@ ProductRoute.patch("/:id", async function (req,res) {
 ProductRoute.get("/", async function (req,res) {
     try {
       let result = await Assistant.Product.getAllProducts();
-      res.send(result);
+      res.status(200).send(result);
     } catch (err) {
-      res.status(404).send(result);
+      res.sendStatus(404);
     }
 });
 
 /*Get-Request für einen Artikeldatensatzes über seine ID*/
-ProductRoute.get("/:id", async function (reg,res) {
+ProductRoute.get("/:id", async function (req,res) {
   try {
-    let result = await Assistant.Product.getProductsById(req.params.id);
-    res.send(result);
+    let result = await Assistant.Product.getProductByID(req.params.id);
+    res.status(200).send(result);
   } catch (err) {
     res.sendStatus(404);
   }
