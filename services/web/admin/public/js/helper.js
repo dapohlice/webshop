@@ -13,7 +13,8 @@ var orderLogContainer = document.getElementById('orderLogContent');
 var admincContainer = document.getElementById('adminc');
 //  Helfer-Variablen, um den aktuellen Status zu speichern
 var callCategoryDetails = false;
-var createCategoryReq = false;
+var postCategoryReq = false;
+var postGroupsReq = false;
 var postUsersReq = false;
 var getGroupsReq = false;
 var getUsersReq = false;

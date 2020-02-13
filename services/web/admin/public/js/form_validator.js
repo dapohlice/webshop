@@ -10,12 +10,24 @@
         if (form.checkValidity() === false) {
           event.preventDefault();
           event.stopPropagation();
-        } else {
+        } else if (currentAdminPage == 'users') {
           // Paramter aus Adresse entfernen:
           event.preventDefault();
           console.log("call RenderSubmit and Add NewUser");
           postUser();
-          $('#adduserModal').modal('hide');
+          $('#addModal').modal('hide');
+        } else if (currentAdminPage == 'groups') {
+          // Paramter aus Adresse entfernen:
+          event.preventDefault();
+          console.log("call RenderSubmit and Add NewGroup");
+          postGroup();
+          $('#addModal').modal('hide');
+        } else if (currentAdminPage == 'categories') {
+          // Paramter aus Adresse entfernen:
+          event.preventDefault();
+          console.log("call RenderSubmit and Add NewCategory");
+          postCategory();
+          $('#addModal').modal('hide');
         }
         form.classList.add('was-validated');
       }, false);

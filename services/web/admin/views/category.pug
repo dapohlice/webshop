@@ -12,7 +12,7 @@ block content
     h2.text-center
       | #{title}
     div.nav.navbar.search-bar.header.shadow
-      button#newCatBtn.btn.btn-secondary.btn-sm(type="button" data-tooltip="tooltip" data-placement="bottom" title="Create a new category" data-toggle="modal" data-target="#addCategoryModal")
+      button#newCatBtn.btn.btn-secondary.btn-sm(type="button" data-tooltip="tooltip" data-placement="bottom" title="Create a new category" data-toggle="modal" data-target="#addModal")
         i.fa.fa-plus
           | Add
       div.search-container
@@ -23,7 +23,7 @@ block content
             
     div#errorTableObjekt
 
-    include category_create_new
+    include category_add
     
     include category_change
     

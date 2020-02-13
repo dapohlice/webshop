@@ -1,6 +1,6 @@
 block group_add
 
-  div#addGroupModal.modal.fade
+  div#addModal.modal.fade
     div.modal-dialog.modal-xl
       div.modal-content
         //- Modal Header
@@ -14,35 +14,25 @@ block group_add
             | &times;
         //- Modal Body
         div.modal-body
-          form#addGroupAction.was-validated 
-            //(action="/newgroup")
-            div.form-group
-              label(
-                for="groupname"
-              )
-                | User name
-              input.form-control#groupname(
-                type="groupname"
-                placeholder="Enter group name"
-                name="groupname"
-                required
-              )
-              div.valid-feedback
-                | Valid.
-              div.invalid-feedback
-                | Please fill out this field.
-
-        //- Modal Footer
-        div.modal-footer
-          button.btn.btn-danger(
-            type="button"
-            data-dismiss="modal"
-          )
-            i.fa.fa-times
-              | Abort
-          button#newGroup.btn.btn-primary(
-            type="submit"
-            onclick="send()"
-          )
-            i.fa.fa-check
-              | Submit
+          form#addGroupForm.needs-validation(
+            method="get"
+            novalidate
+            )
+            div.form-row
+              div.col-md-12.mb-3
+                label(
+                  for="groupname"
+                )
+                  | User name
+                input.form-control#groupname(
+                  type="groupname"
+                  placeholder="Enter new group name"
+                  required
+                )
+                div.invalid-feedback
+                  | Please provide a valid groupname.
+            button#newgroupbtn.btn.btn-success.float-right(
+              type="submit"
+            )
+              i.fa.fa-check
+                | Create
