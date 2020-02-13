@@ -9,11 +9,12 @@ block nav
 
 block content
   div#adminc.col.pt-2
-    h2.text-center #{title}
-    div.nav.navbar.search-bar
-      button#newCatBtn.btn.btn-secondary.btn-sm(type="button" data-tooltip="tooltip" data-placement="bottom" title="Create a new category" data-toggle="modal" data-target="#addCategoryModal")
+    h2.text-center
+      | #{title}
+    div.nav.navbar.search-bar.header.shadow
+      button#newCatBtn.btn.btn-secondary.btn-sm(type="button" data-tooltip="tooltip" data-placement="bottom" title="Create a new category" data-toggle="modal" data-target="#addModal")
         i.fa.fa-plus
-          | Add
+          |  Add
       div.search-container
         form
           input(type="text" placeholder="Search.." name="search")
@@ -22,26 +23,13 @@ block content
             
     div#errorTableObjekt
 
-    include category_create_new
+    include category_add
     
     include category_change
     
-    div#jsonTableCategoryObjekt
+    div#jsonTableObjekt
     
     div#status.text-center
-      
-block scripts
-  script(src='https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js')
-  script(src='https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js')
-  //- script(src='https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js')
-  script(type='text/javascript' src='js/bs/bootstrap.min.js')
-
-  script(type='text/javascript' src='js/helper.js' defer='defer')
-  script(type='text/javascript' src='js/services.js' defer='defer')
-  script(type='text/javascript' src='js/form_data.js' defer='defer')
-  script(type='text/javascript' src='js/request.js' defer='defer')
-  script(type='text/javascript' src='js/db_sidebar.js')
-  script(type='text/javascript' src='js/tooltip.js')
 
     
             

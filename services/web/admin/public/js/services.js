@@ -1,7 +1,7 @@
 function getOrders() {
   var url = '';
   var urlParamStatus = 0;
-  urlParamStatus = getCurrentOrderFromParam(currentOrder);
+  urlParamStatus = getCurrentOrderFromParam(currentAdminPage);
   $('#jsonTableObjekt').children('table').eq(0).remove();
   setNewStatus = false;
 
@@ -25,52 +25,126 @@ function getOrders() {
 }
 function getCategories() {
   var url = '';
+  var urlParam = currentAdminPage;
 
-  $('#jsonTableCategoryObjekt').children('table').eq(0).remove();
+  $('#jsonTableObjekt').children('table').eq(0).remove();
 
-  if(url == '') {
+  if(urlParam == 'categories') {
     url = 'http://localhost:3002/category';
     var res = new XHR('GET', url);
     getCategoryReq = true;
     console.log("GetXHR Klasse wurde aufgerufen mit folgenden Objekt:");
     console.log(url);
   }
-
 }
-function createCategory() {
+function getUsers() {
+  var url = '';
+  var urlParam = currentAdminPage;
+  console.log(urlParam);
+  $('#jsonTableObjekt').children('table').eq(0).remove();
 
+  if(urlParam == 'users') {
+    url = 'http://localhost:3003/user';
+    var res = new XHR('GET', url);
+    getUsersReq = true;
+    console.log("GetXHR Klasse wurde aufgerufen mit folgenden Objekt:");
+    console.log(url);
+  }
+}
+function postUser() {
+  var url = '';
+  var urlParam = currentAdminPage;
+  console.log(urlParam);
+
+  // Get some values from elements on the page:
+  var term = $('#firstname').val();
+  var term2 = $('#lastname').val();
+  var term3 = $('#email').val();
+
+  console.log(term);
+  console.log(term2);
+  console.log(term3);
+  $('#jsonTableObjekt').children('table').eq(0).remove();
+
+  // Create an empty JSON object to return.
+  var retJson = {};
+  retJson.firstname = term;
+  retJson.lastname = term2;
+  retJson.mail = term2;
+  var json = JSON.stringify(retJson);
+  console.log(json);
+
+  if((term != '') && (term2 != '') && (term3 != '')) {
+    url = 'http://localhost:3003/user';
+    var res = new XHR('POST', url, json, 'application/json');
+    postUsersReq = true;
+    console.log("PostXHR Klasse wurde aufgerufen mit folgenden Objekt:");
+    console.log(json);
+  }
+}
+function postGroup() {
+  var url = '';
+  var urlParam = currentAdminPage;
+  console.log(urlParam);
+
+  // Get some values from elements on the page:
+  var term = $('#groupname').val();
+  console.log(term);
+  $('#jsonTableObjekt').children('table').eq(0).remove();
+
+  // Create an empty object to return.
+  var retJson = {};
+  retJson.groupname = term;
+  // Create an string json to return
+  var json = JSON.stringify(retJson);
+  console.log(json);
+
+  if(term != '') {
+    url = 'http://localhost:3003/group';
+    var res = new XHR('POST', url, json, 'application/json');
+    postGroupsReq = true;
+    console.log("PostXHR Klasse wurde aufgerufen mit folgenden Objekt:");
+    console.log(json);
+  }
+}
+function getGroups() {
+  var url = '';
+  var urlParam = currentAdminPage;
+  console.log(urlParam);
+  $('#jsonTableObjekt').children('table').eq(0).remove();
+
+  if(urlParam == 'groups') {
+    url = 'http://localhost:3003/group';
+    var res = new XHR('GET', url);
+    getGroupsReq = true;
+    console.log("GetXHR Klasse wurde aufgerufen mit folgenden Objekt:");
+    console.log(url);
+  }
+}
+
+function postCategory() {
+  var url = '';
   // Get some values from elements on the page:
   var term = $('#categoryname').val();
   var term2 = $('#categorypicture').val();
 
-  console.log(term);
-  console.log(term2);
-  var url = '';
-
-  $('#jsonTableCategoryObjekt').children('table').eq(0).remove();
+  $('#jsonTableObjekt').children('table').eq(0).remove();
 
   // Create an empty JSON object to return.
   var retJson = {};
   retJson.categoryname = term;
   retJson.picturepath = term2;
 
+  // Create an string json to return
+  var json = JSON.stringify(retJson);
 
   if( (term != '') && (term2 != '') ) {
-    //todo: bei method: Post wird im request über ajax Json im Body nicht entgegen genommen
-
-    // var nojson = JSON.stringify({ "categoryname" : term, "picturepath" : term2 });
-    // console.log(nojson);
-    // // let data = JSON.parse(nojson);
-    // var data = JSON.stringify(trimdata);
-    console.log(retJson);
-    // console.log(JSON.stringify(retJson));
-
     url = 'http://localhost:3002/category';
-    var res = new XHR('POST', url, retJson);
+    var res = new XHR('POST', url, json, 'application/json');
 
-    createCategoryReq = true;
-    console.log("POSTXHR Klasse wurde aufgerufen mit folgenden Objekt:");
-    console.log(url);
+    postCategoryReq = true;
+    console.log("PostXHR Klasse wurde aufgerufen mit folgenden Objekt:");
+    console.log(json);
   }
 
 }
@@ -143,10 +217,12 @@ function getCategoryDetails(id) {
 
 }
 
-function XHR(type, url, data) {
+function XHR(type, url, data, contentType) {
   promise = $.ajax({
     type: type,
     url: url,
+    contentType: contentType,
+    data: data,
     cache: false
   });
   promise.done(function (data, statusText) {
@@ -174,9 +250,21 @@ function XHR(type, url, data) {
       renderOrderStatusButtonHTML(data);
       renderOrderLogHTML(data);
       rendernextButtonHTML(data);
-    } else if (createCategoryReq == true) {
+    } else if (postCategoryReq == true) {
       getCategories();
-      createCategoryReq = false;
+      postCategoryReq = false;
+    } else if (getUsersReq == true) {
+      renderUserTableHTML(data);
+      getUsersReq = false;
+    } else if (postUsersReq == true) {
+      getUsers();
+      postUsersReq = false;
+    } else if (postGroupsReq == true) {
+      getGroups();
+      postGroupsReq = false;
+    } else if (getGroupsReq == true) {
+      renderGroupTableHTML(data);
+      getGroupsReq = false;
     } else {
       renderErrorTableHTML();
     }

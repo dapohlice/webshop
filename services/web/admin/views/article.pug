@@ -1,0 +1,74 @@
+extends layout
+
+block nav
+  - var cur = "article"
+
+block content
+  div#adminc.col.pt-2
+    h2.text-center
+      | #{title}
+    div.nav.navbar.search-bar.header.shadow
+      button#newArticleBtn.btn.btn-secondary(type="button" data-tooltip="tooltip" data-placement="bottom" title="Create a new article" data-toggle="modal" data-target="#addArticleModal")
+        i.fa.fa-plus
+          |  Add
+      div.search-container
+        form(action="/userSearching")
+          input(type="text" placeholder="Search.." name="search")
+          button(type="submit")
+            i.fa.fa-search
+            
+    //- include article_add
+    
+    div#jsonTableObjekt
+    
+    div#errorTableObjekt
+    
+    div#status.text-center
+
+    table.table.table-striped
+      thead
+        tr
+          th
+            | ID
+          th
+            | Name
+          th
+            | Properties
+          th
+            | Amount
+          th
+            | Price
+      tbody
+        tr
+          td
+            | 1
+          td
+            | T-Shirt Supreme
+          td
+            | S, black           
+          td
+            | 10           
+          td
+            | 9,99 €           
+        tr
+          td
+            | 1
+          td
+            | T-Shirt Supreme
+          td
+            | S,M,L,XL, black           
+          td
+            | 40           
+          td
+            | 19,99 €           
+        tr
+          td
+            | 1
+          td
+            | T-Shirt Supreme
+          td
+            | S,M,XXL,XXXL black           
+          td
+            | 30           
+          td
+            | 34,80 €           

@@ -1,35 +1,26 @@
 extends layout
 
 block body  
-  body(onload="getUsers()")
+  body(onload="getGroups()")
 
 block nav
-  - var cur = "user"
+  - var cur = "group"
 
 block content
   div#adminc.col.pt-2
-    h2.text-center
+    h2.text-center 
       | #{title}
     div.nav.navbar.search-bar.header.shadow
-      button#newUserBtn.btn.btn-secondary(
-        type="button"
-        data-tooltip="tooltip"
-        data-placement="bottom"
-        title="Create a new user"
-        data-toggle="modal"
-        data-target="#addModal"
-        )
-        i.fa.fa-user-plus
+      button#newGroupBtn.btn.btn-secondary(type="button" data-tooltip="tooltip" data-placement="bottom" title="Create a new group" data-toggle="modal" data-target="#addModal")
+        i.fa.fa-plus
           |  Add
       div.search-container
-        form(action="/userSearching")
+        form(action="/groupSearching")
           input(type="text" placeholder="Search.." name="search")
           button(type="submit")
             i.fa.fa-search
             
-    include user_add
-    
-    include user_details
+    include group_add
     
     div#jsonTableObjekt
     

@@ -53,42 +53,66 @@ app.use(express.static(__dirname + '/public'));
 
 app.get('/', (req, res) => {
   for (const key in req.query) {
-    console.log(key, req.query.order[key]);
+    console.log(key, req.query.ap[key]);
   }
-  switch(req.query.order) {
+  switch(req.query.ap) {
+    case 'users':
+      res.render('user', {
+        name : 'user',
+        title: 'Users - Administration Dashboard',
+      });
+      break;
+    case 'groups':
+      res.render('group', {
+        name : 'group',
+        title: 'Groups - Administration Dashboard',
+      });
+      break;
+    case 'articles':
+      res.render('article', {
+        name : 'article',
+        title: 'Articles - Administration Dashboard',
+      });
+      break;
+    case 'categories':
+      res.render('category', {
+        name : 'category',
+        title: 'Categories - Administration Dashboard',
+      });
+      break;
     case 'ordered':
       res.render('order', {
-        name : 'orderedOrder',
-        title: 'Ordered - Administration Dashboard',
+        name : 'ordered',
+        title: 'Ordered Order - Administration Dashboard',
       });
       break;
     case 'payed':
       res.render('order', {
-        name : 'payedOrder',
+        name : 'payed',
         title: 'Payed Order - Administration Dashboard',
       });
       break;
     case 'packed':
       res.render('order', {
-        name : 'packedOrder',
+        name : 'packed',
         title: 'Packed Order - Administration Dashboard',
       });
       break;
     case 'finished':
       res.render('order', {
-        name : 'finishedOrder',
+        name : 'finished',
         title: 'Finished Order - Administration Dashboard',
       });
       break;
     case 'returned':
       res.render('order', {
-        name : 'returnedOrder',
+        name : 'returned',
         title: 'Returned Order - Administration Dashboard',
       });
       break;
     case 'all':
       res.render('order', {
-        name : 'allOrder',
+        name : 'all',
         title: 'All Order - Administration Dashboard',
       });
       break;
@@ -98,20 +122,6 @@ app.get('/', (req, res) => {
         title: 'Welcome Employee - Administration Dashboard',
       });
   }
-});
-
-app.get('/user', (req, res) => {
-  res.render('user', {
-    name : 'user',
-    title: 'User - Administration Dashboard',
-  });
-});
-
-app.get('/category', (req, res) => {
-  res.render('category', {
-    name : 'category',
-    title: 'Categories - Administration Dashboard',
-  });
 });
 
 

@@ -1,0 +1,56 @@
+block category_add
+
+  div#addModal.modal.fade
+    div.modal-dialog.modal-md
+      div.modal-content
+        //- Modal Header
+        div.modal-header
+          h4.modal-title    
+            | Add a new category   
+          button.close(
+            type="button"
+            data-dismiss="modal"
+            data-tooltip="tooltip" 
+            data-placement="bottom" 
+            title="Abort add new category" 
+          ) 
+            | &times;
+        //- Modal Body
+        div.modal-body
+          form#addCategoryForm.needs-validation(
+            method="get"
+            novalidate
+            )
+            div.form-row
+              div.col-md-12.mb-3
+                label(
+                  for="categoryname"
+                )
+                  | Category Name
+                input.form-control#categoryname(
+                  type="categoryname"
+                  placeholder="Enter name of category"
+                  required
+                )
+                div.invalid-feedback
+                  | Please provide a valid categoryname.
+            div.form-row
+              div.col-md-12.mb-3
+                div.custom-file
+                  input.custom-file-input#categorypicture(
+                    type="file"
+                    placeholder="Upload a picture for this new category"
+                    required
+                    )     
+                  label.custom-file-label(
+                    for="categorypicture"
+                    )
+                      | Choose file...
+                  div.invalid-feedback
+                    | invalid file type
+                  
+            button#createCatBtn.btn.btn-success.float-right(
+              type="submit"
+              )
+                i.fa.fa-check
+                  | Create
