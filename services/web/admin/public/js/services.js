@@ -51,6 +51,36 @@ function getUsers() {
     console.log(url);
   }
 }
+function postUser() {
+  var url = '';
+  urlParam = currentAdminPage;
+  console.log(urlParam);
+
+  // Get some values from elements on the page:
+  var term = $('#firstname').val();
+  var term2 = $('#lastname').val();
+  var term3 = $('#email').val();
+
+  console.log(term);
+  console.log(term2);
+  console.log(term3);
+  $('#jsonTableObjekt').children('table').eq(0).remove();
+
+  // Create an empty JSON object to return.
+  var retJson = {};
+  retJson.firstname = term;
+  retJson.lastname = term2;
+  retJson.mail = term2;
+
+
+  if((term != '') && (term2 != '') && (term3 != '')) {
+    url = 'http://localhost:3003/user';
+    var res = new XHR('POST', url, retJson);
+    postUsersReq = true;
+    console.log("PostXHR Klasse wurde aufgerufen mit folgenden Objekt:");
+    console.log(url);
+  }
+}
 function getGroups() {
   var url = '';
   urlParam = currentAdminPage;
@@ -176,6 +206,7 @@ function XHR(type, url, data) {
   promise = $.ajax({
     type: type,
     url: url,
+    data: data,
     cache: false
   });
   promise.done(function (data, statusText) {
@@ -206,7 +237,7 @@ function XHR(type, url, data) {
     } else if (createCategoryReq == true) {
       getCategories();
       createCategoryReq = false;
-    } else if (getUsersReq == true) {
+    } else if (getUsersReq == true || postUsersReq == true) {
       renderUserTableHTML(data);
       getUsersReq = false;
     } else if (getGroupsReq == true) {

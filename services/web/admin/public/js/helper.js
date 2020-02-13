@@ -14,6 +14,7 @@ var admincContainer = document.getElementById('adminc');
 //  Helfer-Variablen, um den aktuellen Status zu speichern
 var callCategoryDetails = false;
 var createCategoryReq = false;
+var postUsersReq = false;
 var getGroupsReq = false;
 var getUsersReq = false;
 var getCategoryReq = false;
