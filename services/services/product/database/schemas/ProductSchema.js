@@ -10,7 +10,7 @@ let PSchema = new Mongoose.Schema({
   price: { type: Number, required: true },
   state: { type: Boolean, required: true },
   propertys: [SubSchema],
-  catagory: { type: String, require: true }
+  category: { type: String, required: true }
 }, {timestamps: true}
 );
 module.exports = PSchema;

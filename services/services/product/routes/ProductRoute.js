@@ -68,7 +68,6 @@ ProductRoute.get("/:id/propertys", async function(req, res) {
     let result = await Assistant.Product.getAllPropertys(req.params.id);
     res.send(result);
   } catch (err) {
-    console.error(err);
     res.status(404).send(err);
   }
 });
@@ -79,7 +78,6 @@ ProductRoute.post("/:id/propertys", async function(req, res) {
     let result = await Assistant.Product.createProperty(req.params.id, req.body);
     res.send(result);
   } catch (err) {
-    console.error(err);
     res.status(404).send(err);
   }
 });
@@ -90,7 +88,6 @@ ProductRoute.patch("/:id/property/:subid", async function(req, res)
     let result = await Assistant.Product.changePropertyAmount(req.params.id, req.params.subid, req.body);
     res.send(result);
   } catch (err) {
-    console.error(err);
     res.status(404).send(err);
   }
 });
