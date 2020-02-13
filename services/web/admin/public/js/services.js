@@ -71,11 +71,12 @@ function postUser() {
   retJson.firstname = term;
   retJson.lastname = term2;
   retJson.mail = term2;
-
+  var json = JSON.stringify(retJson);
+  console.log(json);
 
   if((term != '') && (term2 != '') && (term3 != '')) {
     url = 'http://localhost:3003/user';
-    var res = new XHR('POST', url, retJson);
+    var res = new XHR('POST', url, json, 'application/json');
     postUsersReq = true;
     console.log("PostXHR Klasse wurde aufgerufen mit folgenden Objekt:");
     console.log(url);
@@ -202,10 +203,11 @@ function getCategoryDetails(id) {
 
 }
 
-function XHR(type, url, data) {
+function XHR(type, url, data, contentType) {
   promise = $.ajax({
     type: type,
     url: url,
+    contentType: contentType,
     data: data,
     cache: false
   });
