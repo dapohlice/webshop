@@ -15,6 +15,7 @@
           event.preventDefault();
           console.log("call RenderSubmit and Add NewUser");
           postUser();
+          $('#adduserModal').modal('hide');
         }
         form.classList.add('was-validated');
       }, false);

@@ -46,7 +46,6 @@ function getUsers() {
   if(urlParam == 'users') {
     url = 'http://localhost:3003/user';
     var res = new XHR('GET', url);
-    
     getUsersReq = true;
     console.log("GetXHR Klasse wurde aufgerufen mit folgenden Objekt:");
     console.log(url);
@@ -77,12 +76,7 @@ function postUser() {
 
   if((term != '') && (term2 != '') && (term3 != '')) {
     url = 'http://localhost:3003/user';
-<<<<<<< HEAD
     var res = new XHR('POST', url, json, 'application/json');
-=======
-    var res = new XHR('POST', url, JSON.stringify(retJson),"application/json");
-    console.log(res);
->>>>>>> 46b080a796753125f73140d978cf92d004a4f35c
     postUsersReq = true;
     console.log("PostXHR Klasse wurde aufgerufen mit folgenden Objekt:");
     console.log(url);
@@ -209,17 +203,12 @@ function getCategoryDetails(id) {
 
 }
 
-<<<<<<< HEAD
 function XHR(type, url, data, contentType) {
-=======
-function XHR(type, url, data,contentType=null) {
->>>>>>> 46b080a796753125f73140d978cf92d004a4f35c
   promise = $.ajax({
     type: type,
     url: url,
     contentType: contentType,
     data: data,
-    contentType: contentType,
     cache: false
   });
   promise.done(function (data, statusText) {
@@ -250,9 +239,12 @@ function XHR(type, url, data,contentType=null) {
     } else if (createCategoryReq == true) {
       getCategories();
       createCategoryReq = false;
-    } else if (getUsersReq == true || postUsersReq == true) {
+    } else if (getUsersReq == true) {
       renderUserTableHTML(data);
       getUsersReq = false;
+    } else if (postUsersReq == true) {
+      getUsers();
+      postUsersReq = false;
     } else if (getGroupsReq == true) {
       renderGroupTableHTML(data);
       getGroupsReq = false;
