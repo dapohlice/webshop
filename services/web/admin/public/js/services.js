@@ -46,6 +46,7 @@ function getUsers() {
   if(urlParam == 'users') {
     url = 'http://localhost:3003/user';
     var res = new XHR('GET', url);
+    
     getUsersReq = true;
     console.log("GetXHR Klasse wurde aufgerufen mit folgenden Objekt:");
     console.log(url);
@@ -75,7 +76,8 @@ function postUser() {
 
   if((term != '') && (term2 != '') && (term3 != '')) {
     url = 'http://localhost:3003/user';
-    var res = new XHR('POST', url, retJson);
+    var res = new XHR('POST', url, JSON.stringify(retJson),"application/json");
+    console.log(res);
     postUsersReq = true;
     console.log("PostXHR Klasse wurde aufgerufen mit folgenden Objekt:");
     console.log(url);
@@ -202,11 +204,12 @@ function getCategoryDetails(id) {
 
 }
 
-function XHR(type, url, data) {
+function XHR(type, url, data,contentType=null) {
   promise = $.ajax({
     type: type,
     url: url,
     data: data,
+    contentType: contentType,
     cache: false
   });
   promise.done(function (data, statusText) {
