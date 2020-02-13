@@ -25,21 +25,21 @@ function getOrders() {
 }
 function getCategories() {
   var url = '';
+  var urlParam = currentAdminPage;
 
   $('#jsonTableObjekt').children('table').eq(0).remove();
 
-  if(url == '') {
+  if(urlParam == 'categories') {
     url = 'http://localhost:3002/category';
     var res = new XHR('GET', url);
     getCategoryReq = true;
     console.log("GetXHR Klasse wurde aufgerufen mit folgenden Objekt:");
     console.log(url);
   }
-
 }
 function getUsers() {
   var url = '';
-  urlParam = currentAdminPage;
+  var urlParam = currentAdminPage;
   console.log(urlParam);
   $('#jsonTableObjekt').children('table').eq(0).remove();
 
@@ -53,7 +53,7 @@ function getUsers() {
 }
 function postUser() {
   var url = '';
-  urlParam = currentAdminPage;
+  var urlParam = currentAdminPage;
   console.log(urlParam);
 
   // Get some values from elements on the page:
@@ -84,7 +84,7 @@ function postUser() {
 }
 function postGroup() {
   var url = '';
-  urlParam = currentAdminPage;
+  var urlParam = currentAdminPage;
   console.log(urlParam);
 
   // Get some values from elements on the page:
@@ -109,7 +109,7 @@ function postGroup() {
 }
 function getGroups() {
   var url = '';
-  urlParam = currentAdminPage;
+  var urlParam = currentAdminPage;
   console.log(urlParam);
   $('#jsonTableObjekt').children('table').eq(0).remove();
 
