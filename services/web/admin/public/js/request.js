@@ -241,7 +241,7 @@ function setNextStatus() {
     console.log("Statusänderung nicht erlaubt!")
 
     //show info status
-    showStatusInfo("Changes for status with id = " + urlParamID + " not allowed!");
+    showStatusError("Warning: Changes for status with id = " + urlParamID + " not allowed!");
     //end of show info status
     return false;
   }

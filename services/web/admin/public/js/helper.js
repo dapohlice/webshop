@@ -217,10 +217,21 @@ function clearParam(){
 
 //show info status
 function showStatusInfo(content){
+  $('#status').css("background-color", "#77998d");
+  $('#status').css("color", "#fff");
   var info = document.getElementById('status');
   info.innerHTML = content;
   info.className = "show";
   setTimeout(function(){ info.className = info.className.replace("show", ""); }, 3000);
+}
+//show error status
+function showStatusError(content){
+  $('#status').css("background-color", "#f9a03f");
+  $('#status').css("color", "#fff");
+  var error = document.getElementById('status');
+  error.innerHTML = content;
+  error.className = "show";
+  setTimeout(function(){ error.className = error.className.replace("show", ""); }, 3000);
 }
 
 // Wandelt den String Parameter aus der Browser-Addresszeile in eine numerische Zahl um

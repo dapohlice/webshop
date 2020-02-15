@@ -343,7 +343,7 @@ function renderGroupDetailsHTML(data) {
   htmlString += "<input id=\"groupnameEdit\" class=\"form-control\" type=\"text\" placeholder=\"First name\" value=\"" + data.groupname + "\" disabled></input>";
   htmlString += "<div class=\"invalid-feedback\">Please enter group name</div>";
 
-  htmlString += "<h5 class=\"mt-3\">Change rights for " + data.groupname + " group</h5>";
+  htmlString += "<h5 class=\"mt-3\">Change permissions for " + data.groupname + " group</h5>";
 
   htmlString += "<div class=\"form-row\">";
   htmlString += "<div class=\"form-check form-check-inline\">";

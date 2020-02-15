@@ -59,7 +59,7 @@ function validateForm() {
          $('#detailModal').modal('hide');
        } else {
          $('#detailModal').modal('hide');
-         showStatusInfo("No valid request!");
+         showStatusError("Warning: invalid request!");
        }
        break;
      case "groups":
@@ -70,11 +70,14 @@ function validateForm() {
          showStatusInfo("Successfully edit group with id " + lastID);
          putGroup();
          $('#detailModal').modal('hide');
+       } else {
+         $('#detailModal').modal('hide');
+         showStatusError("Warning: invalid request!");
        }
        break;
      default:
        $('#detailModal').modal('hide');
-       showStatusInfo("No valid request!");
+       showStatusError("Warning: invalid request!");
 
    }
 
