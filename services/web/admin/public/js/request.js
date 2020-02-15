@@ -196,11 +196,6 @@ function putGroup() {
   var term4 = $('#auth_group').is(':checked');
   var term5 = $('#auth_normalOrders').is(':checked');
   var term6 = $('#auth_allOrders').is(':checked');
-  console.log(term2);
-  console.log(term3);
-  console.log(term4);
-  console.log(term5);
-  console.log(term6);
   // Create an empty JSON object to return.
   var retJson = {};
   retJson.auth_user = term2;
@@ -286,7 +281,6 @@ function getCategoryDetails(id) {
   }
 }
 function getUserDetails(id) {
-  setDetailsFalse();
   var url = '';
   console.log("getUser ID for details: ");
   console.log(id);
@@ -298,7 +292,6 @@ function getUserDetails(id) {
   }
 }
 function getGroupDetails(id) {
-  setDetailsFalse();
   var url = '';
   console.log("getGroup ID for details: ");
   console.log(id);

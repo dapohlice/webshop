@@ -46,7 +46,6 @@ function helper() {
     console.log(id);
     if (lastID == id) {
       console.log("Keine Neuzuweisung, da lastID = id")
-
     } else {
       console.log("Neuzuweisung auf: lastId = id")
       $('#jsonDetailObjekt').children('table').eq(0).remove();
@@ -83,6 +82,7 @@ function helper() {
     console.log(id);
     if (lastID == id) {
       console.log("Keine Neuzuweisung, da lastID = id")
+      setUserDetails = true;
     } else {
       console.log("Neuzuweisung auf: lastId = id")
       $('#jsonDetailObjekt').children('div').eq(0).remove();
@@ -98,6 +98,7 @@ function helper() {
     console.log(id);
     if (lastID == id) {
       console.log("Keine Neuzuweisung, da lastID = id")
+      setGroupDetails = true;
     } else {
       console.log("Neuzuweisung auf: lastId = id")
       $('#jsonDetailObjekt').children('div').eq(0).remove();

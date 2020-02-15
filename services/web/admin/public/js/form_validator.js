@@ -50,10 +50,11 @@ function validateForm() {
      case "users":
        txt = $('#mailEdit').val();
        if (setUserDetails && txt != null && txt != '' && validateEmail(txt)) {
+         // close user detail modal
          setUserDetails = false;
-         // Paramter aus Adresse entfernen:
-         console.log("call render submit function and edit current User");
+         //show info status
          showStatusInfo("Successfully edit user with id " + lastID);
+         //end of show info status
          putUser();
          $('#detailModal').modal('hide');
        } else {
@@ -64,9 +65,8 @@ function validateForm() {
      case "groups":
        txt = $('#groupnameEdit').val();
        if (setGroupDetails && txt != null && txt != '') {
+         // close group detail modal
          setGroupDetails = false;
-         // Paramter aus Adresse entfernen:
-         console.log("call render submit function and edit current User");
          showStatusInfo("Successfully edit group with id " + lastID);
          putGroup();
          $('#detailModal').modal('hide');

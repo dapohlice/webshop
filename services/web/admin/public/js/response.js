@@ -11,15 +11,9 @@ function response(data) {
     //end of show info status
     getOrders();
   } else if (putUserReq) {
-    //show info status
-    showStatusInfo("User is changed successfully!");
-    //end of show info status
     getUsers();
     putUserReq = false;
   } else if (putGroupReq) {
-    //show info status
-    showStatusInfo("Group is changed successfully!");
-    //end of show info status
     getGroups();
     putGroupReq = false;
   } else if (getCategoryReq) {
