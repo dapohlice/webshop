@@ -1,6 +1,6 @@
-block category_change
+block category_details
 
-  div#categoryChangeModal.modal.fade
+  div#detailModal.modal.fade
     div.modal-dialog.modal-md
       div.modal-content
         //- Modal Header
@@ -12,7 +12,8 @@ block category_change
             data-dismiss="modal"
             data-tooltip="tooltip" 
             data-placement="bottom" 
-            title="Abort to patch current category" 
+            title="Abort to patch current category"
+            onclick="setDetailsFalse()"
           ) 
             | &times;
         //- Modal Body
@@ -20,12 +21,11 @@ block category_change
         div.container
           div.row
             div.col.col-lg-12
-              h5 Category
-              
-              div#categoryDetailTableObjekt
+
+              div#detailTableObjekt
 
               form#patchCategoryAction.was-validated 
-                //(action="/newuser")
+
                 div.form-group
                   label(
                     for="patch_categoryname"

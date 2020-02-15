@@ -1,6 +1,6 @@
 block user_details
 
-  div#groupDetailModal.modal.fade
+  div#detailModal.modal.fade
     div.modal-dialog.modal-lg
       div.modal-content
         //- Modal Header
@@ -12,6 +12,7 @@ block user_details
             data-tooltip="tooltip" 
             data-placement="bottom" 
             title="Close user details" 
+            onclick="setDetailsFalse()"
           ) 
             | &times;
         //- Modal Body

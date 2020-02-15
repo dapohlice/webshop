@@ -1,6 +1,6 @@
 block user_details
 
-  div#userDetailModal.modal.fade
+  div#detailModal.modal.fade
     div.modal-dialog.modal-lg
       div.modal-content
         //- Modal Header
@@ -11,23 +11,11 @@ block user_details
             data-dismiss="modal"
             data-tooltip="tooltip" 
             data-placement="bottom" 
-            title="Close user details" 
+            title="Close user details"
+            onclick="setDetailsFalse()"
           ) 
             | &times;
         //- Modal Body
-        div.modal-body
-          div.container
-            div.row
-              
-                    
-        //- Modal Footer
-        div.modal-footer
-          button#closeDetailButton.btn.btn-danger(
-            type="button"
-            data-dismiss="modal"
-            data-tooltip="tooltip" 
-            data-placement="bottom" 
-            title="Close user details" 
-          )
-            i.fa.fa-close
-              | Abort
+        div.modal-body        
+                
+          div#jsonDetailObjekt

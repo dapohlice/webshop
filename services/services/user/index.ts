@@ -27,6 +27,9 @@ function setHeader(req: express.Request, res: express.Response,next)
 {
     res.set('Access-Control-Allow-Origin','*')
     res.set('Access-Control-Allow-Headers','*')
+    res.set('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
+    res.set('Access-Control-Max-Age', '86400'); // 24 hours
+    res.set('Access-Control-Allow-Credentials', false);
     next();
 }
 
@@ -44,7 +47,7 @@ createConnection().then(async connection => {
     app.use('/me', new MyUserRouter().getRouter())
     app.use('/group', new GroupRouter().getRouter())
     app.use('/', new LoginRouter().getRouter())
-    
+
     app.use(logError);
     // start app
     app.listen(port, () => console.log(`User Service (${stage}) Listen On ${port}`))
