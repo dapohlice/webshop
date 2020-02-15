@@ -185,7 +185,41 @@ function putUser() {
     console.log("PutXHR Klasse wurde aufgerufen mit folgenden Objekt:");
     console.log(json);
   }
+}
+function putGroup() {
+  var url = '';
+  var id = lastID;
+  // Get some values from elements on the page:
+  // var term = $('#groupname').val();
+  var term2 = $('#auth_user').is(':checked');
+  var term3 = $('#auth_product').is(':checked');
+  var term4 = $('#auth_group').is(':checked');
+  var term5 = $('#auth_normalOrders').is(':checked');
+  var term6 = $('#auth_allOrders').is(':checked');
+  console.log(term2);
+  console.log(term3);
+  console.log(term4);
+  console.log(term5);
+  console.log(term6);
+  // Create an empty JSON object to return.
+  var retJson = {};
+  retJson.auth_user = term2;
+  retJson.auth_product = term3;
+  retJson.auth_group = term4;
+  retJson.auth_normalOrders = term5;
+  retJson.auth_allOrders = term6;
 
+  // Create an string json to return
+  var json = JSON.stringify(retJson);
+
+  if( json.length != 0) {
+    url = 'http://localhost:3003/group/' + id;
+    var res = new XHR('PUT', url, json, 'application/json');
+
+    putGroupReq = true;
+    console.log("PutXHR Klasse wurde aufgerufen mit folgenden Objekt:");
+    console.log(json);
+  }
 }
 function setNextStatus() {
   var url = '';

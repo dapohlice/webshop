@@ -12,6 +12,7 @@ var orderNextButtonContainer = document.getElementById('nextStatusButton');
 var orderLogContainer = document.getElementById('orderLogContent');
 var admincContainer = document.getElementById('adminc');
 //  Helfer-Variablen, um den aktuellen Status zu speichern
+var putGroupReq = false;
 var putUserReq = false;
 var setArticleDetails = false;
 var setGroupDetails = false;
@@ -99,7 +100,7 @@ function helper() {
       console.log("Keine Neuzuweisung, da lastID = id")
     } else {
       console.log("Neuzuweisung auf: lastId = id")
-      $('#jsonDetailObjekt').children('form').eq(0).remove();
+      $('#jsonDetailObjekt').children('div').eq(0).remove();
       $('#modalDetailTitel').children('span').eq(0).remove();
 
       clearParam();

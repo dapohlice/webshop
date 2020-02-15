@@ -16,6 +16,12 @@ function response(data) {
     //end of show info status
     getUsers();
     putUserReq = false;
+  } else if (putGroupReq) {
+    //show info status
+    showStatusInfo("Group is changed successfully!");
+    //end of show info status
+    getGroups();
+    putGroupReq = false;
   } else if (getCategoryReq) {
     renderCategoryTableHTML(data);
     getCategoryReq = false;
@@ -316,7 +322,131 @@ function renderUserDetailsHTML(data) {
   // End Form
   htmlString += "</form>";
   // submit button
-  htmlString += "<button id=\"editDetailUserBtn\" class=\"btn btn-success float-right\" onclick=\"validateForm()\"><i class=\"fa fa-check\">Apply changes</i></button>";
+  htmlString += "<button id=\"editDetailUserBtn\" class=\"btn btn-success float-right\" onclick=\"validateForm()\"><i class=\"fa fa-check\">Save changes</i></button>";
+  htmlString += "</div>";
+
+  detailTableContainer.insertAdjacentHTML('beforeend', htmlString);
+
+  console.log("Last ID in user details:");
+  console.log(lastID);
+}
+function renderGroupDetailsHTML(data) {
+  lastID = data.id;
+  var modalTitelString = "<span>Group " + data.groupname + " - ID: " + lastID + "</span>";
+  modalTitelContainer.insertAdjacentHTML('beforeend', modalTitelString);
+
+  var htmlString = "<div>";
+  htmlString += "<form id=\"editGroupForm\">";
+  htmlString += "<div class=\"form-row\">";
+  if (data.users.length != 0) {
+    htmlString += "<div class=\"col-md-6 mb-3\">";
+  } else {
+    htmlString += "<div class=\"col-md-12 mb-3\">";
+  }
+
+
+  htmlString += "<label for=\"groupnameEdit\">Group name</label>";
+  htmlString += "<input id=\"groupnameEdit\" class=\"form-control\" type=\"text\" placeholder=\"First name\" value=\"" + data.groupname + "\" disabled></input>";
+  htmlString += "<div class=\"invalid-feedback\">Please enter group name</div>";
+
+  htmlString += "<h5 class=\"mt-3\">Change rights for " + data.groupname + " group</h5>";
+
+  htmlString += "<div class=\"form-row\">";
+  htmlString += "<div class=\"form-check form-check-inline\">";
+  if (data.auth_user) {
+    console.log(data.auth_user);
+    console.log("Ruft Checkbox ab");
+    htmlString += "<input id=\"auth_user\" class=\"form-check-input\" type=\"checkbox\" checked data-toggle=\"toggle\" data-onstyle=\"primary\" data-offstyle=\"secondary\">"
+  } else {
+    htmlString += "<input id=\"auth_user\" class=\"form-check-input\" type=\"checkbox\" data-toggle=\"toggle\" data-onstyle=\"primary\" data-offstyle=\"secondary\">"
+  }
+  htmlString += "<label for=\"auth_user\" class=\"form-check-label\">User</label>";
+  htmlString += "</div>";
+  htmlString += "</div>";
+
+  htmlString += "<div class=\"form-row\">";
+  htmlString += "<div class=\"form-check form-check-inline\">";
+  if (data.auth_product) {
+    console.log(data.auth_product);
+    console.log("Ruft Checkbox ab");
+    htmlString += "<input id=\"auth_product\" class=\"form-check-input\" type=\"checkbox\" checked data-toggle=\"toggle\" data-onstyle=\"primary\" data-offstyle=\"secondary\">"
+  } else {
+    htmlString += "<input id=\"auth_product\" class=\"form-check-input\" type=\"checkbox\" data-toggle=\"toggle\" data-onstyle=\"primary\" data-offstyle=\"secondary\">"
+  }
+  htmlString += "<label for=\"auth_product\" class=\"form-check-label\">Product</label>";
+  htmlString += "</div>";
+  htmlString += "</div>";
+
+  htmlString += "<div class=\"form-row\">";
+  htmlString += "<div class=\"form-check form-check-inline\">";
+  if (data.auth_group) {
+    console.log(data.auth_group);
+    console.log("Ruft Checkbox ab");
+    htmlString += "<input id=\"auth_group\" class=\"form-check-input\" type=\"checkbox\" checked data-toggle=\"toggle\" data-onstyle=\"primary\" data-offstyle=\"secondary\">"
+  } else {
+    htmlString += "<input id=\"auth_group\" class=\"form-check-input\" type=\"checkbox\" data-toggle=\"toggle\" data-onstyle=\"primary\" data-offstyle=\"secondary\">"
+  }
+  htmlString += "<label for=\"auth_group\" class=\"form-check-label\">Group</label>";
+  htmlString += "</div>";
+  htmlString += "</div>";
+
+  htmlString += "<div class=\"form-row\">";
+  htmlString += "<div class=\"form-check form-check-inline\">";
+  if (data.auth_normalOrders) {
+    console.log(data.auth_normalOrders);
+    console.log("Ruft Checkbox ab");
+    htmlString += "<input id=\"auth_normalOrders\" class=\"form-check-input\" type=\"checkbox\" checked data-toggle=\"toggle\" data-onstyle=\"primary\" data-offstyle=\"secondary\">"
+  } else {
+    htmlString += "<input id=\"auth_normalOrders\" class=\"form-check-input\" type=\"checkbox\" data-toggle=\"toggle\" data-onstyle=\"primary\" data-offstyle=\"secondary\">"
+  }
+  htmlString += "<label for=\"auth_normalOrders\" class=\"form-check-label\">Normal Orders</label>";
+  htmlString += "</div>";
+  htmlString += "</div>";
+
+  htmlString += "<div class=\"form-row\">";
+  htmlString += "<div class=\"form-check form-check-inline\">";
+  if (data.auth_allOrders) {
+    console.log(data.auth_allOrders);
+    console.log("Ruft Checkbox ab");
+    htmlString += "<input id=\"auth_allOrders\" class=\"form-check-input\" type=\"checkbox\" checked data-toggle=\"toggle\" data-onstyle=\"primary\" data-offstyle=\"secondary\">"
+  } else {
+    htmlString += "<input id=\"auth_allOrders\" class=\"form-check-input\" type=\"checkbox\" data-toggle=\"toggle\" data-onstyle=\"primary\" data-offstyle=\"secondary\">"
+  }
+  htmlString += "<label for=\"auth_allOrders\" class=\"form-check-label\">All Orders</label>";
+  htmlString += "</div>";
+  htmlString += "</div>";
+  // col-6
+  htmlString += "</div>";
+  console.log(data.users.length);
+  if (data.users.length != 0) {
+    htmlString += "<div class=\"col-md-6 mb-3\">";
+
+    htmlString += "<h5>User inside this group</h5>";
+    htmlString += "<table class=\"table table-striped\">";
+    htmlString += "<thead><tr><th>id</th><th>firstname</th><th>lastname</th>";
+    htmlString += "</tr></thead>";
+    htmlString += "<tbody>";
+    for(let i = 0; i < data.users.length; i++) {
+      htmlString += "<tr>";
+      htmlString += "<td class=\"id\">" + data.users[i].id + "</td>";
+      htmlString += "<td>" + data.users[i].firstname + "</td>";
+      htmlString += "<td>" + data.users[i].lastname + "</td>";
+      htmlString += "</tr>";
+    }
+
+    htmlString += "</tbody>";
+    htmlString += "</table>"
+    htmlString += "</div>";
+  }
+
+  // Form row
+  htmlString += "</div>";
+
+
+  // End Form
+  htmlString += "</form>";
+  // submit button
+  htmlString += "<button id=\"editDetailGroupBtn\" class=\"btn btn-success float-right\" onclick=\"validateForm()\"><i class=\"fa fa-check\">Save changes</i></button>";
   htmlString += "</div>";
 
   detailTableContainer.insertAdjacentHTML('beforeend', htmlString);

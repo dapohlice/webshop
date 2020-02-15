@@ -45,29 +45,37 @@
 
 function validateForm() {
   // This function deals with validation of the dynamic created form fields
-
-  var txt = $('#mailEdit').val();
-  console.log(validateEmail(txt));
-  console.log(setUserDetails);
-  console.log(currentAdminPage);
-   if (txt != null && txt != '' && validateEmail(txt)) {
-     switch(currentAdminPage) {
-       case "users":
-         if (setUserDetails) {
-           setUserDetails = false;
-           // Paramter aus Adresse entfernen:
-           console.log("call render submit function and edit current User");
-           showStatusInfo("Successfully edit user with id" + lastID);
-           putUser();
-           $('#detailModal').modal('hide');
-         }
-         break;
-       default:
+  var txt = '';
+   switch(currentAdminPage) {
+     case "users":
+       txt = $('#mailEdit').val();
+       if (setUserDetails && txt != null && txt != '' && validateEmail(txt)) {
+         setUserDetails = false;
+         // Paramter aus Adresse entfernen:
+         console.log("call render submit function and edit current User");
+         showStatusInfo("Successfully edit user with id " + lastID);
+         putUser();
+         $('#detailModal').modal('hide');
+       } else {
+         $('#detailModal').modal('hide');
          showStatusInfo("No valid request!");
-     }
-   } else {
-     $('#detailModal').modal('hide');
-     showStatusInfo("No valid request!");
+       }
+       break;
+     case "groups":
+       txt = $('#groupnameEdit').val();
+       if (setGroupDetails && txt != null && txt != '') {
+         setGroupDetails = false;
+         // Paramter aus Adresse entfernen:
+         console.log("call render submit function and edit current User");
+         showStatusInfo("Successfully edit group with id " + lastID);
+         putGroup();
+         $('#detailModal').modal('hide');
+       }
+       break;
+     default:
+       $('#detailModal').modal('hide');
+       showStatusInfo("No valid request!");
+
    }
 
 }
