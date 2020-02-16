@@ -247,3 +247,8 @@ i.fa {font-family: "FontAwesome", "Roboto", sans-serif}
   -webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
   animation: fadein 0.5s, fadeout 0.5s 2.5s;
 }
+#errorModal {
+  position: fixed; /* Sit on top of the screen */
+  z-index: 9999; /* Add a z-index if needed */
+  text-align: center; /* Centered text */
+}

@@ -1,17 +1,24 @@
 // Rufe alle Container auf um dynamisch den Inhalt derer zu ändern:
 var btn = document.getElementById("btn");
-var errorTableContainer = document.getElementById('errorTableObjekt');
+var admincContainer = document.getElementById('adminc');
 var jsonTableContainer = document.getElementById('jsonTableObjekt');
 var detailTableContainer = document.getElementById('jsonDetailObjekt');
 var orderShippingAddressTableContainer = document.getElementById('jsonAddressTableObjekt');
 var modalTitelContainer = document.getElementById('modalDetailTitel');
 var modalTitelLogContainer = document.getElementById('modalDetailLogTitel');
 var modalTitelChangeContainer = document.getElementById('modalChangeOrderTitel');
+var modalGroupAddUserGroupContainer = document.getElementById('jsonAddUserGroupObjekt');
 var orderStatusButtonContainer = document.getElementById('curStatusButton');
 var orderNextButtonContainer = document.getElementById('nextStatusButton');
 var orderLogContainer = document.getElementById('orderLogContent');
-var admincContainer = document.getElementById('adminc');
+var errorTableContainer = document.getElementById('errorTableObjekt');
+var errorModalContainer = document.getElementById('errorModalObjekt');
 //  Helfer-Variablen, um den aktuellen Status zu speichern
+var patchAddUserGroupReq = false;
+var getUsersForGroupReq = false;
+var patchRemoveUserGroupStatus = false;
+var patchNewUserStatus = false;
+var patchPwdUserStatus = false;
 var putGroupReq = false;
 var putUserReq = false;
 var setArticleDetails = false;
@@ -36,6 +43,9 @@ function setDetailsFalse() {
   setGroupDetails = false;
   setUserDetails = false;
   setCategoryDetails = false;
+  patchPwdUserStatus = false;
+  patchNewUserStatus = false;
+  patchRemoveUserGroupStatus = false;
 }
 
 // Alle Aufrufe
@@ -121,6 +131,22 @@ function helper() {
 
       clearParam();
       getArticleDetails(id);
+    }
+  });
+}
+function clickEvent() {
+  $(".removeUserGroupButton").click(function() {
+    console.log("click removeUserFromGroup Button");       // Prints out test text
+    var id = $(this).closest("tr").find(".id").text();
+    if (id != 0) {
+      patchRemoveUserGroup(id);
+    }
+  });
+  $(".addNewUserGroupButton").click(function() {
+    console.log("click addUserToGroup Button");       // Prints out test text
+    var id = $(this).closest("tr").find(".id").text();
+    if (id != 0) {
+      patchAddUserGroup(id);
     }
   });
 }

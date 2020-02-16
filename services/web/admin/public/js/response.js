@@ -10,6 +10,31 @@ function response(data) {
     showStatusInfo("Status is changed successfully!");
     //end of show info status
     getOrders();
+  } else if (patchAddUserGroupReq) {
+    patchAddUserGroupReq = false;
+    $('#jsonAddUserGroupObjekt').children('table').eq(0).remove();
+    $('#jsonDetailObjekt').children('div').eq(0).remove();
+    $('#modalDetailTitel').children('span').eq(0).remove();
+    getGroupDetails(lastID);
+    showStatusInfo("User successfully added!");
+  } else if (patchNewUserStatus) {
+    patchNewUserStatus = false;
+    $('#jsonDetailObjekt').children('div').eq(0).remove();
+    $('#modalDetailTitel').children('span').eq(0).remove();
+    getUserDetails(lastID);
+    showStatusInfo("Status successfully changed!");
+  } else if (patchRemoveUserGroupStatus) {
+    patchRemoveUserGroupStatus = false;
+    $('#jsonDetailObjekt').children('div').eq(0).remove();
+    $('#modalDetailTitel').children('span').eq(0).remove();
+    getGroupDetails(lastID);
+    showStatusInfo("User successfully removed from group " + lastID + "!");
+  } else if (patchPwdUserStatus) {
+    patchPwdUserStatus = false;
+    showStatusInfo("Pwd successfully changed!");
+  } else if (getUsersForGroupReq) {
+    renderUserForGroupTableHTML(data);
+    getUsersForGroupReq = false;
   } else if (putUserReq) {
     getUsers();
     putUserReq = false;
@@ -130,6 +155,46 @@ function renderUserTableHTML(data) {
   console.log("Ab jetzt wird helper Klasse aufgerufen...");
   helper();
 }
+function renderUserForGroupTableHTML(data) {
+  console.log("renderUserForGroupTableHTML gestartet")
+  // Ersetzen mit richtiger Login Berechtigung
+  var admin = 1;
+
+  var htmlString = "<table class=\"table table-striped table-hover\">";
+  htmlString += "<thead><tr><th>ID</th><th>Lastname</th><th>Firstname</th>";
+  if (admin == 1) {
+    htmlString += "<th>status</th>";
+  }
+  htmlString += "</tr></thead>";
+  htmlString += "<tbody>";
+  for(let i = 0; i < data.length; i++) {
+    if (admin == 1) {
+      htmlString += "<tr class=\"addNewUserGroupButton table-row\" data-tooltip=\"tooltip\" data-placement=\"bottom\" title=\"Add this user\" data-dismiss=\"modal\">";
+    } else {
+      htmlString += "<tr>";
+    }
+    htmlString += "<td class=\"id\"><span>" + data[i].id + "</span></td>";
+    htmlString += "<td>" + data[i].lastname + "</td>";
+    htmlString += "<td>" + data[i].firstname + "</td>";
+    if (admin == 1) {
+      htmlString += "<td>";
+      if (data[i].status) {
+        htmlString += "<i class=\"fa fa-check\" style=\"color:green\"></i>";
+      } else {
+        htmlString += "<i class=\"fa fa-close\" style=\"color:red\"></i>";
+      }
+      htmlString += "</td>";
+    }
+    htmlString += "</tr>";
+  }
+  htmlString += "</tbody>";
+  htmlString += "</table>"
+
+  modalGroupAddUserGroupContainer.insertAdjacentHTML('beforeend', htmlString);
+  console.log("Ab jetzt wird auf eine Auswahl gewartet...");
+  console.log(lastID);
+  clickEvent();
+}
 function renderGroupTableHTML(data) {
   console.log("renderGroupTableHTML gestartet")
   // Ersetzen mit richtiger Login Berechtigung
@@ -199,8 +264,10 @@ function renderErrorHTML(xhr, statusText) {
   htmlString += "</div>";
 
   htmlString += "</div>";
-  admincContainer.insertAdjacentHTML('beforeend', htmlString);
+  errorModalContainer.insertAdjacentHTML('beforeend', htmlString);
   console.log("Output: Error page");
+  $('#errorModal').modal('show');
+
 }
 function renderErrorTableHTML() {
   var htmlString = "<table class=\"table table-striped\">";
@@ -286,37 +353,56 @@ function renderUserDetailsHTML(data) {
   htmlString += "</div>";
 
   htmlString += "<div class=\"form-row\">";
-  htmlString += "<div class=\"col-md-12 mb-3\">";
+  htmlString += "<div class=\"col-md-6 mb-3\">";
   htmlString += "<label for=\"mailEdit\">Mail Address</label>";
   htmlString += "<input id=\"mailEdit\" class=\"form-control\" type=\"email\" placeholder=\"Mail address\" value=\"" + data.mail + "\" required></input>";
   htmlString += "<div class=\"invalid-feedback\">Please enter valid mail address.</div>";
   htmlString += "</div>";
-  htmlString += "</div>";
-  htmlString += "<div class=\"form-row\">";
   htmlString += "<div class=\"col-md-6 mb-3\">";
   htmlString += "<label for=\"loginnameEdit\">Login name</label>";
   htmlString += "<input id=\"loginnameEdit\" class=\"form-control\" type=\"text\" placeholder=\"Login name\" value=\"" + data.loginname + "\" disabled></input>";
   htmlString += "<div class=\"invalid-feedback\">Please enter loginname</div>";
   htmlString += "</div>";
-  htmlString += "<div class=\"col-md-6 mb-3\">";
-  // htmlString += "<div class=\"form-check form-check-inline\">";
-  // if (data.status) {
-  //   console.log(data.status);
-  //   console.log("Ruft Checkbox ab");
-  //   htmlString += "<input type=\"checkbox\" id=\"statusEdit\" class=\"form-check-input\" checked>";
-  // } else {
-  //   htmlString += "<input type=\"checkbox\" id=\"statusEdit\" class=\"custom-control-input\">";
-  // }
-  // htmlString += "<label class=\"form-check-label\" for=\"statusEdit\">Toggle the status switch element</label>";
-  // htmlString += "</div>";
   htmlString += "</div>";
-  htmlString += "</div>";
-
-
   // End Form
   htmlString += "</form>";
-  // submit button
-  htmlString += "<button id=\"editDetailUserBtn\" class=\"btn btn-success float-right\" onclick=\"validateForm()\"><i class=\"fa fa-check\">Save changes</i></button>";
+
+  htmlString += "<hr/>";
+
+  htmlString += "<div class=\"row\">";
+  // Start second row
+
+  htmlString += "<div class=\"col-md-4 mb-3\">";
+  htmlString += "<h5>Status</h5>";
+  htmlString += "<div class=\"form-check\">";
+  if (data.status) {
+    console.log(data.status);
+    htmlString += "<input type=\"checkbox\" id=\"statusUserInputEdit\" class=\"form-check-input\" checked>";
+    htmlString += "<label class=\"form-check-label\" for=\"statusUserInpusEdit\">active</label>";
+  } else {
+    htmlString += "<input type=\"checkbox\" id=\"statusUserInputEdit\" class=\"form-check-input\">";
+    htmlString += "<label class=\"form-check-label\" for=\"statusUserInputEdit\">not active</label>";
+  }
+  htmlString += "</div>";
+  htmlString += "</div>";
+  // Current Groups
+  htmlString += "<div class=\"col-md-8 mb-3\">";
+  htmlString += "<h5>Groups</h5>";
+  htmlString += "<div class=\"btn-group\" role=\"group\">";
+  if (data.groups.length != 0) {
+    for (var i = 0; i < data.groups.length; i++) {
+      htmlString += "<button type=\"button\" class=\"btn btn-secondary\" disabled>" + data.groups[i].groupname + "</button>"
+    }
+  } else {
+    htmlString += "<button type=\"button\" class=\"btn btn-secondary\" disabled>None</button>"
+  }
+  htmlString += "</div>";
+  htmlString += "</div>";
+
+  // End second Row
+  htmlString += "</div>";
+
+  // End User Div
   htmlString += "</div>";
 
   detailTableContainer.insertAdjacentHTML('beforeend', htmlString);
@@ -417,7 +503,7 @@ function renderGroupDetailsHTML(data) {
 
     htmlString += "<h5>User inside this group</h5>";
     htmlString += "<table class=\"table table-striped\">";
-    htmlString += "<thead><tr><th>id</th><th>firstname</th><th>lastname</th>";
+    htmlString += "<thead><tr><th>id</th><th>firstname</th><th>lastname</th><th></th>";
     htmlString += "</tr></thead>";
     htmlString += "<tbody>";
     for(let i = 0; i < data.users.length; i++) {
@@ -425,6 +511,7 @@ function renderGroupDetailsHTML(data) {
       htmlString += "<td class=\"id\">" + data.users[i].id + "</td>";
       htmlString += "<td>" + data.users[i].firstname + "</td>";
       htmlString += "<td>" + data.users[i].lastname + "</td>";
+      htmlString += "<td><button class=\"removeUserGroupButton btn btn-danger\" type=\"button\" data-tooltip=\"tooltip\" data-placement=\"bottom\" title=\"Remove this user from current group\"><i class=\"fa fa-trash\"></i></button</td>";
       htmlString += "</tr>";
     }
 
@@ -436,17 +523,16 @@ function renderGroupDetailsHTML(data) {
   // Form row
   htmlString += "</div>";
 
-
   // End Form
   htmlString += "</form>";
   // submit button
-  htmlString += "<button id=\"editDetailGroupBtn\" class=\"btn btn-success float-right\" onclick=\"validateForm()\"><i class=\"fa fa-check\">Save changes</i></button>";
   htmlString += "</div>";
 
   detailTableContainer.insertAdjacentHTML('beforeend', htmlString);
 
-  console.log("Last ID in user details:");
+  console.log("Last ID in group details:");
   console.log(lastID);
+  clickEvent();
 }
 
 function renderOrderShippingAddressHTML(data) {

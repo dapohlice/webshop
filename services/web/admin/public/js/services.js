@@ -1,4 +1,4 @@
-// XHR (XMLHttpRequest) verarbeitet alle Anfragen per ajax request und schickt nach Erfolg alle Antworten an response() weiter  
+// XHR (XMLHttpRequest) verarbeitet alle Anfragen per ajax request und schickt nach Erfolg alle Antworten an response() weiter
 function XHR(type, url, data, contentType) {
   promise = $.ajax({
     type: type,
@@ -17,9 +17,10 @@ function XHR(type, url, data, contentType) {
 
   promise.fail(function (xhr, statusText, errorThrown) {
     console.log(statusText + " - " + xhr.status);
-    $('#adminc').empty();
+    $('#errorModalObjekt').children('div').eq(0).remove();
+    // $('#adminc').empty();
     renderErrorHTML(xhr, statusText);
-    return false;
+    // return false;
   });
 
 }

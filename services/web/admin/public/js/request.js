@@ -54,6 +54,20 @@ function getUsers() {
     console.log(url);
   }
 }
+function getUsersForGroup() {
+  var url = '';
+  var urlParam = currentAdminPage;
+  console.log(urlParam);
+  $('#jsonAddUserGroupObjekt').children('table').eq(0).remove();
+
+  if(urlParam == 'groups') {
+    url = 'http://localhost:3003/user';
+    var res = new XHR('GET', url);
+    getUsersForGroupReq = true;
+    console.log("GetXHR Klasse wurde aufgerufen mit folgenden Objekt:");
+    console.log(url);
+  }
+}
 function postUser() {
   setDetailsFalse();
   var url = '';
@@ -154,6 +168,90 @@ function postCategory() {
     console.log(json);
   }
 
+}
+function patchAddUserGroup(userid) {
+  var url = '';
+  // Get some values from elements on the page:
+  var term = userid;
+
+  // Create an empty object to return.
+  var retJson = {};
+  retJson.userId = term;
+
+  // Create an string json to return
+  var json = JSON.stringify(retJson);
+
+  if( json.length != 0 ) {
+    url = 'http://localhost:3003/group/' + lastID + '/add';
+    var res = new XHR('PATCH', url, json, 'application/json');
+
+    patchAddUserGroupReq = true;
+    console.log("PatchXHR Klasse wurde aufgerufen mit folgenden Objekt:");
+    console.log(json);
+  }
+}
+function patchRemoveUserGroup(userid) {
+  var url = '';
+  // Get some values from elements on the page:
+  var term = userid;
+
+  // Create an empty object to return.
+  var retJson = {};
+  retJson.userId = term;
+
+  // Create an string json to return
+  var json = JSON.stringify(retJson);
+
+  if( json.length != 0 ) {
+    url = 'http://localhost:3003/group/' + lastID + '/remove';
+    var res = new XHR('PATCH', url, json, 'application/json');
+
+    patchRemoveUserGroupStatus = true;
+    console.log("PatchXHR Klasse wurde aufgerufen mit folgenden Objekt:");
+    console.log(json);
+  }
+}
+function patchUserStatus() {
+  var url = '';
+  var id = lastID;
+  // Get some values from elements on the page:
+  var term = $('#statusUserInputEdit').is(':checked');
+
+  // Create an empty object to return.
+  var retJson = {};
+  retJson.status = term;
+
+  // Create an string json to return
+  var json = JSON.stringify(retJson);
+
+  if( json.length != 0 ) {
+    url = 'http://localhost:3003/user/' + id;
+    var res = new XHR('PATCH', url, json, 'application/json');
+
+    patchNewUserStatus = true;
+    console.log("PatchXHR Klasse wurde aufgerufen mit folgenden Objekt:");
+    console.log(json);
+  }
+}
+function patchPwdUser() {
+  var url = '';
+  var id = lastID;
+  // Get some values from elements on the page:
+
+  // Create an empty object to return.
+  var retJson = {};
+
+  // Create an string json to return
+  var json = JSON.stringify(retJson);
+
+  if( json.length != 0 ) {
+    url = 'http://localhost:3003/user/' + id + '/resetpassword';
+    var res = new XHR('PATCH', url, json, 'application/json');
+
+    patchPwdUserStatus = true;
+    console.log("PatchXHR Klasse wurde aufgerufen mit folgenden Objekt:");
+    console.log(json);
+  }
 }
 function putUser() {
   var url = '';
@@ -281,6 +379,7 @@ function getCategoryDetails(id) {
   }
 }
 function getUserDetails(id) {
+  setDetailsFalse();
   var url = '';
   console.log("getUser ID for details: ");
   console.log(id);
@@ -292,6 +391,7 @@ function getUserDetails(id) {
   }
 }
 function getGroupDetails(id) {
+  setDetailsFalse();
   var url = '';
   console.log("getGroup ID for details: ");
   console.log(id);
