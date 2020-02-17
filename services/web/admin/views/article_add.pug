@@ -1,0 +1,153 @@
+block article_add
+
+  div#addModal.modal.fade
+    div.modal-dialog.modal-xl
+      div.modal-content
+        //- Modal Header
+        div.modal-header
+          h4.modal-title    
+            | Add a new article   
+          button.close(
+            type="button"
+            data-dismiss="modal"
+            data-tooltip="tooltip" 
+            data-placement="bottom" 
+            title="Abort add new article" 
+          ) 
+            | &times;
+        //- Modal Body
+        div.modal-body
+          form#addArticleForm.needs-validation(
+            novalidate
+            )
+            div.form-row
+              div.col-md-6.mb-3
+                label(
+                  for="name"
+                )
+                  | Article name
+                input.form-control#name(
+                  type="text"
+                  placeholder="Enter name for this article"
+                  required
+                )
+                div.invalid-feedback
+                  | Please provide a valid articlename.
+              div.col-md-6.mb-3
+                label(
+                  for="productid"
+                )
+                  | Item number
+                input.form-control#productid(
+                  type="number"
+                  placeholder="Enter item number for this article"
+                  required
+                )
+                div.invalid-feedback
+                  | Please provide a valid item number.
+            div.form-row
+              div.col-md-12.mb-3
+                div.form-group
+                  label(
+                    for="description"
+                    )
+                      | Description
+                  textarea.form-control#description(
+                    rows="5"
+                    placeholder="Get me some description for this article ..."
+                    required
+                    )     
+                  div.invalid-feedback
+                    | invalid description
+            div.form-row
+              div.col-md-3.mb-3
+                div.form-group
+                  label(
+                    for="price"
+                    )
+                      | Price     
+                  input.form-control#price(
+                    type="text"
+                    placeholder="0.00"
+                    required
+                    )
+                  div.invalid-feedback
+                    | Please provide a valid price number.
+              div.col-md-3.mb-3
+                label(
+                  for="state"
+                  )
+                    | Status     
+                div.form-check
+                  input.form-check-input#state(
+                    type="checkbox"
+                    checked
+                    )
+                  label.form-check-label(
+                    for="state"
+                    )
+                      | active     
+              div.col-md-6.mb-3
+                div.form-group
+                  label(
+                    for="category"
+                    )
+                      | Category     
+                  input.form-control#category(
+                    type="text"
+                    placeholder="Select category"
+                    required
+                    )
+                  div.invalid-feedback
+                    | Please provide a valid category.
+            div.form-row     
+              div.col
+                hr
+                h4 Properties
+            div.form-row     
+              div.col-md-4.mb-3
+                div.form-group
+                  label(
+                    for="subid"
+                  )
+                    | Item number
+                  input.form-control#subid(
+                    type="number"
+                    placeholder="Enter sub item number for this property"
+                    required
+                  )
+                  div.invalid-feedback
+                    | Please provide a valid sub item number.
+              div.col-md-4.mb-3
+                div.form-group
+                  label(
+                    for="property"
+                  )
+                    | characteristics
+                  input.form-control#property(
+                    type="text"
+                    placeholder="Insert properties and separated several with ','"
+                    required
+                  )
+                  div.invalid-feedback
+                    | Please provide valid properties.
+              div.col-md-4.mb-3
+                div.form-group
+                  label(
+                    for="amount"
+                  )
+                    | Property amount
+                  input.form-control#amount(
+                    type="number"
+                    placeholder="Insert amount for this property"
+                    required
+                  )
+                  div.invalid-feedback
+                    | Please provide a valid amount number.
+                  
+                //- div.modal-footer  
+            button#add-article.btn.btn-success.float-right(
+              type="submit"
+              )
+                i.fa.fa-check
+                  | Create

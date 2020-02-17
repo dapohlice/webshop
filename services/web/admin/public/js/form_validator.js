@@ -10,6 +10,12 @@
           event.preventDefault();
           event.stopPropagation();
           console.log("invalid form");
+        } else if (currentAdminPage == 'articles') {
+          // Paramter aus Adresse entfernen:
+          event.preventDefault();
+          console.log("call RenderSubmit after validation");
+          $('#addModal').modal('hide');
+          showStatusInfo("Successfully add a new article");
         } else if (currentAdminPage == 'users') {
           // Paramter aus Adresse entfernen:
           event.preventDefault();
