@@ -1,0 +1,38 @@
+block group_delete
+
+  div#deleteModal.modal.fade
+    div.modal-dialog.modal-md
+      div.modal-content
+        //- Modal Header
+        div.modal-header
+          h4.modal-title
+            | Do you really want delete this group?
+          button.close(
+            type="button"
+            data-dismiss="modal"
+            data-tooltip="tooltip" 
+            data-placement="bottom" 
+            title="Abort delete group" 
+          ) 
+            | &times;
+          
+        //- Modal Footer
+        div.modal-footer
+          button.btn.btn-danger(
+            type="button"
+            data-dismiss="modal"
+            data-tooltip="tooltip" 
+            data-placement="bottom" 
+            title="Abort delete group" 
+          ) 
+            i.fa.fa-close
+              |  Abort
+          button#deleteGroupBtn.btn.btn-success(
+            type="button"
+            onclick="deleteGroup()"
+            data-tooltip="tooltip" 
+            data-placement="bottom" 
+            title="Delete group" 
+          )
+            i.fa.fa-check
+              |  Delete

@@ -10,6 +10,14 @@ function response(data) {
     showStatusInfo("Status is changed successfully!");
     //end of show info status
     getOrders();
+  } else if (deleteGroupReq) {
+    $('#deleteModal').modal('hide');
+    $('#detailModal').modal('hide');
+    //show info status
+    showStatusInfo("Delete group successfully!");
+    //end of show info status
+    getGroups();
+    deleteGroupReq = false;
   } else if (patchAddUserGroupReq) {
     patchAddUserGroupReq = false;
     $('#jsonAddUserGroupObjekt').children('table').eq(0).remove();

@@ -14,6 +14,7 @@ var orderLogContainer = document.getElementById('orderLogContent');
 var errorTableContainer = document.getElementById('errorTableObjekt');
 var errorModalContainer = document.getElementById('errorModalObjekt');
 //  Helfer-Variablen, um den aktuellen Status zu speichern
+var deleteGroupReq = false;
 var patchAddUserGroupReq = false;
 var getUsersForGroupReq = false;
 var patchRemoveUserGroupStatus = false;

@@ -22,6 +22,16 @@ block group_details
           
         //- Modal Footer
         div.modal-footer
+          button#askRemoveGroupBtn.btn.btn-danger(
+            type="button"
+            data-tooltip="tooltip" 
+            data-placement="bottom" 
+            title="Delete this group" 
+            data-toggle="modal"
+            data-target="#deleteModal"
+          )
+            i.fa.fa-trash
+              |  Delete
           button#addUserGroupBtn.btn.btn-secondary(
             type="button"
             data-tooltip="tooltip" 
@@ -32,7 +42,7 @@ block group_details
             onclick="getUsersForGroup()"
           )
             i.fa.fa-plus
-              | Add user
+              |  Add user
           button#editDetailGroupBtn.btn.btn-success(
             type="button"
             onclick="validateForm()"
@@ -41,4 +51,4 @@ block group_details
             title="Save new changes and close user details" 
           )
             i.fa.fa-check
-              | Save changes
+              |  Save changes

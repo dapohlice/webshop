@@ -253,6 +253,18 @@ function patchPwdUser() {
     console.log(json);
   }
 }
+function deleteGroup() {
+  var url = '';
+  var id = lastID;
+
+  if( id != null ) {
+    url = 'http://localhost:3003/group/' + id;
+    var res = new XHR('DELETE', url);
+
+    deleteGroupReq = true;
+    console.log("DeleteXHR Klasse wurde aufgerufen mit folgenden Objekt:");
+  }
+}
 function putUser() {
   var url = '';
   var id = lastID;
