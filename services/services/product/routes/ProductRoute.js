@@ -12,7 +12,10 @@ ProductRoute.post("/", async function (req,res){
       let result = await Assistant.Product.createProduct(req.body);
       res.status(201).send(result);
     } catch (err) {
-      res.sendStatus(404);
+      if(err.code === 11000)
+        res.sendStatus(401);
+      else
+        res.sendStatus(404);
     }
 });
 
@@ -74,7 +77,6 @@ ProductRoute.get("/:id/propertys", async function(req, res) {
 /*POST-Request zum erstellen eines/mehrere SubArtikel zu einem Artikel*/
 ProductRoute.post("/:id/propertys", async function(req, res) {
   try {
-    console.log(req.body);
     let result = await Assistant.Product.createProperty(req.params.id, req.body);
     res.send(result);
   } catch (err) {
