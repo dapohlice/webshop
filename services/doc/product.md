@@ -104,7 +104,6 @@
 
 ### POST article/
   - Anlegen eines Artikels, dies kann mit oder ohne "Propertys" geschehen
-  - Ein Artikel besitzt noch einen Timestamp, dieser KANN hier gesetzt werden
   - Die Eingabe eines Arrays aus Eigenschaftsdatensätzen MUSS hier nicht geschehen
 #### Eingabe
 ```json
@@ -232,7 +231,7 @@
   - 404 (Not Found)
 
 ### GET 7article/:id
-  - Eigenschaftsdatensatz durch seine ID zurückgeben
+  - Artikelsdatensatz durch seine ID zurückgeben
 
 #### Eingabe
   - Keine Eingabe
@@ -260,4 +259,43 @@
     "__v": 0
 }
 ```
+  - 404 (Not Found)
+### GET article/:id/propertys
+  - Eigenschaftsdatensätze zu einem Artikel anzeigen
+
+#### Eingabe
+  - Keine Eingaben
+
+#### Rückgabe
+  - 200 (OK)
+```json
+[
+    {
+        "amount": 48,
+        "_id": "5e4589949c97cf00e0c95d44",
+        "subid": 1,
+        "property": "rot, xl"
+    }
+]
+```
+ - 404 (Not Found)
+
+### POST /article/:id/Propertys
+  - Einen oder Mehrere Eigenschaftsdatensätze zu einem Artikel anlegen
+
+#### Eingaben
+  -
+#### Rückgabe
+  - 201 (Created)
+```json
+```
+  - 404 (Not Found)
+
+### Patch /article/:id/property/:subid
+  - Ändern der Menge eines Eigenschaftsdatensatzes
+
+#### Eingaben
+
+#### Rückgabe
+  - 200 (OK)
   - 404 (Not Found)
