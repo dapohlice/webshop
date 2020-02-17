@@ -1,7 +1,7 @@
-block user_details
+block group_details
 
-  div#groupDetailModal.modal.fade
-    div.modal-dialog.modal-lg
+  div#detailModal.modal.fade
+    div.modal-dialog.modal-xl
       div.modal-content
         //- Modal Header
         div.modal-header
@@ -11,23 +11,44 @@ block user_details
             data-dismiss="modal"
             data-tooltip="tooltip" 
             data-placement="bottom" 
-            title="Close user details" 
+            title="Close group details" 
+            onclick="setDetailsFalse()"
           ) 
             | &times;
         //- Modal Body
         div.modal-body
-          div.container
-            div.row
-              
-                    
+        
+          div#jsonDetailObjekt
+          
         //- Modal Footer
         div.modal-footer
-          button#closeDetailButton.btn.btn-danger(
+          button#askRemoveGroupBtn.btn.btn-danger(
             type="button"
-            data-dismiss="modal"
             data-tooltip="tooltip" 
             data-placement="bottom" 
-            title="Close user details" 
+            title="Delete this group" 
+            data-toggle="modal"
+            data-target="#deleteModal"
           )
-            i.fa.fa-close
-              | Abort
+            i.fa.fa-trash
+              |  Delete
+          button#addUserGroupBtn.btn.btn-secondary(
+            type="button"
+            data-tooltip="tooltip" 
+            data-placement="bottom" 
+            title="Add user to current group" 
+            data-toggle="modal"
+            data-target="#groupAddUserModal"
+            onclick="getUsersForGroup()"
+          )
+            i.fa.fa-plus
+              |  Add user
+          button#editDetailGroupBtn.btn.btn-success(
+            type="button"
+            onclick="validateForm()"
+            data-tooltip="tooltip" 
+            data-placement="bottom" 
+            title="Save new changes and close user details" 
+          )
+            i.fa.fa-check
+              |  Save changes

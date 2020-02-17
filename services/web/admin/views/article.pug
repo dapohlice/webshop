@@ -8,7 +8,7 @@ block content
     h2.text-center
       | #{title}
     div.nav.navbar.search-bar.header.shadow
-      button#newArticleBtn.btn.btn-secondary(type="button" data-tooltip="tooltip" data-placement="bottom" title="Create a new article" data-toggle="modal" data-target="#addArticleModal")
+      button#newArticleBtn.btn.btn-secondary(type="button" data-tooltip="tooltip" data-placement="bottom" title="Create a new article" data-toggle="modal" data-target="#addModal")
         i.fa.fa-plus
           |  Add
       div.search-container
@@ -19,56 +19,63 @@ block content
             
     //- include article_add
     
-    div#jsonTableObjekt
+    div
+      table.table.table-striped.table-hover
+        thead
+          tr
+            th
+              | ID
+            th
+              | Name
+            th
+              | Properties
+            th
+              | Amount
+            th
+              | Price
+        tbody#articles    
+          template#articles-template
+            tr.editOrderButton.table-row(
+              data-tooltip="tooltip"
+              data-placement="bottom"
+              title="Edit this order"
+              data-toggle="modal"
+              data-target="#detailModal"
+              )
+              td
+                | {{productid}}
+              td
+                | {{name}}
+              td
+                | {{#propertys}}{{property}}{{/propertys}}
+              td
+                | {{#propertys}}{{amount}}{{/propertys}} pcs
+              td
+                | {{ price | euro }}
+                  
+    include article_add
     
     div#errorTableObjekt
     
     div#status.text-center
-
-    table.table.table-striped
-      thead
-        tr
-          th
-            | ID
-          th
-            | Name
-          th
-            | Properties
-          th
-            | Amount
-          th
-            | Price
-      tbody
-        tr
-          td
-            | 1
-          td
-            | T-Shirt Supreme
-          td
-            | S, black           
-          td
-            | 10           
-          td
-            | 9,99 €           
-        tr
-          td
-            | 1
-          td
-            | T-Shirt Supreme
-          td
-            | S,M,L,XL, black           
-          td
-            | 40           
-          td
-            | 19,99 €           
-        tr
-          td
-            | 1
-          td
-            | T-Shirt Supreme
-          td
-            | S,M,XXL,XXXL black           
-          td
-            | 30           
-          td
-            | 34,80 €           
+    
+block scripts              
+  script(src='https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js')
+  script(src='https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.1/umd/popper.min.js')
+  //- script(src='https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js')
+  //- script(type='text/javascript' src='js/bs/jquery-3.4.1.min.js')
+  //- script(type='text/javascript' src='js/bs/popper.min.js')
+  script(type='text/javascript' src='js/bs/bootstrap.min.js')
+  
+  script(type='text/javascript' src='js/helper.js' defer='defer')
+  script(type='text/javascript' src='js/db_sidebar.js' defer='defer')
+  script(type='text/javascript' src='js/response.js' defer='defer')
+  script(type='text/javascript' src='js/services.js' defer='defer')
+  script(type='text/javascript' src='js/request.js' defer='defer')
+  script(type='text/javascript' src='js/tooltip.js')
+  script(type='text/javascript' src='js/form_validator.js')
+  script(type='text/javascript' src='js/article.js')
+  script(type='text/javascript' src='js/mustache/mustache.js')
+  script(type='text/javascript' src='js/mustache/mustache-wax.js')
+  script(type='text/javascript' src='js/formatters.js')
+       

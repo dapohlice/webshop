@@ -229,15 +229,13 @@ i.fa {font-family: "FontAwesome", "Roboto", sans-serif}
     position: absolute;
     z-index: 1;
 }
-/* Statusbar */
+/* Statusbars */
 #status {
   position: fixed; /* Sit on top of the screen */
-  z-index: 2; /* Add a z-index if needed */
+  z-index: 99999; /* Add a z-index if needed */
   visibility: hidden; /* Hidden by default. Visible on click */
   min-width: 250px; /* Set a default minimum width */
   margin-left: -125px; /* Divide value of min-width by 2 */
-  background-color: #333; /* Black background color */
-  color: #fff; /* White text color */
   text-align: center; /* Centered text */
   border-radius: 2px; /* Rounded borders */
   padding: 16px; /* Padding */
@@ -248,4 +246,9 @@ i.fa {font-family: "FontAwesome", "Roboto", sans-serif}
   visibility: visible;
   -webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
   animation: fadein 0.5s, fadeout 0.5s 2.5s;
+}
+#errorModal {
+  position: fixed; /* Sit on top of the screen */
+  z-index: 9999; /* Add a z-index if needed */
+  text-align: center; /* Centered text */
 }
