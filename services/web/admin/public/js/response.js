@@ -1,8 +1,3 @@
-//Todo: für Alex: Patch Method Anfragen waren nicht möglich, habe Methoden hinzugefügt, bitte man kontrollieren, ob es so korrekt ist wie du es haben möchtest.
-//Todo: für Alex: 1 User von Gruppe löschen, löscht momentan alle User von der Gruppe
-//Todo: für Alex: Reset password führt zu error 400
-//************************************************************************************
-
 // Hier werden alle Daten einer ajax Antwort in Tabellen verarbeitet
 function response(data) {
   if ((JSON.stringify(data) !== JSON.stringify([])) && getOrderReq == true) {
