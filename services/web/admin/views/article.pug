@@ -53,6 +53,12 @@ block content
                 | {{#propertys}}{{amount}}{{/propertys}} pcs
               td
                 | {{ price | euro }}
+          template#empty-template
+            tr.table-row
+              td(
+                colspan="5"
+                )
+                | No entries available! Try again later.              
                   
     include article_add
     

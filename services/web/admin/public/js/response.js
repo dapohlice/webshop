@@ -49,7 +49,7 @@ function response(data) {
   } else if (putGroupReq) {
     getGroups();
     putGroupReq = false;
-  } else if (getCategoryReq) {
+  } else if ((JSON.stringify(data) !== JSON.stringify([])) && getCategoryReq) {
     renderCategoryTableHTML(data);
     getCategoryReq = false;
   } else if (setOrderDetails) {
@@ -74,7 +74,7 @@ function response(data) {
   } else if (postCategoryReq) {
     getCategories();
     postCategoryReq = false;
-  } else if (getUsersReq) {
+  } else if ((JSON.stringify(data) !== JSON.stringify([])) && getUsersReq) {
     renderUserTableHTML(data);
     getUsersReq = false;
   } else if (postUsersReq) {
@@ -83,7 +83,7 @@ function response(data) {
   } else if (postGroupsReq) {
     getGroups();
     postGroupsReq = false;
-  } else if (getGroupsReq) {
+  } else if ((JSON.stringify(data) !== JSON.stringify([])) && getGroupsReq) {
     renderGroupTableHTML(data);
     getGroupsReq = false;
   } else {
