@@ -12,7 +12,10 @@ ProductRoute.post("/", async function (req,res){
       let result = await Assistant.Product.createProduct(req.body);
       res.status(201).send(result);
     } catch (err) {
-      res.sendStatus(404);
+      if(err.code === 11000)
+        res.sendStatus(401);
+      else
+        res.sendStatus(404);
     }
 });
 
@@ -66,7 +69,7 @@ ProductRoute.get("/:id", async function (req,res) {
 ProductRoute.get("/:id/propertys", async function(req, res) {
   try {
     let result = await Assistant.Product.getAllPropertys(req.params.id);
-    res.send(result);
+    res.status(200).send(result);
   } catch (err) {
     res.status(404).send(err);
   }
@@ -74,9 +77,8 @@ ProductRoute.get("/:id/propertys", async function(req, res) {
 /*POST-Request zum erstellen eines/mehrere SubArtikel zu einem Artikel*/
 ProductRoute.post("/:id/propertys", async function(req, res) {
   try {
-    console.log(req.body);
     let result = await Assistant.Product.createProperty(req.params.id, req.body);
-    res.send(result);
+    res.status(201).send(result);
   } catch (err) {
     res.status(404).send(err);
   }
