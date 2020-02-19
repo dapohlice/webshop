@@ -241,17 +241,16 @@ i.fa {font-family: "FontAwesome", "Roboto", sans-serif}
   border-radius: 2px; /* Rounded borders */
   padding: 14px; /* Padding */
   left: 50%; /* Center the snackbar */
-  top: 10px; /* 30px from the bottom */
+  top: 0.67px; /* 30px from the bottom */
 }
 #status.show {
   visibility: visible;
   -webkit-animation: fadein 0.5s, fadeout 0.5s 3.5s;
   animation: fadein 0.5s, fadeout 0.5s 3.5s;
-  animation-name: topmove;
+  animation-name: topmovein;
   animation-duration: 0.5s;
-  animation-fill-mode: forwards;
 }
-@keyframes topmove {
+@keyframes topmovein {
   from {top: -50px;}
   to {top: 0.67px;}
 }
