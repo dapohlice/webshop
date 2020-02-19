@@ -102,10 +102,12 @@ app.post('/',
             {
                 console.error(err);
                 res.status(400).send("File not allowd");
+                return;
             }else if(err)
             {
                 console.error(err);
                 res.statusStatus(500);
+                return;
             }
             res.send(req.file.filename);
             console.log("File uploaded: "+req.file.filename);

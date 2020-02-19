@@ -169,10 +169,13 @@ export async function removeUser(groupId: number, userId: number):Promise<boolea
     [group,err] = await resolve(builder.getOne())
     if(group === undefined || err !== null)
         return false;
-    
-    group.users = group.users.filter(user =>{
-        user.id !== userId
-    });
+        
+    group.users = group.users.filter((user) =>
+        {
+           let res = user.id != userId;
+           return res;
+        }
+    );
 
     [group,err] = await resolve(group.save());
     if(group === undefined || err != null)

@@ -2,8 +2,8 @@
 
 ## User-Service
 - PATCH: Anfragen waren nicht möglich, erlaubte Methoden wurden provisorisch hinzugefügt, bitte mal kontrollieren, ob es so korrekt ist wie ursprünglich vorgesehen
-- DELETE: Anfrage für User von Gruppe löschen, löscht momentan alle User von der Gruppe
-- PATCH /user/:id/resetpassword - Reset password führt zu error 400
+- ~~DELETE: Anfrage für User von Gruppe löschen, löscht momentan alle User von der Gruppe~~
+- ~~PATCH /user/:id/resetpassword - Reset password führt zu error 400~~ (Richtlinie beachten (Zahl,Groß-,Kleinbuchstabe))
 - Suche: Anfragen die für eine Suche gestellt werden können
 ## Product-Service
 - Categories: Zuordnung beim anlegen von neuen Artikeln prüfen
