@@ -3,14 +3,19 @@
 ## User-Service
 - PATCH: Anfragen waren nicht möglich, erlaubte Methoden wurden provisorisch hinzugefügt, bitte mal kontrollieren, ob es so korrekt ist wie ursprünglich vorgesehen
 - ~~DELETE: Anfrage für User von Gruppe löschen, löscht momentan alle User von der Gruppe~~
-- ~~PATCH /user/:id/resetpassword - Reset password führt zu error 400~~ (Richtlinie beachten (Zahl,Groß-,Kleinbuchstabe))
+- ~~PATCH /user/:id/resetpassword - Reset password führt zu error 400~~ (Richtlinie beachten (mind.8, Zahl,Groß-,Kleinbuchstabe))
 - Suche: Anfragen die für eine Suche gestellt werden können
 ## Product-Service
 - Categories: Zuordnung beim anlegen von neuen Artikeln prüfen
 - Article: bzgl. Preis: Einigung auf ein bestimmtes Format (z.B.: cent)
 - Propertys: Einigung auf eventuell bestimmte Formate
 - Suche: Anfragen die für eine Suche gestellt werden können
+- Bilder bei Producten
 ## Picture-Service
 - Funktionsweise noch unklar, wie können Bilder im service gespeichert werden?
     - Ajax auf http://localhost:3004/ mit post method und mit jpeg als data schicken?
     - Können wir die Vorgehensweise im nächsten Meeting mal durchgehen?
+
+## Shop
+- Produkt Details
+-
