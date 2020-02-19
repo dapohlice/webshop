@@ -234,18 +234,26 @@ i.fa {font-family: "FontAwesome", "Roboto", sans-serif}
   position: fixed; /* Sit on top of the screen */
   z-index: 99999; /* Add a z-index if needed */
   visibility: hidden; /* Hidden by default. Visible on click */
-  min-width: 250px; /* Set a default minimum width */
-  margin-left: -125px; /* Divide value of min-width by 2 */
+  min-width: 350px; /* Set a default minimum width */
+
+  margin-left: -175px; /* Divide value of min-width by 2 */
   text-align: center; /* Centered text */
   border-radius: 2px; /* Rounded borders */
-  padding: 16px; /* Padding */
+  padding: 14px; /* Padding */
   left: 50%; /* Center the snackbar */
-  bottom: 30px; /* 30px from the bottom */
+  top: 10px; /* 30px from the bottom */
 }
 #status.show {
   visibility: visible;
-  -webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
-  animation: fadein 0.5s, fadeout 0.5s 2.5s;
+  -webkit-animation: fadein 0.5s, fadeout 0.5s 3.5s;
+  animation: fadein 0.5s, fadeout 0.5s 3.5s;
+  animation-name: topmove;
+  animation-duration: 0.5s;
+  animation-fill-mode: forwards;
+}
+@keyframes topmove {
+  from {top: -50px;}
+  to {top: 0.67px;}
 }
 #errorModal {
   position: fixed; /* Sit on top of the screen */

@@ -35,10 +35,11 @@ block content
               | Price
         tbody#articles    
           template#articles-template
-            tr.editOrderButton.table-row(
+            tr.editArticle.table-row(
+              data-id="{{productid}}"
               data-tooltip="tooltip"
               data-placement="bottom"
-              title="Edit this order"
+              title="Edit this article"
               data-toggle="modal"
               data-target="#detailModal"
               )
@@ -54,6 +55,8 @@ block content
                 | {{ price | euro }}
                   
     include article_add
+    
+    include article_detail
     
     div#errorTableObjekt
     

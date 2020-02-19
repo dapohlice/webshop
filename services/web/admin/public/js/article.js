@@ -1,10 +1,11 @@
 // article.js
 // managed all requests and responses for articles
 
-$(function (){
+$(function test(){
 
   // var $article = $('#article');
   var $articles = $('#articles');
+  var $articleDetailForm = $('#articleDetailForm');
   var $productid = $('#productid');
   var $name = $('#name');
   var $description = $('#description');
@@ -16,9 +17,14 @@ $(function (){
   var $category = $('#category');
 
   var articlesTemplate = $('#articles-template').html();
+  var articleTemplate = $('#article-template').html();
 
   function addArticle(article) {
     $articles.append(Mustache.render(articlesTemplate, article));
+  }
+  function addArticleDetail(article) {
+    console.log("addArticleDetail");
+    $articles.append(Mustache.render(articleTemplate, article));
   }
 
   $.ajax({
@@ -27,6 +33,7 @@ $(function (){
     success: function(articles) {
       $.each(articles, function(i, article) {
         addArticle(article);
+        // test();
       });
     },
     error: function() {
@@ -62,6 +69,23 @@ $(function (){
         showStatusError(statusText + ": " + error.status + " - " + error.statusText + " while saving orders");
       }
     });
+  });
+
+  $('.editArticle').on('click', function() {
+    var $tr = $(this).closest('tr');
+    console.log($tr.attr('data-id'));
+    $.ajax({
+      type: 'GET',
+      url: 'http://localhost:3002/article/' + $tr.attr('data-id'),
+      success: function(article) {
+        console.log("success addArticleDetail");
+        addArticleDetail(article);
+      },
+      error: function() {
+        renderErrorTableHTML();
+      }
+    });
+
   });
 
 
