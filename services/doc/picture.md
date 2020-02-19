@@ -5,6 +5,7 @@
 
 ### Eingabe
 - 1 Bild als Formdata, mit dem Name **photo**
+- mögliche Formate: gif, jpeg (jpg,jpeg), png
 - Beispiel Javascript: (siehe Picture-Service /img/index.html)
 ```javascript
     var src = e.target.files[0];
