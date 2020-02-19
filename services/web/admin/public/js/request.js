@@ -143,7 +143,7 @@ function getGroups() {
 }
 
 function postCategory() {
-  setDetailsFalse()
+  setDetailsFalse();
   var url = '';
   // Get some values from elements on the page:
   var term = $('#categoryname').val();
