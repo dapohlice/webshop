@@ -16,8 +16,6 @@ block content
           input(type="text" placeholder="Search.." name="search")
           button(type="submit")
             i.fa.fa-search
-            
-    //- include article_add
     
     div
       table.table.table-striped.table-hover
@@ -45,13 +43,13 @@ block content
               )
               td
                 | {{productid}}
-              td
+              td.name
                 | {{name}}
               td
                 | {{#propertys}}{{property}}{{/propertys}}
               td
                 | {{#propertys}}{{amount}}{{/propertys}} pcs
-              td
+              td.price
                 | {{ price | euro }}
           template#empty-template
             tr.table-row

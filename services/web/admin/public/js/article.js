@@ -16,8 +16,9 @@ $(function (){
   var $amount = $('#amount');
   var $category = $('#category');
 
-  var articlesTemplate = $('#articles-template').html();
-  var emptyTemplate = $('#empty-template').html();
+  var articlesTemplate = $('#articles-template').html(); // for all articles
+  var articleTemplate = $('#article-template').html(); // for details at one article
+  var emptyTemplate = $('#empty-template').html(); // for zero article
 
   function addArticle(article) {
     $articles.append(Mustache.render(articlesTemplate, article));
@@ -25,10 +26,17 @@ $(function (){
   function addEmpty(empty) {
     $articles.append(Mustache.render(emptyTemplate, empty));
   }
-  function addArticleDetail(article) {
-    console.log("addArticleDetail");
-    $articles.append(Mustache.render(articleTemplate, article));
+  function addArticleDetail(article, id) {
+    if (lastID == id) {
+      console.log("nichts passiert");
+    } else {
+      console.log("Neuzuweisung");
+      lastID = id;
+      $articleDetailForm.children().remove();
+      $articleDetailForm.append(Mustache.render(articleTemplate, article));
+    }
   }
+
 
   $.ajax({
     type: 'GET',
@@ -63,63 +71,92 @@ $(function (){
       category: $category.val()
     };
 
-    $.ajax({
+    promise = $.ajax({
       type: 'POST',
       url: 'http://localhost:3002/article',
-      data: article,
-      success: function(newArticle) {
-        addArticle(newArticle);
-      },
-      error: function(error, statusText) {
-        // $('#errorModalObjekt').children('div').eq(0).remove();
-        // renderErrorHTML(error, statusText);
-        showStatusError(statusText + ": " + error.status + " - " + error.statusText + " while saving orders");
-      }
+      data: article
+    });
+    promise.done(function (newArticle) {
+      addArticle(newArticle);
+    });
+
+    promise.fail(function (error, statusText) {
+      showStatusError(statusText + ": " + error.status + " - " + error.statusText + " while saving orders");
     });
   });
 
+  $(document).on("click", ".editArticle", function() {
 
-});
+    var $tr = $(this).closest('tr');
+    var id = $tr.attr('data-id');
 
-function edit() {
-  var $articles = $('#articles');
-  var $articleDetailForm = $('#articleDetailForm');
-  var $productid = $('#productid');
-  var $name = $('#name');
-  var $description = $('#description');
-  var $price = $('#price');
-  var $state = $('#state');
-  var $subid = $('#subid');
-  var $property = $('#property');
-  var $amount = $('#amount');
-  var $category = $('#category');
-
-  var articleTemplate = $('#article-template').html();
-  function addArticleDetail(article) {
-    console.log("addArticleDetail");
-    $articles.append(Mustache.render(articleTemplate, article));
-  }
-
-    $('.editArticle').on('click', function() {
-      var $tr = $(this).closest('tr');
-      console.log($tr.attr('data-id'));
-      $.ajax({
-        type: 'GET',
-        url: 'http://localhost:3002/article/' + $tr.attr('data-id'),
-        success: function(article) {
-          console.log("success addArticleDetail");
-          if ((JSON.stringify(article) !== JSON.stringify([]))) {
-            addArticleDetail(article);
-          } else {
-            renderErrorTableHTML();
-          }
-
-        },
-        error: function() {
+    $.ajax({
+      type: 'GET',
+      url: 'http://localhost:3002/article/' + id,
+      success: function(article) {
+        console.log("open ArticleDetails for Edit Modal");
+        if ((JSON.stringify(article) !== JSON.stringify([]))) {
+          console.log(article.description);
+          addArticleDetail(article, id);
+        } else {
           renderErrorTableHTML();
         }
-      });
 
+      },
+      error: function() {
+        renderErrorTableHTML();
+      }
     });
 
-}
+  });
+
+  $(document).on("click", "#edit-article", function() {
+    // change vars
+    var $editname = $('#editname');
+    var $editdescription = $('#editdescription');
+    var $editprice = $('#editprice');
+    var $editstate = $('#editstate');
+    var $editcategory = $('#editcategory');
+    var $tr = $(this).closest('tr');
+    var id = $tr.attr('data-id');
+
+    console.log($editstate.attr('checked'));
+    console.log($editprice.val());
+    console.log($editname.val());
+    console.log($editdescription.val());
+    console.log($editstate.is(':checked'));
+    var article = {
+      name: $editname.val(),
+      description: $editdescription.val(),
+      price: $editprice.val(),
+      state: $editstate.is(':checked'),
+      // category: $editcategory.val()
+    };
+    var $btn = $('#edit-article');
+    var btnid = $btn.attr('data-id');
+
+    promise = $.ajax({
+      type: 'PUT',
+      url: 'http://localhost:3002/article/' + btnid,
+      data: article
+    });
+    promise.done(function (newArticle) {
+      console.log("success");
+      $.each($('.editArticle'), function () {
+        $tr = $(this).closest('tr');
+        id = $tr.attr('data-id');
+        if (id == btnid) {
+          $tr.find('td.name').html(article.name);
+          $tr.find('td.price').html(currencyConverter(article.price));
+        }
+      });
+    });
+
+    promise.fail(function (error, statusText) {
+      console.log("fail");
+      showStatusError(statusText + ": " + error.status + " - " + error.statusText + " while saving orders");
+    });
+
+  });
+
+});

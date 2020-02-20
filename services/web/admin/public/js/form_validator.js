@@ -15,7 +15,8 @@
           event.preventDefault();
           console.log("call RenderSubmit after validation");
           $('#addModal').modal('hide');
-          showStatusInfo("Successfully add a new article");
+          $('#detailModal').modal('hide');
+          showStatusInfo("Successfully save the article");
         } else if (currentAdminPage == 'users') {
           // Paramter aus Adresse entfernen:
           event.preventDefault();

@@ -16,10 +16,6 @@ Mustache.Formatters = {
      return  day + "/" + month + "/" + dt.getFullYear();
   },
   "euro": function (num) {
-    var str = num.toString();
-    var numarray = str.split('.');
-    var a = new Array();
-        a = numarray;
-    return  a[0] + "," + a[1] + " €";
+    return  currencyConverter(num);
   }
 };
