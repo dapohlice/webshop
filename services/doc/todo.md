@@ -6,7 +6,7 @@
 - ~~PATCH /user/:id/resetpassword - Reset password führt zu error 400~~ (Richtlinie beachten (Zahl,Groß-,Kleinbuchstabe))
 - Suche: Anfragen die für eine Suche gestellt werden können
 ## Product-Service
-- Categories: Zuordnung beim anlegen von neuen Artikeln prüfen
+- **WICHTIG:** PUT article/:id: Nach Editieren und schicken von leeren Feldern, kommt Status 200 zurück, besser Status: 400 schicken, sonst ist DB gefährdet! **UND** das endet im Admin-Service in endlosen *if else* Verzweigungen.
 - Article: bzgl. Preis: Einigung auf ein bestimmtes Format (z.B.: cent)
 - Propertys: Einigung auf eventuell bestimmte Formate
 - Suche: Anfragen die für eine Suche gestellt werden können
