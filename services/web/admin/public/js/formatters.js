@@ -17,5 +17,45 @@ Mustache.Formatters = {
   },
   "euro": function (num) {
     return  currencyConverter(num);
+  },
+  "status": function (bool) {
+    var status = "";
+
+    if (bool) {
+      status = "active";
+    } else {
+      status = "disabled";
+    }
+    return status;
+  },
+  "btntogglestatus": function (bool) {
+    var status = "";
+
+    if (bool) {
+      status = "deactivate";
+    } else {
+      status = "activate";
+    }
+    return status;
+  },
+  "btncolor": function (bool) {
+    var btncolor = "";
+
+    if (bool) {
+      btncolor = "btn-success";
+    } else {
+      btncolor = "btn-danger";
+    }
+    return btncolor;
+  },
+  "btninvertcolor": function (bool) {
+    var btncolor = "";
+
+    if (bool) {
+      btncolor = "btn-danger";
+    } else {
+      btncolor = "btn-success";
+    }
+    return btncolor;
   }
 };

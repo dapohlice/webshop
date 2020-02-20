@@ -120,16 +120,10 @@ $(function (){
     var $tr = $(this).closest('tr');
     var id = $tr.attr('data-id');
 
-    console.log($editstate.attr('checked'));
-    console.log($editprice.val());
-    console.log($editname.val());
-    console.log($editdescription.val());
-    console.log($editstate.is(':checked'));
     var article = {
       name: $editname.val(),
       description: $editdescription.val(),
       price: $editprice.val(),
-      state: $editstate.is(':checked'),
       // category: $editcategory.val()
     };
     var $btn = $('#edit-article');
@@ -150,6 +144,55 @@ $(function (){
           $tr.find('td.price').html(currencyConverter(article.price));
         }
       });
+    });
+
+    promise.fail(function (error, statusText) {
+      console.log("fail");
+      showStatusError(statusText + ": " + error.status + " - " + error.statusText + " while saving orders");
+    });
+
+  });
+  $(document).on("click", "#edit-status", function() {
+    // change vars
+    var $editstate = $('#editstate');
+    var $editstatusbtn = $('#edit-status');
+    var bool;
+    console.log("*****edit-status button pressed******");
+    if ($editstate.val() == "active") {
+      bool = false;
+    } else {
+      bool = true;
+    }
+    var status = {
+      state: bool
+    };
+    var btnid = $editstatusbtn.attr('data-id');
+
+    promise = $.ajax({
+      type: 'PUT',
+      url: 'http://localhost:3002/article/' + btnid,
+      data: status
+    });
+    promise.done(function (newStatus) {
+      console.log("success");
+        if (status.state == true) {
+          $editstate.attr("value", "active");
+          $editstate.removeClass('btn-danger');
+          $editstate.addClass('btn-success');
+          $editstatusbtn.removeData()
+          $editstatusbtn.html("deactivate");
+          $editstatusbtn.removeClass('btn-success');
+          $editstatusbtn.addClass('btn-danger');
+        } else {
+          $editstate.attr("value", "disabled");
+          $editstate.removeClass('btn-success');
+          $editstate.addClass('btn-danger');
+          $editstatusbtn.removeData()
+          $editstatusbtn.html("activate");
+          $editstatusbtn.removeClass('btn-danger');
+          $editstatusbtn.addClass('btn-success');
+        }
+
     });
 
     promise.fail(function (error, statusText) {

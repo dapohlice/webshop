@@ -35,7 +35,7 @@ block article_detail
                   )
                   div.invalid-feedback
                     | Please provide a valid articlename.
-                div.col-md-6.mb-3
+                div.col-md-2.mb-3
                   label(
                     for="editproductid"
                   )
@@ -48,6 +48,57 @@ block article_detail
                   )
                   div.invalid-feedback
                     | Please provide a valid item number.
+                div.col-md-4.mb-3
+                  div.row
+                    div.from-group.col
+                      label(
+                        for="editstate"
+                        )
+                          | Status
+                  div.row
+                    div.from-group.col
+                      input.form-control.btn#editstate(
+                        class="{{ state | btncolor }}"
+                        type="button"
+                        value="{{ state | status }}"
+                        disabled
+                        )
+                    div.from-group.col
+                      button.float-right.btn#edit-status(
+                        class="{{ state | btninvertcolor }}"
+                        data-id="{{productid}}"
+                        type="button"
+                        )
+                          | {{ state | btntogglestatus }}
+              div.form-row
+                div.col-md-6.mb-3
+                  div.form-group
+                    label(
+                      for="editprice"
+                      )
+                        | Price     
+                    input.form-control#editprice(
+                      type="text"
+                      placeholder="0.00"
+                      value="{{price}}"
+                      required
+                      )
+                    div.invalid-feedback
+                      | Please provide a valid price number.
+                div.col-md-6.mb-3
+                  div.form-group
+                    label(
+                      for="editcategory"
+                      )
+                        | Category     
+                    input.form-control#editcategory(
+                      type="text"
+                      placeholder="Select category"
+                      value="{{category}}"
+                      disabled
+                      )
+                    div.invalid-feedback
+                      | Please provide a valid category.
               div.form-row
                 div.col-md-12.mb-3
                   div.form-group
@@ -63,49 +114,6 @@ block article_detail
                         | {{description}}
                     div.invalid-feedback
                       | invalid description
-              div.form-row
-                div.col-md-3.mb-3
-                  div.form-group
-                    label(
-                      for="editprice"
-                      )
-                        | Price     
-                    input.form-control#editprice(
-                      type="text"
-                      placeholder="0.00"
-                      value="{{price}}"
-                      required
-                      )
-                    div.invalid-feedback
-                      | Please provide a valid price number.
-                div.col-md-3.mb-3
-                  label(
-                    for="editstate"
-                    )
-                      | Status     
-                  div.form-check
-                    input.form-check-input#editstate(
-                      type="checkbox"
-                      checked="{{ state === true ? checked : &quot;&quot; }}"
-                      )                 
-                    label.form-check-label(
-                      for="state"
-                      )
-                        | active     
-                div.col-md-6.mb-3
-                  div.form-group
-                    label(
-                      for="editcategory"
-                      )
-                        | Category     
-                    input.form-control#editcategory(
-                      type="text"
-                      placeholder="Select category"
-                      value="{{category}}"
-                      disabled
-                      )
-                    div.invalid-feedback
-                      | Please provide a valid category.
               div.form-row     
                 div.col
                   hr
@@ -154,7 +162,7 @@ block article_detail
                     div.invalid-feedback
                       | Please provide a valid amount number.
                   
-                //- div.modal-footer  
+                //- div.modal-footer-temp
               button#edit-article.btn.btn-success.float-right(
                 data-id="{{productid}}"
                 type="submit"
