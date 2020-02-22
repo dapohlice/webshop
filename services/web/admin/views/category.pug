@@ -39,13 +39,14 @@ block content
                 | {{categoryname}}
               td.image.w-25
                 img.img-fluid(
+                  data-id="{{picturepath}}"
                   src="{{ picturepath | imgpath }}"
                   alt="image"
                   )
           template#empty-template
             tr.table-row
               td(
-                colspan="5"
+                colspan="2"
                 )
                 | No entries available! Try again later.              
 
@@ -54,6 +55,8 @@ block content
     include category_detail
     
     include category_image
+    
+    include category_image_edit
     
     include category_delete
 

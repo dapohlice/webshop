@@ -59,7 +59,15 @@ Mustache.Formatters = {
     return btncolor;
   },
   "imgpath": function (path) {
-    var pathstring = "http://localhost:3004/" + path;
+    var pathstring;
+    console.log("Test");
+    console.log(path);
+    if (path != null) {
+      pathstring = "http://localhost:3004/" + path;
+    } else {
+      pathstring = "/img/category/shirt.png";
+    }
+
     return pathstring;
   }
 };

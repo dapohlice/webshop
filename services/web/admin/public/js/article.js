@@ -21,6 +21,7 @@ $(function (){
   var emptyTemplate = $('#empty-template').html(); // for zero article
 
   function addArticle(article) {
+    $articles.children().remove();
     $articles.append(Mustache.render(articlesTemplate, article));
   }
   function addEmpty(empty) {

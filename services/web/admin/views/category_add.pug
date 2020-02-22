@@ -1,7 +1,7 @@
 block category_add
 
   div#addModal.modal.fade
-    div.modal-dialog.modal-md
+    div.modal-dialog.modal-xl
       div.modal-content
         //- Modal Header
         div.modal-header
@@ -41,22 +41,31 @@ block category_add
                     )
                       | Image
                   div.form-row
-                    div.col.md-5.mb-3
+                    div.col.lg-5.mb-3
                       input.form-control#picturepath(
                         type="text"
                         placeholder="Upload a picture for this new category"
                         required
-                        )     
+                        )
                       div.invalid-feedback
                         | invalid file type
-                    div.col.md-5.mb-3
+                    div.col.lg-2.mb-3
                       div.form-group.w-25
-                        img.img-fluid#picturesrc(
-                          src="{{ picturepath | imgpath }}"
+                        img.float-right.img-fluid#picturesrc(
+                          src="img/category/shirt.png"
                           alt="image"
                         )
-                    div.col.md-2.mb-3
-                      button.float-right.btn.btn-secondary#edit-image(
+                    div.col.lg-1.mb-3
+                      button.float-left.btn.btn-danger#deleteImageAdd(
+                        type="button"
+                        data-tooltip="tooltip"
+                        data-placement="bottom"
+                        title="Delete this image immediately"
+                        disabled="disabled"
+                        )
+                        i.fa.fa-trash
+                    div.col.lg-4.mb-3
+                      button.float-right.btn.btn-secondary#addImageBtn(
                         type="button"
                         data-tooltip="tooltip"
                         data-placement="bottom"
@@ -64,7 +73,8 @@ block category_add
                         data-toggle="modal"
                         data-target="#imgModal"
                         )
-                            | Upload Image
+                        | Upload Image
+            hr
             button#add-category.btn.btn-success.float-right(
               type="submit"
               )
