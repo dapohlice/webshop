@@ -14,7 +14,6 @@ $(function (){
   var emptyTemplate = $('#empty-template').html(); // for zero categories
 
   function addCategory(category) {
-    $categories.children().remove();
     $categories.append(Mustache.render(categoriesTemplate, category));
   }
   function addEmpty(empty) {
@@ -230,7 +229,6 @@ $(function (){
       });
       $('#deleteModal').modal('hide');
       $('#detailModal').modal('hide');
-      addEmpty(newCategory);
     });
 
     promise.fail(function (error, statusText) {

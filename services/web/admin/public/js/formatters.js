@@ -13,10 +13,10 @@ Mustache.Formatters = {
      var lpad  = Mustache.Formatters.lpad,
        day   = lpad(dt.getDate(), 2, "0"),
        month = lpad(dt.getMonth()+1, 2, "0");
-     return  day + "/" + month + "/" + dt.getFullYear();
+     return day + "/" + month + "/" + dt.getFullYear();
   },
   "euro": function (num) {
-    return  currencyConverter(num);
+    return currencyConverter(num);
   },
   "status": function (bool) {
     var status = "";

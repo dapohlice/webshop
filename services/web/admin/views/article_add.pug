@@ -68,11 +68,12 @@ block article_add
                       | Price     
                   input.form-control#price(
                     type="text"
-                    placeholder="0.00"
+                    placeholder="0000 cent"
+                    pattern="[0-9]*"
                     required
                     )
                   div.invalid-feedback
-                    | Please provide a valid price number.
+                    | Please provide a valid price number in cent!
               div.col-md-3.mb-3
                 label(
                   for="state"

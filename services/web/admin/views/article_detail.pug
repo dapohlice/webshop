@@ -91,13 +91,10 @@ block article_detail
                       for="editcategory"
                       )
                         | Category     
-                    select.form-control#editcategory(                      
+                    select.form-control#editcategory(
+                      data-id="{{category}}"
                       required
                       )
-                      option(
-                        data-id="{{category}}"
-                        selected
-                        )
                     div.invalid-feedback
                       | Please provide a valid category.
               div.form-row

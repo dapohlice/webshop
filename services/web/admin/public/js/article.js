@@ -21,13 +21,12 @@ $(function (){
   var emptyTemplate = $('#empty-template').html(); // for zero article
 
   function addArticle(article) {
-    $articles.children().remove();
     $articles.append(Mustache.render(articlesTemplate, article));
   }
   function addEmpty(empty) {
     $articles.append(Mustache.render(emptyTemplate, empty));
   }
-  function addArticleDetail(article, id) {
+  function addArticleDetail(article, id, categoryID) {
     if (lastID == id) {
       console.log("nichts passiert");
     } else {
@@ -35,6 +34,39 @@ $(function (){
       lastID = id;
       $articleDetailForm.children().remove();
       $articleDetailForm.append(Mustache.render(articleTemplate, article));
+
+      var input = $('#editcategory').attr('data-id');
+      console.log("categoryID: ");
+      console.log(categoryID);
+      // Get all categories for a valid new article
+      $.ajax({
+        type: 'GET',
+        url: 'http://localhost:3002/category',
+        success: function(categories) {
+          if ((JSON.stringify(categories) !== JSON.stringify([]))) {
+
+            console.log("categoryID");
+            console.log(categoryID);
+            $.each(categories, function(i, category) {
+              console.log("searching for category id with input");
+              if (categoryID == category._id) {
+                $('#editcategory')
+                .append("<option selected data-id='" + category._id + "' value='" + category.categoryname + "'>" + category.categoryname + "</option>");
+                // $('#editcategory').find("option:selected").attr('value', category.categoryname);
+              } else if (categoryID != category._id) {
+                $('#editcategory')
+                .append("<option data-id='" + category._id + "' value='" + category.categoryname + "'>" + category.categoryname + "</option>");
+              }
+            });
+          } else {
+            $('#editcategory').find("option").remove().end()
+            .append("No categories found!");
+          }
+        },
+        error: function() {
+          renderErrorTableHTML();
+        }
+      });
     }
   }
 
@@ -48,6 +80,7 @@ $(function (){
           addArticle(article);
         });
       } else {
+        $articles.children().remove();
         addEmpty(articles);
       }
 
@@ -120,7 +153,7 @@ $(function (){
         console.log("open ArticleDetails for Edit Modal");
         if ((JSON.stringify(article) !== JSON.stringify([]))) {
           console.log(article.description);
-          addArticleDetail(article, id);
+          addArticleDetail(article, id, article.category);
         } else {
           renderErrorTableHTML();
         }
@@ -131,32 +164,6 @@ $(function (){
       }
     });
 
-    // Get all categories for a valid new article
-    $.ajax({
-      type: 'GET',
-      url: 'http://localhost:3002/category',
-      success: function(categories) {
-        if ((JSON.stringify(categories) !== JSON.stringify([]))) {
-          var option = $('option:selected').attr('data-id');
-          console.log("option");
-          console.log(option);
-          $.each(categories, function(i, category) {
-            if (option == category._id) {
-              $('#editcategory').find("option:selected").attr('value', category.categoryname);
-            } else if (option != category._id) {
-              $('#editcategory')
-              .append("<option data-id='" + category._id + "' value='" + category.categoryname + "'>" + category.categoryname + "</option>");
-            }
-          });
-        } else {
-          $('#editcategory').find("option").remove().end()
-          .append("No categories found!");
-        }
-      },
-      error: function() {
-        renderErrorTableHTML();
-      }
-    });
 
   });
 
