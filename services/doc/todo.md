@@ -11,6 +11,7 @@
 - Suche: Anfragen die für eine Suche gestellt werden können
 
 ## Product-Service
+- **WICHTIG:** GET article: category bitte auch mit name zurückgeben, sonst debuggen fast unmöglich
 - **WICHTIG:** POST article: picturepath im json ergänzen
 - **WICHTIG:** PUT article/:id: Nach Editieren und schicken von leeren Feldern, kommt Status 200 zurück, besser Status: 400 schicken, sonst ist DB gefährdet! **UND** das endet im Admin-Service in endlosen *if else* Verzweigungen.
 - PATCH State/:id ()Ändern des Status) Request läuft immer in Response Status: 404 **ABER** mit PUT funktioniert
