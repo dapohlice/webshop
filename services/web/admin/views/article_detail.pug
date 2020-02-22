@@ -12,7 +12,7 @@ block article_detail
             data-dismiss="modal"
             data-tooltip="tooltip" 
             data-placement="bottom" 
-            title="Abort edit article" 
+            title="Abort editing article" 
           ) 
             | &times;
         //- Modal Body
@@ -25,7 +25,7 @@ block article_detail
                 div.col-md-6.mb-3
                   label(
                     for="editname"
-                  )
+                    )
                     | Name
                   input.form-control#editname(
                     type="text"
@@ -38,14 +38,14 @@ block article_detail
                 div.col-md-2.mb-3
                   label(
                     for="editproductid"
-                  )
+                    )
                     | Item number
                   input.form-control#editproductid(
                     type="number"
                     placeholder="Enter item number for this article"
                     value="{{productid}}"
                     disabled
-                  )
+                    )
                   div.invalid-feedback
                     | Please provide a valid item number.
                 div.col-md-4.mb-3
@@ -91,12 +91,13 @@ block article_detail
                       for="editcategory"
                       )
                         | Category     
-                    input.form-control#editcategory(
-                      type="text"
-                      placeholder="Select category"
-                      value="{{category}}"
-                      disabled
+                    select.form-control#editcategory(                      
+                      required
                       )
+                      option(
+                        data-id="{{category}}"
+                        selected
+                        )
                     div.invalid-feedback
                       | Please provide a valid category.
               div.form-row

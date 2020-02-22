@@ -8,12 +8,19 @@ block content
     h2.text-center
       | #{title}
     div.nav.navbar.search-bar.header.shadow
-      button#newArticleBtn.btn.btn-secondary(type="button" data-tooltip="tooltip" data-placement="bottom" title="Create a new article" data-toggle="modal" data-target="#addModal")
+      button#newArticleBtn.btn.btn-secondary(
+        type="button"
+        data-tooltip="tooltip"
+        data-placement="bottom"
+        title="Create a new article"
+        data-toggle="modal"
+        data-target="#addModal"
+        )
         i.fa.fa-plus
           |  Add
       div.search-container
-        form(action="/userSearching")
-          input(type="text" placeholder="Search.." name="search")
+        form
+          input(type="text" placeholder="Search ..." name="search")
           button(type="submit")
             i.fa.fa-search
     

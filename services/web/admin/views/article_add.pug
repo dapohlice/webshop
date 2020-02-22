@@ -51,12 +51,12 @@ block article_add
                   label(
                     for="description"
                     )
-                      | Description
+                    | Description
                   textarea.form-control#description(
                     rows="5"
                     placeholder="Get me some description for this article ..."
                     required
-                    )     
+                    )
                   div.invalid-feedback
                     | invalid description
             div.form-row
@@ -77,7 +77,7 @@ block article_add
                 label(
                   for="state"
                   )
-                    | Status     
+                    | Status
                 div.form-check
                   input.form-check-input#state(
                     type="checkbox"
@@ -86,16 +86,14 @@ block article_add
                   label.form-check-label(
                     for="state"
                     )
-                      | active     
+                      | active
               div.col-md-6.mb-3
                 div.form-group
                   label(
                     for="category"
                     )
-                      | Category     
-                  input.form-control#category(
-                    type="text"
-                    placeholder="Select category"
+                      | Category
+                  select.form-control#category(
                     required
                     )
                   div.invalid-feedback

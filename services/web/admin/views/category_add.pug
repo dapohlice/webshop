@@ -18,7 +18,6 @@ block category_add
         //- Modal Body
         div.modal-body
           form#addCategoryForm.needs-validation(
-            method="get"
             novalidate
             )
             div.form-row
@@ -28,28 +27,45 @@ block category_add
                 )
                   | Category Name
                 input.form-control#categoryname(
-                  type="categoryname"
+                  type="text"
                   placeholder="Enter name of category"
                   required
                 )
                 div.invalid-feedback
                   | Please provide a valid categoryname.
             div.form-row
-              div.col-md-12.mb-3
-                div.custom-file
-                  input.custom-file-input#categorypicture(
-                    type="file"
-                    placeholder="Upload a picture for this new category"
-                    required
-                    )     
-                  label.custom-file-label(
-                    for="categorypicture"
+              div.col-md-12
+                div.form-group
+                  label(
+                    for="picturepath"
                     )
-                      | Choose file...
-                  div.invalid-feedback
-                    | invalid file type
-                  
-            button#createCatBtn.btn.btn-success.float-right(
+                      | Image
+                  div.form-row
+                    div.col.md-5.mb-3
+                      input.form-control#picturepath(
+                        type="text"
+                        placeholder="Upload a picture for this new category"
+                        required
+                        )     
+                      div.invalid-feedback
+                        | invalid file type
+                    div.col.md-5.mb-3
+                      div.form-group.w-25
+                        img.img-fluid#picturesrc(
+                          src="{{ picturepath | imgpath }}"
+                          alt="image"
+                        )
+                    div.col.md-2.mb-3
+                      button.float-right.btn.btn-secondary#edit-image(
+                        type="button"
+                        data-tooltip="tooltip"
+                        data-placement="bottom"
+                        title="Upload a new image"
+                        data-toggle="modal"
+                        data-target="#imgModal"
+                        )
+                            | Upload Image
+            button#add-category.btn.btn-success.float-right(
               type="submit"
               )
                 i.fa.fa-check

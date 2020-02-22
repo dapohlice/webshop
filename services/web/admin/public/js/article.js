@@ -56,6 +56,27 @@ $(function (){
     }
   });
 
+  // Get all categories for a valid new article
+  $.ajax({
+    type: 'GET',
+    url: 'http://localhost:3002/category',
+    success: function(categories) {
+      if ((JSON.stringify(categories) !== JSON.stringify([]))) {
+        $('#category').find("option").remove().end();
+        $.each(categories, function(i, category) {
+          $('#category')
+          .append("<option data-id='" + category._id + "' value='" + category.categoryname + "'>" + category.categoryname + "</option>");
+        });
+      } else {
+        $('#category').find("option").remove().end()
+        .append("No categories found!");
+      }
+    },
+    error: function() {
+      renderErrorTableHTML();
+    }
+  });
+
   $('#add-article').on('click', function() {
 
     var article = {
@@ -70,6 +91,7 @@ $(function (){
                   amount: $amount.val() }],
       category: $category.val()
     };
+    console.log(article.category);
 
     promise = $.ajax({
       type: 'POST',
@@ -81,7 +103,7 @@ $(function (){
     });
 
     promise.fail(function (error, statusText) {
-      showStatusError(statusText + ": " + error.status + " - " + error.statusText + " while saving orders");
+      showStatusError(statusText + ": " + error.status + " - " + error.statusText + " while saving article");
     });
   });
 
@@ -108,6 +130,33 @@ $(function (){
       }
     });
 
+    // Get all categories for a valid new article
+    $.ajax({
+      type: 'GET',
+      url: 'http://localhost:3002/category',
+      success: function(categories) {
+        if ((JSON.stringify(categories) !== JSON.stringify([]))) {
+          var option = $('option:selected').attr('data-id');
+          console.log("option");
+          console.log(option);
+          $.each(categories, function(i, category) {
+            if (option == category._id) {
+              $('#editcategory').find("option:selected").attr('value', category.categoryname);
+            } else if (option != category._id) {
+              $('#editcategory')
+              .append("<option data-id='" + category._id + "' value='" + category.categoryname + "'>" + category.categoryname + "</option>");
+            }
+          });
+        } else {
+          $('#editcategory').find("option").remove().end()
+          .append("No categories found!");
+        }
+      },
+      error: function() {
+        renderErrorTableHTML();
+      }
+    });
+
   });
 
   $(document).on("click", "#edit-article", function() {
@@ -124,11 +173,10 @@ $(function (){
       name: $editname.val(),
       description: $editdescription.val(),
       price: $editprice.val(),
-      // category: $editcategory.val()
+      category: $editcategory.val()
     };
     var $btn = $('#edit-article');
     var btnid = $btn.attr('data-id');
-
     promise = $.ajax({
       type: 'PUT',
       url: 'http://localhost:3002/article/' + btnid,
@@ -139,6 +187,7 @@ $(function (){
       $.each($('.editArticle'), function () {
         $tr = $(this).closest('tr');
         id = $tr.attr('data-id');
+        $('#editcategory').find("option").remove();
         if (id == btnid) {
           $tr.find('td.name').html(article.name);
           $tr.find('td.price').html(currencyConverter(article.price));
@@ -148,9 +197,9 @@ $(function (){
 
     promise.fail(function (error, statusText) {
       console.log("fail");
-      showStatusError(statusText + ": " + error.status + " - " + error.statusText + " while saving orders");
+      showStatusError(statusText + ": " + error.status + " - " + error.statusText + " while saving article");
+      $('#editcategory').find("option").remove();
     });
-
   });
   $(document).on("click", "#edit-status", function() {
     // change vars
@@ -197,7 +246,7 @@ $(function (){
 
     promise.fail(function (error, statusText) {
       console.log("fail");
-      showStatusError(statusText + ": " + error.status + " - " + error.statusText + " while saving orders");
+      showStatusError(statusText + ": " + error.status + " - " + error.statusText + " while saving article");
     });
 
   });

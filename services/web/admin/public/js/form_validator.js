@@ -10,6 +10,13 @@
           event.preventDefault();
           event.stopPropagation();
           console.log("invalid form");
+        } else if (currentAdminPage == 'categories') {
+          // Paramter aus Adresse entfernen:
+          event.preventDefault();
+          console.log("call RenderSubmit after validation");
+          $('#addModal').modal('hide');
+          $('#detailModal').modal('hide');
+          showStatusInfo("Successfully save the category");
         } else if (currentAdminPage == 'articles') {
           // Paramter aus Adresse entfernen:
           event.preventDefault();

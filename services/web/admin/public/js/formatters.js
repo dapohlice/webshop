@@ -57,5 +57,9 @@ Mustache.Formatters = {
       btncolor = "btn-success";
     }
     return btncolor;
+  },
+  "imgpath": function (path) {
+    var pathstring = "http://localhost:3004/" + path;
+    return pathstring;
   }
 };

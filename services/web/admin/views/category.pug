@@ -1,9 +1,5 @@
 extends layout
 
-block body  
-  body(onload="getCategories()")
-  //- , setStatusOnButton()
-
 block nav
   - var cur = "category"
 
@@ -12,25 +8,78 @@ block content
     h2.text-center
       | #{title}
     div.nav.navbar.search-bar.header.shadow
-      button#newCatBtn.btn.btn-secondary.btn-sm(type="button" data-tooltip="tooltip" data-placement="bottom" title="Create a new category" data-toggle="modal" data-target="#addModal")
+      button#newCategoryBtn.btn.btn-secondary.btn-sm(type="button" data-tooltip="tooltip" data-placement="bottom" title="Create a new category" data-toggle="modal" data-target="#addModal")
         i.fa.fa-plus
           |  Add
       div.search-container
         form
-          input(type="text" placeholder="Search.." name="search")
-          button(type="submit" onclick=("orderSearch()"))
+          input(type="text" placeholder="Search ..." name="search")
+          button(type="submit")
             i.fa.fa-search
             
-    div#errorTableObjekt
+    div
+      table.table.table-striped.table-hover
+        thead
+          tr
+            th
+              | Name
+            th
+              | Image
+        tbody#categories    
+          template#categories-template
+            tr.editCategory.table-row(
+              data-id="{{_id}}"
+              data-tooltip="tooltip"
+              data-placement="bottom"
+              title="Edit this category"
+              data-toggle="modal"
+              data-target="#detailModal"
+              )
+              td.name
+                | {{categoryname}}
+              td.image.w-25
+                img.img-fluid(
+                  src="{{ picturepath | imgpath }}"
+                  alt="image"
+                  )
+          template#empty-template
+            tr.table-row
+              td(
+                colspan="5"
+                )
+                | No entries available! Try again later.              
 
     include category_add
     
-    include category_details
+    include category_detail
     
-    div#jsonTableObjekt
+    include category_image
+    
+    include category_delete
+
+    div#errorTableObjekt
     
     div#status.text-center
 
-    
+block scripts              
+  script(src='https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js')
+  script(src='https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.1/umd/popper.min.js')
+  //- script(src='https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js')
+  //- script(type='text/javascript' src='js/bs/jquery-3.4.1.min.js')
+  //- script(type='text/javascript' src='js/bs/popper.min.js')
+  script(type='text/javascript' src='js/bs/bootstrap.min.js')
+  
+  script(type='text/javascript' src='js/helper.js' defer='defer')
+  script(type='text/javascript' src='js/db_sidebar.js' defer='defer')
+  script(type='text/javascript' src='js/response.js' defer='defer')
+  script(type='text/javascript' src='js/services.js' defer='defer')
+  script(type='text/javascript' src='js/request.js' defer='defer')
+  script(type='text/javascript' src='js/tooltip.js')
+  script(type='text/javascript' src='js/form_validator.js')
+  script(type='text/javascript' src='js/category.js')
+  script(type='text/javascript' src='js/mustache/mustache.js')
+  script(type='text/javascript' src='js/mustache/mustache-wax.js')
+  script(type='text/javascript' src='js/formatters.js')
+
             
       
