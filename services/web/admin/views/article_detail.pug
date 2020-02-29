@@ -12,7 +12,7 @@ block article_detail
             data-dismiss="modal"
             data-tooltip="tooltip" 
             data-placement="bottom" 
-            title="Abort edit article" 
+            title="Abort editing article" 
           ) 
             | &times;
         //- Modal Body
@@ -24,83 +24,94 @@ block article_detail
               div.form-row
                 div.col-md-6.mb-3
                   label(
-                    for="name"
-                  )
-                    | {{name}}
-                  input.form-control#name(
+                    for="editname"
+                    )
+                    | Name
+                  input.form-control#editname(
                     type="text"
                     placeholder="Enter name for this article"
+                    value="{{name}}"
                     required
                   )
                   div.invalid-feedback
                     | Please provide a valid articlename.
-                div.col-md-6.mb-3
+                div.col-md-2.mb-3
                   label(
-                    for="productid"
-                  )
+                    for="editproductid"
+                    )
                     | Item number
-                  input.form-control#productid(
+                  input.form-control#editproductid(
                     type="number"
                     placeholder="Enter item number for this article"
-                    required
-                  )
+                    value="{{productid}}"
+                    disabled
+                    )
                   div.invalid-feedback
                     | Please provide a valid item number.
+                div.col-md-4.mb-3
+                  div.row
+                    div.from-group.col
+                      label(
+                        for="editstate"
+                        )
+                          | Status
+                  div.row
+                    div.from-group.col
+                      input.form-control.btn#editstate(
+                        class="{{ state | btncolor }}"
+                        type="button"
+                        value="{{ state | status }}"
+                        disabled
+                        )
+                    div.from-group.col
+                      button.float-right.btn#edit-status(
+                        class="{{ state | btninvertcolor }}"
+                        data-id="{{productid}}"
+                        type="button"
+                        )
+                          | {{ state | btntogglestatus }}
               div.form-row
-                div.col-md-12.mb-3
+                div.col-md-6.mb-3
                   div.form-group
                     label(
-                      for="description"
-                      )
-                        | Description
-                    textarea.form-control#description(
-                      rows="5"
-                      placeholder="Get me some description for this article ..."
-                      required
-                      )     
-                    div.invalid-feedback
-                      | invalid description
-              div.form-row
-                div.col-md-3.mb-3
-                  div.form-group
-                    label(
-                      for="price"
+                      for="editprice"
                       )
                         | Price     
-                    input.form-control#price(
+                    input.form-control#editprice(
                       type="text"
                       placeholder="0.00"
+                      value="{{price}}"
                       required
                       )
                     div.invalid-feedback
                       | Please provide a valid price number.
-                div.col-md-3.mb-3
-                  label(
-                    for="state"
-                    )
-                      | Status     
-                  div.form-check
-                    input.form-check-input#state(
-                      type="checkbox"
-                      checked
-                      )
-                    label.form-check-label(
-                      for="state"
-                      )
-                        | active     
                 div.col-md-6.mb-3
                   div.form-group
                     label(
-                      for="category"
+                      for="editcategory"
                       )
                         | Category     
-                    input.form-control#category(
-                      type="text"
-                      placeholder="Select category"
+                    select.form-control#editcategory(
+                      data-id="{{category}}"
                       required
                       )
                     div.invalid-feedback
                       | Please provide a valid category.
+              div.form-row
+                div.col-md-12.mb-3
+                  div.form-group
+                    label(
+                      for="editdescription"
+                      )
+                        | Description
+                    textarea.form-control#editdescription(
+                      rows="5"
+                      placeholder="Get me some description for this article ..."
+                      required
+                      )
+                        | {{description}}
+                    div.invalid-feedback
+                      | invalid description
               div.form-row     
                 div.col
                   hr
@@ -109,46 +120,50 @@ block article_detail
                 div.col-md-4.mb-3
                   div.form-group
                     label(
-                      for="subid"
+                      for="editsubid"
                     )
                       | Item number
-                    input.form-control#subid(
+                    input.form-control#editsubid(
                       type="number"
                       placeholder="Enter sub item number for this property"
-                      required
+                      value="{{#propertys}}{{subid}}{{/propertys}}"
+                      disabled
                     )
                     div.invalid-feedback
                       | Please provide a valid sub item number.
                 div.col-md-4.mb-3
                   div.form-group
                     label(
-                      for="property"
+                      for="editproperty"
                     )
                       | characteristics
-                    input.form-control#property(
+                    input.form-control#editproperty(
                       type="text"
                       placeholder="Insert properties and separated several with ','"
-                      required
+                      value="{{#propertys}}{{property}}{{/propertys}}"
+                      disabled
                     )
                     div.invalid-feedback
                       | Please provide valid properties.
                 div.col-md-4.mb-3
                   div.form-group
                     label(
-                      for="amount"
+                      for="editamount"
                     )
                       | Property amount
-                    input.form-control#amount(
+                    input.form-control#editamount(
                       type="number"
                       placeholder="Insert amount for this property"
-                      required
+                      value="{{#propertys}}{{amount}}{{/propertys}}"
+                      disabled
                     )
                     div.invalid-feedback
                       | Please provide a valid amount number.
-                  
-                //- div.modal-footer  
-            button#edit-article.btn.btn-success.float-right(
-              type="submit"
-              )
-                i.fa.fa-check
-                  | Save
+              hr
+                //- div.modal-footer-temp
+              button#edit-article.btn.btn-success.float-right(
+                data-id="{{productid}}"
+                type="submit"
+                )
+                  i.fa.fa-check
+                    | Save

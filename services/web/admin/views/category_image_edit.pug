@@ -1,0 +1,42 @@
+block category_image_edit
+
+  div#imgEditModal.modal.fade
+    div.modal-dialog.modal-md
+      div.modal-content
+        //- Modal Header
+        div.modal-header
+          h4.modal-title    
+            | Add a new image   
+          button.close(
+            type="button"
+            data-dismiss="modal"
+            data-tooltip="tooltip" 
+            data-placement="bottom" 
+            title="Abort add new image" 
+          ) 
+            | &times;
+        //- Modal Body
+        div.modal-body
+          form#addImageForm(
+            novalidate
+            )
+            div.form-row
+              div.col-md-12.mb-3
+                div.custom-file
+                  input.custom-file-input#editcategorypicture(
+                    type="file"
+                    placeholder="Upload a picture for this new category"
+                    accept="image/*"
+                    name="photo"
+                    required
+                    )     
+                  label.custom-file-label(
+                    for="editcategorypicture"
+                    )
+                      | Choose file
+
+            button#edit-image.btn.btn-success.float-right(
+              type="submit"
+              )
+                i.fa.fa-check
+                  | Upload

@@ -13,13 +13,61 @@ Mustache.Formatters = {
      var lpad  = Mustache.Formatters.lpad,
        day   = lpad(dt.getDate(), 2, "0"),
        month = lpad(dt.getMonth()+1, 2, "0");
-     return  day + "/" + month + "/" + dt.getFullYear();
+     return day + "/" + month + "/" + dt.getFullYear();
   },
   "euro": function (num) {
-    var str = num.toString();
-    var numarray = str.split('.');
-    var a = new Array();
-        a = numarray;
-    return  a[0] + "," + a[1] + " €";
+    return currencyConverter(num);
+  },
+  "status": function (bool) {
+    var status = "";
+
+    if (bool) {
+      status = "active";
+    } else {
+      status = "disabled";
+    }
+    return status;
+  },
+  "btntogglestatus": function (bool) {
+    var status = "";
+
+    if (bool) {
+      status = "deactivate";
+    } else {
+      status = "activate";
+    }
+    return status;
+  },
+  "btncolor": function (bool) {
+    var btncolor = "";
+
+    if (bool) {
+      btncolor = "btn-success";
+    } else {
+      btncolor = "btn-danger";
+    }
+    return btncolor;
+  },
+  "btninvertcolor": function (bool) {
+    var btncolor = "";
+
+    if (bool) {
+      btncolor = "btn-danger";
+    } else {
+      btncolor = "btn-success";
+    }
+    return btncolor;
+  },
+  "imgpath": function (path) {
+    var pathstring;
+    console.log("Test");
+    console.log(path);
+    if (path != null) {
+      pathstring = "http://localhost:3004/" + path;
+    } else {
+      pathstring = "/img/category/shirt.png";
+    }
+
+    return pathstring;
   }
 };

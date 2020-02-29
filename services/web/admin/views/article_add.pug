@@ -51,12 +51,12 @@ block article_add
                   label(
                     for="description"
                     )
-                      | Description
+                    | Description
                   textarea.form-control#description(
                     rows="5"
                     placeholder="Get me some description for this article ..."
                     required
-                    )     
+                    )
                   div.invalid-feedback
                     | invalid description
             div.form-row
@@ -68,16 +68,17 @@ block article_add
                       | Price     
                   input.form-control#price(
                     type="text"
-                    placeholder="0.00"
+                    placeholder="0000 cent"
+                    pattern="[0-9]*"
                     required
                     )
                   div.invalid-feedback
-                    | Please provide a valid price number.
+                    | Please provide a valid price number in cent!
               div.col-md-3.mb-3
                 label(
                   for="state"
                   )
-                    | Status     
+                    | Status
                 div.form-check
                   input.form-check-input#state(
                     type="checkbox"
@@ -86,16 +87,14 @@ block article_add
                   label.form-check-label(
                     for="state"
                     )
-                      | active     
+                      | active
               div.col-md-6.mb-3
                 div.form-group
                   label(
                     for="category"
                     )
-                      | Category     
-                  input.form-control#category(
-                    type="text"
-                    placeholder="Select category"
+                      | Category
+                  select.form-control#category(
                     required
                     )
                   div.invalid-feedback
@@ -144,7 +143,7 @@ block article_add
                   )
                   div.invalid-feedback
                     | Please provide a valid amount number.
-                  
+            hr
                 //- div.modal-footer  
             button#add-article.btn.btn-success.float-right(
               type="submit"

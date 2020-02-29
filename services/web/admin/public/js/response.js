@@ -240,7 +240,7 @@ function renderCategoryTableHTML(data) {
   htmlString += "<tbody>";
 
   for(let i = 0; i < data.length; i++) {
-    htmlString += "<tr class=\"editCategoryButton table-row\" data-tooltip=\"tooltip\" data-placement=\"bottom\" title=\"Edit this category\" data-toggle=\"modal\" data-target=\"#categoryChangeModal\">";
+    htmlString += "<tr class=\"editCategoryButton table-row\" data-tooltip=\"tooltip\" data-placement=\"bottom\" title=\"Edit this category\" data-toggle=\"modal\" data-target=\"#detailModal\">";
     htmlString += "<td class=\"id\"><span>" + data[i]._id + "</span></td>";
     htmlString += "<td>" + data[i].categoryname + "</td>";
     htmlString += "<td class=\"w-25\"><img class=\"img-fluid\" src=\"" + data[i].picturepath + "\" alt=\"image\"></td>";
