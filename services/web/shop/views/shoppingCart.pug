@@ -1,0 +1,15 @@
+block shoppingCart
+    .shoppingCart(id="shoppingCart-Container")
+        .shoppingCart-Header
+            h1= "Shopping Cart"
+        div(id="shoppingCart-Content")
+        .shoppingCart-Footer
+            .shoppingCart-Footer-Total
+                div(id="shoppingCart-Total-Caption")= "Total"
+                div(id="shoppingCart-Total")
+                    div(id="shoppingCart-Total-Amount")= "0"
+                    div(id="shoppingCart-Currency")
+                    i(class="fas fa-dollar-sign")
+            button(id="shoppingCart-Checkout")= "Checkout"
+        button(id="shoppingCart-Close")
+            i(class="fas fa-times")

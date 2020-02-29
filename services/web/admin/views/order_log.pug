@@ -1,0 +1,31 @@
+block order_log
+
+  div#orderLogModal.modal.fade
+    div.modal-dialog.modal-md
+      div.modal-content
+        //- Modal Header
+        div.modal-header
+          h4#modalDetailLogTitel.modal-title
+          button.close(
+            type="button"
+            data-dismiss="modal"
+            data-tooltip="tooltip" 
+            data-placement="bottom" 
+            title="Close log window" 
+          ) 
+            | &times;
+        //- Modal Body
+        div.modal-body
+          div#orderLogContent.container
+                
+        //- Modal Footer
+        div.modal-footer
+          button#closeLogButton.btn.btn-danger(
+            type="button"
+            data-dismiss="modal"
+            data-tooltip="tooltip" 
+            data-placement="bottom" 
+            title="Close log window" 
+          )
+            i.fa.fa-close
+              | Close

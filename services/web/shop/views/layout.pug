@@ -1,0 +1,97 @@
+doctype html
+block header
+  head
+    meta(charset="utf-8")
+    meta(name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no")
+    meta(http-equiv="x-ua-compatible" content="ie=edge")
+    title #{title}
+
+    link(rel='stylesheet' href='css/style.css' type='text/css')
+    link(rel='stylesheet' href='/css/shoppingCart.css' type='text/css')
+    link(rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css' type='text/css' media='screen')
+    link(rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css' type='text/css' media='screen')
+
+block body
+  body
+
+block navbar
+  nav.navbar.navbar-expand-md.bg-dark.navbar-dark.fixed-top
+    a.navbar-brand.nav-link.active(href=`/`)
+        | Logo
+
+    form.form-inline.my-2.my-lg-0.ml-auto.mx-auto(action="/action_page.js")
+      input.form-control.mr-sm-2(type="text" placeholder="Search" aria-label="Search")
+      button.btn.btn-success(type="submit")
+        | Search
+
+    button.info(type='button')
+      | about
+
+    button.button
+      i.fas.fa-user(style='font-size:24px')
+
+    button(id="shoppingCart-btn").button
+      i.fas(style='font-size:24px')
+        | &#xf07a;
+
+include shoppingCart
+
+
+block main
+  main
+  
+    block content
+    
+    block footer
+      footer.footer.container-fluid.pt-3
+        div.row
+          div.column(style="background-color:#aaa;")
+            h2(style="text-align:center")
+              | description of the shop
+            p
+              | Some text..
+
+          div.column(style="background-color:#bbb;")
+            h2(style="text-align:center")
+              | legal pages
+
+            div.container.ul
+              li
+                a(href=`/`)
+                  | imprint
+              li
+                a(href=`/`)
+                  | data protection
+              li
+                a(href=`/`)
+                  | conditions
+              li
+                a(href=`/`)
+                  | notice of cancellation
+
+          div.column(style="background-color:#ccc;")
+            h2(style="text-align:center")
+              | sitemap
+
+            div.container-fluid
+              div.ul
+                li
+                  a(href=`/`)
+                    | startsite
+                li
+                  a(href=`/`)
+                    | contact
+                li
+                  a(href=`/`)
+                    | about
+                li
+                  a(href=`/`)
+                    | approach
+
+block scripts
+  script(src='https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js')
+  script(src='https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js')
+  script(src='https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js')
+  script(src='https://kit.fontawesome.com/a076d05399.js')
+  script(src='https://kit.fontawesome.com/a076d05399.js')
+  script(src='/script/shoppingCart.js')

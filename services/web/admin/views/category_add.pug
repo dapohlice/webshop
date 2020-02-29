@@ -1,0 +1,82 @@
+block category_add
+
+  div#addModal.modal.fade
+    div.modal-dialog.modal-xl
+      div.modal-content
+        //- Modal Header
+        div.modal-header
+          h4.modal-title    
+            | Add a new category   
+          button.close(
+            type="button"
+            data-dismiss="modal"
+            data-tooltip="tooltip" 
+            data-placement="bottom" 
+            title="Abort add new category" 
+          ) 
+            | &times;
+        //- Modal Body
+        div.modal-body
+          form#addCategoryForm.needs-validation(
+            novalidate
+            )
+            div.form-row
+              div.col-md-12.mb-3
+                label(
+                  for="categoryname"
+                )
+                  | Category Name
+                input.form-control#categoryname(
+                  type="text"
+                  placeholder="Enter name of category"
+                  required
+                )
+                div.invalid-feedback
+                  | Please provide a valid categoryname.
+            div.form-row
+              div.col-md-12
+                div.form-group
+                  label(
+                    for="picturepath"
+                    )
+                      | Image
+                  div.form-row
+                    div.col.lg-5.mb-3
+                      input.form-control#picturepath(
+                        type="text"
+                        placeholder="Upload a picture for this new category"
+                        required
+                        )
+                      div.invalid-feedback
+                        | invalid file type
+                    div.col.lg-2.mb-3
+                      div.form-group.w-25
+                        img.float-right.img-fluid#picturesrc(
+                          src="img/category/shirt.png"
+                          alt="image"
+                        )
+                    div.col.lg-1.mb-3
+                      button.float-left.btn.btn-danger#deleteImageAdd(
+                        type="button"
+                        data-tooltip="tooltip"
+                        data-placement="bottom"
+                        title="Delete this image immediately"
+                        disabled="disabled"
+                        )
+                        i.fa.fa-trash
+                    div.col.lg-4.mb-3
+                      button.float-right.btn.btn-secondary#addImageBtn(
+                        type="button"
+                        data-tooltip="tooltip"
+                        data-placement="bottom"
+                        title="Upload a new image"
+                        data-toggle="modal"
+                        data-target="#imgModal"
+                        )
+                        | Upload Image
+            hr
+            button#add-category.btn.btn-success.float-right(
+              type="submit"
+              )
+                i.fa.fa-check
+                  | Create

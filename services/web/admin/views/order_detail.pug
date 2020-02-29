@@ -1,0 +1,77 @@
+block order_details
+
+  div#detailModal.modal.fade
+    div.modal-dialog.modal-xl
+      div.modal-content
+        //- Modal Header
+        div.modal-header
+          h4#modalDetailTitel.modal-title        
+          button.close(
+            type="button"
+            data-dismiss="modal"
+            data-tooltip="tooltip" 
+            data-placement="bottom" 
+            title="Close order details"
+            onclick="setDetailsFalse()"
+          ) 
+            | &times;
+        //- Modal Body
+        div.modal-body
+          div.container
+            div.row
+              div.col.col-lg-6
+                h5 Shopping cart
+                
+                div#jsonDetailObjekt
+
+              div.col.col-lg-6
+                h5 Shipping Address
+                
+                div#jsonAddressTableObjekt
+                
+                hr
+                h Current status:
+                div.row
+                  div#curStatusButton.col
+                    
+                  div.col
+                    button#changeStatusButton.btn.btn-danger(
+                      type="button"
+                      action="#"
+                      data-tooltip="tooltip"
+                      data-placement="bottom"
+                      title="Ask you, if you want to set a new status" 
+                      data-toggle="modal"
+                      data-target="#changeOrderStatusModal"
+                    )
+                      | Change
+                  div.col
+                    button#openLogButton.btn.btn-info(
+                      type="button"
+                      action="#"
+                      data-tooltip="tooltip"
+                      data-placement="bottom"
+                      title="Open all logs of current order" 
+                      data-toggle="modal"
+                      data-target="#orderLogModal"
+                    )
+                      | Log
+                hr
+                p
+                  span
+                    b Info: 
+                    br
+                  span
+                    | After your next aggreement, you change the status permanently. 
+                    
+        //- Modal Footer
+        div.modal-footer
+          button#closeDetailButton.btn.btn-danger(
+            type="button"
+            data-dismiss="modal"
+            data-tooltip="tooltip" 
+            data-placement="bottom" 
+            title="Close order details" 
+          )
+            i.fa.fa-close
+              | Abort

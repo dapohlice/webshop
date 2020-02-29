@@ -1,0 +1,102 @@
+block category_details
+
+  div#detailModal.modal.fade
+    div.modal-dialog.modal-lg
+      div.modal-content
+        //- Modal Header
+        div.modal-header
+          h4.modal-title
+            | Edit category        
+          button.close(
+            type="button"
+            data-dismiss="modal"
+            data-tooltip="tooltip" 
+            data-placement="bottom" 
+            title="Abort editing category"
+          ) 
+            | &times;
+        //- Modal Body
+        div.modal-body
+        div.container
+          form#categoryDetailForm.needs-validation(
+            novalidate
+            )
+            template#category-template
+              div.form-row
+                div.col.md-12.mb-3
+                  div.form-group
+                    label(
+                      for="editcategoryname"
+                      )
+                      | Category Name
+                    input.form-control#editcategoryname(
+                      type="text"
+                      placeholder="Enter name of category"
+                      value="{{categoryname}}"
+                      required
+                      )
+                    div.valid-feedback
+                      | Valid.
+                    div.invalid-feedback
+                      | Please fill out this field.
+              div.form-row
+                div.col.lg-12.mb-3
+                  div.form-group
+                    label(
+                      for="editpicturepath"
+                      )
+                        | Image
+                    div.form-row
+                      div.col.lg-8.mb-3
+                        input.form-control#editpicturepath(
+                          type="text"
+                          placeholder="Upload a picture for this new category"
+                          value="{{picturepath}}"
+                          required
+                          )
+                      div.col.lg-1.mb-3
+                        div.form-group.w-25
+                          img.float-right.img-fluid#editpicturesrc(
+                            src="{{ picturepath | imgpath }}"
+                            alt="image"
+                          )
+                      div.col.lg-1.mb-3
+                        button.float-left.btn.btn-danger#deleteImageEdit(
+                          data-id="{{picturepath}}"
+                          type="button"
+                          data-tooltip="tooltip"
+                          data-placement="bottom"
+                          title="Delete this image immediately"
+                          )
+                          i.fa.fa-trash
+                      div.col.lg-2.mb-3
+                        button.float-right.btn.btn-secondary#editImageBtn(
+                          type="button"
+                          data-tooltip="tooltip"
+                          data-placement="bottom"
+                          title="Upload a new image"
+                          data-toggle="modal"
+                          data-target="#imgEditModal"
+                          )
+                          | Upload Image
+              hr
+              div.form-row
+                div.col.md-6.mb-3
+                  button.float-left#askRemoveCategoryBtn.btn.btn-danger(
+                    type="button"
+                    data-id="{{_id}}"
+                    data-tooltip="tooltip" 
+                    data-placement="bottom" 
+                    title="Delete this group" 
+                    data-toggle="modal"
+                    data-target="#deleteModal"
+                    )
+                    i.fa.fa-trash
+                      |  Delete
+                div.col.md-6.mb-3
+                  button.float-right.btn.btn-success#edit-category.mb-3(
+                    data-id="{{_id}}"
+                    type="submit"
+                    )
+                    i.fa.fa-check
+                      | Submit

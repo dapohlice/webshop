@@ -8,7 +8,7 @@ const app = express();
 const port = process.env.PORT;
 const stage = process.env.NODE_ENV;
 
-/* 
+/*
  * loging functions
  */
 // jeden Request
@@ -30,6 +30,16 @@ app.use(logError);
 /**
  * Hauptapp
  */
+function setHeader(req,res,next)
+{
+ res.set('Access-Control-Allow-Origin', '*')
+ res.set('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
+ res.set('Access-Control-Max-Age', '86400'); // 24 hours
+ res.set('Access-Control-Allow-Headers', 'X-Requested-With, X-HTTP-Method-Override, Content-Type, Accept');
+ res.set('Access-Control-Allow-Credentials', false);
+ next()
+}
+app.use(setHeader);
 
 // Bilder Ordner
 const dir = path.join(__dirname,'img')
@@ -44,7 +54,7 @@ function fileFilter(req,file,cb)
         case "image/png":
             cb(null,true);
             break;
-        default: 
+        default:
             cb(new multer.MulterError())
     }
 }
@@ -75,7 +85,7 @@ const storage = multer.diskStorage({
             filename = Math.random().toString(36).substring(2,15)+Math.random().toString(36).substring(2,15);
         }
         while(fs.existsSync(path.join(dir,filename+ending)));
-        
+
         cb(null,filename+ending);
     }
 })
@@ -95,17 +105,19 @@ const upload = multer(
 
 // Dateien erstellen
 app.post('/',
-    function(req,res){       
+    function(req,res){
         upload(req,res, function(err)
         {
             if(err instanceof multer.MulterError)
             {
                 console.error(err);
                 res.status(400).send("File not allowd");
+                return;
             }else if(err)
             {
                 console.error(err);
                 res.statusStatus(500);
+                return;
             }
             res.send(req.file.filename);
             console.log("File uploaded: "+req.file.filename);
