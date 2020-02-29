@@ -7,6 +7,7 @@ block header
     title #{title}
 
     link(rel='stylesheet' href='css/style.css' type='text/css')
+    link(rel='stylesheet' href='/css/shoppingCart.css' type='text/css')
     link(rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css' type='text/css' media='screen')
     link(rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css' type='text/css' media='screen')
 
@@ -26,12 +27,15 @@ block navbar
     button.info(type='button')
       | about
 
-    button.button.buttonround
+    button.button
       i.fas.fa-user(style='font-size:24px')
 
-    button.button.buttonround
+    button(id="shoppingCart-btn").button
       i.fas(style='font-size:24px')
         | &#xf07a;
+
+include shoppingCart
+
 
 block main
   main
@@ -89,3 +93,5 @@ block scripts
   script(src='https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js')
   script(src='https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js')
   script(src='https://kit.fontawesome.com/a076d05399.js')
+  script(src='https://kit.fontawesome.com/a076d05399.js')
+  script(src='/script/shoppingCart.js')
