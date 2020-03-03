@@ -2,6 +2,7 @@ import "reflect-metadata";
 import {createConnection} from "typeorm";
 import * as express from 'express';
 import OrderRouter from "./router/OrderRouter";
+import PublicOrderRouter from "./router/PublicOrderRouter";
 import StatusRouter from "./router/StatusRouter";
 
 
@@ -41,7 +42,7 @@ createConnection().then(async connection => {
 
     app.use('/status',new StatusRouter().getRouter())
 
-    app.use('/customer', new OrderRouter().getRouter())
+    app.use('/customer', new PublicOrderRouter().getRouter())
 
     // start app
     app.listen(port, () => console.log(`Order Service (${stage}) Listen On ${port}`))
