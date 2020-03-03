@@ -38,7 +38,6 @@ createConnection().then(async connection => {
     app.use(setHeader);
 
     app.options('/*',function(req,res){
-        console.log('option');
         res.sendStatus(200);
     });
 

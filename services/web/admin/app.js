@@ -58,7 +58,6 @@ function getCookie(req,name)
 function checkPermission(req,res,next)
 {
   let token = getCookie(req,'jwt');
-  console.log("Token: "+token);
   if(token === null)
   {
     res.sendStatus(401);
