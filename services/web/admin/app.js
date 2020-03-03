@@ -55,19 +55,29 @@ function getCookie(req,name)
   return result;
 }
 
+// View Engine von template-engine: pug einbinden
+app.set('view engine', 'pug');
+app.set('views', __dirname + '/views');
+
 function checkPermission(req,res,next)
 {
   let token = getCookie(req,'jwt');
   if(token === null)
   {
-    res.sendStatus(401);
+    if(req.header('Accept').startsWith('text/html'))
+      res.render('401');
+    else 
+      res.sendStatus(401)
     return;
   }
   let jwt,result;
   [result,jwt] = JWT.processJwt(token);
   if(result !== 200)
   {
-    res.sendStatus(result);
+    if(req.header('Accept').startsWith('text/html'))
+      res.render('401');
+    else 
+      res.sendStatus(result)
     return;
   }
   req.jwt = jwt;
@@ -80,9 +90,7 @@ app.use(checkPermission);
  * Hauptapp
  */
 
-// View Engine von template-engine: pug einbinden
-app.set('view engine', 'pug');
-app.set('views', __dirname + '/views');
+
  // statische Dateien werden von `public` ordner
 app.use(express.static(__dirname + '/public'));
 

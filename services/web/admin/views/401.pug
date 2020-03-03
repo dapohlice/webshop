@@ -1,0 +1,33 @@
+doctype html
+html(lang="en")
+  block header
+    head
+      meta(charset="utf-8")
+      meta(name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no")
+      meta(http-equiv="x-ua-compatible" content="ie=edge")      
+      title #{title}
+
+
+      link(rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css' type='text/css' media='screen')
+      
+block body  
+  body
+
+block nav
+  - var active = "index"
+  
+block main
+  main#main
+    block navbar_hr
+      nav.navbar.navbar-expand-md.bg-dark.navbar-dark
+        a.navbar-brand.nav-link.active(
+          href=`/`
+        )
+          | Logo        
+
+    block main.p-3
+        div.container
+            h1.m-3="Unauthorized"
+            a.m-3(href="http://localhost:3012")="Click here to log in"
+
+
