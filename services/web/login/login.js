@@ -29,7 +29,7 @@ document.getElementById('signin').addEventListener("submit", function(e)
             if(this.status == 200)
             {
                 setJwtCookie(this.responseText);
-
+                window.open(adminservice,"_top");
             }else if(this.status == 401){
                 document.getElementById('form-signin-error').innerHTML = "Username or Password are wrong.";
             }else{
