@@ -7,6 +7,17 @@ const ProductRoute = require('./routes/ProductRoute.js');
 
 const port = process.env.PORT;
 const stage = process.env.NODE_ENV;
+// functions
+function setHeader(req,res,next)
+{
+  res.set('Access-Control-Allow-Origin', '*')
+  res.set('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
+  res.set('Access-Control-Max-Age', '86400'); // 24 hours
+  res.set('Access-Control-Allow-Headers', 'X-Requested-With, X-HTTP-Method-Override, Content-Type, Accept');
+  res.set('Access-Control-Allow-Credentials', false);
+  next()
+}
+Productsapp.use(setHeader);
 /* loging functions*/
 // jeden Request
 function logRequest(req,res,next)

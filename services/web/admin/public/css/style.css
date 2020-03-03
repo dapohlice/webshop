@@ -7,17 +7,26 @@ Highlights-Alternativ-Hintergrund: e2d8bf
 Wichtiges-Links-Warnungen: f9a03f
 https://coolors.co/000000-ffffff-005951-e2d8bf-f9a03f */
 
-* {box-sizing: border-box;}
+* {
+  box-sizing: border-box;
+  font-family: 'Roboto', sans-serif;
+}
 
 body {
   margin: 0;
-  font-family: Arial, Helvetica, sans-serif;
 }
 
 hr.white {
   border-top: 1px solid grey;
 }
 
+i.fa {font-family: "FontAwesome", "Roboto", sans-serif}
+
+.header.shadow {
+  -webkit-box-shadow: 0 3px 5px rgba(57, 63, 72, 0.3);
+  -moz-box-shadow: 0 3px 5px rgba(57, 63, 72, 0.3);
+  box-shadow: 0 3px 5px rgba(57, 63, 72, 0.3);
+}
 .sidebar {
   height: 100%;
   width: 0;
@@ -34,7 +43,7 @@ hr.white {
 .sidebar a {
   padding: 8px 8px 8px 32px;
   text-decoration: none;
-  font-size: 25px;
+  font-size: 17px;
   color: #818181;
   display: block;
   transition: 0.3s;
@@ -42,6 +51,7 @@ hr.white {
 
 .sidebar a:hover {
   color: #f1f1f1;
+  text-decoration: none;
 }
 
 .sidebar .closebtn {
@@ -60,7 +70,17 @@ hr.white {
 #mySidebar .nav-link.active  {
     background-color: darkgrey;
 }
-
+.table > tbody > tr > td {
+     vertical-align: middle;
+}
+.table-row{
+     cursor:pointer;
+}
+.table-image {
+  td, th {
+    vertical-align: middle;
+  }
+}
 .openbtn {
   display: none;
   font-size: 20px;
@@ -185,9 +205,57 @@ hr.white {
   border-top: 2px solid #000000;
 }
 
+/* Error Adc Pages */
+.error-template {
+  padding: 40px 15px;
+  text-align: center;
+}
+.error-actions {
+  margin-top:15px;
+  margin-bottom:15px;
+}
+.error-actions .btn {
+  margin-right:10px;
+}
+
 
 /* On smaller screens, where height is less than 450px, change the style of the sidenav (less padding and a smaller font size) */
 @media screen and (max-height: 450px) {
   .sidebar {padding-top: 15px;}
   .sidebar a {font-size: 18px;}
+}
+
+.modal {
+    position: absolute;
+    z-index: 1;
+}
+/* Statusbars */
+#status {
+  position: fixed; /* Sit on top of the screen */
+  z-index: 99999; /* Add a z-index if needed */
+  visibility: hidden; /* Hidden by default. Visible on click */
+  min-width: 350px; /* Set a default minimum width */
+
+  margin-left: -175px; /* Divide value of min-width by 2 */
+  text-align: center; /* Centered text */
+  border-radius: 2px; /* Rounded borders */
+  padding: 14px; /* Padding */
+  left: 50%; /* Center the snackbar */
+  top: 0.67px; /* 30px from the bottom */
+}
+#status.show {
+  visibility: visible;
+  -webkit-animation: fadein 0.5s, fadeout 0.5s 3.5s;
+  animation: fadein 0.5s, fadeout 0.5s 3.5s;
+  animation-name: topmovein;
+  animation-duration: 0.5s;
+}
+@keyframes topmovein {
+  from {top: -50px;}
+  to {top: 0.67px;}
+}
+#errorModal {
+  position: fixed; /* Sit on top of the screen */
+  z-index: 9999; /* Add a z-index if needed */
+  text-align: center; /* Centered text */
 }

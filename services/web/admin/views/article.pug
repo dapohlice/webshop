@@ -1,0 +1,95 @@
+extends layout
+
+block nav
+  - var cur = "article"
+
+block content
+  div#adminc.col.pt-2
+    h2.text-center
+      | #{title}
+    div.nav.navbar.search-bar.header.shadow
+      button#newArticleBtn.btn.btn-secondary(
+        type="button"
+        data-tooltip="tooltip"
+        data-placement="bottom"
+        title="Create a new article"
+        data-toggle="modal"
+        data-target="#addModal"
+        )
+        i.fa.fa-plus
+          |  Add
+      div.search-container
+        form
+          input(type="text" placeholder="Search ..." name="search")
+          button(type="submit")
+            i.fa.fa-search
+    
+    div
+      table.table.table-striped.table-hover
+        thead
+          tr
+            th
+              | ID
+            th
+              | Name
+            th
+              | Properties
+            th
+              | Amount
+            th
+              | Price
+        tbody#articles    
+          template#articles-template
+            tr.editArticle.table-row(
+              data-id="{{productid}}"
+              data-tooltip="tooltip"
+              data-placement="bottom"
+              title="Edit this article"
+              data-toggle="modal"
+              data-target="#detailModal"
+              )
+              td
+                | {{productid}}
+              td.name
+                | {{name}}
+              td
+                | {{#propertys}}{{property}}{{/propertys}}
+              td
+                | {{#propertys}}{{amount}}{{/propertys}} pcs
+              td.price
+                | {{ price | euro }}
+          template#empty-template
+            tr.table-row
+              td(
+                colspan="5"
+                )
+                | No entries available! Try again later.              
+                  
+    include article_add
+    
+    include article_detail
+    
+    div#errorTableObjekt
+    
+    div#status.text-center
+    
+block scripts              
+  script(src='https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js')
+  script(src='https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.1/umd/popper.min.js')
+  //- script(src='https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js')
+  //- script(type='text/javascript' src='js/bs/jquery-3.4.1.min.js')
+  //- script(type='text/javascript' src='js/bs/popper.min.js')
+  script(type='text/javascript' src='js/bs/bootstrap.min.js')
+  
+  script(type='text/javascript' src='js/helper.js' defer='defer')
+  script(type='text/javascript' src='js/db_sidebar.js' defer='defer')
+  script(type='text/javascript' src='js/response.js' defer='defer')
+  script(type='text/javascript' src='js/services.js' defer='defer')
+  script(type='text/javascript' src='js/request.js' defer='defer')
+  script(type='text/javascript' src='js/tooltip.js')
+  script(type='text/javascript' src='js/form_validator.js')
+  script(type='text/javascript' src='js/article.js')
+  script(type='text/javascript' src='js/mustache/mustache.js')
+  script(type='text/javascript' src='js/mustache/mustache-wax.js')
+  script(type='text/javascript' src='js/formatters.js')
+       

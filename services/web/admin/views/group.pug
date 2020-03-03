@@ -1,0 +1,36 @@
+extends layout
+
+block body  
+  body(onload="getGroups()")
+
+block nav
+  - var cur = "group"
+
+block content
+  div#adminc.col.pt-2
+    h2.text-center 
+      | #{title}
+    div.nav.navbar.search-bar.header.shadow
+      button#newGroupBtn.btn.btn-secondary(type="button" data-tooltip="tooltip" data-placement="bottom" title="Create a new group" data-toggle="modal" data-target="#addModal")
+        i.fa.fa-plus
+          |  Add
+      div.search-container
+        form(action="/groupSearching")
+          input(type="text" placeholder="Search.." name="search")
+          button(type="submit")
+            i.fa.fa-search
+            
+    include group_add
+    
+    include group_detail
+    
+    include group_add_user
+    
+    include group_delete
+    
+    div#jsonTableObjekt
+    
+    div#errorTableObjekt
+    
+    div#status.text-center
+        

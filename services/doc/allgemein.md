@@ -2,6 +2,7 @@
 
 ## HttpStatus-Codes
 - 200 (OK): Alles hat geklappt
+- 201 (Created): Resource wurde erstellt
 - 400 (Bad Request): Eingabe war falsch, z.B. Eingabe fehlen oder haben das falsche format
 - 401 (Unauthorized): JWT-Token fehlt, ist Abgelaufen oder ist Fehlerhaft
 - 403 (Forbidden): Der Benutzer hat nicht das Recht auf diese Resource zuzugreifen

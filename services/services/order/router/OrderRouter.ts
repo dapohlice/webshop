@@ -24,7 +24,7 @@ export default class OrderRouter extends BaseRouter{
     }
 
     initialiseRouter(){
-        this.router.use(this.checkPermission)
+        //this.router.use(this.checkPermission)
         this.router.get('/',this.get);
         this.router.get('/status/finished',this.getByFinishStatus);
         this.router.get('/status/returned',this.getByReturnStatus);

@@ -18,7 +18,7 @@ const DBOps = {};
     /*Selektiere Kategorie durch ID ->  ID ist die erzeugte ID der MongoDB*/
     getCategoryByID: async function(id){
       try {
-        return await Models.CategoryModel.findById({id}).exec();
+        return await Models.CategoryModel.findOne({_id: id}).exec();
       } catch (err) {
         throw err;
       }
@@ -35,9 +35,8 @@ const DBOps = {};
   /*Kategoriedatensatz bearbeiten*/
   updateCategory: async function(id, dataset) {
     try {
-      let opt = {runValidators: true};
-      let result =  await Models.CategoryModel.findByIdAndUpdate(id, dataset, opt);
-      return result.exec();
+      let dest =  await Models.CategoryModel.findOne({_id: id}).exec();
+      return dest.updateOne(dataset);
     } catch (err) {
       throw err;
     }
@@ -45,7 +44,9 @@ const DBOps = {};
   /*Löscht eine Kategoriedaten von der DB*/
   deleteCategory: async function(id) {
     try {
-      return await Models.CategoryModel.findByIdAndDelete(id);
+      let dest = await Models.CategoryModel.findOne({_id: id}).exec();
+      console.log(dest);
+      dest.deleteOne();
     } catch (err) {
       throw err;
     }
@@ -64,9 +65,7 @@ const DBOps = {};
     /*Ändern eines Produktdatensatzes*/
     updateProduct: async function(id, dataset){
       try {
-        dest = await Models.ProductModel.find({productid: id}).exec();
-        dest.set(dataset);
-        return await dest.save();
+        await Models.ProductModel.updateOne({productid: id}, dataset);
       } catch (err) {
         throw err;
       }
@@ -74,9 +73,7 @@ const DBOps = {};
     /*Ändern des Status eines Produktdatensatzes*/
     changeState: async function(id, state){
       try {
-        let dest = await Models.ProductModel.find({productid: id}).exec();
-        dest.set({state: state});
-        return await dest.save();
+        await Models.ProductModel.updateOne({productid: id}, {state: state});
       } catch (err) {
         throw err;
       }
@@ -90,9 +87,43 @@ const DBOps = {};
         }
       },
     /*Finde Produkt über seine ID -> ID ist Produktid*/
-    getProductsByID: async function(id){
+    getProductByID: async function(id){
       try {
-        return Models.ProductModel.find({productid: id});
+        return await Models.ProductModel.findOne({productid: id}).exec();
+      } catch (err) {
+        throw err;
+      }
+    },
+    /*Gibt alle Eigenschaftsdatensätze zu  einem Artikel zurück*/
+    getAllPropertys: async function(id){
+      try {
+        let article = await Models.ProductModel.findOne({productid: id});
+        return article.propertys;
+      } catch (err) {
+        throw err;
+      }
+    },
+    /*Ändern der Menge eines Artikeldatensatzes in der Eigenschaft*/
+    changePropertyAmount: async function(id, subid, amount){
+      try {
+        let article = await Models.ProductModel.findOne({productid: id});
+        for (let property of article.propertys) {
+          if (property.subid == subid) {
+            property.amount = amount.amount;
+            break;
+          }
+        }
+        return article.save();
+      } catch (err) {
+        throw err;
+      }
+    },
+    /*Lege einen neuen Eigeschaftsdatensatz zu einem Artikel an*/
+    createProperty: async function(id, sub){
+      try {
+        let article = await Models.ProductModel.findOne({productid: id});
+        article.propertys.push(sub);
+        return await article.save();
       } catch (err) {
         throw err;
       }

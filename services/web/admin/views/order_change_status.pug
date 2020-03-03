@@ -1,0 +1,51 @@
+block order_change_status
+
+  div#changeOrderStatusModal.modal.fade
+    div.modal-dialog.modal-md
+      div.modal-content
+        //- Modal Header
+        div.modal-header
+          h4#modalChangeOrderTitel.modal-title          
+          button.close(
+            type="button"
+            data-dismiss="modal"
+            data-tooltip="tooltip" 
+            data-placement="bottom" 
+            title="Close status asker window" 
+          ) 
+            | &times;
+        //- Modal Body
+        div.modal-body
+          div.container
+            div.row
+              div.col.col-lg-6
+                h5 Next status:
+
+                div#nextStatusButton
+                
+              div.col.col-lg-6
+                h5 Information:
+                span 
+                  b Do you really want to set the status to the next status?                
+                
+        //- Modal Footer
+        div.modal-footer
+          button#closeStatusButton.btn.btn-danger(
+            type="button"
+            data-dismiss="modal"
+            data-tooltip="tooltip" 
+            data-placement="bottom"
+            title="Abort to change status" 
+          )
+            i.fa.fa-close
+              | No 
+          button#acceptStatusButton.btn.btn-success(
+            type="button"
+            data-dismiss="modal"
+            data-tooltip="tooltip" 
+            data-placement="bottom"
+            onclick="setNextStatus()" 
+            title="Change order status now" 
+          )
+            i.fa.fa-check
+              | Yes

@@ -1,0 +1,128 @@
+.shoppingCart-UnVisible{
+    display: none;
+}
+
+.shoppingCart{
+    position: fixed;
+    margin-top: 4.5rem;
+    background-color: rgba(40,40,40,0.8);
+    color: white;
+    right: 0;
+    top:0;
+    display: flex;
+    width: 40vw;
+    min-width: 30rem;
+    flex-direction: column;
+    justify-content: space-between;
+    font-family: Arial, Helvetica, sans-serif;
+    border-bottom-left-radius: 1rem;
+    max-height: 100vh;
+    z-index: 1204;
+    border-left: 2px solid white;
+    border-bottom: 2px solid white;
+}
+
+.shoppingCart button{
+    border: none;
+    background: none;
+    color: white;
+
+}
+.shoppingCart button:hover{
+    color: #bd2a98;
+}
+
+.shoppingCart-Header{
+    border-bottom: .1rem solid white;
+    text-align: left;
+    padding-top: 1rem;
+    padding-left: 2rem;
+}
+#shoppingCart-Content{
+    padding: .5rem;
+    
+    overflow: auto;
+    scrollbar-color: white rgba(0,0,0,0);
+    scrollbar-width: none;
+
+}
+
+#shoppingCart-Content::-webkit-scrollbar {
+    width: 0px; /* Remove scrollbar space */
+    background: none;  /* Optional: just make scrollbar invisible */
+
+}
+
+.shoppingCart-Footer{
+    border-top: .1rem solid white;
+    padding: 1rem;
+}
+.shoppingCart-Footer-Total{
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: .5rem;
+}
+#shoppingCart-Total-Caption{
+    
+}
+#shoppingCart-Total{
+    display: flex;
+    justify-content: space-between;
+}
+#shoppingCart-Total-Amount{
+
+}
+#shoppingCart-Currency{
+}
+#shoppingCart-Checkout{
+    border: none;
+    width: 100%;
+    padding: .5rem;
+    color: black;
+    background-color: white;
+    border-radius: .5rem;
+}
+#shoppingCart-Checkout:hover{
+    background-color: #bd2a98;
+    color: white;
+}
+
+#shoppingCart-Content table{
+    width: 100%;
+
+}
+
+#shoppingCart-Content td{
+    padding: .5rem;
+}
+
+.shoppingCart-table-price{
+    text-align: right;
+}
+
+.shoppingCart-table-center{
+    text-align: center;
+}
+.shoppingCart-table-amount{
+    display: flex;
+    justify-content: space-between;
+}
+
+
+#shoppingCart-Close
+{
+    padding-top: .5rem;
+    padding-right: 1rem;
+    position: absolute;
+    right: 0;
+    top: 0;
+    border: none;
+    background: none;
+    color: white;
+    font-size: 1.6rem;
+}
+
+#shoppingCart-Close:hover
+{
+    color: #bd2a98;
+}

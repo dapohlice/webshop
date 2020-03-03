@@ -162,14 +162,15 @@ eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiYS5kbWluIiwiYXV0aCI6eyJhdXRoX3V
 
 ### PATCH /user/:id/resetpassword
 - Ändert das Passwort eines Benutzers
+- Passwort muss mind. eine Zahl, einen Großbuchstaben und einen kleinbuchstaben besitzten
 #### Eingabe
 ```json
 {
-
+    "password":"neues passwort"
 }
 ```
 
-### GET /:id/permission
+### GET /user/:id/permission
 - **id** Benutzer-Id
 - Gibt die vollständige Berechtigung des Benutzers, welche er durch alle Gruppen erhält
 

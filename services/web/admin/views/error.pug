@@ -1,8 +1,21 @@
-extends layout
+block error
 
-block content
-  .main.container
-    .row.text-xs-center
-      .col-md-6.col-md-offset-3.p-t-2
-        i.icn-person.material-icons error
-        p.lead.m-t-2= message 
+  div#errorModal.modal.fade
+    div.modal-dialog.modal-lg
+      div.modal-content
+        //- Modal Header
+        div.modal-header
+          h4.modal-title
+            | Error!             
+          button.close(
+            type="button"
+            data-dismiss="modal"
+            data-tooltip="tooltip" 
+            data-placement="bottom" 
+            title="Close error message" 
+          ) 
+            | &times;
+        //- Modal Body
+        div.modal-body
+        
+          div#errorModalObjekt

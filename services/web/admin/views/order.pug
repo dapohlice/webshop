@@ -8,9 +8,10 @@ block nav
   - var cur = "order"
 
 block content
-  div.col.pt-2
-    h2.text-center #{title}
-    div.nav.navbar.search-bar
+  div#adminc.col.pt-2
+    h2.text-center
+      | #{title}
+    div.nav.navbar.search-bar.header.shadow
       div.dropdown
         button#statusbtn.btn.btn-secondary.dropdown-toggle(
           type="button" 
@@ -24,55 +25,49 @@ block content
         ul.dropdown-menu
           li
             a.dropdown-item(
-                href=`?order=ordered`  
+                href=`?ap=ordered`  
             )
               | Ordered
           li
             a.dropdown-item(
-                href=`?order=payed`              
+                href=`?ap=payed`              
             )
               | Payed
           li
             a.dropdown-item(
-                href=`?order=packed`              
+                href=`?ap=packed`              
             )
               | Packed
           li
             a.dropdown-item(
-                href=`?order=finished`
+                href=`?ap=finished`
             )
               | Finished
           li
             a.dropdown-item(
-                href=`?order=returned`
+                href=`?ap=returned`
             )
               | Returned
           li
             a.dropdown-item(
-                href=`?order=all`
+                href=`?ap=all`
             )
               | All
-        div.search-container
-          form
-            input(type="text" placeholder="Search.." name="search")
-            button(type="submit" onclick=("orderSearch()"))
-              i.fa.fa-search
+      div.search-container
+        form
+          input(type="text" placeholder="Search.." name="search")
+          button(type="submit" onclick=("orderSearch()"))
+            i.fa.fa-search
 
-    include order_details
+    include order_detail
+    
+    include order_change_status
+    
+    include order_log
 
     div#jsonTableObjekt
-      
-block scripts
-  script(src='https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js')
-  script(src='https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js')
-  script(src='https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js')
-  script(type='text/javascript' src='js/helper.js')
-  script(type='text/javascript' src='js/services.js' defer='defer')
-  script(type='text/javascript' src='js/form_data.js' defer='defer')
-  script(type='text/javascript' src='js/request.js' defer='defer')
-  script(type='text/javascript' src='js/db_sidebar.js')
-  script(type='text/javascript' src='js/tooltip.js')
-
     
-            
+    div#errorTableObjekt
+    
+    div#status.text-center
       
