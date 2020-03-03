@@ -39,10 +39,9 @@ $(function (){
       console.log("categoryID: ");
       console.log(categoryID);
       // Get all categories for a valid new article
-      $.ajax({
-        type: 'GET',
-        url: 'http://localhost:3002/category',
-        success: function(categories) {
+
+      SimpleRequest.GET(PRODUCT_SERVICE,"category")
+        .onSuccess(function(categories) {
           if ((JSON.stringify(categories) !== JSON.stringify([]))) {
 
             console.log("categoryID");
@@ -62,54 +61,50 @@ $(function (){
             $('#editcategory').find("option").remove().end()
             .append("No categories found!");
           }
-        },
-        error: function() {
-          renderErrorTableHTML();
-        }
-      });
+        })
+        .onFailure(renderErrorTableHTML)
+        .onError(function(error){
+          showStatusError("Network Error");
+        }).send();
+      
     }
   }
 
-
-  $.ajax({
-    type: 'GET',
-    url: 'http://localhost:3002/article',
-    success: function(articles) {
-      if ((JSON.stringify(articles) !== JSON.stringify([]))) {
-        $.each(articles, function(i, article) {
-          addArticle(article);
-        });
-      } else {
-        $articles.children().remove();
-        addEmpty(articles);
-      }
-
-    },
-    error: function() {
-      renderErrorTableHTML();
+SimpleRequest.GET(PRODUCT_SERVICE,"article")
+  .onSuccess(function(articles) {
+    if ((JSON.stringify(articles) !== JSON.stringify([]))) {
+      $.each(articles, function(i, article) {
+        addArticle(article);
+      });
+    } else {
+      $articles.children().remove();
+      addEmpty(articles);
     }
-  });
+
+  })
+  .onFailure(renderErrorTableHTML)    
+  .onError(function(error){
+    showStatusError("Network Error");
+  }).send();
 
   // Get all categories for a valid new article
-  $.ajax({
-    type: 'GET',
-    url: 'http://localhost:3002/category',
-    success: function(categories) {
-      if ((JSON.stringify(categories) !== JSON.stringify([]))) {
-        $('#category').find("option").remove().end();
-        $.each(categories, function(i, category) {
-          $('#category')
-          .append("<option data-id='" + category._id + "' value='" + category.categoryname + "'>" + category.categoryname + "</option>");
-        });
-      } else {
-        $('#category').find("option").remove().end()
-        .append("No categories found!");
-      }
-    },
-    error: function() {
-      renderErrorTableHTML();
+SimpleRequest.GET(PRODUCT_SERVICE,"category")
+  .onSuccess(function(categories) {
+    if ((JSON.stringify(categories) !== JSON.stringify([]))) {
+      $('#category').find("option").remove().end();
+      $.each(categories, function(i, category) {
+        $('#category')
+        .append("<option data-id='" + category._id + "' value='" + category.categoryname + "'>" + category.categoryname + "</option>");
+      });
+    } else {
+      $('#category').find("option").remove().end()
+      .append("No categories found!");
     }
-  });
+  })
+  .onFailure(renderErrorTableHTML)
+  .onError(function(error){
+    showStatusError("Network Error");
+  }).send();
 
   $('#add-article').on('click', function() {
 
@@ -127,43 +122,37 @@ $(function (){
     };
     console.log(article.category);
 
-    promise = $.ajax({
-      type: 'POST',
-      url: 'http://localhost:3002/article',
-      data: article
-    });
-    promise.done(function (newArticle) {
+    SimpleRequest.POST(PRODUCT_SERVICE,"article")
+    .addJson(article)
+    .onSuccess(function (newArticle) {
       addArticle(newArticle);
-    });
-
-    promise.fail(function (error, statusText) {
-      showStatusError(statusText + ": " + error.status + " - " + error.statusText + " while saving article");
-    });
+    })
+    .onFailure(function (statuscode, statusText,responseText) {
+      showStatusError(responseText + ": " + statuscode + " - " + statusText + " while saving article");
+    })
+    .onError(function(error){
+      showStatusError("Network Error");
+    }).send();
   });
 
   $(document).on("click", ".editArticle", function() {
 
     var $tr = $(this).closest('tr');
     var id = $tr.attr('data-id');
-
-    $.ajax({
-      type: 'GET',
-      url: 'http://localhost:3002/article/' + id,
-      success: function(article) {
-        console.log("open ArticleDetails for Edit Modal");
-        if ((JSON.stringify(article) !== JSON.stringify([]))) {
-          console.log(article.description);
-          addArticleDetail(article, id, article.category);
-        } else {
-          renderErrorTableHTML();
-        }
-
-      },
-      error: function() {
+    SimpleRequest.GET(PRODUCT_SERVICE,"article/"+id)
+    .onSuccess(function(article) {
+      console.log("open ArticleDetails for Edit Modal");
+      if ((JSON.stringify(article) !== JSON.stringify([]))) {
+        console.log(article.description);
+        addArticleDetail(article, id, article.category);
+      } else {
         renderErrorTableHTML();
       }
-    });
-
+    })
+    .onFailure(renderErrorTableHTML)
+    .onError(function(error){
+      showStatusError("Network Error");
+    }).send();
 
   });
 
@@ -185,12 +174,9 @@ $(function (){
     };
     var $btn = $('#edit-article');
     var btnid = $btn.attr('data-id');
-    promise = $.ajax({
-      type: 'PUT',
-      url: 'http://localhost:3002/article/' + btnid,
-      data: article
-    });
-    promise.done(function (newArticle) {
+
+    SimpleRequest.PUT(PRODUCT_SERVICE,"article/"+btnid)
+    .onSuccess(function (newArticle) {
       console.log("success");
       $.each($('.editArticle'), function () {
         $tr = $(this).closest('tr');
@@ -201,13 +187,17 @@ $(function (){
           $tr.find('td.price').html(currencyConverter(article.price));
         }
       });
-    });
-
-    promise.fail(function (error, statusText) {
+    })
+    .onFailure(function (errorcode,errortext, statusText) {
       console.log("fail");
-      showStatusError(statusText + ": " + error.status + " - " + error.statusText + " while saving article");
+      showStatusError(statusText + ": " + errorcode+ " - " + errortext + " while saving article");
       $('#editcategory').find("option").remove();
-    });
+    })
+    .onError(function(error){
+      showStatusError("Network Error");
+    })
+    .addJson(article)
+    .send();
   });
   $(document).on("click", "#edit-status", function() {
     // change vars
@@ -225,12 +215,9 @@ $(function (){
     };
     var btnid = $editstatusbtn.attr('data-id');
 
-    promise = $.ajax({
-      type: 'PUT',
-      url: 'http://localhost:3002/article/' + btnid,
-      data: status
-    });
-    promise.done(function (newStatus) {
+
+    SimpleRequest.PUT(PRODUCT_SERVICE,"article/"+btnid)
+    .onSuccess(function (newStatus) {
       console.log("success");
         if (status.state == true) {
           $editstate.attr("value", "active");
@@ -250,12 +237,17 @@ $(function (){
           $editstatusbtn.addClass('btn-success');
         }
 
-    });
-
-    promise.fail(function (error, statusText) {
+    })
+    .onFailure(function (errorcode,errortext, statusText) {
       console.log("fail");
-      showStatusError(statusText + ": " + error.status + " - " + error.statusText + " while saving article");
-    });
+      showStatusError(statusText + ": " + eerrorcode + " - " + errortext + " while saving article");
+    })
+    .onError(function(error){
+      showStatusError("Network Error");
+    })
+    .addJson(status)
+    .send();
+
 
   });
 
