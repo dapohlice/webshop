@@ -9,8 +9,10 @@ let PSchema = new Mongoose.Schema({
   description: { type: String, required: true },
   price: { type: Number, required: true },
   state: { type: Boolean, required: true },
+  picturepath: {type: String, required: true},
   propertys: [SubSchema],
-  category: { type: Mongoose.ObjectId, required: true }
+  categoryid: { type: Mongoose.ObjectId, required: true },
+  category:{type: String, required: true}
 }, {timestamps: true}
 );
 module.exports = PSchema;
