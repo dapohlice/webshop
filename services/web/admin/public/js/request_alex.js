@@ -22,68 +22,52 @@ function getJwtCookie(){
 
 class PRequest{
 
-    constructor(){
+    constructor(type,url){
         this.request = new XMLHttpRequest();
         this.data = null;
+        this.request.open(type, url);
     }
-
-
-    GET(url){
-        this.request.open("GET", url);
-        return this;
-    }
-
-    POST_FORMDATA(url,data)
+        
+    addRaw(data)
     {
-      this.request.open("POST", url);
-      this.data = data;
-      return this;
-    }
-
-    POST(url){
-        this.request.open("POST", url);
-        this.request.setRequestHeader("Content-Type", "application/json");
+        this.data = data;
         return this;
     }
 
-    PUT(url){
-        this.request.open("PUT", url);
-        this.request.setRequestHeader("Content-Type", "application/json");
-        return this;
-    }
 
-    DELETE(url){
-        this.request.open("DELETE", url);
-        return this;
-    }
-
-    addData(data)
+    addJson(data)
     {
         this.data = JSON.stringify(data);
+        this.request.setRequestHeader("Content-Type", "application/json");
+        return this;
     }
 
 
     onSucces(succesFunction)
     {
         this.succesFunction = succesFunction;
+        return this;
     }
 
     onError(errorFunction)
     {
         this.errorFunction = errorFunction;
+        return this;
     }
 
     onFailure(failureFunction)
     {
         this.failureFunction = failureFunction;
+        return this;
     }
 
     onUnauthorized(failureFunction)
     {
         this.unauthorizedFunction = failureFunction;
+        return this;
     }
 
-    send(isJson)
+    send()
     {
         var self = this;
 
@@ -94,9 +78,9 @@ class PRequest{
                 {
                     if(this.status == 200)
                     {
-                        let auth = this.getResponseHeader("Authentication");
+                      /*  let auth = this.getResponseHeader("Authentication");
                         setJwtCookie(auth);
-
+                        */
                         var result;
                         if(isJson)
                         {
@@ -105,8 +89,12 @@ class PRequest{
                         }else{
                             result = this.responseText;
                         }
-                        self.succesFunction(result,this.getAllResponseHeaders());
-
+                        if(self.succesFunction !== null)
+                        {
+                            self.succesFunction(result,this.getAllResponseHeaders());
+                        }else{
+                            response(result);
+                        }
                     }else if(this.status == 401){
                       if(self.unauthorizedFunction != null)
                           self.unauthorizedFunction(this.responseText);

@@ -1,4 +1,5 @@
 const express = require('express');
+const JWT = require('./jwt/verify.js');
 
 const app = express();
 
@@ -39,6 +40,40 @@ function logError(err,req,res,next)
 }
 app.use(logError);
 
+function getCookie(req,name)
+{
+  let result = null;
+  let rc = req.headers.cookie;
+
+  rc && rc.split(';').forEach(function( cookie ) {
+    var parts = cookie.split('=');
+    if(parts.shift() === name)
+    {
+      result = parts.join('=');
+    }
+  });
+  return result;
+}
+
+function checkPermission(req,res,next)
+{
+  let token = getCookie(req,'jwt');
+  if(token === null)
+  {
+    res.sendStatus(401);
+    return;
+  }
+  let jwt,result;
+  [result,jwt] = JWT.processJwt(token);
+  if(result !== 200)
+  {
+    res.sendStatus(result);
+    return;
+  }
+  req.jwt = jwt;
+  next();
+}
+app.use(checkPermission);
 
 
 /**
@@ -56,6 +91,7 @@ app.get('/login', (req,res)=>{
 });
 
 app.get('/', (req, res) => {
+
   for (const key in req.query) {
     console.log(key, req.query.ap[key]);
   }

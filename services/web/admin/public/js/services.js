@@ -1,11 +1,21 @@
+function getJWT() {
+  var value = "; " + document.cookie;
+  var parts = value.split("; jwt=");
+  if (parts.length == 2) return parts.pop().split(";").shift();
+}
+
 // XHR (XMLHttpRequest) verarbeitet alle Anfragen per ajax request und schickt nach Erfolg alle Antworten an response() weiter
 function XHR(type, url, data, contentType) {
+  var jwt = getJWT();
   promise = $.ajax({
     type: type,
     url: url,
     contentType: contentType,
     data: data,
-    cache: false
+    cache: false,
+    beforeSend: function(request) {
+      request.setRequestHeader("Authorization","Bearer "+jwt);
+    }
   });
   promise.done(function (data, statusText) {
     console.log(statusText + " - " + data.status);
@@ -22,5 +32,5 @@ function XHR(type, url, data, contentType) {
     renderErrorHTML(xhr, statusText);
     // return false;
   });
-
 }
+
