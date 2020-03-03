@@ -1,0 +1,38 @@
+doctype html
+html(lang="en")
+  block header
+    head
+      meta(charset="utf-8")
+      meta(name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no")
+      meta(http-equiv="x-ua-compatible" content="ie=edge")      
+      title #{title}
+
+      link(rel='stylesheet' href='css/style.css' type='text/css')
+      //- link(rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css' type='text/css' media='screen')
+      link(rel='stylesheet' href='css/bs/bootstrap.min.css' type='text/css' media='screen')
+      link(rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css' type='text/css' media='screen')
+      link(rel='stylesheet' href='https://fonts.googleapis.com/css?family=Roboto:400,500,700&display=swap' type='text/css')
+      
+block body  
+  h1="Login"
+  form(id="login-form")
+    label(for="username")="Username"
+    input(id="username",name="username",type="text",required)
+    label(for="password")="Password"
+    input(id="password",name="password",type="password",required)
+    input(type="submit",value="Login")
+  div(id="login-failure")
+
+block scripts              
+  script(src='https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js')
+  script(src='https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.1/umd/popper.min.js')
+  //- script(src='https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js')
+  //- script(type='text/javascript' src='js/bs/jquery-3.4.1.min.js')
+  //- script(type='text/javascript' src='js/bs/popper.min.js')
+  script(type='text/javascript' src='js/bs/bootstrap.min.js')
+  
+  script(type='text/javascript' src='js/response.js' defer='defer')
+  script(type='text/javascript' src='js/services.js' defer='defer')
+  script(type='text/javascript' src='js/request.js' defer='defer')
+  script(type='text/javascript' src='js/login.js' defer='defer')
+

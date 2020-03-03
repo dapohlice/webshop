@@ -51,6 +51,10 @@ app.set('views', __dirname + '/views');
  // statische Dateien werden von `public` ordner
 app.use(express.static(__dirname + '/public'));
 
+app.get('/login', (req,res)=>{
+  res.render('login');
+});
+
 app.get('/', (req, res) => {
   for (const key in req.query) {
     console.log(key, req.query.ap[key]);
