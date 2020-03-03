@@ -301,11 +301,11 @@ export async function addOrder(mail: string,address,articles){
  * @param user_key Benutzer-Key
  * @returns true | false
  */
-export async function submitOrder(user_key: string):Promise<boolean>
+export async function submitOrder(user_key: string):Promise<number>
 {
     let order_id = UserKey.getOrder(user_key);
     if(order_id === undefined)
-        return false;
+        return 400;
 
-    return await setStatus(order_id,undefined,1);
+    return await setStatus(order_id,"",1,true);
 }

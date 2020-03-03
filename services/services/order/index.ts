@@ -26,6 +26,7 @@ function setHeader(req: express.Request, res: express.Response,next)
 {
     res.set('Access-Control-Allow-Origin','*')
     res.set('Access-Control-Allow-Methods','GET, POST, PATCH, POST, PUT, OPTIONS, DELETE')
+    res.set('Access-Control-Allow-Headers','*')
     next();
 }
 
@@ -35,6 +36,11 @@ createConnection().then(async connection => {
     app.use(logRequest);
     app.use(logError);
     app.use(setHeader);
+
+    app.options('/*',function(req,res){
+        console.log('option');
+        res.sendStatus(200);
+    });
 
     // convert body to json
     app.use(express.json());
