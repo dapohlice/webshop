@@ -9,15 +9,27 @@ import {createAddress} from "../mapper/AddressMapper"
 import {addArticle, createArticle} from "../mapper/ArticleMapper"
 import resolve from "../resolver";
 
-const permissionFreeStatus = [1,2,3,6,7,8];
+const permissionFreeStatus ={
+    '0': false,
+    '1': true,
+    '2': true,
+    '3': true,
+    '4': false,
+    '5': false,
+    '6': true,
+    '7': true,
+    '8': true,
+    '9': false
+}
+
+
 
 function checkStatusByPermission(statusID: number):boolean
 {
-    permissionFreeStatus.forEach(element => {
-        if(element === statusID)
-            return true;
-    });
-    return false;
+    let result = permissionFreeStatus[statusID];
+    if(result === undefined)
+        return false;
+    return result;
 }
 
 /**
@@ -50,8 +62,11 @@ export async function getAllOrders(hasFullPermission: boolean):Promise<[number,a
  */
 export async function getAllOrdersByStatus(statusId: number,hasFullPermission:boolean):Promise<[number,OrderEntity]>
 {
-    if(!hasFullPermission && !checkStatusByPermission(statusId))
+    let free = checkStatusByPermission(statusId);
+    console.log(free+" is free");
+    if(!hasFullPermission && !free)
     {
+        console.log("not free");
         return [403,null];   
     }
     const orderRep = getRepository(OrderEntity)
