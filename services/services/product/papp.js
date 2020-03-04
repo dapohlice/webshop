@@ -4,6 +4,8 @@ const BParser = require('body-parser');
 const CategoryRoute = require('./routes/CategoryRoute.js');
 const ProductRoute = require('./routes/ProductRoute.js');
 
+const JWT = require('./jwt/verify.js');
+
 
 const port = process.env.PORT;
 const stage = process.env.NODE_ENV;
@@ -35,7 +37,35 @@ function logError(err,req,res,next)
 }
 Productsapp.use(logError);
 
+function checkPermission(req,res,next)
+{
+    let auth = req.get('Authorization');
+    let status, jwt;
+    [status,jwt] = JWT.processJwt(auth);
+    console.log(req.method);
+    if(req.method !== "GET")
+    {
+        if(status !== 200)
+        {
+            res.sendStatus(status);
+            return;
+        }
+        if(jwt.auth_product === false)
+        {
+            res.sendStatus(403);
+            return;
+        }
+    }
+    if(jwt !== null)
+    {
+        req.jwt = jwt;
+    }
+    
+    next();
+}
+
 /*Routen der Productapp hinzufügen*/
+Productsapp.use(checkPermission);
 Productsapp.use("/category", CategoryRoute);
 Productsapp.use("/article", ProductRoute);
 
