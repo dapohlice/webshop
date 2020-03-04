@@ -131,14 +131,14 @@ export async function getFullOrder(orderId: number,hasFullPermission: boolean):P
         .leftJoinAndSelect("articles.article", "article")
         .where("order.id = :id",{id: orderId});
 
-    let order,err = await resolve(builder.getOne());
+    let order,err;
+    [order,err] = await resolve(builder.getOne());
 
+    if(err !== null)
+        return [500,null];
     if(order === undefined)
         return [404,null];
-    if(err !== null)
-    {
-        return [500,null];
-    }
+    
 
     if(!hasFullPermission && !checkStatusByPermission(order.status.id))
     {
