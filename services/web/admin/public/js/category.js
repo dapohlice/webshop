@@ -325,7 +325,6 @@ $(function (){
     .onError(function(error){
       showStatusError("Network Error");
     })
-    .addRaw(data)
     .send();
   });
 
@@ -356,7 +355,6 @@ $(function (){
     .onError(function(error){
       showStatusError("Network Error");
     })
-    .addRaw(data)
     .send();
 
   });

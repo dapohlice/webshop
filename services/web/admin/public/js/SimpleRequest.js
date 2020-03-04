@@ -132,7 +132,8 @@ class SimpleRequest{
                         setJwtCookie(auth);
                         */
                         var result;
-                        if(this.getResponseHeader('content-type').startsWith("application/json"))
+                        var content_type = this.getResponseHeader('content-type');
+                        if(content_type !== null && content_type.startsWith("application/json"))
                         {
                             result = JSON.parse(this.responseText);
                         }else{
@@ -144,6 +145,8 @@ class SimpleRequest{
                         }else{
                             response(result);
                         }
+                    }else if(this.status == 0){
+                        return;
                     }else{
                         if(this.status == 401){
                             if(self.unauthorizedFunction != null)
@@ -151,9 +154,11 @@ class SimpleRequest{
                                 self.unauthorizedFunction(this.responseText);
                                 return;
                             }
+                        }
                         console.warn("Request failed: "+this.statusText);
 
                         if(self.failureFunction != null)
+                        {
                             self.failureFunction(this.status,this.statusText,this.responseText);        
                         }
                     }
