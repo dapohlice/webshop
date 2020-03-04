@@ -8,10 +8,12 @@ html(lang="en")
       title #{title}
 
       link(rel='stylesheet' href='css/style.css' type='text/css')
+      link(rel='stylesheet' href='css/user.css' type='text/css')
       //- link(rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css' type='text/css' media='screen')
       link(rel='stylesheet' href='css/bs/bootstrap.min.css' type='text/css' media='screen')
       link(rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css' type='text/css' media='screen')
       link(rel='stylesheet' href='https://fonts.googleapis.com/css?family=Roboto:400,500,700&display=swap' type='text/css')
+
       
 block body  
   body
@@ -26,17 +28,23 @@ block main
   main#main
     block navbar_hr
       nav.navbar.navbar-expand-md.bg-dark.navbar-dark
-        a.navbar-brand.nav-link.active(
-          href=`/`
-        )
-          | Logo
         button.openbtn(
           type="button"
           onclick="openNav()"
           style=`padding-left: 1%;`
         )
-          span.navbar-toggler-icon          
+          span.navbar-toggler-icon 
+        a.navbar-brand.nav-link.active(
+          href=`/`
+        )
+          | Logo
 
+                   
+        button#navbar-user-name-btn(data-target="#user_modal" data-toggle="modal")
+          i.fa.fa-user
+          span#navbar-user-name
+
+    include user_modal
     include error        
 
       block content
@@ -67,3 +75,4 @@ block scripts
 
   script(type='text/javascript' src='js/tooltip.js')
   script(type='text/javascript' src='js/form_validator.js')
+  script(type='text/javascript' src='js/user.js' defer='defer')
