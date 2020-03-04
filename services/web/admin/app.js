@@ -104,66 +104,77 @@ app.get('/', (req, res) => {
       res.render('user', {
         name : 'user',
         title: 'Users - Administration Dashboard',
+        jwt: req.jwt,
       });
       break;
     case 'groups':
       res.render('group', {
         name : 'group',
         title: 'Groups - Administration Dashboard',
+        jwt: req.jwt,
       });
       break;
     case 'articles':
       res.render('article', {
         name : 'article',
         title: 'Articles - Administration Dashboard',
+        jwt: req.jwt,
       });
       break;
     case 'categories':
       res.render('category', {
         name : 'category',
         title: 'Categories - Administration Dashboard',
+        jwt: req.jwt,
       });
       break;
     case 'ordered':
       res.render('order', {
         name : 'ordered',
         title: 'Ordered Order - Administration Dashboard',
+        jwt: req.jwt,
       });
       break;
     case 'payed':
       res.render('order', {
         name : 'payed',
         title: 'Payed Order - Administration Dashboard',
+        jwt: req.jwt,
       });
       break;
     case 'packed':
       res.render('order', {
         name : 'packed',
         title: 'Packed Order - Administration Dashboard',
+        jwt: req.jwt,
       });
       break;
     case 'finished':
       res.render('order', {
         name : 'finished',
         title: 'Finished Order - Administration Dashboard',
+        jwt: req.jwt,
       });
       break;
     case 'returned':
       res.render('order', {
         name : 'returned',
         title: 'Returned Order - Administration Dashboard',
+        jwt: req.jwt,
       });
       break;
     case 'all':
       res.render('order', {
         name : 'all',
         title: 'All Order - Administration Dashboard',
+        jwt: req.jwt,
       });
       break;
     default:
       res.render('index', {
         name : 'index',
         title: 'Welcome Employee - Administration Dashboard',
+        jwt: req.jwt,
       });
   }
 });
