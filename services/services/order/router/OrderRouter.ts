@@ -24,7 +24,7 @@ export default class OrderRouter extends BaseRouter{
     }
 
     initialiseRouter(){
-        //this.router.use(this.checkPermission)
+        this.router.use(this.checkPermission)
         this.router.get('/',this.get);
         this.router.get('/status/finished',this.getByFinishStatus);
         this.router.get('/status/returned',this.getByReturnStatus);
@@ -44,11 +44,14 @@ export default class OrderRouter extends BaseRouter{
     {
         if(
             req.jwt !== undefined &&
-            req.jwt.auth.auth_auth_normalOrders === true
+            req.jwt.auth.auth_normalOrders === true
         )
             next();
         else
+        {
             res.sendStatus(403);
+        }
+        
     }
 
     /**

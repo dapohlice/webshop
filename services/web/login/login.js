@@ -11,8 +11,8 @@ function getJwtCookie(){
     var jwt = getCookie("jwt");
     return jwt;
 }
-
-if(getJwtCookie() !== null){
+var jwt = getJwtCookie();
+if(jwt !== undefined){
     window.open(adminservice,"_top");
 }
 
