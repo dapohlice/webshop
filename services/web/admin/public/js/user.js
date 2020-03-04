@@ -53,9 +53,17 @@ document.getElementById('btn-change-password').addEventListener('click',function
 
 })
 
+document.getElementById('btn-change-password-open').addEventListener('click',function(e){
+    $('#password_modal').modal('show');
+    document.getElementById('password-old').value = "";
+    document.getElementById('password-newfirst').value = "";
+    document.getElementById('password-newsecound').value = "";
+});
+
 document.getElementById('btn-change-password-accept').addEventListener('click',function(e){
     $('#change_password_modal').modal('hide');
     $('#password_modal').modal('hide');
+    $('#user_modal').modal('hide');
 
     SimpleRequest.PATCH(USER_SERVICE,'me/password')
     .addJson({
@@ -65,10 +73,15 @@ document.getElementById('btn-change-password-accept').addEventListener('click',f
     .onSuccess(function(){
         showStatusInfo("Password changed");
     })
-    .onFailure(function(){
-        showStatusError("Password could not be changed.");
+    .onFailure(function(statuscode){
+        if(statuscode === 401)
+        {
+            showStatusError("Your Password is wrong.");
+        }else{
+            showStatusError("Could not change your Password.");
+        }
     })
-    .onFailure(function(){
+    .onError(function(){
         showStatusError("Network Error");
     }).send();
 });
@@ -76,5 +89,6 @@ document.getElementById('btn-change-password-accept').addEventListener('click',f
 document.getElementById('btn-change-password-cancel').addEventListener('click',function(e){
     $('#change_password_modal').modal('hide');
     $('#password_modal').modal('hide');
+    $('#user_modal').modal('hide');
 });
 
