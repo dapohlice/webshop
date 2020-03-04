@@ -39,6 +39,11 @@ Productsapp.use(logError);
 
 function checkPermission(req,res,next)
 {
+    if(req.method === "OPTIONS")
+    {
+        next();
+        return;
+    }
     let auth = req.get('Authorization');
     let status, jwt;
     [status,jwt] = JWT.processJwt(auth);
