@@ -34,10 +34,14 @@ ProductRoute.put("/:id", async function (req,res) {
 /*Patch-Request zum aktivieren und deaktivieren eines Artikeldatensatzes*/
 ProductRoute.patch("/:id", async function (req,res) {
   try {
-    if(reg.body.state)
+    if(req.body.state == !null)
     {
       await Assistant.Product.changeState(req.params.id, req.body.state);
       res.sendStatus(200);
+    }
+    else
+    {
+      res.status(400).send({success: false, message: 'Status fehlt!'});
     }
   } catch (err) {
     res.sendStatus(404);
