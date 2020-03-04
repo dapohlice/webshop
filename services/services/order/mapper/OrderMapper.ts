@@ -192,7 +192,7 @@ export async function setNextStatus(orderId: number ,info: string,hasFullPermiss
         if(res == undefined)
             return 500;        
     }else{
-        return 500;
+        return 400;
     }
 
     return 200;

@@ -333,32 +333,35 @@ function setNextStatus() {
   urlParamID = lastID;
   status = lastStatus;
 
-  if((urlParamID != null) && (status < 4) && (status != 0)) {
+
+  let req = SimpleRequest.PATCH(ORDER_SERVICE,'order/'+urlParamID)
+  .onSuccess(function(){
     setNewStatus = true;
     setOrderDetails = false;
-    console.log("SetNextStatus() setzt die folgende ID: ");
-    console.log(urlParamID);
-    console.log("auf den nächsten Status: ");
-    console.log(status);
-
-    url = 'http://localhost:3001/order/' + urlParamID;
-    var res = new XHR('PATCH', url);
-    //setze lastID = 0 & lastStatus (Standartwert), sonst werden die OrderDetails nicht neu geladen!
     lastID = 0;
     lastStatus = 0;
-    return true;
-  } else {
-    console.log("Statusänderung nicht erlaubt!")
+  })
+  .onUnauthorized(function(){
+    showStatusError("You are not allwed to change this status.");
+  })
+  .onFailure(function(){
+    showStatusError("It is not possible to change this status.");
+  })
+  .onError(function(){
+    showStatusError("An network Error occurred.");
+  });
 
-    //show info status
-    showStatusError("Warning: Changes for status with id = " + urlParamID + " not allowed!");
-    //end of show info status
-    return false;
+
+  let message = document.getElementById('nextStatusMessage').value;
+  if(message !== '' || message !== undefined)
+  {
+    let data = {
+      info: message
+    }
+    req.addJson(data);
   }
+  req.send();
 
-
-  console.log("PatchXHR Klasse wurde aufgerufen mit folgenden Objekt:");
-  console.log(res);
 }
 function getOrderDetails(id) {
   setDetailsFalse();
