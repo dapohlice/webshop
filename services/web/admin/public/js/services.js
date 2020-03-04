@@ -1,12 +1,6 @@
-function getJWT() {
-  var value = "; " + document.cookie;
-  var parts = value.split("; jwt=");
-  if (parts.length == 2) return parts.pop().split(";").shift();
-}
-
 // XHR (XMLHttpRequest) verarbeitet alle Anfragen per ajax request und schickt nach Erfolg alle Antworten an response() weiter
 function XHR(type, url, data, contentType) {
-  var jwt = getJWT();
+  var jwt = getJwtCookie();
   promise = $.ajax({
     type: type,
     url: url,
