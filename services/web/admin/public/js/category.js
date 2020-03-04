@@ -42,24 +42,21 @@ $(function (){
     }
   }
 
-
-  $.ajax({
-    type: 'GET',
-    url: 'http://localhost:3002/category',
-    success: function(categories) {
-      if ((JSON.stringify(categories) !== JSON.stringify([]))) {
-        $.each(categories, function(i, category) {
-          addCategory(category);
-        });
-      } else {
-        addEmpty(categories);
-      }
-
-    },
-    error: function() {
-      renderErrorTableHTML();
+  SimpleRequest.GET(PRODUCT_SERVICE,"category")
+  .onSuccess(function(categories) {
+    if ((JSON.stringify(categories) !== JSON.stringify([]))) {
+      $.each(categories, function(i, category) {
+        addCategory(category);
+      });
+    } else {
+      addEmpty(categories);
     }
-  });
+
+  })
+  .onFailure(renderErrorTableHTML)
+  .onError(function(error){
+    showStatusError("Network Error");
+  }).send();
 
   $('#add-category').on('click', function() {
 
@@ -71,41 +68,25 @@ $(function (){
     };
     console.log(JSON.stringify(category));
 
-    promise = $.ajax({
-      type: 'POST',
-      url: 'http://localhost:3002/category',
-      data: JSON.stringify(category),
-      contentType: 'application/json',
-      cache: false
-    });
-    promise.done(function (newCategory, status, responseText) {
-      var result;
-      if (responseText.readyState == 4) {;
-        if (responseText.status == 200) {
-          result = status;
-          addCategory(newCategory);
-          if ($deleteImageAdd.attr('data-id')) {
-            // attr is not blank
-            $deleteImageAdd.removeAttr('disabled', 'disabled');
-          } else {
-            //attr is blank
-            $deleteImageAdd.attr('disabled', 'disabled');
-          }
-        } else if (responseText.status == 201) {
-          addCategory(newCategory);
-          result = "Warning: Something went wrong with Status - " + responseText.status;
+    SimpleRequest.POST(PRODUCT_SERVICE,"category")
+    .onSuccess(function (newCategory) {
+        addCategory(newCategory);
+        if ($deleteImageAdd.attr('data-id')) {
+          // attr is not blank
+          $deleteImageAdd.removeAttr('disabled', 'disabled');
         } else {
-          result = "Warning: Error - " + responseText.status;
+          //attr is blank
+          $deleteImageAdd.attr('disabled', 'disabled');
         }
-      } else {
-        result = "Warning: Form for add category is not valid";
-      }
-      showStatusError(result);
-    });
-
-    promise.fail(function (error, statusText) {
-      showStatusError(statusText + ": " + error.status + " - " + error.statusText + " while saving category");
-    });
+    })
+    .onFailure(function (errorcode,errortext, statusText) {
+      showStatusError(statusText + ": " + errorcode + " - " + errortext + " while saving category");
+    })
+    .onError(function(error){
+      showStatusError("Network Error");
+    })
+    .addJson(category)
+    .send();
   });
 
   $(document).on("click", ".editCategory", function() {
@@ -120,23 +101,22 @@ $(function (){
     btnimg = $tr.find('td.image img').attr('data-id');
     console.log(btnimg);
 
-    $.ajax({
-      type: 'GET',
-      url: 'http://localhost:3002/category/' + id,
-      success: function(category) {
-        console.log("open category details for edit modal");
-        if ((JSON.stringify(category) !== JSON.stringify([]))) {
-          addCategoryDetail(category, id, btnimg);
-          console.log($deleteImageEdit.attr('data-id'));
-        } else {
-          renderErrorTableHTML();
-        }
-
-      },
-      error: function() {
+    SimpleRequest.GET(PRODUCT_SERVICE,"category/"+id)
+    .onSuccess(function(category) {
+      console.log("open category details for edit modal");
+      if ((JSON.stringify(category) !== JSON.stringify([]))) {
+        addCategoryDetail(category, id, btnimg);
+        console.log($deleteImageEdit.attr('data-id'));
+      } else {
         renderErrorTableHTML();
       }
-    });
+
+    })
+    .onFailure(renderErrorTableHTML)
+    .onError(function(error){
+      showStatusError("Network Error");
+    })
+    .send();
 
   });
 
@@ -153,53 +133,33 @@ $(function (){
     };
     console.log($category.categoryname);
     console.log($category.picturepath);
-    var json = JSON.stringify($category);
     var $btn = $('#edit-category');
     var btnid = $btn.attr('data-id');
 
-    promise = $.ajax({
-      type: 'PUT',
-      url: 'http://localhost:3002/category/' + btnid,
-      data: json,
-      contentType: 'application/json',
-      cache: false
-    });
-    promise.done(function (newCategory, status, responseText) {
-      var result;
-      console.log(newCategory);
-      console.log(status);
-      console.log(responseText);
-      console.log(responseText.status);
-      console.log(responseText.readyState);
-      if (responseText.readyState == 4) {
-        if (responseText.status == 200) {
-          result = "Successfully changed category with status: " + responseText.status;
-          $.each($('.editCategory'), function () {
-            $tr = $(this).closest('tr');
-            id = $tr.attr('data-id');
-            if (id == btnid) {
-              console.log($category.categoryname);
-              $tr.find('td.name').html($category.categoryname);
-              var string = 'http://localhost:3004/' + $category.picturepath;
-              console.log(string);
-              $tr.find('td.image img').attr('src', 'http://localhost:3004/' + $category.picturepath);
-            }
-          });
-        } else {
-          result = status;
+
+    SimpleRequest.PUT(PRODUCT_SERVICE,"category/"+btnid)
+    .onSuccess(function(category) {
+      $.each($('.editCategory'), function () {
+        $tr = $(this).closest('tr');
+        id = $tr.attr('data-id');
+        if (id == btnid) {
+          console.log($category.categoryname);
+          $tr.find('td.name').html($category.categoryname);
+          var string = 'http://localhost:3004/' + $category.picturepath;
+          console.log(string);
+          $tr.find('td.image img').attr('src', 'http://localhost:3004/' + $category.picturepath);
         }
-      } else {
-          result = "Warning: Form for edit category is not valid";
-      }
-
-      showStatusError(result);
-    });
-
-    promise.fail(function (error, statusText) {
+      });
+    })
+    .onFailure( function (errorstatus,errorText, statusText) {
       console.log("fail");
-      showStatusError(statusText + ": " + error.status + " - " + error.statusText + " while saving category");
-    });
-
+      showStatusError(statusText + ": " + errorstatus + " - " + errorText + " while changing category");
+    })
+    .onError(function(error){
+      showStatusError("Network Error");
+    })
+    .addJson($category)
+    .send();
   });
   $(document).on("click", "#remove-category", function() {
     // delete tr
@@ -213,12 +173,8 @@ $(function (){
     console.log(btnid);
     console.log(id);
 
-    promise = $.ajax({
-      type: 'DELETE',
-      url: 'http://localhost:3002/category/' + btnid,
-      cache: false
-    });
-    promise.done(function (newCategory) {
+    SimpleRequest.DELETE(PRODUCT_SERVICE,"category/"+btnid)
+    .onSuccess(function (newCategory) {
       console.log("success");
       $.each($('.editCategory'), function () {
         $tr = $(this).closest('tr');
@@ -229,43 +185,34 @@ $(function (){
       });
       $('#deleteModal').modal('hide');
       $('#detailModal').modal('hide');
-    });
-
-    promise.fail(function (error, statusText) {
+    })
+    .onFailure( function (errorstatus,errorText, statusText) {
       console.log("fail");
-      showStatusError(statusText + ": " + error.status + " - " + error.statusText + " while delete category");
-    });
+      showStatusError(statusText + ": " + errorstatus + " - " + errorText + " while deleting category");
+    })
+    .onError(function(error){
+      showStatusError("Network Error");
+    })
+    .send();
 
     // get btn id
     var $deleteImageEdit = $('#deleteImageEdit');
     var imgbtnid = $deleteImageEdit.attr('data-id');
 
-    $.ajax({
-      type: 'DELETE',
-      url: 'http://localhost:3004/' + imgbtnid,
-      success: function(responseText, status, readyState) {
-        console.log(responseText);
-        console.log(readyState.readyState);
-        console.log(status);
-        var result;
-        if(readyState.readyState == 4) {
-          if(readyState.status == 200) {
-            result = "Successfully delete image";
-          } else {
-            console.log(status);
-            result = "Warning: " + readyState.status;
-          }
-        } else {
-            result = "Warning: Image delete failed";
-        }
-        console.log(result);
-      },
-      error: function() {
-        renderErrorTableHTML();
-      }
-    });
-
+    SimpleRequest.DELETE(PICTURE_SERVICE,imgbtnid)
+    .onSuccess(function (newCategory) {
+      console.log("successfully deleted picture");
+    })
+    .onFailure( function (errorstatus,errorText, statusText) {
+      console.log("fail");
+      showStatusError(statusText + ": " + errorstatus + " - " + errorText + " while deleteing category picture");
+    })
+    .onError(function(error){
+      showStatusError("Network Error");
+    })
+    .send();
   });
+
   $(document).on("click", "#add-image", function(event) {
     event.preventDefault();
     // get filedata
@@ -278,26 +225,12 @@ $(function (){
     var data = new FormData();
     data.append("photo", src);
 
-    promise = $.ajax({
-      processData: false,
-      contentType: false,
-      url: 'http://localhost:3004',
-      data: data,
-      type: 'POST',
-      cache: false
-    });
-    promise.done(function (responseText, status, readyState) {
-      console.log(responseText);
-      console.log(readyState.readyState);
-      console.log(status);
-      var result;
-      if(readyState.readyState == 4) {
-        if(readyState.status == 200) {
-          result = responseText;
+    SimpleRequest.POST(PICTURE_SERVICE)
+    .onSuccess(function (image) {
           $('#imgModal').modal('hide');
-          $deleteImageAdd.attr('data-id', responseText);
-          $picturepath.val(responseText);
-          $picturesrc.attr('src', 'http://localhost:3004/' + responseText);
+          $deleteImageAdd.attr('data-id', image);
+          $picturepath.val(image);
+          $picturesrc.attr('src', PICTURE_SERVICE+"/"+ image);
           if ($deleteImageAdd.attr('data-id')) {
             // attr is not blank
             $deleteImageAdd.removeAttr('disabled', 'disabled');
@@ -308,23 +241,20 @@ $(function (){
             $('#addImageBtn').removeAttr("disabled", "disabled");
           }
           $('#addImageBtn').attr("disabled", "disabled");
-        } else {
-          console.log(status);
-          result = readyState.status;
-        }
-      } else {
-          result = "Warning: Image upload not ready";
-      }
-
-      showStatusInfo(result);
-    });
-
-    promise.fail(function (error, statusText) {
+          showStatusInfo("Image added");
+    })
+    .onFailure( function (errorstatus,errorText, statusText) {
       console.log("fail");
-      showStatusError(statusText + ": " + error.status + " - " + error.statusText + " while upload image");
-    });
+      showStatusError(statusText + ": " + errorstatus + " - " + errorText + " while uploading image");
+    })
+    .onError(function(error){
+      showStatusError("Network Error");
+    })
+    .addRaw(data)
+    .send();
 
   });
+
   $(document).on("click", "#edit-image", function(event) {
     event.preventDefault();
     // get filedata
@@ -337,53 +267,37 @@ $(function (){
     var data = new FormData();
     data.append("photo", src);
 
-    promise = $.ajax({
-      processData: false,
-      contentType: false,
-      url: 'http://localhost:3004',
-      data: data,
-      type: 'POST',
-      cache: false
-    });
-    promise.done(function (responseText, status, readyState) {
-      console.log(responseText);
-      console.log(readyState.readyState);
-      console.log(status);
-      var result;
-      if(readyState.readyState == 4) {
-        if(readyState.status == 200) {
-          result = responseText;
-          $('#imgEditModal').modal('hide');
-          $deleteImageEdit.attr('data-id', responseText)
-          $editpicturepath.val(responseText);
-          $editpicturesrc.attr('src', 'http://localhost:3004/' + responseText);
-          if ($deleteImageEdit.attr('data-id')) {
-            // attr is not blank
-            $deleteImageEdit.removeAttr('disabled', 'disabled');
-            $('#editImageBtn').attr("disabled", "disabled");
-          } else {
-            //attr is blank
-            $deleteImageEdit.attr('disabled', 'disabled');
-            $('#editImageBtn').removeAttr("disabled", "disabled");
-          }
 
+    SimpleRequest.POST(PICTURE_SERVICE)
+    .onSuccess(function (image) {
+        $('#imgEditModal').modal('hide');
+        $deleteImageEdit.attr('data-id', image)
+        $editpicturepath.val(image);
+        $editpicturesrc.attr('src', PICTURE_SERVICE +'/' + image);
+        if ($deleteImageEdit.attr('data-id')) {
+          // attr is not blank
+          $deleteImageEdit.removeAttr('disabled', 'disabled');
+          $('#editImageBtn').attr("disabled", "disabled");
         } else {
-          console.log(status);
-          result = readyState.status;
+          //attr is blank
+          $deleteImageEdit.attr('disabled', 'disabled');
+          $('#editImageBtn').removeAttr("disabled", "disabled");
         }
-      } else {
-          result = "Warning: Image upload not ready";
-      }
-
-      showStatusInfo(result);
-    });
-
-    promise.fail(function (error, statusText) {
+        showStatusInfo("Image changed")
+    })
+    .onFailure( function (errorstatus,errorText, statusText) {
       console.log("fail");
-      showStatusError(statusText + ": " + error.status + " - " + error.statusText + " while upload image");
-    });
+      showStatusError(statusText + ": " + errorstatus + " - " + errorText + " while uploading image");
+    })
+    .onError(function(error){
+      showStatusError("Network Error");
+    })
+    .addRaw(data)
+    .send();
+
 
   });
+
   $(document).on("click", "#deleteImageAdd", function(event) {
     event.preventDefault();
 
@@ -394,42 +308,26 @@ $(function (){
     var $deleteImageAdd = $('#deleteImageAdd');
     var btnid = $deleteImageAdd.attr('data-id');
 
-    promise = $.ajax({
-      type: 'DELETE',
-      url: 'http://localhost:3004/' + btnid,
-      cache: false
-    });
-    promise.done(function (responseText, status, readyState) {
-      console.log(responseText);
-      console.log(readyState.readyState);
-      console.log(status);
-      var result;
-      if(readyState.readyState == 4) {
-        if(readyState.status == 200) {
-          result = "Successfully delete image";
-          $picturepath.val("");
-          //set any default category image here:
-          $picturesrc.attr('src', 'img/category/shirt.png');
-          $deleteImageAdd.attr('data-id', '');
-          $deleteImageAdd.attr("disabled", "disabled");
-          $('#addImageBtn').removeAttr("disabled", "disabled");
-        } else {
-          console.log(status);
-          result = "Warning: " + readyState.status;
-        }
-      } else {
-          result = "Warning: Image delete failed";
-      }
-
-      showStatusInfo(result);
-    });
-
-    promise.fail(function (error, statusText) {
+    SimpleRequest.DELETE(PICTURE_SERVICE,btnid)
+    .onSuccess(function () {
+      $picturepath.val("");
+      //set any default category image here:
+      $picturesrc.attr('src', 'img/category/shirt.png');
+      $deleteImageAdd.attr('data-id', '');
+      $deleteImageAdd.attr("disabled", "disabled");
+      $('#addImageBtn').removeAttr("disabled", "disabled");
+      showStatusInfo("Image removed")
+    })
+    .onFailure( function (errorstatus,errorText, statusText) {
       console.log("fail");
-      showStatusError(statusText + ": " + error.status + " - " + error.statusText + " while upload image");
-    });
-
+      showStatusError(statusText + ": " + errorstatus + " - " + errorText + " while deleting image");
+    })
+    .onError(function(error){
+      showStatusError("Network Error");
+    })
+    .send();
   });
+
   $(document).on("click", "#deleteImageEdit", function(event) {
     event.preventDefault();
     // get filedata
@@ -440,40 +338,24 @@ $(function (){
     var $deleteImageEdit = $('#deleteImageEdit');
     var btnid = $deleteImageEdit.attr('data-id');
 
-    promise = $.ajax({
-      type: 'DELETE',
-      url: 'http://localhost:3004/' + btnid,
-      cache: false
-    });
-    promise.done(function (responseText, status, readyState) {
-      console.log(responseText);
-      console.log(readyState.readyState);
-      console.log(status);
-      var result;
-      if(readyState.readyState == 4) {
-        if(readyState.status == 200) {
-          result = "Successfully delete image";
-          $editpicturepath.val("");
-          //set any default category image here:
-          $editpicturesrc.attr('src', 'img/category/shirt.png');
-          $deleteImageEdit.attr("data-id", "");
-          $deleteImageEdit.attr("disabled", "disabled");
-          $('#editImageBtn').removeAttr("disabled", "disabled");
-        } else {
-          console.log(status);
-          result = readyState.status;
-        }
-      } else {
-          result = "Warning: Image delete failed";
-      }
-
-      showStatusInfo(result);
-    });
-
-    promise.fail(function (error, statusText) {
+    SimpleRequest.DELETE(PICTURE_SERVICE,btnid)
+    .onSuccess(function () {
+      $editpicturepath.val("");
+      //set any default category image here:
+      $editpicturesrc.attr('src', 'img/category/shirt.png');
+      $deleteImageEdit.attr("data-id", "");
+      $deleteImageEdit.attr("disabled", "disabled");
+      $('#editImageBtn').removeAttr("disabled", "disabled");
+      showStatusInfo("Image removed")
+    })
+    .onFailure( function (errorstatus,errorText, statusText) {
       console.log("fail");
-      showStatusError(statusText + ": " + error.status + " - " + error.statusText + " while upload image");
-    });
+      showStatusError(statusText + ": " + errorstatus + " - " + errorText + " while deleting image");
+    })
+    .onError(function(error){
+      showStatusError("Network Error");
+    })
+    .send();
 
   });
 

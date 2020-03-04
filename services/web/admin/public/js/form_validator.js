@@ -16,21 +16,21 @@
           console.log("call RenderSubmit after validation");
           $('#addModal').modal('hide');
           $('#detailModal').modal('hide');
-          showStatusInfo("Successfully save the category");
+
         } else if (currentAdminPage == 'articles') {
           // Paramter aus Adresse entfernen:
           event.preventDefault();
           console.log("call RenderSubmit after validation");
           $('#addModal').modal('hide');
           $('#detailModal').modal('hide');
-          showStatusInfo("Successfully save the article");
+
         } else if (currentAdminPage == 'users') {
           // Paramter aus Adresse entfernen:
           event.preventDefault();
           console.log("call RenderSubmit and Add NewUser");
           postUser();
           $('#addModal').modal('hide');
-          showStatusInfo("Successfully add a new user");
+
         } else if (currentAdminPage == 'groups') {
           // Paramter aus Adresse entfernen:
           event.preventDefault();
