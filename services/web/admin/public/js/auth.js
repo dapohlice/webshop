@@ -27,3 +27,9 @@ function deleteJwt(){
     deleteCookie("jwt");
 }
 
+document.getElementById("logout").addEventListener('click',function(e)
+{
+    e.preventDefault();
+    deleteJwt();
+    window.open("/","_top");
+})
