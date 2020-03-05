@@ -43,4 +43,4 @@ app.get('/products', (req, res) => {
 /**
  * Starten
  */
-app.listen(port, () => console.log(`Picture Service (${stage}) Listen On ${port}`))
+app.listen(port, () => console.log(`Shop Service (${stage}) Listen On ${port}`))
