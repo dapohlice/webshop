@@ -80,12 +80,20 @@ const DBOps = {};
     },
     /*Selektieren alle Produktdatensätze*/
     getAllProducts: async function(){
-        try {
-          return await Models.ProductModel.find().exec();
-        } catch (err) {
-          throw err;
-        }
-      },
+      try {
+        return await Models.ProductModel.find().exec();
+      } catch (err) {
+        throw err;
+      }
+    },
+    /*Selektieren aller aktiven Produktdatensätze*/
+    getAllActiveProducts: async function(){
+      try {
+        return await Models.ProductModel.find({state: true}).exec();
+      } catch (err) {
+        throw err;
+      }
+    },
     /*Finde Produkt über seine ID -> ID ist Produktid*/
     getProductByID: async function(id){
       try {

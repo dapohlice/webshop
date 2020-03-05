@@ -50,12 +50,22 @@ ProductRoute.patch("/:id", async function (req,res) {
 
 /*Get-Request für alle Artikeldatensätze*/
 ProductRoute.get("/", async function (req,res) {
+  if (true) {
     try {
       let result = await Assistant.Product.getAllProducts();
       res.status(200).send(result);
     } catch (err) {
       res.sendStatus(404);
     }
+  }
+  else {
+    try {
+      let result = await Assistant.Product.getAllActiveProducts();
+      res.status(200).send(result);
+    } catch (err) {
+      res.sendStatus(404);
+    }
+  }
 });
 
 /*Get-Request für einen Artikeldatensatzes über seine ID*/
