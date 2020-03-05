@@ -50,7 +50,7 @@ ProductRoute.patch("/:id", async function (req,res) {
 
 /*Get-Request für alle Artikeldatensätze*/
 ProductRoute.get("/", async function (req,res) {
-  if (true) {
+  if (req.jwt !== undefined) {
     try {
       let result = await Assistant.Product.getAllProducts();
       res.status(200).send(result);
