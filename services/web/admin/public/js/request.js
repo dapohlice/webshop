@@ -233,26 +233,7 @@ function patchUserStatus() {
     console.log(json);
   }
 }
-function patchPwdUser() {
-  var url = '';
-  var id = lastID;
-  // Get some values from elements on the page:
 
-  // Create an empty object to return.
-  var retJson = {};
-
-  // Create an string json to return
-  var json = JSON.stringify(retJson);
-
-  if( json.length != 0 ) {
-    url = 'http://localhost:3003/user/' + id + '/resetpassword';
-    var res = new XHR('PATCH', url, json, 'application/json');
-
-    patchPwdUserStatus = true;
-    console.log("PatchXHR Klasse wurde aufgerufen mit folgenden Objekt:");
-    console.log(json);
-  }
-}
 function deleteGroup() {
   var url = '';
   var id = lastID;

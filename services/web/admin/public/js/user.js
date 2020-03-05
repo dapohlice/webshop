@@ -30,27 +30,17 @@ document.getElementById('btn-change-password').addEventListener('click',function
     document.getElementById('password-newsecound').classList.remove('is-invalid');
     document.getElementById('password-help').innerHTML = "";
 
-    let password = document.getElementById('password-newfirst').value;
-    if(password.length < 8)
+    var first = $('#password-newfirst').val();
+    var secound = $('#password-newsecound').val();
+    let res = checkPassword(first,secound);
+    if(res === true)
     {
-        passwordError("Password must be at least 8 characters long.");
-        return;
+        $('#change_password_modal').modal('show');
+    }else{
+        passwordError(res);
     }
 
-    if(!/\d/.test(password) || !/[a-z]/.test(password) || !/[A-Z]/.test(password))
-    {
-        passwordError("Password must container at least one upper-, one lowercase character and one number.");
-        return 
-    }
-    var sec = document.getElementById('password-newsecound').value;
-    if(password !== sec)
-    {
-        passwordError("Passwords do not match.");
-        return;
-    }
-
-    $('#change_password_modal').modal('show');
-
+    
 })
 
 document.getElementById('btn-change-password-open').addEventListener('click',function(e){
