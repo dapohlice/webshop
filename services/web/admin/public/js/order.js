@@ -7,13 +7,14 @@ function setNextStatus() {
   
   
     let req = SimpleRequest.PATCH(ORDER_SERVICE,'order/'+urlParamID)
-    .onSuccess(function(){
+    .onSuccess(function(data){
       setNewStatus = true;
       setOrderDetails = false;
       lastID = 0;
       lastStatus = 0;
+      response(data);
     })
-    .onUnauthorized(function(){
+    .onUnauthorized(function(data){
       showStatusError("You are not allwed to change this status.");
     })
     .onFailure(function(){
