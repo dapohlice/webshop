@@ -22,28 +22,23 @@ var patchNewUserStatus = false;
 var patchPwdUserStatus = false;
 var putGroupReq = false;
 var putUserReq = false;
-var setArticleDetails = false;
 var setGroupDetails = false;
 var setUserDetails = false;
-var setCategoryDetails = false;
-var postCategoryReq = false;
 var postGroupsReq = false;
 var postUsersReq = false;
 var getGroupsReq = false;
 var getUsersReq = false;
-var getCategoryReq = false;
 var getOrderReq = false;
 var setOrderDetails = false;
 var setNewStatus = false;
 let lastID = 0;
 let lastStatus = 0;
 let curLog = 0;
+let valid = false;
 // Übergangslösung, damit beim schliessen und oeffnen von Detailseiten alle zukünftigen Aufrufe funktionieren
 function setDetailsFalse() {
-  setArticleDetails = false;
   setGroupDetails = false;
   setUserDetails = false;
-  setCategoryDetails = false;
   patchPwdUserStatus = false;
   patchNewUserStatus = false;
   patchRemoveUserGroupStatus = false;
@@ -69,22 +64,6 @@ function helper() {
       $('#orderLogContent').children('table').eq(0).remove();
       clearParam();
       getOrderDetails(id);
-    }
-  });
-  $(".editCategoryButton").click(function() {
-    console.log("click editCategoryButton");       // Prints out test text
-    var id = $(this).closest("tr").find(".id").text();
-    console.log(id);
-    if (lastID == id) {
-      console.log("Keine Neuzuweisung, da lastID = id")
-    } else {
-      console.log("Neuzuweisung auf: lastId = id")
-      $('#jsonDetailObjekt').children('form').eq(0).remove();
-      $('#modalDetailTitel').children('span').eq(0).remove();
-      // $('#modalDetailLogTitel').children('span').eq(0).remove();
-      // $('#categoryLogContent').children('table').eq(0).remove();
-      clearParam();
-      getCategoryDetails(id);
     }
   });
   $(".editUserButton").click(function() {
@@ -117,21 +96,6 @@ function helper() {
 
       clearParam();
       getGroupDetails(id);
-    }
-  });
-  $(".editArticleButton").click(function() {
-    console.log("click detailModal");       // Prints out test text
-    var id = $(this).closest("tr").find(".id").text();
-    console.log(id);
-    if (lastID == id) {
-      console.log("Keine Neuzuweisung, da lastID = id")
-    } else {
-      console.log("Neuzuweisung auf: lastId = id")
-      $('#jsonDetailObjekt').children('form').eq(0).remove();
-      $('#modalDetailTitel').children('span').eq(0).remove();
-
-      clearParam();
-      getArticleDetails(id);
     }
   });
 }
@@ -233,9 +197,6 @@ function addParam(curID, curOrder, status){
   } else {
     history.pushState({id: curID}, "orderid", "?order=" + curOrder + "&id=" + curID + "&status=" + status);
   }
-}
-function addParamCategory(curID, curOrder, status){
-	history.pushState({id: curID}, "orderid", "?order=" + curOrder + "&id=" + curID + "&status=" + status);
 }
 //setze ADressverlauf zurück
 function clearParam(){
