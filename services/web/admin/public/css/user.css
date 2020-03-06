@@ -1,0 +1,16 @@
+#navbar-user-name-btn{
+    color: #818181;
+    background: none;
+    border: none;
+    margin-left: auto;
+}
+#navbar-user-name-btn:hover{
+    color: #f1f1f1;
+}
+#navbar-user-name-btn i{
+    margin: .3rem;
+}
+
+#navbar-user-name-btn:hover span{
+    text-decoration: underline;
+}

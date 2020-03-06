@@ -5,23 +5,27 @@ block vertical_navbar
       onclick="closeNav()"
     )
       | &times;
-    div.header.shadow
-      left.text-secondary            
-        h5.pl-2
-          i#usermng.fa.fa-caret-down(onclick="hideNavs(\"usermng\",\"userNavs\")")
-            |  User Management
-    a.nav-link.userNavs(
-      class=(name === "user" ? "active" : undefined)
-      href=`/?ap=users`
-    )
-      i.fa.fa-address-book
-        |  Users
-    a.nav-link.userNavs(
-      class=(name === "group" ? "active" : undefined)
-      href=`/?ap=groups`
-    )
-      i.fa.fa-group
-        |  Groups
+    if jwt.auth.auth_user || jwt.auth.auth_group
+      div.header.shadow
+        left.text-secondary            
+          h5.pl-2
+            i#usermng.fa.fa-caret-down(onclick="hideNavs(\"usermng\",\"userNavs\")")
+              |  User Management
+      if jwt.auth.auth_user
+        a.nav-link.userNavs(
+          class=(name === "user" ? "active" : undefined)
+          href=`/?ap=users`
+        )
+          i.fa.fa-address-book
+            |  Users
+      jwt.auth.auth_group
+        a.nav-link.userNavs(
+          class=(name === "group" ? "active" : undefined)
+          href=`/?ap=groups`
+        )
+          i.fa.fa-group
+            |  Groups
+
     div.header.shadow.mt-3
       left.text-secondary       
         h5.pl-2
@@ -39,47 +43,58 @@ block vertical_navbar
     )
       i.fa.fa-window-restore
         |  Categories
-    div.header.shadow.mt-3
-      left.text-secondary            
-        h5.pl-2
-          i#ordprog.fa.fa-caret-down(onclick="hideNavs(\"ordprog\",\"ordNavs\")")
-            |  Order Progress
-    a.nav-link.ordNavs(
-      class=(name === "ordered" ? "active" : undefined)
-      href=`/?ap=ordered`
-    )
-      i.fa.fa-laptop
-        |  Ordered
-    a.nav-link.ordNavs(
-      class=(name === "payed" ? "active" : undefined)
-      href=`/?ap=payed`
-    )
-      i.fa.fa-money
-        |  Payed
-    a.nav-link.ordNavs(
-      class=(name === "packed" ? "active" : undefined)
-      href=`/?ap=packed`
-    )
-      i.fa.fa-shopping-bag
-        |  Packed
-    a.nav-link.ordNavs(
-      class=(name === "finished" ? "active" : undefined)
-      href=`/?ap=finished`
-    )
-      i.fa.fa-calendar-check-o
-        |  Finished
-    a.nav-link.ordNavs(
-      class=(name === "returned" ? "active" : undefined)
-      href=`/?ap=returned`
-    )
-      i.fa.fa-mail-reply
-        |  Returned
-    a.nav-link.ordNavs(
-      class=(name === "all" ? "active" : undefined)
-      href=`/?ap=all`
-    )
-      i.fa.fa-newspaper-o
-        |  All
+
+
+    if jwt.auth.auth_normalOrders == true || jwt.auth.auth_allOrders == true
+      div.header.shadow.mt-3
+        left.text-secondary            
+          h5.pl-2
+            i#ordprog.fa.fa-caret-down(onclick="hideNavs(\"ordprog\",\"ordNavs\")")
+              |  Order Progress
+      if jwt.auth.auth_normalOrders == true || jwt.auth.auth_allOrders == true
+        a.nav-link.ordNavs(
+          class=(name === "ordered" ? "active" : undefined)
+          href=`/?ap=ordered`
+        )
+          i.fa.fa-laptop
+            |  Ordered
+      if jwt.auth.auth_normalOrders == true || jwt.auth.auth_allOrders == true
+        a.nav-link.ordNavs(
+          class=(name === "payed" ? "active" : undefined)
+          href=`/?ap=payed`
+        )
+          i.fa.fa-money
+            |  Payed
+      if jwt.auth.auth_normalOrders == true || jwt.auth.auth_allOrders == true
+        a.nav-link.ordNavs(
+          class=(name === "packed" ? "active" : undefined)
+          href=`/?ap=packed`
+        )
+          i.fa.fa-shopping-bag
+            |  Packed
+      if jwt.auth.auth_allOrders == true
+        a.nav-link.ordNavs(
+          class=(name === "finished" ? "active" : undefined)
+          href=`/?ap=finished`
+        )
+          i.fa.fa-calendar-check-o
+            |  Finished
+      if jwt.auth.auth_normalOrders == true || jwt.auth.auth_allOrders == true
+        a.nav-link.ordNavs(
+          class=(name === "returned" ? "active" : undefined)
+          href=`/?ap=returned`
+        )
+          i.fa.fa-mail-reply
+            |  Returned
+      if jwt.auth.auth_normalOrders == true || jwt.auth.auth_allOrders == true
+        a.nav-link.ordNavs(
+          class=(name === "all" ? "active" : undefined)
+          href=`/?ap=all`
+        )
+          i.fa.fa-newspaper-o
+            |  All
+
+        
     div.header.shadow.mt-3
       left.text-secondary            
         h5.pl-2

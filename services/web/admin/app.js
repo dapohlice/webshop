@@ -1,4 +1,5 @@
 const express = require('express');
+const JWT = require('./jwt/verify.js');
 
 const app = express();
 
@@ -39,19 +40,62 @@ function logError(err,req,res,next)
 }
 app.use(logError);
 
+function getCookie(req,name)
+{
+  let result = null;
+  let rc = req.headers.cookie;
+
+  rc && rc.split(';').forEach(function( cookie ) {
+    var parts = cookie.split('=');
+    if(parts.shift() === name)
+    {
+      result = parts.join('=');
+    }
+  });
+  return result;
+}
+
+// View Engine von template-engine: pug einbinden
+app.set('view engine', 'pug');
+app.set('views', __dirname + '/views');
+
+function checkPermission(req,res,next)
+{
+  let token = getCookie(req,'jwt');
+  if(token === null)
+  {
+    if(req.header('Accept').startsWith('text/html'))
+      res.render('401');
+    else 
+      res.sendStatus(401)
+    return;
+  }
+  let jwt,result;
+  [result,jwt] = JWT.processJwt(token);
+  if(result !== 200)
+  {
+    if(req.header('Accept').startsWith('text/html'))
+      res.render('401');
+    else 
+      res.sendStatus(result)
+    return;
+  }
+  req.jwt = jwt;
+  next();
+}
+app.use(checkPermission);
 
 
 /**
  * Hauptapp
  */
 
-// View Engine von template-engine: pug einbinden
-app.set('view engine', 'pug');
-app.set('views', __dirname + '/views');
+
  // statische Dateien werden von `public` ordner
 app.use(express.static(__dirname + '/public'));
 
 app.get('/', (req, res) => {
+
   for (const key in req.query) {
     console.log(key, req.query.ap[key]);
   }
@@ -60,66 +104,77 @@ app.get('/', (req, res) => {
       res.render('user', {
         name : 'user',
         title: 'Users - Administration Dashboard',
+        jwt: req.jwt,
       });
       break;
     case 'groups':
       res.render('group', {
         name : 'group',
         title: 'Groups - Administration Dashboard',
+        jwt: req.jwt,
       });
       break;
     case 'articles':
       res.render('article', {
         name : 'article',
         title: 'Articles - Administration Dashboard',
+        jwt: req.jwt,
       });
       break;
     case 'categories':
       res.render('category', {
         name : 'category',
         title: 'Categories - Administration Dashboard',
+        jwt: req.jwt,
       });
       break;
     case 'ordered':
       res.render('order', {
         name : 'ordered',
         title: 'Ordered Order - Administration Dashboard',
+        jwt: req.jwt,
       });
       break;
     case 'payed':
       res.render('order', {
         name : 'payed',
         title: 'Payed Order - Administration Dashboard',
+        jwt: req.jwt,
       });
       break;
     case 'packed':
       res.render('order', {
         name : 'packed',
         title: 'Packed Order - Administration Dashboard',
+        jwt: req.jwt,
       });
       break;
     case 'finished':
       res.render('order', {
         name : 'finished',
         title: 'Finished Order - Administration Dashboard',
+        jwt: req.jwt,
       });
       break;
     case 'returned':
       res.render('order', {
         name : 'returned',
         title: 'Returned Order - Administration Dashboard',
+        jwt: req.jwt,
       });
       break;
     case 'all':
       res.render('order', {
         name : 'all',
         title: 'All Order - Administration Dashboard',
+        jwt: req.jwt,
       });
       break;
     default:
       res.render('index', {
         name : 'index',
         title: 'Welcome Employee - Administration Dashboard',
+        jwt: req.jwt,
       });
   }
 });

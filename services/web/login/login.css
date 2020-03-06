@@ -1,0 +1,13 @@
+.form-signin
+{
+    width: 40vw;
+    margin:auto;
+    margin-top: 10vh;
+    margin-bottom: 10vh;
+}
+.form-control{
+    margin-bottom: 1rem;
+}
+#form-signin-error{
+    margin-bottom: 1rem;
+}

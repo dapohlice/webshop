@@ -2,6 +2,7 @@ import "reflect-metadata";
 import {createConnection} from "typeorm";
 import * as express from 'express';
 import OrderRouter from "./router/OrderRouter";
+import PublicOrderRouter from "./router/PublicOrderRouter";
 import StatusRouter from "./router/StatusRouter";
 
 
@@ -25,6 +26,7 @@ function setHeader(req: express.Request, res: express.Response,next)
 {
     res.set('Access-Control-Allow-Origin','*')
     res.set('Access-Control-Allow-Methods','GET, POST, PATCH, POST, PUT, OPTIONS, DELETE')
+    res.set('Access-Control-Allow-Headers','*')
     next();
 }
 
@@ -35,12 +37,18 @@ createConnection().then(async connection => {
     app.use(logError);
     app.use(setHeader);
 
+    app.options('/*',function(req,res){
+        res.sendStatus(200);
+    });
+
     // convert body to json
     app.use(express.json());
 
     app.use('/order', new OrderRouter().getRouter())
 
     app.use('/status',new StatusRouter().getRouter())
+
+    app.use('/customer', new PublicOrderRouter().getRouter())
 
     // start app
     app.listen(port, () => console.log(`Order Service (${stage}) Listen On ${port}`))

@@ -18,15 +18,14 @@ block order_change_status
         div.modal-body
           div.container
             div.row
-              div.col.col-lg-6
+              div.col.col-lg-4
                 h5 Next status:
 
                 div#nextStatusButton
                 
-              div.col.col-lg-6
+              div.col.col-lg-8
                 h5 Information:
-                span 
-                  b Do you really want to set the status to the next status?                
+                textarea.form-control#nextStatusMessage(rows="3")
                 
         //- Modal Footer
         div.modal-footer
@@ -38,14 +37,13 @@ block order_change_status
             title="Abort to change status" 
           )
             i.fa.fa-close
-              | No 
+              | Cancel 
           button#acceptStatusButton.btn.btn-success(
             type="button"
-            data-dismiss="modal"
             data-tooltip="tooltip" 
             data-placement="bottom"
             onclick="setNextStatus()" 
             title="Change order status now" 
           )
             i.fa.fa-check
-              | Yes
+              | Okay

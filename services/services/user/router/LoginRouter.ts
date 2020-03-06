@@ -8,6 +8,11 @@ import * as Login from "../mapper/LoginMapper";
  */
 export default class LoginRouter extends BaseRouter{
 
+    constructor()
+    {
+        super(false);
+    }
+
     initialiseRouter(){
         this.router.post('/login',this.login);
     }

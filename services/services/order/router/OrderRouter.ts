@@ -2,24 +2,35 @@ import {Request,Response} from "express";
 
 import * as OrderMapper from "../mapper/OrderMapper";
 import {BaseRouter} from "./BaseRouter";
-import resolve from '../resolver';
 
+function hasFullPermission(jwt):boolean
+{
+    if(
+        jwt === undefined || 
+        jwt.auth === undefined || 
+        jwt.auth.auth_allOrders === undefined
+    )
+        return false;
+    return jwt.auth.auth_allOrders;
+}
 
 /**
  * express Router für Bestellungen
  */
 export default class OrderRouter extends BaseRouter{
 
+    constructor(){
+        super(true);
+    }
+
     initialiseRouter(){
-        //this.router.use(this.checkPermission)
+        this.router.use(this.checkPermission)
         this.router.get('/',this.get);
         this.router.get('/status/finished',this.getByFinishStatus);
         this.router.get('/status/returned',this.getByReturnStatus);
         this.router.get('/status/:status',this.getByStatus);
         this.router.get('/:id',this.getOneFull);
-        this.router.post('/submit',this.submitOrder);
         this.router.patch('/:id',this.setStatus);
-        this.router.post('/',this.createOrder);
         
     }
 
@@ -33,11 +44,14 @@ export default class OrderRouter extends BaseRouter{
     {
         if(
             req.jwt !== undefined &&
-            req.jwt.auth.auth_auth_normalOrders === true
+            req.jwt.auth.auth_normalOrders === true
         )
             next();
         else
+        {
             res.sendStatus(403);
+        }
+        
     }
 
     /**
@@ -47,17 +61,18 @@ export default class OrderRouter extends BaseRouter{
      */
     async get(req: Request, res: Response)
     {
-        let orders,err;
-        [orders,err] = await resolve(OrderMapper.getAllOrders());
-        if(err !== null || orders === undefined)
+        let status,orders;
+        [status,orders] = await OrderMapper.getAllOrders(hasFullPermission(req.jwt));
+        if(status !== 200)
         {
-            res.sendStatus(500);
-            return;            
+            res.sendStatus(status);
+        }else{
+            res.json(
+                orders
+            );
         }
 
-        res.json(
-            orders
-        );
+        
     }
 
     /**
@@ -74,22 +89,19 @@ export default class OrderRouter extends BaseRouter{
             return;   
         }
 
-        let result,err;
-        [result,err] = await resolve(OrderMapper.getAllOrdersByStatus(statusId));
-        if(err !== null)
+
+        let status,result;
+        [status,result] = await OrderMapper.getAllOrdersByStatus(statusId,hasFullPermission(req.jwt));
+        if(status !== 200)
         {
-            res.sendStatus(500);
-            return;            
-        }
-        if(result === undefined)
-        {
-            res.sendStatus(404);
-            return;
+            res.sendStatus(status)
+        }else{
+            res.json(
+                result
+            );
         }
 
-        res.json(
-            result
-        );
+        
     }
 
     /**
@@ -99,13 +111,8 @@ export default class OrderRouter extends BaseRouter{
      */
     async getByReturnStatus(req: Request, res: Response)
     {
-        let result,err;
-        [result,err] = await resolve(OrderMapper.getAllOrdersByMultiplyStatus([6,7,8]));
-        if(err !== null)
-        {
-            res.sendStatus(500);
-            return;            
-        }
+        let result;
+        result = await OrderMapper.getAllOrdersByMultiplyStatus([6,7,8]);
         if(result === undefined)
         {
             res.sendStatus(404);
@@ -124,13 +131,9 @@ export default class OrderRouter extends BaseRouter{
      */
     async getByFinishStatus(req: Request, res: Response)
     {
-        let result,err;
-        [result,err] = await resolve(OrderMapper.getAllOrdersByMultiplyStatus([4,5,9]));
-        if(err !== null)
-        {
-            res.sendStatus(500);
-            return;            
-        }
+        let result;
+        result = await OrderMapper.getAllOrdersByMultiplyStatus([4,5,9]);
+
         if(result === undefined)
         {
             res.sendStatus(404);
@@ -156,23 +159,18 @@ export default class OrderRouter extends BaseRouter{
             return;   
         }
 
-        let result,err;
-        [result,err] = await resolve(OrderMapper.getFullOrder(id));
-        if(err !== null)
+        let status,result;
+        [status,result] = await OrderMapper.getFullOrder(id, hasFullPermission(req.jwt));
+        if(status !== 200)
         {
-            res.sendStatus(500);
-            return;            
+            res.sendStatus(status)
+        }else{
+            res.json(
+                result
+            );
         }
 
-        if(result === undefined)
-        {
-            res.sendStatus(404);
-            return;
-        }
-
-        res.json(
-            result
-        );
+        
     }
 
     /**
@@ -191,87 +189,16 @@ export default class OrderRouter extends BaseRouter{
             res.sendStatus(400);
             return;   
         }
-        let result,err;
+        let result;
 
         if(!status)
         {
-            [result,err] = await resolve(OrderMapper.setNextStatus(id,info));
+            result = await OrderMapper.setNextStatus(id,info,hasFullPermission(req.jwt));
         }else{
-            [result,err] = await resolve(OrderMapper.setStatus(id,info,status));
-        }
-        if(err !== null)
-        {
-            res.sendStatus(500);
-            return;
+            result = await OrderMapper.setStatus(id,info,status,hasFullPermission(req.jwt));
         }
 
-        if(result == false)
-        {
-            res.sendStatus(400);
-            return;
-        }
-
-        res.sendStatus(200);
-
-    }
-
-    /**
-     * Erstellt eine neue Bestellung
-     * @param req 
-     * @param res 
-     */
-    async createOrder(req: Request, res: Response)
-    {
-        if(
-            !req.body.mail ||
-            !req.body.address ||
-            (!req.body.articles && !Array.isArray(req.body.articles))
-        )
-        {
-            res.sendStatus(400);
-            return;
-        }
-
-        let result,err;
-        [result,err] = await resolve(OrderMapper.addOrder(req.body.mail,req.body.address,req.body.articles));
-        if(err !== null)
-        {
-            res.sendStatus(500);
-            return;            
-        }
-        if(result === undefined)
-        {
-            res.sendStatus(400);
-            return;
-        }
-
-        res.send(result);
-    }
-
-    /**
-     * Bestätigt eine Bestellung
-     * @param req 
-     * @param res 
-     */
-    async submitOrder(req: Request, res: Response)
-    {
-        let user_key = req.body.user_key;
-        let result,err;
-        
-        [result,err] = await resolve(OrderMapper.submitOrder(user_key));
-
-        if(err !== null)
-        {
-            res.sendStatus(500);
-            return;            
-        }
-
-        if(result)
-        {
-            res.sendStatus(200);
-        }else{
-            res.sendStatus(400);
-        }
+        res.sendStatus(result);
     }
 
 }
