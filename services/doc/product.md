@@ -108,16 +108,18 @@
 #### Eingabe
 ```json
 {
-  "productid": 100,
-  "name": "Testartikel",
-  "description": "Artikel zum Testen",
-  "price": "12.4",
-  "state": true,
-  "propertys": [{
-                "subid": 1,
-                "property": "blau, xxl",
-                "amount": 12 }],
-  "category": "Testkategorie"
+	  "productid": 100,
+	  "name": "Testartikel",
+	  "description": "Artikel zum Testen",
+	  "picturepath":"asd",
+	  "price": "12.4",
+	  "state": true,
+	  "propertys": [{
+	                "subid": 1,
+	                "property": "blau, xxl",
+	                "amount": 12 }],
+	  "categoryid": "5e5e7148185eac00229dd421",
+	  "category":"asd"
 }
 ```
 #### Rückgabe

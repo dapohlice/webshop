@@ -11,11 +11,11 @@ import resolve from '../resolver';
 export default class UserRouter extends BaseRouter{
 
     constructor(){
-        super(false);
+        super(true);
     }
 
     initialiseRouter(){
-       // this.router.use(this.checkPermission);
+        this.router.use(this.checkPermission);
         this.router.get('/',this.get);
         this.router.post('/',this.createUser);
         this.router.get('/:id',this.getOne);

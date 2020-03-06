@@ -190,26 +190,7 @@ function patchUserStatus() {
     console.log(json);
   }
 }
-function patchPwdUser() {
-  var url = '';
-  var id = lastID;
-  // Get some values from elements on the page:
 
-  // Create an empty object to return.
-  var retJson = {};
-
-  // Create an string json to return
-  var json = JSON.stringify(retJson);
-
-  if( json.length != 0 ) {
-    url = 'http://localhost:3003/user/' + id + '/resetpassword';
-    var res = new XHR('PATCH', url, json, 'application/json');
-
-    patchPwdUserStatus = true;
-    console.log("PatchXHR Klasse wurde aufgerufen mit folgenden Objekt:");
-    console.log(json);
-  }
-}
 function deleteGroup() {
   var url = '';
   var id = lastID;
@@ -283,40 +264,7 @@ function putGroup() {
     console.log(json);
   }
 }
-function setNextStatus() {
-  var url = '';
-  var urlParamID = 0;
-  var status = 0;
-  urlParamID = lastID;
-  status = lastStatus;
 
-  if((urlParamID != null) && (status < 4) && (status != 0)) {
-    setNewStatus = true;
-    setOrderDetails = false;
-    console.log("SetNextStatus() setzt die folgende ID: ");
-    console.log(urlParamID);
-    console.log("auf den nächsten Status: ");
-    console.log(status);
-
-    url = 'http://localhost:3001/order/' + urlParamID;
-    var res = new XHR('PATCH', url);
-    //setze lastID = 0 & lastStatus (Standartwert), sonst werden die OrderDetails nicht neu geladen!
-    lastID = 0;
-    lastStatus = 0;
-    return true;
-  } else {
-    console.log("Statusänderung nicht erlaubt!")
-
-    //show info status
-    showStatusError("Warning: Changes for status with id = " + urlParamID + " not allowed!");
-    //end of show info status
-    return false;
-  }
-
-
-  console.log("PatchXHR Klasse wurde aufgerufen mit folgenden Objekt:");
-  console.log(res);
-}
 function getOrderDetails(id) {
   setDetailsFalse();
   var url = '';

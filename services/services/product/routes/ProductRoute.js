@@ -27,7 +27,7 @@ ProductRoute.put("/:id", async function (req,res) {
   }
   catch (err)
   {
-    res.status(404);
+    res.sendStatus(404);
   }
 });
 

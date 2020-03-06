@@ -40,6 +40,10 @@ createConnection().then(async connection => {
 
     app.use(setHeader);
 
+    app.options('/*',function(req,res){
+        res.sendStatus(200);
+    });
+
     // convert body to json
     app.use(express.json());
 

@@ -12,10 +12,11 @@ export default class GroupRouter extends BaseRouter{
 
     constructor()
     {
-        super(false);
+        super(true);
     }
 
     initialiseRouter(){
+        this.router.use(this.checkPermission);
         this.router.get('/',this.get);
         this.router.post('/',this.create);
         this.router.get('/:id',this.getOne);
@@ -23,8 +24,7 @@ export default class GroupRouter extends BaseRouter{
         this.router.put('/:id',this.change);
         this.router.patch('/:id/add',this.addUser);
         this.router.patch('/:id/remove',this.removeUser);
-        //this.router.use(this.checkPermission)
-    }
+    }    
 
     /**
      * Überprüft die Berechtigung auf dem JWT-Token

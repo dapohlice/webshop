@@ -1,0 +1,10 @@
+version: '3'
+services:
+  login:
+    image: nginx
+    volumes:
+      - ./services/web/login:/usr/share/nginx/html
+    expose:
+      - "80"
+    ports:
+      - "3012:80"

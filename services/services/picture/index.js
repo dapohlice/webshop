@@ -2,13 +2,30 @@ const express = require('express');
 const path = require('path');
 const multer = require('multer')
 const fs = require('fs')
+const JWT = require('./jwt/verify.js')
 
 const app = express();
 
 const port = process.env.PORT;
 const stage = process.env.NODE_ENV;
 
-/*
+function checkPermission(req)
+{
+    let auth = req.get('Authorization');
+    let status, jwt;
+    [status,jwt] = JWT.processJwt(auth);
+    if(status !== 200)
+    {
+        return status;
+    }
+    if(jwt.auth_product === false)
+    {
+        return 403;
+    }
+    return 200;
+}
+
+/* 
  * loging functions
  */
 // jeden Request
@@ -105,7 +122,15 @@ const upload = multer(
 
 // Dateien erstellen
 app.post('/',
-    function(req,res){
+    function(req,res){    
+
+        let result = checkPermission(req);
+        if(result !== 200)
+        {
+            res.sendStatus(result);
+            return;
+        }
+
         upload(req,res, function(err)
         {
             if(err instanceof multer.MulterError)
@@ -127,6 +152,12 @@ app.post('/',
 
 // Dateien löschen
 app.delete('/:name',function(req,res){
+    let result = checkPermission(req);
+    if(result !== 200)
+    {
+        res.sendStatus(result);
+        return;
+    }
     try{
         let file = path.join(dir,req.params.name);
         if(!fs.existsSync(file))

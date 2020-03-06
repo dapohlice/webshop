@@ -1,5 +1,84 @@
 # Order-Service
 
+# Customer
+
+## POST /customer/createOrder
+- Erstellt eine neue Bestellung
+
+### Eingabe:
+```json
+{
+	"mail":"email@mail.de",
+	"address":{
+		"firstname": "Hans",
+        "lastname": "Meier",
+        "street": "Robert-Blum-Straße",
+        "streetnumber": "45a",
+        "plz": "01556",
+        "town": "Stadt",
+        "state": null,
+        "country": "Deutschland"
+	},
+	"articles": [
+			{
+				"articleId": 1,
+				"subarticleId": 1,
+				"amount": 2
+			}
+		]
+}
+```
+
+### Rückgabe:
+```json
+{
+    "mail": "email@mail.de",
+    "address": {
+        "firstname": "Hans",
+        "lastname": "Meier",
+        "street": "Robert-Blum-Straße",
+        "streetnumber": "45a",
+        "plz": "01556",
+        "town": "Stadt",
+        "state": null,
+        "country": "Deutschland",
+        "id": 23
+    },
+    "articles": [
+        {
+            "amount": 2,
+            "property": "M",
+            "name": "T-Shirt",
+            "price": 1200,
+            "total": 2400
+        }
+    ],
+    "user_key": "ijxh7rlaktsblxth7w8nzh"
+}
+```
+- **user_key**: ein zufällig generierter Key um die Bestellung einem Benutzer zuzuordnen
+
+Status:
+  - 400: Bestelldaten sind nicht vollständig
+
+
+## POST /customer/submitOrder
+- Bestätigt eine Bestellung und setzt deneren Status auf 1 bzw. Ordered
+### Eingabe
+```json
+{
+	"user_key": "ijxh7rlaktsblxth7w8nzh"
+}
+```
+- **user_key**: kommt aus der Bestellungen (POST /order)
+### Rückgabe
+Status:
+  - 200: wurde ausgeführt
+  - 400: user_key wurde nicht gefunden oder ist abgelaufen
+
+
+# Order
+
 ## GET /status
 gibt alle Statuse zurück
 ### Rückgabe
@@ -128,78 +207,4 @@ Gibt alle Bestellungen eines Status zurück
         },
     ]
 ```
-
-## POST /order
-- Erstellt eine neue Bestellung
-
-### Eingabe:
-```json
-{
-	"mail":"email@mail.de",
-	"address":{
-		"firstname": "Hans",
-        "lastname": "Meier",
-        "street": "Robert-Blum-Straße",
-        "streetnumber": "45a",
-        "plz": "01556",
-        "town": "Stadt",
-        "state": null,
-        "country": "Deutschland"
-	},
-	"articles": [
-			{
-				"articleId": 1,
-				"subarticleId": 1,
-				"amount": 2
-			}
-		]
-}
-```
-
-### Rückgabe:
-```json
-{
-    "mail": "email@mail.de",
-    "address": {
-        "firstname": "Hans",
-        "lastname": "Meier",
-        "street": "Robert-Blum-Straße",
-        "streetnumber": "45a",
-        "plz": "01556",
-        "town": "Stadt",
-        "state": null,
-        "country": "Deutschland",
-        "id": 23
-    },
-    "articles": [
-        {
-            "amount": 2,
-            "property": "M",
-            "name": "T-Shirt",
-            "price": 1200,
-            "total": 2400
-        }
-    ],
-    "user_key": "ijxh7rlaktsblxth7w8nzh"
-}
-```
-- **user_key**: ein zufällig generierter Key um die Bestellung einem Benutzer zuzuordnen
-
-Status:
-  - 400: Bestelldaten sind nicht vollständig
-
-
-## POST /order/submit
-- Bestätigt eine Bestellung und setzt deneren Status auf 1 bzw. Ordered
-### Eingabe
-```json
-{
-	"user_key": "ijxh7rlaktsblxth7w8nzh"
-}
-```
-- **user_key**: kommt aus der Bestellungen (POST /order)
-### Rückgabe
-Status:
-  - 200: wurde ausgeführt
-  - 400: user_key wurde nicht gefunden oder ist abgelaufen
 
