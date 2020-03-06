@@ -11,6 +11,7 @@
           event.preventDefault();
           event.stopPropagation();
           console.log("invalid form");
+
         } else if (currentAdminPage == 'categories') {
           // Paramter aus Adresse entfernen:
           event.preventDefault();
