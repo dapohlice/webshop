@@ -5,6 +5,15 @@ const Models = require('./Models.js');
 const connection = new DBConnection();
 
 const DBOps = {};
+  DBOps.Helper = {
+    removeEmptyFieldsinJSON: function (dataobj) {
+    for (let field in dataobj) {
+        if (dataobj[field] === null || dataobj[field] === "" ) {
+          delete dataobj[field];
+        }
+      }
+    }
+  }
   DBOps.Category = {
     /*Erstellt neuen Kategoriedatensatz*/
     createCategory: async function(dataset){
@@ -35,6 +44,7 @@ const DBOps = {};
   /*Kategoriedatensatz bearbeiten*/
   updateCategory: async function(id, dataset) {
     try {
+      Helper.removeEmptyFieldsinJSON(dataset);
       let dest =  await Models.CategoryModel.findOne({_id: id}).exec();
       return dest.updateOne(dataset);
     } catch (err) {
@@ -45,7 +55,6 @@ const DBOps = {};
   deleteCategory: async function(id) {
     try {
       let dest = await Models.CategoryModel.findOne({_id: id}).exec();
-      console.log(dest);
       dest.deleteOne();
     } catch (err) {
       throw err;
