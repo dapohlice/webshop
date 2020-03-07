@@ -259,3 +259,7 @@ i.fa {font-family: "FontAwesome", "Roboto", sans-serif}
   z-index: 9999; /* Add a z-index if needed */
   text-align: center; /* Centered text */
 }
+/* table images */
+.image img{
+  max-height: 5rem;
+}

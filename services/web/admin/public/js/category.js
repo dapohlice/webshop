@@ -93,7 +93,7 @@ $(function (){
       // showStatusError("Form not valid");
       event.preventDefault();
       event.stopPropagation();
-      console.log("invalid form in categoryJS");
+      console.log("invalid form in category");
       return 10;
     }
 
@@ -177,7 +177,7 @@ $(function (){
       // showStatusError("Form not valid");
       event.preventDefault();
       event.stopPropagation();
-      console.log("invalid form in categoryJS");
+      console.log("invalid form in category");
       return 10;
     }
   });
@@ -326,7 +326,7 @@ $(function (){
     SimpleRequest.DELETE(PICTURE_SERVICE,btnid)
     .onSuccess(function () {
       //set any default category image here:
-      $picturesrc.attr('src', 'img/category/shirt.png');
+      $picturesrc.attr('src', '');
       $deleteImageAdd.attr('data-id', '');
       $deleteImageAdd.attr("disabled", "disabled");
       $('#addImageBtn').removeAttr("disabled", "disabled");

@@ -34,7 +34,18 @@ $(function (){
       lastID = id;
       $articleDetailForm.children().remove();
       $articleDetailForm.append(Mustache.render(articleTemplate, article));
+      var $deleteImageEdit = $('#deleteImageEdit');
+      var $editImageBtn = $('#editImageBtn');
 
+      if (btnimg != '') {
+        // attr is not blank
+        $deleteImageEdit.removeAttr('disabled', 'disabled');
+        $editImageBtn.attr('disabled', 'disabled');
+      } else {
+        //attr is blank
+        $deleteImageEdit.attr('disabled', 'disabled');
+        $editImageBtn.removeAttr('disabled', 'disabled');
+      }
       var input = $('#editcategory').attr('data-id');
       console.log("categoryID: ");
       console.log(categoryID);
@@ -107,32 +118,48 @@ SimpleRequest.GET(PRODUCT_SERVICE,"category")
   }).send();
 
   $('#add-article').on('click', function() {
+    var $deleteImageAdd = $('#deleteImageAdd');
 
-    var article = {
-      productid: $productid.val(),
-      name: $name.val(),
-      description: $description.val(),
-      price: $price.val(),
-      state: $state.is(':checked'),
-      propertys: [{
-                  subid: $subid.val(),
-                  property: $property.val(),
-                  amount: $amount.val() }],
-      category: $category.val()
-    };
-    console.log(article.category);
+    if (validateForm()) {
+      var article = {
+        productid: $productid.val(),
+        name: $name.val(),
+        description: $description.val(),
+        picturepath: $deleteImageAdd.attr('data-id'),
+        price: $price.val(),
+        state: $state.is(':checked'),
+        categoryid: $category.find("option:selected").attr('data-id'),
+        category: $category.val()
+      };
+      console.log(article.category);
+      console.log($category.find("option:selected").attr('data-id'));
 
-    SimpleRequest.POST(PRODUCT_SERVICE,"article")
-    .addJson(article)
-    .onSuccess(function (newArticle) {
-      addArticle(newArticle);
-    })
-    .onFailure(function (statuscode, statusText,responseText) {
-      showStatusError(responseText + ": " + statuscode + " - " + statusText + " while saving article");
-    })
-    .onError(function(error){
-      showStatusError("Network Error");
-    }).send();
+      SimpleRequest.POST(PRODUCT_SERVICE,"article")
+      .addJson(article)
+      .onSuccess(function (newArticle) {
+        addArticle(newArticle);
+        if ($deleteImageAdd.attr('data-id')) {
+          // attr is not blank
+          $deleteImageAdd.removeAttr('disabled', 'disabled');
+        } else {
+          //attr is blank
+          $deleteImageAdd.attr('disabled', 'disabled');
+        }
+      })
+      .onFailure(function (statuscode, statusText,responseText) {
+        showStatusError(responseText + ": " + statuscode + " - " + statusText + " while saving article");
+      })
+      .onError(function(error){
+        showStatusError("Network Error");
+      }).send();
+    } else {
+      // showStatusError("Form not valid");
+      event.preventDefault();
+      event.stopPropagation();
+      console.log("invalid form in article");
+      return 10;
+    }
+
   });
 
   $(document).on("click", ".editArticle", function() {
@@ -247,7 +274,195 @@ SimpleRequest.GET(PRODUCT_SERVICE,"category")
     })
     .addJson(status)
     .send();
+  });
 
+  $(document).on("click", "#remove-article", function() {
+    // delete tr
+    var $articles = $('#articles');
+    var $tr = $articles.closest('tr');
+    var id = $tr.attr('data-id');
+
+    var $askRemoveArticleBtn = $('#askRemoveArticleBtn');
+    var $btn = $askRemoveArticleBtn
+    var btnid = $btn.attr('data-id');
+    console.log(btnid);
+    console.log(id);
+
+    SimpleRequest.DELETE(PRODUCT_SERVICE,"article/"+btnid)
+    .onSuccess(function (newCategory) {
+      console.log("success");
+      $.each($('.editArticle'), function () {
+        $tr = $(this).closest('tr');
+        id = $tr.attr('data-id');
+        if (id == btnid) {
+          $tr.remove();
+        }
+      });
+      $('#deleteModal').modal('hide');
+      $('#detailModal').modal('hide');
+    })
+    .onFailure( function (errorstatus,errorText, statusText) {
+      console.log("fail");
+      showStatusError(statusText + ": " + errorstatus + " - " + errorText + " while deleting article");
+    })
+    .onError(function(error){
+      showStatusError("Network Error");
+    })
+    .send();
+
+    // get btn id
+    var $deleteImageEdit = $('#deleteImageEdit');
+    var imgbtnid = $deleteImageEdit.attr('data-id');
+
+    SimpleRequest.DELETE(PICTURE_SERVICE,imgbtnid)
+    .onSuccess(function (newCategory) {
+      console.log("successfully deleted picture");
+    })
+    .onFailure( function (errorstatus,errorText, statusText) {
+      console.log("fail");
+      showStatusError(statusText + ": " + errorstatus + " - " + errorText + " while deleteing category picture");
+    })
+    .onError(function(error){
+      showStatusError("Network Error");
+    })
+    .send();
+  });
+
+  $(document).on("click", "#add-image", function(event) {
+    event.preventDefault();
+    // get filedata
+    var $categoryname = $('#categoryname');
+    var $picturesrc = $('#picturesrc');
+    //get buttons
+    var $deleteImageAdd = $('#deleteImageAdd');
+    var src = document.getElementById('articlepicture').files[0];
+    var data = new FormData();
+    data.append("photo", src);
+
+    SimpleRequest.POST(PICTURE_SERVICE)
+    .onSuccess(function (image) {
+          $('#imgModal').modal('hide');
+          $deleteImageAdd.attr('data-id', image);
+          $picturesrc.attr('src', PICTURE_SERVICE+"/"+ image);
+          if ($deleteImageAdd.attr('data-id')) {
+            // attr is not blank
+            $deleteImageAdd.removeAttr('disabled', 'disabled');
+            $('#addImageBtn').attr("disabled", "disabled");
+          } else {
+            //attr is blank
+            $deleteImageAdd.attr('disabled', 'disabled');
+            $('#addImageBtn').removeAttr("disabled", "disabled");
+          }
+          $('#addImageBtn').attr("disabled", "disabled");
+          showStatusInfo("Image added");
+    })
+    .onFailure( function (errorstatus,errorText, statusText) {
+      console.log("fail");
+      showStatusError(statusText + ": " + errorstatus + " - " + errorText + " while uploading image");
+    })
+    .onError(function(error){
+      showStatusError("Network Error");
+    })
+    .addRaw(data)
+    .send();
+
+  });
+
+  $(document).on("click", "#edit-image", function(event) {
+    event.preventDefault();
+    // get filedata
+    var $editcategoryname = $('#editcategoryname');
+    var $editpicturesrc = $('#editpicturesrc');
+    var $deleteImageEdit = $('#deleteImageEdit');
+
+    var src = document.getElementById('editarticlepicture').files[0];
+    var data = new FormData();
+    data.append("photo", src);
+
+
+    SimpleRequest.POST(PICTURE_SERVICE)
+    .onSuccess(function (image) {
+        $('#imgEditModal').modal('hide');
+        $deleteImageEdit.attr('data-id', image)
+        $editpicturesrc.attr('src', PICTURE_SERVICE +'/' + image);
+        if ($deleteImageEdit.attr('data-id')) {
+          // attr is not blank
+          $deleteImageEdit.removeAttr('disabled', 'disabled');
+          $('#editImageBtn').attr("disabled", "disabled");
+        } else {
+          //attr is blank
+          $deleteImageEdit.attr('disabled', 'disabled');
+          $('#editImageBtn').removeAttr("disabled", "disabled");
+        }
+        showStatusInfo("Image changed")
+    })
+    .onFailure( function (errorstatus,errorText, statusText) {
+      console.log("fail");
+      showStatusError(statusText + ": " + errorstatus + " - " + errorText + " while uploading image");
+    })
+    .onError(function(error){
+      showStatusError("Network Error");
+    })
+    .addRaw(data)
+    .send();
+
+
+  });
+
+  $(document).on("click", "#deleteImageAdd", function(event) {
+    event.preventDefault();
+
+    var $categoryname = $('#categoryname');
+    var $picturesrc = $('#picturesrc');
+    // get btn id
+    var $deleteImageAdd = $('#deleteImageAdd');
+    var btnid = $deleteImageAdd.attr('data-id');
+
+    SimpleRequest.DELETE(PICTURE_SERVICE,btnid)
+    .onSuccess(function () {
+      //set any default category image here:
+      $picturesrc.attr('src', '');
+      $deleteImageAdd.attr('data-id', '');
+      $deleteImageAdd.attr("disabled", "disabled");
+      $('#addImageBtn').removeAttr("disabled", "disabled");
+      showStatusInfo("Image removed")
+    })
+    .onFailure( function (errorstatus,errorText, statusText) {
+      console.log("fail");
+      showStatusError(statusText + ": " + errorstatus + " - " + errorText + " while deleting image");
+    })
+    .onError(function(error){
+      showStatusError("Network Error");
+    })
+    .send();
+  });
+
+  $(document).on("click", "#deleteImageEdit", function(event) {
+    event.preventDefault();
+    // get filedata
+    var $editcategoryname = $('#editcategoryname');
+    var $editpicturesrc = $('#editpicturesrc');
+    // get btn id
+    var $deleteImageEdit = $('#deleteImageEdit');
+    var btnid = $deleteImageEdit.attr('data-id');
+
+    SimpleRequest.DELETE(PICTURE_SERVICE,btnid)
+    .onSuccess(function () {
+      //set any default category image here:
+      $editpicturesrc.attr('src', '');
+      $deleteImageEdit.attr("data-id", "");
+      $deleteImageEdit.attr("disabled", "disabled");
+      $('#editImageBtn').removeAttr("disabled", "disabled");
+      showStatusInfo("Image removed");
+    })
+    .onFailure( function (errorstatus,errorText, statusText) {
+      console.log("fail");
+      showStatusError(statusText + ": " + errorstatus + " - " + errorText + " while deleting image");
+    })
+    .onError(function(error){
+      showStatusError("Network Error");
+    })
+    .send();
 
   });
 
