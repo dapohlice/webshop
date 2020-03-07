@@ -95,4 +95,9 @@ main {
 
 .navbar{
   height: 4.5rem;
+  justify-content: space-between;
+}
+
+.shoppingCart-btn{
+  margin-left: auto;
 }
