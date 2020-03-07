@@ -24,9 +24,7 @@ SimpleRequest.GET(PRODUCT_SERVICE,'category')
     for(var i = 0; i < categories.length; i++)
     {
         var tmp = document.createElement('a');
-        tmp.classList.add('btn');
-        tmp.classList.add('btn-outline-secondary');
-        tmp.classList.add('categorie-item');
+        tmp.classList.add('category-item');
         tmp.addEventListener('click',function(e){
             e.preventDefault();
             console.log(e.target);
