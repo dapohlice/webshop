@@ -3,20 +3,21 @@ extends layout
 block content
   div.container
     div.row(style='padding-top:20px')
-      div.col-sm-6
+      div.col-sm-6.p-3
         img.card-img-top(src="https://www.w3schools.com/bootstrap4/cinqueterre.jpg" alt="Cinque Terre")
         
-      div.col-sm-6
+      div.col-sm-6.p-3
         div.card.bg-light
           div.card-header
             h2
-              | Name of the product1
+              | Name of the product
               
           div.card-body
             p.card-text
               | Some quick example text to build on the card title and make up the bulk of the card's content.
-            p(style="color:red")
+            p#price
               | price: 00,00 €
+              
             div.dropdown.p-3
               button.btn.btn-secondary.btn-lg.dropdown-toggle(type="button" data-toggle="dropdown")
                 | size
@@ -71,5 +72,5 @@ block content
                 li
                   | some text
           div.card-footer.bg-transparent
-            a.btn.btn-primary(href="#" data-toggle="tooltip" title="add in shopping card")
+            a.btn.btn-secondary(href="#" data-toggle="tooltip" title="add in shopping card")
               i.fas.fa-plus(style='font-size:24px')
