@@ -1,4 +1,3 @@
-const Mongoose = require('mongoose');
 const DBConnection = require('./DBConnection.js');
 const Models = require('./Models.js');
 
@@ -6,7 +5,7 @@ const connection = new DBConnection();
 
 const DBOps = {};
   DBOps.Helper = {
-    removeEmptyFieldsinJSON: function (dataobj) {
+    removeEmptyFieldsInJSON: function (dataobj) {
     for (let field in dataobj) {
         if (dataobj[field] === null || dataobj[field] === "" ) {
           delete dataobj[field];
@@ -44,7 +43,7 @@ const DBOps = {};
   /*Kategoriedatensatz bearbeiten*/
   updateCategory: async function(id, dataset) {
     try {
-      Helper.removeEmptyFieldsinJSON(dataset);
+      await Helper.removeEmptyFieldsinJSON(dataset);
       let dest =  await Models.CategoryModel.findOne({_id: id}).exec();
       return dest.updateOne(dataset);
     } catch (err) {
@@ -74,7 +73,12 @@ const DBOps = {};
     /*Ändern eines Produktdatensatzes*/
     updateProduct: async function(id, dataset){
       try {
-        await Models.ProductModel.updateOne({productid: id}, dataset);
+        await DBOps.Helper.removeEmptyFieldsInJSON(dataset);
+        let dest =  await Models.ProductModel.findOne({productid: id}).exec();
+        if (dest == null) {
+          throw {name: 'NotFound'};
+        }
+        return dest.updateOne(dataset);
       } catch (err) {
         throw err;
       }
@@ -82,7 +86,11 @@ const DBOps = {};
     /*Ändern des Status eines Produktdatensatzes*/
     changeState: async function(id, state){
       try {
-        await Models.ProductModel.updateOne({productid: id}, {state: state});
+        let dest =  await Models.ProductModel.findOne({productid: id}).exec();
+        if (dest == null) {
+          throw {name: 'NotFound'};
+        }
+        return dest.updateOne({state: state});
       } catch (err) {
         throw err;
       }
@@ -106,7 +114,11 @@ const DBOps = {};
     /*Finde Produkt über seine ID -> ID ist Produktid*/
     getProductByID: async function(id){
       try {
-        return await Models.ProductModel.findOne({productid: id}).exec();
+        let dest = await Models.ProductModel.findOne({productid: id}).exec();
+        if (dest == null) {
+          throw {name: 'NotFound'};
+        }
+        return dest;
       } catch (err) {
         throw err;
       }
@@ -124,10 +136,18 @@ const DBOps = {};
     changePropertyAmount: async function(id, subid, amount){
       try {
         let article = await Models.ProductModel.findOne({productid: id});
+        if(article == null){
+          throw {name: 'NotFound'};
+        }
+        let check = false;
         for (let property of article.propertys) {
           if (property.subid == subid) {
-            property.amount = amount.amount;
+            property.amount += amount.amount;
+            check = true;
             break;
+          }
+          if(check == false){
+            throw {name: 'NotFound'};
           }
         }
         return article.save();
@@ -139,8 +159,20 @@ const DBOps = {};
     createProperty: async function(id, sub){
       try {
         let article = await Models.ProductModel.findOne({productid: id});
-        article.propertys.push(sub);
-        return await article.save();
+        if (article == !null) {
+          if (sub instanceof Array) {
+            for(let property of article.propertys){
+              article.propertys.push(property)
+            }
+          }
+          else {
+            article.propertys.push(sub);
+          }
+          return await article.save();
+        }
+        else {
+          throw {name: 'NotFound'};
+        }
       } catch (err) {
         throw err;
       }
