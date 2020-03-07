@@ -48,26 +48,37 @@
 
 function validateForm() {
   // This function deals with validation of the dynamic created form fields
-  console.log("currentAdminPage:");
-  console.log(currentAdminPage);
   var txt = '';
    switch(currentAdminPage) {
+     case "articles":
+      var name;
+      var img;
+      var $deleteImageAdd = $('#deleteImageAdd');
+       name = $('#categoryname').val();
+       img = $deleteImageAdd.attr('data-id');
+       if (name == null || name == '') {
+         //show error message
+         showStatusError("Invalid name entered!");
+         return false;
+       } else if (img == null || img == '') {
+         //show error message
+         showStatusError("Invalid picture format uploaded!");
+         return false;
+       } else {
+         return true;
+       }
+       break;
      case "categories":
       var name;
       var img;
       var $deleteImageAdd = $('#deleteImageAdd');
        name = $('#categoryname').val();
        img = $deleteImageAdd.attr('data-id');
-       console.log("name of category:");
-       console.log(name);
-       console.log("img of category:");
-       console.log(img);
        if (name == null || name == '') {
          //show error message
          showStatusError("Invalid name entered!");
          return false;
-       }
-       if (img == null || img == '') {
+       } else if (img == null || img == '') {
          //show error message
          showStatusError("Invalid picture format uploaded!");
          return false;
@@ -107,6 +118,62 @@ function validateForm() {
        $('#detailModal').modal('hide');
        showStatusError("Warning: invalid request!");
 
+   }
+
+}
+function validateEditForm() {
+  // This function deals with validation of the dynamic created form fields
+  var txt = '';
+   switch(currentAdminPage) {
+     case "articles":
+      var editName;
+      var editImg;
+      var $deleteImageEdit = $('#deleteImageEdit');
+      var $editcategoryname = $('#editcategoryname');
+       editName = $editcategoryname.val(),
+       editImg = $deleteImageEdit.attr('data-id')
+       console.log("editName of category:");
+       console.log(editName);
+       console.log("editImg of category:");
+       console.log(editImg);
+       if (editName == null || editName == '') {
+         //show error message
+         showStatusError("Warning: Invalid name entered!");
+         return false;
+       } else if (editImg == null || editImg == '') {
+         //show error message
+         showStatusError("Warning: Invalid picture format uploaded!");
+         return false;
+       } else {
+         return true;
+       }
+       break;
+     case "categories":
+      var editName;
+      var editImg;
+      var $deleteImageEdit = $('#deleteImageEdit');
+      var $editcategoryname = $('#editcategoryname');
+       editName = $editcategoryname.val(),
+       editImg = $deleteImageEdit.attr('data-id')
+       console.log("editName of category:");
+       console.log(editName);
+       console.log("editImg of category:");
+       console.log(editImg);
+       if (editName == null || editName == '') {
+         //show error message
+         showStatusError("Warning: Invalid name entered!");
+         return false;
+       } else if (editImg == null || editImg == '') {
+         //show error message
+         showStatusError("Warning: Invalid picture format uploaded!");
+         return false;
+       } else {
+         return true;
+       }
+       break;
+     default:
+       $('#detailModal').modal('hide');
+       showStatusError("Warning: invalid request!");
    }
 
 }

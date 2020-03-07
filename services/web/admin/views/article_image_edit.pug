@@ -1,4 +1,4 @@
-block category_image_edit
+block article_image_edit
 
   div#imgEditModal.modal.fade
     div.modal-dialog.modal-dialog-centered.modal-md
@@ -23,15 +23,15 @@ block category_image_edit
             div.form-row
               div.col-md-12.mb-3
                 div.custom-file
-                  input.custom-file-input#editcategorypicture(
+                  input.custom-file-input#editarticlepicture(
                     type="file"
-                    placeholder="Upload a picture for this category"
+                    placeholder="Upload a picture for this article"
                     accept="image/*"
                     name="photo"
                     required
                     )     
                   label.custom-file-label(
-                    for="editcategorypicture"
+                    for="editarticlepicture"
                     )
                       | Choose file
 

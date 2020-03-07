@@ -131,46 +131,55 @@ $(function (){
   });
 
   $(document).on("click", "#edit-category", function() {
-    // change vars
-    var $deleteImageEdit = $('#deleteImageEdit');
-    var $editcategoryname = $('#editcategoryname');
-    // var $editpicturepath = $('#editpicturepath');
-    var $tr = $(this).closest('tr');
-    var id = $tr.attr('data-id');
 
-    var $category = {
-      categoryname: $editcategoryname.val(),
-      picturepath: $deleteImageEdit.attr('data-id')
-    };
-    console.log($category.categoryname);
-    console.log($category.picturepath);
-    var $btn = $('#edit-category');
-    var btnid = $btn.attr('data-id');
+    if (validateEditForm()) {
+      // change vars
+      var $deleteImageEdit = $('#deleteImageEdit');
+      var $editcategoryname = $('#editcategoryname');
+      // var $editpicturepath = $('#editpicturepath');
+      var $tr = $(this).closest('tr');
+      var id = $tr.attr('data-id');
+
+      var $category = {
+        categoryname: $editcategoryname.val(),
+        picturepath: $deleteImageEdit.attr('data-id')
+      };
+      console.log($category.categoryname);
+      console.log($category.picturepath);
+      var $btn = $('#edit-category');
+      var btnid = $btn.attr('data-id');
 
 
-    SimpleRequest.PUT(PRODUCT_SERVICE,"category/"+btnid)
-    .onSuccess(function(category) {
-      $.each($('.editCategory'), function () {
-        $tr = $(this).closest('tr');
-        id = $tr.attr('data-id');
-        if (id == btnid) {
-          console.log($category.categoryname);
-          $tr.find('td.name').html($category.categoryname);
-          var string = 'http://localhost:3004/' + $category.picturepath;
-          console.log(string);
-          $tr.find('td.image img').attr('src', 'http://localhost:3004/' + $category.picturepath);
-        }
-      });
-    })
-    .onFailure( function (errorstatus,errorText, statusText) {
-      console.log("fail");
-      showStatusError(statusText + ": " + errorstatus + " - " + errorText + " while changing category");
-    })
-    .onError(function(error){
-      showStatusError("Network Error");
-    })
-    .addJson($category)
-    .send();
+      SimpleRequest.PUT(PRODUCT_SERVICE,"category/"+btnid)
+      .onSuccess(function(category) {
+        $.each($('.editCategory'), function () {
+          $tr = $(this).closest('tr');
+          id = $tr.attr('data-id');
+          if (id == btnid) {
+            console.log($category.categoryname);
+            $tr.find('td.name').html($category.categoryname);
+            var string = 'http://localhost:3004/' + $category.picturepath;
+            console.log(string);
+            $tr.find('td.image img').attr('src', 'http://localhost:3004/' + $category.picturepath);
+          }
+        });
+      })
+      .onFailure( function (errorstatus,errorText, statusText) {
+        console.log("fail");
+        showStatusError(statusText + ": " + errorstatus + " - " + errorText + " while changing category");
+      })
+      .onError(function(error){
+        showStatusError("Network Error");
+      })
+      .addJson($category)
+      .send();
+    } else {
+      // showStatusError("Form not valid");
+      event.preventDefault();
+      event.stopPropagation();
+      console.log("invalid form in categoryJS");
+      return 10;
+    }
   });
   $(document).on("click", "#remove-category", function() {
     // delete tr
@@ -345,11 +354,11 @@ $(function (){
     SimpleRequest.DELETE(PICTURE_SERVICE,btnid)
     .onSuccess(function () {
       //set any default category image here:
-      $editpicturesrc.attr('src', 'img/category/shirt.png');
+      $editpicturesrc.attr('src', '');
       $deleteImageEdit.attr("data-id", "");
       $deleteImageEdit.attr("disabled", "disabled");
       $('#editImageBtn').removeAttr("disabled", "disabled");
-      showStatusInfo("Image removed")
+      showStatusInfo("Image removed");
     })
     .onFailure( function (errorstatus,errorText, statusText) {
       console.log("fail");

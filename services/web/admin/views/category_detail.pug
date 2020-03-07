@@ -42,19 +42,8 @@ block category_details
               div.form-row
                 div.col.lg-12.mb-3
                   div.form-group
-                    //- label(
-                    //-   for="editpicturepath"
-                    //-   )
-                    //-     | Image
                     div.form-row
-                      div.col.lg-8.mb-3
-                        //- input.form-control#editpicturepath(
-                        //-   type="text"
-                        //-   placeholder="Upload a picture for this new category"
-                        //-   value="{{picturepath}}"
-                        //-   required
-                        //-   )
-                      div.col.lg-1.mb-3
+                      div.col.lg-6.mb-3
                         div.form-group.w-50
                           img.float-right.img-fluid#editpicturesrc(
                             type="image/jpeg,image/png,image/gif"
@@ -62,7 +51,7 @@ block category_details
                             alt="image"
                             required
                           )
-                      div.col.lg-1.mb-3
+                      div.col.lg-4.mb-3
                         button.float-left.btn.btn-danger#deleteImageEdit(
                           data-id="{{picturepath}}"
                           type="button"

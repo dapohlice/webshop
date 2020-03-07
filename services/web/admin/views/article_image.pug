@@ -1,6 +1,6 @@
-block category_image_edit
+block article_image
 
-  div#imgEditModal.modal.fade
+  div#imgModal.modal.fade
     div.modal-dialog.modal-dialog-centered.modal-md
       div.modal-content
         //- Modal Header
@@ -17,25 +17,25 @@ block category_image_edit
             | &times;
         //- Modal Body
         div.modal-body
-          form#editImageForm(
+          form#addImageForm(
             novalidate
             )
             div.form-row
               div.col-md-12.mb-3
                 div.custom-file
-                  input.custom-file-input#editcategorypicture(
+                  input.custom-file-input#articlepicture(
                     type="file"
-                    placeholder="Upload a picture for this category"
+                    placeholder="Upload a picture for this new article"
                     accept="image/*"
                     name="photo"
                     required
                     )     
                   label.custom-file-label(
-                    for="editcategorypicture"
+                    for="articlepicture"
                     )
                       | Choose file
 
-            button#edit-image.btn.btn-success.float-right(
+            button#add-image.btn.btn-success.float-right(
               type="submit"
               )
                 i.fa.fa-check

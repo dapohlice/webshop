@@ -1,0 +1,37 @@
+block article_delete
+
+  div#deleteModal.modal.fade
+    div.modal-dialog.modal-dialog-centered.modal-md
+      div.modal-content
+        //- Modal Header
+        div.modal-header
+          h4.modal-title
+            | Do you really want delete this article?
+          button.close(
+            type="button"
+            data-dismiss="modal"
+            data-tooltip="tooltip" 
+            data-placement="bottom" 
+            title="Abort delete article" 
+          ) 
+            | &times;
+          
+        //- Modal Footer
+        div.modal-footer
+          button.btn.btn-danger(
+            type="button"
+            data-dismiss="modal"
+            data-tooltip="tooltip" 
+            data-placement="bottom" 
+            title="Abort delete article" 
+          ) 
+            i.fa.fa-close
+              |  Abort
+          button#remove-article.btn.btn-success(
+            type="button"
+            data-tooltip="tooltip" 
+            data-placement="bottom" 
+            title="Delete article" 
+          )
+            i.fa.fa-check
+              | Delete
