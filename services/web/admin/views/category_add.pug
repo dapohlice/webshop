@@ -1,7 +1,7 @@
 block category_add
 
   div#addModal.modal.fade
-    div.modal-dialog.modal-xl
+    div.modal-dialog.modal-dialog-centered.modal-xl
       div.modal-content
         //- Modal Header
         div.modal-header
@@ -31,31 +31,36 @@ block category_add
                   placeholder="Enter name of category"
                   required
                 )
+                div.valid-feedback
+                  | Valid.
                 div.invalid-feedback
-                  | Please provide a valid categoryname.
+                  | Please provide a valid categoryname.                  
             div.form-row
               div.col-md-12
                 div.form-group
-                  label(
-                    for="picturepath"
-                    )
-                      | Image
+                  //- label(
+                  //-   for="picturepath"
+                  //-   )
+                  //-     | Image
                   div.form-row
                     div.col.lg-5.mb-3
-                      input.form-control#picturepath(
-                        type="text"
-                        placeholder="Upload a picture for this new category"
-                        required
-                        )
-                      div.invalid-feedback
-                        | invalid file type
-                    div.col.lg-2.mb-3
+                      //- input.form-control#picturepath(
+                      //-   type="text"
+                      //-   placeholder="Upload a picture for this new category"
+                      //-   required
+                      //-   )
+                      //- div.invalid-feedback
+                      //-   | invalid file type
+                    div.col.lg-4.mb-3
                       div.form-group.w-25
                         img.float-right.img-fluid#picturesrc(
-                          src="img/category/shirt.png"
+                          type="image/jpeg,image/png,image/gif"
                           alt="image"
+                          message="No correct image format"
+                          minFiles="1"
+                          required
                         )
-                    div.col.lg-1.mb-3
+                    div.col.lg-2.mb-3
                       button.float-left.btn.btn-danger#deleteImageAdd(
                         type="button"
                         data-tooltip="tooltip"

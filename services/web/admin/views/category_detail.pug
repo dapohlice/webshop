@@ -1,7 +1,7 @@
 block category_details
 
   div#detailModal.modal.fade
-    div.modal-dialog.modal-lg
+    div.modal-dialog.modal-dialog-centered.modal-lg
       div.modal-content
         //- Modal Header
         div.modal-header
@@ -42,23 +42,25 @@ block category_details
               div.form-row
                 div.col.lg-12.mb-3
                   div.form-group
-                    label(
-                      for="editpicturepath"
-                      )
-                        | Image
+                    //- label(
+                    //-   for="editpicturepath"
+                    //-   )
+                    //-     | Image
                     div.form-row
                       div.col.lg-8.mb-3
-                        input.form-control#editpicturepath(
-                          type="text"
-                          placeholder="Upload a picture for this new category"
-                          value="{{picturepath}}"
-                          required
-                          )
+                        //- input.form-control#editpicturepath(
+                        //-   type="text"
+                        //-   placeholder="Upload a picture for this new category"
+                        //-   value="{{picturepath}}"
+                        //-   required
+                        //-   )
                       div.col.lg-1.mb-3
-                        div.form-group.w-25
+                        div.form-group.w-50
                           img.float-right.img-fluid#editpicturesrc(
+                            type="image/jpeg,image/png,image/gif"
                             src="{{ picturepath | imgpath }}"
                             alt="image"
+                            required
                           )
                       div.col.lg-1.mb-3
                         button.float-left.btn.btn-danger#deleteImageEdit(
@@ -67,6 +69,7 @@ block category_details
                           data-tooltip="tooltip"
                           data-placement="bottom"
                           title="Delete this image immediately"
+                          required
                           )
                           i.fa.fa-trash
                       div.col.lg-2.mb-3

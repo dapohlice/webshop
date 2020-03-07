@@ -24,21 +24,6 @@ function getOrders() {
   console.log("GetXHR Klasse wurde aufgerufen mit folgenden Objekt:");
   console.log(currentUrl);
 }
-function getCategories() {
-  setDetailsFalse();
-  var url = '';
-  var urlParam = currentAdminPage;
-
-  $('#jsonTableObjekt').children('table').eq(0).remove();
-
-  if(urlParam == 'categories') {
-    url = 'http://localhost:3002/category';
-    var res = new XHR('GET', url);
-    getCategoryReq = true;
-    console.log("GetXHR Klasse wurde aufgerufen mit folgenden Objekt:");
-    console.log(url);
-  }
-}
 function getUsers() {
   setDetailsFalse();
   var url = '';
@@ -140,34 +125,6 @@ function getGroups() {
     console.log("GetXHR Klasse wurde aufgerufen mit folgenden Objekt:");
     console.log(url);
   }
-}
-
-function postCategory() {
-  setDetailsFalse();
-  var url = '';
-  // Get some values from elements on the page:
-  var term = $('#categoryname').val();
-  var term2 = $('#categorypicture').val();
-
-  $('#jsonTableObjekt').children('table').eq(0).remove();
-
-  // Create an empty JSON object to return.
-  var retJson = {};
-  retJson.categoryname = term;
-  retJson.picturepath = term2;
-
-  // Create an string json to return
-  var json = JSON.stringify(retJson);
-
-  if( (term != '') && (term2 != '') ) {
-    url = 'http://localhost:3002/category';
-    var res = new XHR('POST', url, json, 'application/json');
-
-    postCategoryReq = true;
-    console.log("PostXHR Klasse wurde aufgerufen mit folgenden Objekt:");
-    console.log(json);
-  }
-
 }
 function patchAddUserGroup(userid) {
   var url = '';
@@ -326,18 +283,6 @@ function getOrderDetails(id) {
   console.log(currentUrl);
 
 }
-function getCategoryDetails(id) {
-  setDetailsFalse();
-  var url = '';
-  console.log("getCategory ID for details: ");
-  console.log(id);
-
-  if(id != null) {
-    setCategoryDetails = true;
-    url = 'http://localhost:3002/category/' + id;
-    var res = new XHR('GET', url);
-  }
-}
 function getUserDetails(id) {
   setDetailsFalse();
   var url = '';
@@ -359,18 +304,6 @@ function getGroupDetails(id) {
   if(id != null) {
     setGroupDetails = true;
     url = 'http://localhost:3003/group/' + id;
-    var res = new XHR('GET', url);
-  }
-}
-function getArticleDetails(id) {
-  setDetailsFalse();
-  var url = '';
-  console.log("getArticle ID for details: ");
-  console.log(id);
-
-  if(id != null) {
-    setArticleDetails = true;
-    url = 'http://localhost:3002/article/' + id;
     var res = new XHR('GET', url);
   }
 }
