@@ -128,9 +128,11 @@ SimpleRequest.GET(PRODUCT_SERVICE,"category")
         picturepath: $deleteImageAdd.attr('data-id'),
         price: $price.val(),
         state: $state.is(':checked'),
+        categoryid: $category.find("option:selected").attr('data-id'),
         category: $category.val()
       };
       console.log(article.category);
+      console.log($category.find("option:selected").attr('data-id'));
 
       SimpleRequest.POST(PRODUCT_SERVICE,"article")
       .addJson(article)
