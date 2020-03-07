@@ -1,0 +1,38 @@
+#articles{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-around;
+}
+
+.article-card{
+    margin: 1rem;
+    width: 25vw;
+    justify-content: space-between;
+}
+
+.article-card .card-body{
+    background-color: var(--main-dark) !important;
+    color: white;
+}
+
+.article-card .card-title
+{
+    font-size: 1.6rem;
+}
+.article-card .card-title:hover
+{
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+.article-card .card-img-top:hover
+{
+    opacity: 0.8;
+    cursor: pointer;
+}
+
+.article-card .price
+{
+    float: right;
+}

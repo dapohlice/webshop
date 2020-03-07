@@ -1,10 +1,17 @@
+:root{
+  --main-dark: rgb(52, 58, 64);
+  --main-dark-o: rgb(52, 58, 64,0.7);
+  --main-dark-t: rgb(52, 58, 64,0.4);
+  --main-highlight: #bd2a98;
+}
+
 body {
   margin: 0;
   font-family: Arial, Helvetica, sans-serif;
 }
 
 main {
-  padding-top: 100px;
+  padding-top: 4.5rem;
 }
 
 
