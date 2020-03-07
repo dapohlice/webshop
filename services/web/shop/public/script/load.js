@@ -1,4 +1,5 @@
 const PRODUCT_SERVICE = 'http://localhost:3002'
+const PICTURE_SERVICE = 'http://localhost:3004'
 
 var articles = null;
 var categories = null;
@@ -23,9 +24,7 @@ SimpleRequest.GET(PRODUCT_SERVICE,'category')
     for(var i = 0; i < categories.length; i++)
     {
         var tmp = document.createElement('a');
-        tmp.classList.add('btn');
-        tmp.classList.add('btn-outline-secondary');
-        tmp.classList.add('categorie-item');
+        tmp.classList.add('category-item');
         tmp.addEventListener('click',function(e){
             e.preventDefault();
             console.log(e.target);
@@ -34,6 +33,7 @@ SimpleRequest.GET(PRODUCT_SERVICE,'category')
             changeCategorie(index);
         })
         tmp.setAttribute('categorie_id',i);
+        tmp.id = "categorie_id-"+i;
         tmp.innerHTML = categories[i].categoryname;
         cat.appendChild(tmp);
     }

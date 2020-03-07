@@ -11,7 +11,8 @@ CategoryRoute.post("/", async function(req,res)
     let result =  await Assistant.Category.createCategory(req.body);
     res.status(201).send(result);
   } catch (err) {
-    res.sendStatus(400);
+    let result = await ErrorHandler.StdHandler.checkError(err);
+    res.status(result.statuscode).send(result);
   }
 });
 
@@ -22,7 +23,8 @@ CategoryRoute.put("/:id", async function(req,res)
     let result = await Assistant.Category.updateCategory(req.params.id, req.body);
     res.status(200).send(result);
   } catch (err) {
-    res.sendStatus(404);
+    let result = await ErrorHandler.StdHandler.checkError(err);
+    res.status(result.statuscode).send(result);
   }
 });
 
@@ -33,7 +35,8 @@ CategoryRoute.delete("/:id", async function (req,res)
     let result = Assistant.Category.deleteCategory(req.params.id);
     res.sendStatus(200);
   } catch (err) {
-    res.sendStatus(404);
+    let result = await ErrorHandler.StdHandler.checkError(err);
+    res.status(result.statuscode).send(result);
   }
 });
 
@@ -44,7 +47,8 @@ CategoryRoute.get("/", async function(req,res)
     let result = await Assistant.Category.getAllCategorys();
     res.status(200).send(result);
   } catch (err) {
-    res.sendStatus(404);
+    let result = await ErrorHandler.StdHandler.checkError(err);
+    res.status(result.statuscode).send(result);
   }
 });
 
@@ -55,7 +59,8 @@ CategoryRoute.get("/:id", async function(req,res)
     let result = await Assistant.Category.getCategoryByID(req.params.id)
     res.status(200).send(result);
   } catch (err) {
-    res.status(404);
+    let result = await ErrorHandler.StdHandler.checkError(err);
+    res.status(result.statuscode).send(result);
   }
 });
 

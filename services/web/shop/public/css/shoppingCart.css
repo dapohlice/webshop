@@ -5,7 +5,7 @@
 .shoppingCart{
     position: fixed;
     margin-top: 4.5rem;
-    background-color: rgba(40,40,40,0.8);
+    background-color: var(--main-dark-o);
     color: white;
     right: 0;
     top:0;
@@ -18,8 +18,8 @@
     border-bottom-left-radius: 1rem;
     max-height: 100vh;
     z-index: 1204;
-    border-left: 2px solid white;
-    border-bottom: 2px solid white;
+    border-left: 2px solid var(--main-dark);
+    border-bottom: 2px solid var(--main-dark);
 }
 
 .shoppingCart button{
