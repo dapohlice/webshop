@@ -52,13 +52,37 @@ function validateForm() {
    switch(currentAdminPage) {
      case "articles":
       var name;
+      var nr;
+      var desc;
+      var price;
+      var category;
       var img;
       var $deleteImageAdd = $('#deleteImageAdd');
-       name = $('#categoryname').val();
+       name = $('#name').val();
+       nr = $('#productid').val();
+       desc = $('#description').val();
+       price = $('#price').val();
+       category = $('#category').val();
        img = $deleteImageAdd.attr('data-id');
        if (name == null || name == '') {
          //show error message
          showStatusError("Invalid name entered!");
+         return false;
+       } else if (nr == null || nr == '') {
+         //show error message
+         showStatusError("Invalid item number entered!");
+         return false;
+       } else if (desc == null || desc == '') {
+         //show error message
+         showStatusError("Invalid description entered!");
+         return false;
+       } else if (price == null || price == '') {
+         //show error message
+         showStatusError("Invalid price format entered!");
+         return false;
+       } else if (category == null || category == '') {
+         //show error message
+         showStatusError("Invalid category entered!");
          return false;
        } else if (img == null || img == '') {
          //show error message
