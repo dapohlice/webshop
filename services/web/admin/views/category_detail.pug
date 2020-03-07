@@ -1,7 +1,7 @@
 block category_details
 
   div#detailModal.modal.fade
-    div.modal-dialog.modal-lg
+    div.modal-dialog.modal-dialog-centered.modal-lg
       div.modal-content
         //- Modal Header
         div.modal-header
@@ -55,7 +55,7 @@ block category_details
                         //-   required
                         //-   )
                       div.col.lg-1.mb-3
-                        div.form-group.w-25
+                        div.form-group.w-50
                           img.float-right.img-fluid#editpicturesrc(
                             type="image/jpeg,image/png,image/gif"
                             src="{{ picturepath | imgpath }}"
