@@ -64,7 +64,21 @@ function changeCategorie(index)
 
     var cat = categories[index];
 
-    var cur_art = [];
+    document.getElementById('category-img').src = PICTURE_SERVICE+"/"+cat.picturepath;
+
+    var cats = document.getElementsByClassName("category-item");
+    
+    for(var i = 0; i < cats.length; i++)
+    {
+        if(cats[i].id === "categorie_id-"+index)
+        {
+            cats[i].classList.add("category-item-selected");
+        }else{
+            cats[i].classList.remove("category-item-selected");
+        }
+    }
+
+
 
     var el_art = document.getElementById('articles');
 

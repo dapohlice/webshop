@@ -2,7 +2,8 @@
   --main-dark: rgb(52, 58, 64);
   --main-dark-o: rgb(52, 58, 64,0.7);
   --main-dark-t: rgb(52, 58, 64,0.4);
-  --main-highlight: #bd2a98;
+  --main-highlight: rgb(189, 42, 152);
+  --main-highlight-t: rgb(189, 42, 152,0.6);
 }
 
 body {

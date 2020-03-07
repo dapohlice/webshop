@@ -33,6 +33,7 @@ SimpleRequest.GET(PRODUCT_SERVICE,'category')
             changeCategorie(index);
         })
         tmp.setAttribute('categorie_id',i);
+        tmp.id = "categorie_id-"+i;
         tmp.innerHTML = categories[i].categoryname;
         cat.appendChild(tmp);
     }

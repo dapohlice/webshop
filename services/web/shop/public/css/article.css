@@ -22,7 +22,7 @@
 }
 .article-card .card-title:hover
 {
-    text-decoration: underline;
+    color: var(--main-highlight);
     cursor: pointer;
 }
 
@@ -39,7 +39,8 @@
 
 .category-group{
     position: absolute;
-    top: 4.5rem;
+    bottom: 2rem;
+    left: 2rem;
     display: block;
     margin: 0;
     padding: 0;
@@ -47,27 +48,45 @@
     border-bottom:1rem solid var(--main-dark);
     border-left: .5rem solid var(--main-dark);
     border-right: .5rem solid var(--main-dark);*/
-    color: white;
 }
-.category-item{
+
+.category-item:not([href]){
     /*border: .5rem solid var(--main-dark);
     border-radius: .6rem;*/
     margin: 0;
-    padding: .4rem;
+    padding: .7rem;
     font-size: 2rem;
-    padding-bottom: .6rem;
     padding-left: 1.5rem;
     padding-right: 1.5rem;
     background-color: var(--main-dark); 
+    color: white;
 }
 .category-item:last-child{
     border-bottom-right-radius: .6rem;
+    border-top-right-radius: .6rem;
 }
-.category-item:hover{
-    opacity: 0.7;
+
+.category-item:first-child{
+    border-top-left-radius: .6rem;
+    border-bottom-left-radius: .6rem;
+}
+
+.category-item:not([href]):hover{
+    background-color: var(--main-dark-t);
+    color: white;
     cursor: pointer;
 }
 
+.category-item-selected:not([href])
+{
+    background-color: var(--main-dark-o);
+    color: white;
+}
+
+.category-item-selected:not([href]):hover
+{
+    color: white;
+}
 
 .category-container{
     position: relative;
