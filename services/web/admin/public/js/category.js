@@ -59,47 +59,44 @@ $(function (){
   }).send();
 
   $('#add-category').on('click', function(event) {
-    // console.log("Valid?");
-    // console.log(valid);
-    // if (valid) {
-    //   return true;
-    // } else {
-    //   showStatusError("Form not valid");
-    //   event.preventDefault();
-    //   event.stopPropagation();
-    //   console.log("invalid form in categoryJS");
-    //   return 10;
-    // }
 
+    if (validateForm()) {
+      var $deleteImageAdd = $('#deleteImageAdd');
 
-    var $deleteImageAdd = $('#deleteImageAdd');
+      var category = {
+        categoryname: $categoryname.val(),
+        picturepath: $deleteImageAdd.attr('data-id')
+      };
+      console.log(JSON.stringify(category));
 
-    var category = {
-      categoryname: $categoryname.val(),
-      picturepath: $deleteImageAdd.attr('data-id')
-    };
-    console.log(JSON.stringify(category));
+      SimpleRequest.POST(PRODUCT_SERVICE,"category")
+      .onSuccess(function (newCategory) {
+          addCategory(newCategory);
+          showStatusInfo("Category added");
+          if ($deleteImageAdd.attr('data-id')) {
+            // attr is not blank
+            $deleteImageAdd.removeAttr('disabled', 'disabled');
+          } else {
+            //attr is blank
+            $deleteImageAdd.attr('disabled', 'disabled');
+          }
+      })
+      .onFailure(function (errorcode,errortext, statusText) {
+        showStatusError(statusText + ": " + errorcode + " - " + errortext + " while saving category");
+      })
+      .onError(function(error){
+        showStatusError("Network Error");
+      })
+      .addJson(category)
+      .send();
+    } else {
+      // showStatusError("Form not valid");
+      event.preventDefault();
+      event.stopPropagation();
+      console.log("invalid form in categoryJS");
+      return 10;
+    }
 
-    SimpleRequest.POST(PRODUCT_SERVICE,"category")
-    .onSuccess(function (newCategory) {
-        addCategory(newCategory);
-        showStatusInfo("Category added");
-        if ($deleteImageAdd.attr('data-id')) {
-          // attr is not blank
-          $deleteImageAdd.removeAttr('disabled', 'disabled');
-        } else {
-          //attr is blank
-          $deleteImageAdd.attr('disabled', 'disabled');
-        }
-    })
-    .onFailure(function (errorcode,errortext, statusText) {
-      showStatusError(statusText + ": " + errorcode + " - " + errortext + " while saving category");
-    })
-    .onError(function(error){
-      showStatusError("Network Error");
-    })
-    .addJson(category)
-    .send();
   });
 
   $(document).on("click", ".editCategory", function() {
