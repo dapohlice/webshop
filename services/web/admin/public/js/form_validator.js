@@ -48,8 +48,33 @@
 
 function validateForm() {
   // This function deals with validation of the dynamic created form fields
+  console.log("currentAdminPage:");
+  console.log(currentAdminPage);
   var txt = '';
    switch(currentAdminPage) {
+     case "categories":
+      var name;
+      var img;
+      var $deleteImageAdd = $('#deleteImageAdd');
+       name = $('#categoryname').val();
+       img = $deleteImageAdd.attr('data-id');
+       console.log("name of category:");
+       console.log(name);
+       console.log("img of category:");
+       console.log(img);
+       if (name == null || name == '') {
+         //show error message
+         showStatusError("Invalid name entered!");
+         return false;
+       }
+       if (img == null || img == '') {
+         //show error message
+         showStatusError("Invalid picture format uploaded!");
+         return false;
+       } else {
+         return true;
+       }
+       break;
      case "users":
        txt = $('#mailEdit').val();
        if (setUserDetails && txt != null && txt != '' && validateEmail(txt)) {
