@@ -43,7 +43,7 @@ const DBOps = {};
   /*Kategoriedatensatz bearbeiten*/
   updateCategory: async function(id, dataset) {
     try {
-      await Helper.removeEmptyFieldsinJSON(dataset);
+      await DBOps.Helper.removeEmptyFieldsInJSON(dataset);
       let dest =  await Models.CategoryModel.findOne({_id: id}).exec();
       return dest.updateOne(dataset);
     } catch (err) {
