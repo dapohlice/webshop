@@ -1,7 +1,7 @@
 block order_details
 
   div#detailModal.modal.fade
-    div.modal-dialog.modal-xl
+    div.modal-dialog.modal-dialog-centered.modal-xl
       div.modal-content
         //- Modal Header
         div.modal-header
@@ -37,12 +37,9 @@ block order_details
                   div.col
                     button#changeStatusButton.btn.btn-danger(
                       type="button"
-                      action="#"
                       data-tooltip="tooltip"
                       data-placement="bottom"
                       title="Ask you, if you want to set a new status" 
-                      data-toggle="modal"
-                      data-target="#changeOrderStatusModal"
                     )
                       | Change
                   div.col

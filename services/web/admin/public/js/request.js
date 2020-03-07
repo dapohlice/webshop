@@ -24,21 +24,6 @@ function getOrders() {
   console.log("GetXHR Klasse wurde aufgerufen mit folgenden Objekt:");
   console.log(currentUrl);
 }
-function getCategories() {
-  setDetailsFalse();
-  var url = '';
-  var urlParam = currentAdminPage;
-
-  $('#jsonTableObjekt').children('table').eq(0).remove();
-
-  if(urlParam == 'categories') {
-    url = 'http://localhost:3002/category';
-    var res = new XHR('GET', url);
-    getCategoryReq = true;
-    console.log("GetXHR Klasse wurde aufgerufen mit folgenden Objekt:");
-    console.log(url);
-  }
-}
 function getUsers() {
   setDetailsFalse();
   var url = '';
@@ -141,34 +126,6 @@ function getGroups() {
     console.log(url);
   }
 }
-
-function postCategory() {
-  setDetailsFalse();
-  var url = '';
-  // Get some values from elements on the page:
-  var term = $('#categoryname').val();
-  var term2 = $('#categorypicture').val();
-
-  $('#jsonTableObjekt').children('table').eq(0).remove();
-
-  // Create an empty JSON object to return.
-  var retJson = {};
-  retJson.categoryname = term;
-  retJson.picturepath = term2;
-
-  // Create an string json to return
-  var json = JSON.stringify(retJson);
-
-  if( (term != '') && (term2 != '') ) {
-    url = 'http://localhost:3002/category';
-    var res = new XHR('POST', url, json, 'application/json');
-
-    postCategoryReq = true;
-    console.log("PostXHR Klasse wurde aufgerufen mit folgenden Objekt:");
-    console.log(json);
-  }
-
-}
 function patchAddUserGroup(userid) {
   var url = '';
   // Get some values from elements on the page:
@@ -233,26 +190,7 @@ function patchUserStatus() {
     console.log(json);
   }
 }
-function patchPwdUser() {
-  var url = '';
-  var id = lastID;
-  // Get some values from elements on the page:
 
-  // Create an empty object to return.
-  var retJson = {};
-
-  // Create an string json to return
-  var json = JSON.stringify(retJson);
-
-  if( json.length != 0 ) {
-    url = 'http://localhost:3003/user/' + id + '/resetpassword';
-    var res = new XHR('PATCH', url, json, 'application/json');
-
-    patchPwdUserStatus = true;
-    console.log("PatchXHR Klasse wurde aufgerufen mit folgenden Objekt:");
-    console.log(json);
-  }
-}
 function deleteGroup() {
   var url = '';
   var id = lastID;
@@ -326,40 +264,7 @@ function putGroup() {
     console.log(json);
   }
 }
-function setNextStatus() {
-  var url = '';
-  var urlParamID = 0;
-  var status = 0;
-  urlParamID = lastID;
-  status = lastStatus;
 
-  if((urlParamID != null) && (status < 4) && (status != 0)) {
-    setNewStatus = true;
-    setOrderDetails = false;
-    console.log("SetNextStatus() setzt die folgende ID: ");
-    console.log(urlParamID);
-    console.log("auf den nächsten Status: ");
-    console.log(status);
-
-    url = 'http://localhost:3001/order/' + urlParamID;
-    var res = new XHR('PATCH', url);
-    //setze lastID = 0 & lastStatus (Standartwert), sonst werden die OrderDetails nicht neu geladen!
-    lastID = 0;
-    lastStatus = 0;
-    return true;
-  } else {
-    console.log("Statusänderung nicht erlaubt!")
-
-    //show info status
-    showStatusError("Warning: Changes for status with id = " + urlParamID + " not allowed!");
-    //end of show info status
-    return false;
-  }
-
-
-  console.log("PatchXHR Klasse wurde aufgerufen mit folgenden Objekt:");
-  console.log(res);
-}
 function getOrderDetails(id) {
   setDetailsFalse();
   var url = '';
@@ -377,18 +282,6 @@ function getOrderDetails(id) {
   console.log("UrlParams: ");
   console.log(currentUrl);
 
-}
-function getCategoryDetails(id) {
-  setDetailsFalse();
-  var url = '';
-  console.log("getCategory ID for details: ");
-  console.log(id);
-
-  if(id != null) {
-    setCategoryDetails = true;
-    url = 'http://localhost:3002/category/' + id;
-    var res = new XHR('GET', url);
-  }
 }
 function getUserDetails(id) {
   setDetailsFalse();
@@ -411,18 +304,6 @@ function getGroupDetails(id) {
   if(id != null) {
     setGroupDetails = true;
     url = 'http://localhost:3003/group/' + id;
-    var res = new XHR('GET', url);
-  }
-}
-function getArticleDetails(id) {
-  setDetailsFalse();
-  var url = '';
-  console.log("getArticle ID for details: ");
-  console.log(id);
-
-  if(id != null) {
-    setArticleDetails = true;
-    url = 'http://localhost:3002/article/' + id;
     var res = new XHR('GET', url);
   }
 }

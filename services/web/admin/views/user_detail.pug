@@ -1,7 +1,7 @@
 block user_details
 
   div#detailModal.modal.fade
-    div.modal-dialog.modal-lg
+    div.modal-dialog.modal-dialog-centered.modal-lg
       div.modal-content
         //- Modal Header
         div.modal-header
@@ -24,7 +24,6 @@ block user_details
         div.modal-footer
           button#resetPwdUserBtn.btn.btn-danger(
             type="button"
-            onclick="patchPwdUser()"
             data-tooltip="tooltip" 
             data-placement="bottom" 
             title="Reset password for current user" 
@@ -49,3 +48,23 @@ block user_details
           )
             i.fa.fa-check
               | Save changes
+
+          
+  div.modal.fade#user_password_modal.modal
+    div.modal-dialog
+      div.modal-content
+        div.modal-header
+          h5.modal-title="Reset Password"      
+        div.modal-body
+          form
+            .form-group
+              label(for="user-password-first")="New Password:"
+              input.form-control(type="password" id="user-password-first")
+            .form-group
+              label(for="user-password-sec")="Repeat Password:"
+              input.form-control(type="password" id="user-password-sec")
+              <small id="user-password-help" class="text-danger">
+              </small>   
+        div.modal-footer
+          button.btn.btn-danger#user-btn-change-password(type="button")="Reset Password"
+          button.btn.btn-secondary(type="button"  data-dismiss="modal")="Cancel"

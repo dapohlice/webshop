@@ -1,4 +1,5 @@
 // !todo: Prüft ob Formular vaöide ist und händelt die Weiterleitung
+
 (function() {
   window.addEventListener('load', function() {
     // Fetch all the forms we want to apply custom Bootstrap validation styles to
@@ -10,13 +11,13 @@
           event.preventDefault();
           event.stopPropagation();
           console.log("invalid form");
+
         } else if (currentAdminPage == 'categories') {
           // Paramter aus Adresse entfernen:
           event.preventDefault();
           console.log("call RenderSubmit after validation");
           $('#addModal').modal('hide');
           $('#detailModal').modal('hide');
-
         } else if (currentAdminPage == 'articles') {
           // Paramter aus Adresse entfernen:
           event.preventDefault();
@@ -37,18 +38,6 @@
           console.log("call RenderSubmit and Add NewGroup");
           postGroup();
           $('#addModal').modal('hide');
-        } else if (currentAdminPage == 'categories') {
-          // Paramter aus Adresse entfernen:
-          event.preventDefault();
-          if (setCategoryDetails) {
-            console.log("call render submit function and edit current Category");
-            putCategory();
-            $('#detailModal').modal('hide');
-          } else {
-            console.log("call RenderSubmit and Add NewCategory");
-            postCategory();
-            $('#addModal').modal('hide');
-          }
         }
         form.classList.add('was-validated');
       }, false);

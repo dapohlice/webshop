@@ -1,7 +1,7 @@
 block category_image_edit
 
   div#imgEditModal.modal.fade
-    div.modal-dialog.modal-md
+    div.modal-dialog.modal-dialog-centered.modal-md
       div.modal-content
         //- Modal Header
         div.modal-header
@@ -17,7 +17,7 @@ block category_image_edit
             | &times;
         //- Modal Body
         div.modal-body
-          form#addImageForm(
+          form#editImageForm(
             novalidate
             )
             div.form-row

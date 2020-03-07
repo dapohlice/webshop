@@ -26,8 +26,12 @@ ProductRoute.put("/:id", async function (req,res) {
   }
   catch (err)
   {
+<<<<<<< HEAD
     let result = await ErrorHandler.StdHandler.checkError(err);
     res.status(result.statuscode).send(result);
+=======
+    res.sendStatus(404);
+>>>>>>> 98d989ab62837af79e2fa525bb0540a79e1d38f5
   }
 });
 

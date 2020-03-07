@@ -49,9 +49,6 @@ function response(data) {
   } else if (putGroupReq) {
     getGroups();
     putGroupReq = false;
-  } else if ((JSON.stringify(data) !== JSON.stringify([])) && getCategoryReq) {
-    renderCategoryTableHTML(data);
-    getCategoryReq = false;
   } else if (setOrderDetails) {
     console.log("Rufe Order-Details HTMLs auf");
     renderOrderDetailsHTML(data);
@@ -59,21 +56,12 @@ function response(data) {
     renderOrderStatusButtonHTML(data);
     renderOrderLogHTML(data);
     rendernextButtonHTML(data);
-  } else if (setCategoryDetails) {
-    console.log("Rufe Category-Details HTMLs auf");
-    renderCategoryDetailsHTML(data);
   } else if (setUserDetails) {
     console.log("Rufe User-Details HTMLs auf");
     renderUserDetailsHTML(data);
   } else if (setGroupDetails) {
     console.log("Rufe Group-Details HTMLs auf");
     renderGroupDetailsHTML(data);
-  } else if (setArticleDetails) {
-    console.log("Rufe Article-Details HTMLs auf");
-    renderArticleDetailsHTML(data);
-  } else if (postCategoryReq) {
-    getCategories();
-    postCategoryReq = false;
   } else if ((JSON.stringify(data) !== JSON.stringify([])) && getUsersReq) {
     renderUserTableHTML(data);
     getUsersReq = false;
@@ -231,29 +219,6 @@ function renderGroupTableHTML(data) {
   console.log("Ab jetzt wird helper Klasse aufgerufen...");
   helper();
 }
-
-function renderCategoryTableHTML(data) {
-  console.log("renderCategoryTableHTML gestartet")
-  var htmlString = "<table class=\"table table-striped table-hover table-image\">";
-  htmlString += "<thead><tr><th>ID</th><th>name</th><th>image</th>";
-  htmlString += "</tr></thead>";
-  htmlString += "<tbody>";
-
-  for(let i = 0; i < data.length; i++) {
-    htmlString += "<tr class=\"editCategoryButton table-row\" data-tooltip=\"tooltip\" data-placement=\"bottom\" title=\"Edit this category\" data-toggle=\"modal\" data-target=\"#detailModal\">";
-    htmlString += "<td class=\"id\"><span>" + data[i]._id + "</span></td>";
-    htmlString += "<td>" + data[i].categoryname + "</td>";
-    htmlString += "<td class=\"w-25\"><img class=\"img-fluid\" src=\"" + data[i].picturepath + "\" alt=\"image\"></td>";
-    htmlString += "</tr>";
-  }
-  htmlString += "</tbody>";
-  htmlString += "</table>"
-
-  jsonTableContainer.insertAdjacentHTML('beforeend', htmlString);
-  console.log("Ab jetzt wird helper Klasse aufgerufen...");
-  helper();
-}
-
 function renderErrorHTML(xhr, statusText) {
   console.log('A failure occurred');
   var htmlString = "<div class=\"error-template\">";
@@ -327,18 +292,6 @@ function renderOrderDetailsHTML(data) {
   console.log(lastID);
   //Setze den aktuellen Status in die Params in die Addresszeile
   // addParam(lastID, orderParam, status);
-}
-function renderCategoryDetailsHTML(data) {
-  lastID = data._id;
-  var modalTitelString = "<span>Category ID: " + lastID + "</span>";
-  modalTitelContainer.insertAdjacentHTML('beforeend', modalTitelString);
-
-  var htmlString = "<table class=\"table table-striped\">";
-
-
-  detailTableContainer.insertAdjacentHTML('beforeend', htmlString);
-
-  console.log(lastID);
 }
 function renderUserDetailsHTML(data) {
   lastID = data.id;

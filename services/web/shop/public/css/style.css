@@ -1,10 +1,18 @@
+:root{
+  --main-dark: rgb(52, 58, 64);
+  --main-dark-o: rgb(52, 58, 64,0.7);
+  --main-dark-t: rgb(52, 58, 64,0.4);
+  --main-highlight: rgb(189, 42, 152);
+  --main-highlight-t: rgb(189, 42, 152,0.6);
+}
+
 body {
   margin: 0;
   font-family: Arial, Helvetica, sans-serif;
 }
 
 main {
-  padding-top: 100px;
+  padding-top: 4.5rem;
 }
 
 
@@ -87,4 +95,9 @@ main {
 
 .navbar{
   height: 4.5rem;
+  justify-content: space-between;
+}
+
+.shoppingCart-btn{
+  margin-left: auto;
 }

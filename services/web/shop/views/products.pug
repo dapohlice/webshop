@@ -1,93 +1,10 @@
 extends layout
 
 block content
-  div.container-fluid
-    div.border.border-secondary.w-100.shadow-lg.bg-light
-      div.btn-group.btn-group-lg.float-left#categories
-        button.btn.btn-outline-secondary
-          | loading...
+  div.shadow-lg.category-container
+    img#category-img(src="http://localhost:3004/clothes.jpg")
+    div#categories.category-group
+      button.btn.btn-outline-secondary
+        | loading...
 
   div.container-fluid#articles
-    div.row(style='padding-top:20px')
-      div.col-sm-4
-        div.card.bg-light
-          img.card-img-top(src="https://www.w3schools.com/bootstrap4/cinqueterre.jpg" alt="Cinque Terre")
-          div.card-body
-            h5.card-title
-              | Name of the product1
-            p.card-text
-              | Some quick example text to build on the card title and make up the bulk of the card's content.
-            a.btn.btn-primary(href="#" data-toggle="tooltip" title="add in shopping card")
-              i.fas.fa-plus(style='font-size:24px')
-
-      div.col-sm-4
-        div.card.bg-light
-          img.card-img-top(src="https://www.w3schools.com/bootstrap4/cinqueterre.jpg" alt="Cinque Terre")
-          div.card-body
-            h5.card-title
-              | Name of the product2
-            p.card-text
-              | Some quick example text to build on the card title and make up the bulk of the card's content.
-            a.btn.btn-primary(href="#" data-toggle="tooltip" title="add in shopping card")
-              i.fas.fa-plus(style='font-size:24px')
-
-      div.col-sm-4
-        div.card.bg-light
-          img.card-img-top(src="https://www.w3schools.com/bootstrap4/cinqueterre.jpg" alt="Cinque Terre")
-          div.card-body
-            h5.card-title
-              | Name of the product3
-            p.card-text
-              | Some quick example text to build on the card title and make up the bulk of the card's content.
-            a.btn.btn-primary(href="#" data-toggle="tooltip" title="add in shopping card")
-              i.fas.fa-plus(style='font-size:24px')
-    div.row(style='padding-top:20px')      
-      div.col-sm-4  
-        div.card.bg-light
-          img.card-img-top(src="https://www.w3schools.com/bootstrap4/cinqueterre.jpg" alt="Cinque Terre")
-          div.card-body
-            h5.card-title
-              | Name of the product4
-            p.card-text
-              | Some quick example text to build on the card title and make up the bulk of the card's content.
-            a.btn.btn-primary(href="#" data-toggle="tooltip" title="add in shopping card")
-              i.fas.fa-plus(style='font-size:24px')
-            
-      div.col-sm-4
-        div.card.bg-light
-          img.card-img-top(src="https://www.w3schools.com/bootstrap4/cinqueterre.jpg" alt="Cinque Terre")
-          div.card-body
-            h5.card-title
-              | Name of the product5
-            p.card-text
-              | Some quick example text to build on the card title and make up the bulk of the card's content.
-            a.btn.btn-primary(href="#" data-toggle="tooltip" title="add in shopping card")
-              i.fas.fa-plus(style='font-size:24px')
-        
-      div.col-sm-4          
-        div.card.bg-light
-          img.card-img-top(src="https://www.w3schools.com/bootstrap4/cinqueterre.jpg" alt="Cinque Terre")
-          div.card-body
-            h5.card-title
-              | Name of the product6
-            p.card-text
-              | Some quick example text to build on the card title and make up the bulk of the card's content.
-            a.btn.btn-primary(href="#" data-toggle="tooltip" title="add in shopping card")
-              i.fas.fa-plus(style='font-size:24px')
-              
-  div.ul.pagination.justify-content-center(style='padding-top:20px')
-    li.page-item
-      a.page-link(href="#")
-        | Previous
-    li.page-item
-      a.page-link(href="#")
-        | 1
-    li.page-item
-      a.page-link(href="#")
-        | 2
-    li.page-item
-      a.page-link(href="#")
-        | 3
-    li.page-item
-      a.page-link(href="#")
-        | Next

@@ -7,34 +7,84 @@ import { AddressEntity } from "../entity/AddressEntity";
 import * as UserKey from "./UserKey";
 import {createAddress} from "../mapper/AddressMapper"
 import {addArticle, createArticle} from "../mapper/ArticleMapper"
+import resolve from "../resolver";
+
+const permissionFreeStatus ={
+    '0': false,
+    '1': true,
+    '2': true,
+    '3': true,
+    '4': false,
+    '5': false,
+    '6': true,
+    '7': true,
+    '8': true,
+    '9': false
+}
+
+
+
+function checkStatusByPermission(statusID: number):boolean
+{
+    let result = permissionFreeStatus[statusID];
+    if(result === undefined)
+        return false;
+    return result;
+}
 
 /**
  * gibt alle Bestellungen mit Status zurück
+ * @param hasFullPermission hat der Abrufende die Berechtigung für alle Datensätze
  * @returns Liste mit Bestellungen
  */
-export async function getAllOrders()
+export async function getAllOrders(hasFullPermission: boolean):Promise<[number,any]>
 {
     const orderRep = getRepository(OrderEntity)
-    let orders = await orderRep.createQueryBuilder("order")
-    .leftJoinAndSelect("order.status", "status")
-    .getMany();
-    return Convert.PrettiefyOrders(orders);
+    let builder = orderRep.createQueryBuilder("order")
+        .leftJoinAndSelect("order.status", "status");
+    if(!hasFullPermission)
+        builder.where("order.status IN (1,2,3,6,7,8)")
+
+    let orders,err;
+    [orders,err] = await resolve(builder.getMany());
+    if(orders === undefined)
+        return [404,null]
+    if(err !== null)
+        return [500,null];
+
+    return [200,Convert.PrettiefyOrders(orders)];
 }
 /**
  * gibt alle Bestellungen eines Status zurück
  * @param statusId status Id
+ * @param hasFullPermission hat der Abrufende die Berechtigung für alle Datensätze
  * @returns Alle Bestellungen eines Statuses
  */
-export async function getAllOrdersByStatus(statusId: number):Promise<OrderEntity[]>
+export async function getAllOrdersByStatus(statusId: number,hasFullPermission:boolean):Promise<[number,OrderEntity]>
 {
-    if(statusId === 0)
-        return [];
+    let free = checkStatusByPermission(statusId);
+    console.log(free+" is free");
+    if(!hasFullPermission && !free)
+    {
+        console.log("not free");
+        return [403,null];   
+    }
     const orderRep = getRepository(OrderEntity)
-    let orders = await orderRep.createQueryBuilder("order")
-    .leftJoin("order.status", "status")
-    .where("status.id = :id",{id: statusId})
-    .getMany();
-    return orders;
+    let builder = orderRep.createQueryBuilder("order")
+        .leftJoin("order.status", "status")
+        .where("status.id = :id",{id: statusId});
+    
+    let orders,err;
+    [orders,err] = await resolve(builder.getMany());
+    if(err !== null)
+    {
+        return [500,null];
+    }
+    if(orders === undefined)
+    {
+        return [404,null];
+    }
+    return [200,orders];
 }
 
 /**
@@ -42,7 +92,7 @@ export async function getAllOrdersByStatus(statusId: number):Promise<OrderEntity
  * @param statusId status Id
  * @returns Alle Bestellungen eines Statuses
  */
-export async function getAllOrdersByMultiplyStatus(statusId: number[]):Promise<OrderEntity[]>
+export async function getAllOrdersByMultiplyStatus(statusId: number[])
 {
     if(statusId.length < 1)
         throw new Error("It musst be at least one Status Id given.")
@@ -51,7 +101,10 @@ export async function getAllOrdersByMultiplyStatus(statusId: number[]):Promise<O
         .leftJoinAndSelect("order.status", "status")
         .where("status.id IN (:id)",{id: statusId})
     
-    let orders = await builder.getMany();
+    let orders,err
+    [orders,err] = await resolve(builder.getMany());
+    if(err !== null || orders === undefined)
+        return undefined;
     return Convert.PrettiefyOrders(orders);
 }
 
@@ -63,43 +116,53 @@ export async function getAllOrdersByMultiplyStatus(statusId: number[]):Promise<O
  *      - logs
  *      - articles
  * @param orderId Bestellungsid
+ * @param hasFullPermission hat der Abrufende die Berechtigung für alle Datensätze
  * @returns Wesentliche Informationen über eine Bestellung | undefined
  */
-export async function getFullOrder(orderId: number)
+export async function getFullOrder(orderId: number,hasFullPermission: boolean):Promise<[number,any]>
 {
     const orderRep = getRepository(OrderEntity)
-    let order = await orderRep.createQueryBuilder("order")
-    .leftJoinAndSelect("order.status", "status")
-    .leftJoinAndSelect("order.address", "address")
-    .leftJoinAndSelect("order.logs", "logs")
-    .leftJoinAndSelect("logs.status", "logsstatus")
-    .leftJoinAndSelect("order.articles", "articles")
-    .leftJoinAndSelect("articles.article", "article")
-    .where("order.id = :id",{id: orderId})
-    .getOne();
+    let builder = orderRep.createQueryBuilder("order")
+        .leftJoinAndSelect("order.status", "status")
+        .leftJoinAndSelect("order.address", "address")
+        .leftJoinAndSelect("order.logs", "logs")
+        .leftJoinAndSelect("logs.status", "logsstatus")
+        .leftJoinAndSelect("order.articles", "articles")
+        .leftJoinAndSelect("articles.article", "article")
+        .where("order.id = :id",{id: orderId});
 
+    let order,err;
+    [order,err] = await resolve(builder.getOne());
+
+    if(err !== null)
+        return [500,null];
     if(order === undefined)
+        return [404,null];
+    
+
+    if(!hasFullPermission && !checkStatusByPermission(order.status.id))
     {
-        return undefined;
+        return [403,null];   
     }
 
-    return {
+    return [200,{
         id:order.id,
         mail: order.mail,
         status: order.status.id,
         address: order.address,
         logs: Convert.PrettiefyLogs(order.logs),
         article: Convert.PrettiefyArticles(order.articles)
-    }
+    }];
 }
 
 /**
  * setzt den nächsten Status einer Bestellung
  * @param orderId Bestellungsid
  * @param info Zusatzinformation
+ * @param hasFullPermission hat der Abrufende die Berechtigung für alle Datensätze
  * @returns false: Fehlerhaft | true: nächster Status gesätzt
  */
-export async function setNextStatus(orderId: number ,info: string):Promise<boolean>
+export async function setNextStatus(orderId: number ,info: string,hasFullPermission: boolean):Promise<number>
 {
     const orderRep = getRepository(OrderEntity)
     let order = await orderRep.createQueryBuilder("order")
@@ -109,12 +172,11 @@ export async function setNextStatus(orderId: number ,info: string):Promise<boole
     .getOne();
 
     if(order == undefined)
-        return false;
+        return 404;
 
-    if(order.status.needsPermission)
+    if(order.status.needsPermission && !hasFullPermission)
     {
-        //todo permission checking
-        console.error("No Permisiion Checking in OrderMapper setNextStatus");
+        return 403;
     }
 
     let nextStatus = order.status.next;
@@ -124,16 +186,16 @@ export async function setNextStatus(orderId: number ,info: string):Promise<boole
         order.status = nextStatus;
         let log = await OrderLog.createLog(order,info,nextStatus);
         if(log == undefined)
-            return false;
+            return 500;
         
         let res = await order.save();
         if(res == undefined)
-            return false;        
+            return 500;        
     }else{
-        return false;
+        return 400;
     }
 
-    return true;
+    return 200;
 
 }
 
@@ -142,11 +204,12 @@ export async function setNextStatus(orderId: number ,info: string):Promise<boole
  * @param orderId Bestellungsid
  * @param info Zusatzinformation
  * @param statusId Statusid
+ * @param hasFullPermission hat der Abrufende die Berechtigung für alle Datensätze
  */
-export async function setStatus(orderId: number ,info: string, statusId: number):Promise<boolean>
+export async function setStatus(orderId: number ,info: string, statusId: number,hasFullPermission:boolean):Promise<number>
 {
     if(statusId === 0)
-        return false;
+        return 400;
 
     const orderRep = getRepository(OrderEntity)
     let order = await orderRep.createQueryBuilder("order")
@@ -155,24 +218,24 @@ export async function setStatus(orderId: number ,info: string, statusId: number)
     .getOne();
 
     if(order === undefined)
-        return false;
+        return 404;
 
-    if(order.status.needsPermission)
+    if(order.status.needsPermission && !hasFullPermission)
     {
-        // TODO: permission checking
-        console.error("No Permisiion Checking in OrderMapper setNextStatus");
+        return 403;
     }
     const newStatus = await StatusEntity.findOne({where: {id: statusId}});
     if(newStatus === undefined)
-        return false;
+        return 404;
     
     order.status = newStatus;
 
-    let log = await OrderLog.createLog(order,info,newStatus);
+    let log,err;
+    [log,err] = await resolve(OrderLog.createLog(order,info,newStatus));
     if(log === undefined)
     {
         console.error(`Failed creating Log in OrderMapper:setStatus for: ${order.id},${newStatus.id}`)
-        return false;
+        return 500;
     }
         
 
@@ -186,10 +249,10 @@ export async function setStatus(orderId: number ,info: string, statusId: number)
             console.error(`Failed deleting Log after failing detling Order in OrderMapper:setStatus for: ${order.id}`)
         }
 
-        return false;
+        return 500;
     }
     
-    return true;
+    return 200;
 }
 
 /**
@@ -253,11 +316,11 @@ export async function addOrder(mail: string,address,articles){
  * @param user_key Benutzer-Key
  * @returns true | false
  */
-export async function submitOrder(user_key: string):Promise<boolean>
+export async function submitOrder(user_key: string):Promise<number>
 {
     let order_id = UserKey.getOrder(user_key);
     if(order_id === undefined)
-        return false;
+        return 400;
 
-    return await setStatus(order_id,undefined,1);
+    return await setStatus(order_id,undefined,1,true);
 }

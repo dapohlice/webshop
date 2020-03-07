@@ -7,7 +7,7 @@ $(function (){
   var $categoryDetailForm = $('#categoryDetailForm');
 
   var $categoryname = $('#categoryname');
-  var $picturepath = $('#picturepath');
+  // var $picturepath = $('#picturepath');
 
   var categoriesTemplate = $('#categories-template').html(); // for all categories
   var categoryTemplate = $('#category-template').html(); // for details at one category
@@ -58,19 +58,32 @@ $(function (){
     showStatusError("Network Error");
   }).send();
 
-  $('#add-category').on('click', function() {
+  $('#add-category').on('click', function(event) {
+    // console.log("Valid?");
+    // console.log(valid);
+    // if (valid) {
+    //   return true;
+    // } else {
+    //   showStatusError("Form not valid");
+    //   event.preventDefault();
+    //   event.stopPropagation();
+    //   console.log("invalid form in categoryJS");
+    //   return 10;
+    // }
+
 
     var $deleteImageAdd = $('#deleteImageAdd');
 
     var category = {
       categoryname: $categoryname.val(),
-      picturepath: $picturepath.val()
+      picturepath: $deleteImageAdd.attr('data-id')
     };
     console.log(JSON.stringify(category));
 
     SimpleRequest.POST(PRODUCT_SERVICE,"category")
     .onSuccess(function (newCategory) {
         addCategory(newCategory);
+        showStatusInfo("Category added");
         if ($deleteImageAdd.attr('data-id')) {
           // attr is not blank
           $deleteImageAdd.removeAttr('disabled', 'disabled');
@@ -122,14 +135,15 @@ $(function (){
 
   $(document).on("click", "#edit-category", function() {
     // change vars
+    var $deleteImageEdit = $('#deleteImageEdit');
     var $editcategoryname = $('#editcategoryname');
-    var $editpicturepath = $('#editpicturepath');
+    // var $editpicturepath = $('#editpicturepath');
     var $tr = $(this).closest('tr');
     var id = $tr.attr('data-id');
 
     var $category = {
       categoryname: $editcategoryname.val(),
-      picturepath: $editpicturepath.val()
+      picturepath: $deleteImageEdit.attr('data-id')
     };
     console.log($category.categoryname);
     console.log($category.picturepath);
@@ -216,7 +230,6 @@ $(function (){
   $(document).on("click", "#add-image", function(event) {
     event.preventDefault();
     // get filedata
-    var $picturepath = $('#picturepath');
     var $categoryname = $('#categoryname');
     var $picturesrc = $('#picturesrc');
     //get buttons
@@ -229,7 +242,6 @@ $(function (){
     .onSuccess(function (image) {
           $('#imgModal').modal('hide');
           $deleteImageAdd.attr('data-id', image);
-          $picturepath.val(image);
           $picturesrc.attr('src', PICTURE_SERVICE+"/"+ image);
           if ($deleteImageAdd.attr('data-id')) {
             // attr is not blank
@@ -258,7 +270,6 @@ $(function (){
   $(document).on("click", "#edit-image", function(event) {
     event.preventDefault();
     // get filedata
-    var $editpicturepath = $('#editpicturepath');
     var $editcategoryname = $('#editcategoryname');
     var $editpicturesrc = $('#editpicturesrc');
     var $deleteImageEdit = $('#deleteImageEdit');
@@ -272,7 +283,6 @@ $(function (){
     .onSuccess(function (image) {
         $('#imgEditModal').modal('hide');
         $deleteImageEdit.attr('data-id', image)
-        $editpicturepath.val(image);
         $editpicturesrc.attr('src', PICTURE_SERVICE +'/' + image);
         if ($deleteImageEdit.attr('data-id')) {
           // attr is not blank
@@ -301,7 +311,6 @@ $(function (){
   $(document).on("click", "#deleteImageAdd", function(event) {
     event.preventDefault();
 
-    var $picturepath = $('#picturepath');
     var $categoryname = $('#categoryname');
     var $picturesrc = $('#picturesrc');
     // get btn id
@@ -310,7 +319,6 @@ $(function (){
 
     SimpleRequest.DELETE(PICTURE_SERVICE,btnid)
     .onSuccess(function () {
-      $picturepath.val("");
       //set any default category image here:
       $picturesrc.attr('src', 'img/category/shirt.png');
       $deleteImageAdd.attr('data-id', '');
@@ -331,7 +339,6 @@ $(function (){
   $(document).on("click", "#deleteImageEdit", function(event) {
     event.preventDefault();
     // get filedata
-    var $editpicturepath = $('#editpicturepath');
     var $editcategoryname = $('#editcategoryname');
     var $editpicturesrc = $('#editpicturesrc');
     // get btn id
@@ -340,7 +347,6 @@ $(function (){
 
     SimpleRequest.DELETE(PICTURE_SERVICE,btnid)
     .onSuccess(function () {
-      $editpicturepath.val("");
       //set any default category image here:
       $editpicturesrc.attr('src', 'img/category/shirt.png');
       $deleteImageEdit.attr("data-id", "");

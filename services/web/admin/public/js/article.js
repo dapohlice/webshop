@@ -66,7 +66,7 @@ $(function (){
         .onError(function(error){
           showStatusError("Network Error");
         }).send();
-      
+
     }
   }
 
@@ -82,7 +82,7 @@ SimpleRequest.GET(PRODUCT_SERVICE,"article")
     }
 
   })
-  .onFailure(renderErrorTableHTML)    
+  .onFailure(renderErrorTableHTML)
   .onError(function(error){
     showStatusError("Network Error");
   }).send();
