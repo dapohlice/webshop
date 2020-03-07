@@ -38,6 +38,9 @@ app.get('/', (req, res) => {
 app.get('/products', (req, res) => {
   res.render('products');
 });
+app.get('/article', (req, res) => {
+  res.render('article');
+});
 
 
 /**
