@@ -136,7 +136,7 @@ const DBOps = {};
     changePropertyAmount: async function(id, subid, amount){
       try {
         let article = await Models.ProductModel.findOne({productid: id});
-        if(article == null){
+        if(!article){
           throw {name: 'NotFound'};
         }
         let check = false;
@@ -159,10 +159,10 @@ const DBOps = {};
     createProperty: async function(id, sub){
       try {
         let article = await Models.ProductModel.findOne({productid: id});
-        if (article == !null) {
-          if (sub instanceof Array) {
-            for(let property of article.propertys){
-              article.propertys.push(property)
+        if (article) {
+          if (Array.isArray(sub)) {
+            for(let property of sub){
+              article.propertys.push(property);
             }
           }
           else {
