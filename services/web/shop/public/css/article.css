@@ -58,7 +58,7 @@
     font-size: 2rem;
     padding-left: 1.5rem;
     padding-right: 1.5rem;
-    background-color: var(--main-dark); 
+    background-color: var(--main-dark);
     color: white;
 }
 .category-item:last-child{

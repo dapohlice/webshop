@@ -44,8 +44,8 @@ block content
       span.sr-only
         | Next
 
-  div.container-fluid.pt-3
-    div.border.border-secondary.w-100.shadow-lg.bg-light
+  div.container-fluid
+    div.navbar.category-bar.border.border-secondary.shadow-lg.bg-light
       div.btn-group.btn-group-lg.float-left
         button.btn.btn-outline-secondary
           | categry 1
@@ -55,26 +55,32 @@ block content
           | categry 3
         button.btn.btn-outline-secondary
           | categry 4
+      
+      div.btn-group.dropleft
+        div.dropdown.float-right
+          button.btn.btn-secondary.btn-lg.dropdown-toggle(
+            type="button"
+            data-toggle="dropdown"
+            aria-haspopup="true"
+            aria-expanded="false"
+            )
+            | sort
+          div.dropdown-menu
+            li
+              a.dropdown-item(href="#")
+                | categry 1
+            li
+              a.dropdown-item(href="#")
+                | categry 2
+            li
+              a.dropdown-item(href="#")
+                | categry 3
+            li
+              a.dropdown-item(href="#")
+                | categry 4
 
-      div.dropdown.float-right
-        button.btn.btn-secondary.btn-lg.dropdown-toggle(type="button" data-toggle="dropdown")
-          | sort
-        ul.dropdown-menu
-          li
-            a.dropdown-item(href="#")
-              | categry 1
-          li
-            a.dropdown-item(href="#")
-              | categry 2
-          li
-            a.dropdown-item(href="#")
-              | categry 3
-          li
-            a.dropdown-item(href="#")
-              | categry 4
-
-  div.container-fluid
-    div.row(style='padding-top:20px')
+  div.container-fluid.pt-3
+    div.row
       div.col-sm-4
         div.card.bg-light
           a.a-link-normal(href=`/article`)

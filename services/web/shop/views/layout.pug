@@ -28,24 +28,22 @@ include shoppingCart
 
 
 block main
-  .main
+  main
   
     block content
     
     block footer
-      footer.footer.container-fluid.pt-3
+      footer.footer.p-3
         div.row
-          div.column(style="background-color:#aaa;")
-            h2(style="text-align:center")
+          div.col-sm
+            h2.text-center
               | description of the shop
             p
               | Some text..
-
-          div.column(style="background-color:#bbb;")
-            h2(style="text-align:center")
+          div.col-sm
+            h2.text-center
               | legal pages
-
-            div.container.ul
+            ul
               li
                 a(href=`/`)
                   | imprint
@@ -58,25 +56,22 @@ block main
               li
                 a(href=`/`)
                   | notice of cancellation
-
-          div.column(style="background-color:#ccc;")
-            h2(style="text-align:center")
+          div.col-sm
+            h2.text-center
               | sitemap
-
-            div.container-fluid
-              div.ul
-                li
-                  a(href=`/`)
-                    | startsite
-                li
-                  a(href=`/`)
-                    | contact
-                li
-                  a(href=`/`)
-                    | about
-                li
-                  a(href=`/`)
-                    | approach
+            ul
+              li
+                a(href=`/`)
+                  | startsite
+              li
+                a(href=`/`)
+                  | contact
+              li
+                a(href=`/`)
+                  | about
+              li
+                a(href=`/`)
+                  | approach
 
 block scripts
   script(src='https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js')

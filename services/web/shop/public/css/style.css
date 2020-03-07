@@ -1,3 +1,14 @@
+/*
+Vorschlag für zukünftigen Farbcode:
+Text: 000000
+Hintergrund: DCDCDD
+Navigationsbar: 46494C
+footer-background: C5C3C6
+Highlights-Alternativ-Hintergrund: 4C5C68
+Buttons: 4C5C68
+Wichtiges-Links-Warnungen: 1985A1
+https://coolors.co/dcdcdd-c5c3c6-46494c-4c5c68-1985a1 */
+
 :root{
   --main-dark: rgb(52, 58, 64);
   --main-dark-o: rgb(52, 58, 64,0.7);
@@ -6,16 +17,18 @@
   --main-highlight-t: rgb(189, 42, 152,0.6);
 }
 
+* {
+  box-sizing: border-box;
+  font-family: 'Roboto', sans-serif;
+}
+
 body {
   margin: 0;
-  font-family: Arial, Helvetica, sans-serif;
 }
 
 main {
-  padding-top: 4.5rem;
+  padding: 100px 0 0 0;
 }
-
-
 .button {
   color: white;
   padding: 12px;
@@ -60,14 +73,6 @@ main {
   background-color: #6c757d;
   color: white;
 }
-.footer {
-  /* position: fixed; */
-  left: 0;
-  bottom: 0;
-  width: 100%;
-  color: white;
-  /*text-align: center;*/
-}
 
 .column {
   float: left;
@@ -79,6 +84,10 @@ main {
 .row {
   display: table;
   clear: both;
+}
+
+.category-bar {
+  display: block;
 }
 
 /* .scrollbar {
@@ -100,4 +109,16 @@ main {
 
 .shoppingCart-btn{
   margin-left: auto;
+}
+
+.footer {
+  background-color:#46494C;
+  color:#ffffff;
+}
+.footer a {
+  color:#ffffff;
+}
+.footer a:hover {
+  text-decoration: none;
+  color:#C5C3C6;
 }
