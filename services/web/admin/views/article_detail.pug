@@ -141,60 +141,64 @@ block article_detail
                     data-target="#imgEditModal"
                     )
                     | Upload Image
-              div.form-row     
-                div.col
-                  hr
-                  h4 Properties
-              div.form-row     
-                div.col-md-4.mb-3
-                  div.form-group
-                    label(
-                      for="editsubid"
-                    )
-                      | Item number
-                    input.form-control#editsubid(
-                      type="number"
-                      placeholder="Enter sub item number for this property"
-                      value="{{#propertys}}{{subid}}{{/propertys}}"
-                      disabled
-                    )
-                    div.invalid-feedback
-                      | Please provide a valid sub item number.
-                div.col-md-4.mb-3
-                  div.form-group
-                    label(
-                      for="editproperty"
-                    )
-                      | characteristics
-                    input.form-control#editproperty(
-                      type="text"
-                      placeholder="Insert properties and separated several with ','"
-                      value="{{#propertys}}{{property}}{{/propertys}}"
-                      disabled
-                    )
-                    div.invalid-feedback
-                      | Please provide valid properties.
-                div.col-md-4.mb-3
-                  div.form-group
-                    label(
-                      for="editamount"
-                    )
-                      | Property amount
-                    input.form-control#editamount(
-                      type="number"
-                      placeholder="Insert amount for this property"
-                      value="{{#propertys}}{{amount}}{{/propertys}}"
-                      disabled
-                    )
-                    div.invalid-feedback
-                      | Please provide a valid amount number.
               hr
                 //- div.modal-footer-temp
               div.form-row
-                div.col.md-12.mb-3
+                div.col.md-6.mb-3
+                  button.float-left#askPropertiesArticleBtn.btn.btn-success(
+                    type="button"
+                    data-id="{{productid}}"
+                    data-tooltip="tooltip" 
+                    data-placement="bottom" 
+                    title="Add new properties" 
+                    data-toggle="modal"
+                    data-target="#propertiesModal"
+                    )
+                    i.fa.fa-plus
+                      |  Add Properties
+                div.col.md-6.mb-3
                   button.float-right#edit-article.btn.btn-success(
                     data-id="{{productid}}"
                     type="submit"
                     )
                       i.fa.fa-check
                         | Save
+          div.row
+            div.col
+              hr
+              h4 Properties
+          table.table.table-striped.table-hover
+            thead
+              tr
+                th
+                  | Number
+                th
+                  | Property
+                th
+                  | Amount
+            tbody#properties    
+              template#properties-template
+                tr.editProperty.table-row(
+                  data-id="{{_id}}"
+                  data-tooltip="tooltip"
+                  data-placement="bottom"
+                  title="Edit this property"
+                  data-toggle="modal"
+                  data-target="#detailPropertiesModal"
+                  )
+                  td.subid 
+                    | {{subid}}
+                  td.property
+                    | {{property}}
+                  //- td
+                  //-   | {{#propertys}}{{property}}{{/propertys}}
+                  //- td
+                  //-   | {{#propertys}}{{amount}}{{/propertys}} pcs
+                  td.amount
+                    | {{ amount }} pcs
+              template#empty-prop-template
+                tr.table-row
+                  td(
+                    colspan="3"
+                    )
+                    | No entries available! Add new properties.

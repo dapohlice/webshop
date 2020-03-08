@@ -1,0 +1,73 @@
+block article_properties_edit
+
+  div#detailPropertiesModal.modal.fade
+    div.modal-dialog.modal-dialog-centered.modal-md
+      div.modal-content
+        //- Modal Header
+        div.modal-header
+          h4.modal-title    
+            | Edit properties   
+          button.close(
+            type="button"
+            data-dismiss="modal"
+            data-tooltip="tooltip" 
+            data-placement="bottom" 
+            title="Abort editing properties" 
+          ) 
+            | &times;
+        //- Modal Body
+        div.modal-body
+          form#editPropertiesForm(
+            novalidate
+            )
+            template#property-template
+              div.form-row     
+                div.col-md-4.mb-3
+                  div.form-group
+                    label(
+                      for="subidEdit"
+                    )
+                      | Item number
+                    input.form-control#subidEdit(
+                      data-id="{{_id}}"
+                      type="number"
+                      placeholder="Enter sub item number for this property"
+                      value="{{subid}}"
+                      disabled
+                    )
+                    div.invalid-feedback
+                      | Please provide a valid sub item number.
+                div.col-md-4.mb-3
+                  div.form-group
+                    label(
+                      for="propertyEdit"
+                    )
+                      | characteristics
+                    input.form-control#propertyEdit(
+                      type="text"
+                      placeholder="Insert properties and separated several with ','"
+                      value="{{property}}"
+                      disabled
+                    )
+                    div.invalid-feedback
+                      | Please provide valid properties.
+                div.col-md-4.mb-3
+                  div.form-group
+                    label(
+                      for="amountEdit"
+                    )
+                      | Property amount
+                    input.form-control#amountEdit(
+                      type="number"
+                      placeholder="Insert amount for this property"
+                      value="{{amount}}"
+                    )
+                    div.invalid-feedback
+                      | Please provide a valid amount number.
+
+              button#edit-property.btn.btn-success.float-right(
+                data-id="{{subid}}"
+                type="submit"
+                )
+                  i.fa.fa-check
+                    | Add

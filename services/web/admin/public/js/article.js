@@ -5,26 +5,41 @@ $(function (){
 
   // var $article = $('#article');
   var $articles = $('#articles');
+  var $properties = $('#properties');
   var $articleDetailForm = $('#articleDetailForm');
+  var $propertiesDetailForm = $('#editPropertiesForm');
   var $productid = $('#productid');
   var $name = $('#name');
   var $description = $('#description');
   var $price = $('#price');
   var $state = $('#state');
+
+  var lastSubID= 0;
+  var lastArticleID= 0;
   var $subid = $('#subid');
   var $property = $('#property');
   var $amount = $('#amount');
+
   var $category = $('#category');
 
   var articlesTemplate = $('#articles-template').html(); // for all articles
   var articleTemplate = $('#article-template').html(); // for details at one article
+  var propertiesTemplate = $('#properties-template').html(); // for details at one property
+  var propertyTemplate = $('#property-template').html(); // for details at one property
   var emptyTemplate = $('#empty-template').html(); // for zero article
+  var emptyPropTemplate = $('#empty-prop-template').html(); // for zero properties
 
   function addArticle(article) {
     $articles.append(Mustache.render(articlesTemplate, article));
   }
   function addEmpty(empty) {
     $articles.append(Mustache.render(emptyTemplate, empty));
+  }
+  function addProperty(property) {
+    $properties.append(Mustache.render(propertiesTemplate, property));
+  }
+  function addPropEmpty(emptyProp) {
+    $properties.append(Mustache.render(emptyPropTemplate, emptyProp));
   }
   function addArticleDetail(article, id, categoryID, btnimg) {
     if (lastID == id) {
@@ -77,6 +92,35 @@ $(function (){
           showStatusError("Network Error");
         }).send();
 
+        SimpleRequest.GET(PRODUCT_SERVICE,"article/"+id+"/propertys")
+        .onSuccess(function(properties) {
+          if ((JSON.stringify(properties) !== JSON.stringify([]))) {
+            $.each(properties, function(i, property) {
+              addProperty(property);
+            });
+          } else {
+            $properties.children().remove();
+            addPropEmpty(properties);
+          }
+        })
+        .onFailure(function (errorcode,errortext, statusText) {
+          console.log("fail");
+          showStatusError(statusText + ": " + errorcode+ " - " + errortext + " while get properties");
+        })
+        .onError(function(error){
+          showStatusError("Network Error");
+        }).send();
+
+    }
+  }
+  function addPropertyDetail(property, subid) {
+    if (lastSubID == subid) {
+      console.log("property details nicht neu generiert");
+    } else {
+      console.log("property details neu generiert");
+      lastSubID = subid;
+      $propertiesDetailForm.children().remove();
+      $propertiesDetailForm.append(Mustache.render(propertyTemplate, property));
     }
   }
 
@@ -164,7 +208,10 @@ SimpleRequest.GET(PRODUCT_SERVICE,"category")
   $(document).on("click", ".editArticle", function() {
 
     var $tr = $(this).closest('tr');
-    var id = $tr.attr('data-id');
+    var id = $tr.attr('data-value');
+    console.log("ID value of clicked edit Article: ");
+    console.log($tr.val());
+    lastArticleID = $tr.attr('data-id');
     var btnimg = '';
     btnimg = $tr.find('td.image img').attr('data-id');
     console.log(btnimg);
@@ -176,10 +223,13 @@ SimpleRequest.GET(PRODUCT_SERVICE,"category")
         console.log(article.description);
         addArticleDetail(article, id, article.category, btnimg);
       } else {
-        renderErrorTableHTML();
+        showStatusError("Error: response empty article objekt");
       }
     })
-    .onFailure(renderErrorTableHTML)
+    .onFailure(function (errorcode,errortext, statusText) {
+      console.log("fail");
+      showStatusError(statusText + ": " + errorcode+ " - " + errortext + " while editing article");
+    })
     .onError(function(error){
       showStatusError("Network Error");
     }).send();
@@ -240,6 +290,122 @@ SimpleRequest.GET(PRODUCT_SERVICE,"category")
       event.preventDefault();
       event.stopPropagation();
       console.log("invalid form in article");
+      return 10;
+    }
+
+  });
+  $(document).on("click", "#add-properties", function(event) {
+    event.preventDefault();
+    // var $btn = $('#askPropertiesArticleBtn');
+    // var btnid = $btn.attr('data-id');
+    var id = lastArticleID;
+
+    if (validatePropertiesForm()) {
+      var property = {
+        amount: $amount.val(),
+        subid: $subid.val(),
+        property: $property.val()
+      };
+      console.log(property.property);
+
+      SimpleRequest.POST(PRODUCT_SERVICE,"article/"+id+"/propertys")
+      .addJson(property)
+      .onSuccess(function(newProperty) {
+        console.log("open property add Modal");
+        if ((JSON.stringify(newProperty) !== JSON.stringify([]))) {
+          console.log(property.description);
+          addProperty(newProperty);
+        } else {
+          showStatusError("Error: Response empty property objekt");
+        }
+      })
+      .onFailure(function (errorcode, errortext, statusText) {
+        console.log("fail");
+        showStatusError(statusText + ": " + errorcode+ " - " + errortext + " while add property");
+      })
+      .onError(function(error){
+        showStatusError("Network Error");
+      }).send();
+    } else {
+      // showStatusError("Form not valid");
+      event.preventDefault();
+      event.stopPropagation();
+      console.log("invalid form in add properties");
+      return 10;
+    }
+
+  });
+  $(document).on("click", ".editProperty", function() {
+
+    var $tr = $(this).closest('tr');
+    var id = $tr.attr('data-id');
+
+    SimpleRequest.GET(PRODUCT_SERVICE,"article/"+id+"/propertys")
+    .onSuccess(function(property) {
+      console.log("open Property details for Edit Prop Modal");
+      if ((JSON.stringify(property) !== JSON.stringify([]))) {
+        console.log(property.description);
+        addPropertyDetail(property, id);
+      } else {
+        showStatusError("Error: Response empty property objekt");
+      }
+    })
+    .onFailure(function (errorcode, errortext, statusText) {
+      console.log("fail");
+      showStatusError(statusText + ": " + errorcode+ " - " + errortext + " while edit property");
+    })
+    .onError(function(error){
+      showStatusError("Network Error");
+    }).send();
+
+  });
+
+  $(document).on("click", "#edit-property", function() {
+
+    if (validatePropertiesEditForm()) {
+      // change vars
+      var $amountedit = $('#amountEdit');
+      var $tr = $(this).closest('tr');
+      var id = $tr.attr('data-id');
+
+      var property = {
+        amount: $amountedit.val()
+      };
+      var $btn = $('#edit-property');
+      var btnid = $btn.attr('data-id');
+      console.log("click edit property with");
+      console.log("button ID:");
+      console.log(btnid);
+      console.log("last ID:");
+      console.log(lastID);
+
+      SimpleRequest.PATCH(PRODUCT_SERVICE,"article/"+lastID+"/property/"+btnid)
+      .onSuccess(function (newArticle) {
+        console.log("success");
+        $.each($('.editProperty'), function () {
+          $tr = $(this).closest('tr');
+          id = $tr.attr('data-id');
+          if (id == btnid) {
+            $tr.find('td.subid').html(property.name);
+            $tr.find('td.property').html(property.price);
+            $tr.find('td.amount').html(property.amount);
+          }
+        });
+      })
+      .onFailure(function (errorcode, errortext, statusText) {
+        console.log("fail");
+        showStatusError(statusText + ": " + errorcode+ " - " + errortext + " while saving property");
+      })
+      .onError(function(error){
+        showStatusError("Network Error");
+      })
+      .addJson(article)
+      .send();
+    } else {
+      // showStatusError("Form not valid");
+      event.preventDefault();
+      event.stopPropagation();
+      console.log("invalid form in properties");
       return 10;
     }
 

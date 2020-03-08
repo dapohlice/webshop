@@ -1,0 +1,65 @@
+block article_properties_add
+
+  div#propertiesModal.modal.fade
+    div.modal-dialog.modal-dialog-centered.modal-md
+      div.modal-content
+        //- Modal Header
+        div.modal-header
+          h4.modal-title    
+            | Add new properties   
+          button.close(
+            type="button"
+            data-dismiss="modal"
+            data-tooltip="tooltip" 
+            data-placement="bottom" 
+            title="Abort add new properties" 
+          ) 
+            | &times;
+        //- Modal Body
+        div.modal-body
+          form#addPropertiesForm(
+            novalidate
+            )
+            div.form-row     
+              div.col-md-4.mb-3
+                div.form-group
+                  label(
+                    for="subid"
+                  )
+                    | Item number
+                  input.form-control#subid(
+                    type="number"
+                    placeholder="Enter sub item number for this property"
+                  )
+                  div.invalid-feedback
+                    | Please provide a valid sub item number.
+              div.col-md-4.mb-3
+                div.form-group
+                  label(
+                    for="property"
+                  )
+                    | characteristics
+                  input.form-control#property(
+                    type="text"
+                    placeholder="Insert properties and separated several with ','"
+                  )
+                  div.invalid-feedback
+                    | Please provide valid properties.
+              div.col-md-4.mb-3
+                div.form-group
+                  label(
+                    for="amount"
+                  )
+                    | Property amount
+                  input.form-control#amount(
+                    type="number"
+                    placeholder="Insert amount for this property"
+                  )
+                  div.invalid-feedback
+                    | Please provide a valid amount number.
+
+            button#add-properties.btn.btn-success.float-right(
+              type="submit"
+              )
+                i.fa.fa-check
+                  | Add

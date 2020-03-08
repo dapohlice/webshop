@@ -157,12 +157,12 @@ function validateEditForm() {
         var editDescription;
         var editImg;
         var $deleteImageEdit = $('#deleteImageEdit');
-       editName = $('#editname').val(),
-       editNr = $('#editproductid').val(),
-       editPrice = $('#editprice').val(),
-       editCategory = $('#editcategory').val(),
-       editDescription = $('#editdescription').val(),
-       editImg = $deleteImageEdit.attr('data-id')
+       editName = $('#editname').val();
+       editNr = $('#editproductid').val();
+       editPrice = $('#editprice').val();
+       editCategory = $('#editcategory').val();
+       editDescription = $('#editdescription').val();
+       editImg = $deleteImageEdit.attr('data-id');
        console.log("editName of category:");
        console.log(editName);
        console.log("editImg of category:");
@@ -200,8 +200,8 @@ function validateEditForm() {
       var editImg;
       var $deleteImageEdit = $('#deleteImageEdit');
       var $editcategoryname = $('#editcategoryname');
-       editName = $editcategoryname.val(),
-       editImg = $deleteImageEdit.attr('data-id')
+       editName = $editcategoryname.val();
+       editImg = $deleteImageEdit.attr('data-id');
        console.log("editName of category:");
        console.log(editName);
        console.log("editImg of category:");
@@ -223,6 +223,58 @@ function validateEditForm() {
        showStatusError("Warning: invalid request!");
    }
 
+}
+function validatePropertiesForm() {
+  // This function deals with validation of the dynamic created form fields
+   switch(currentAdminPage) {
+     case "articles":
+        var subid;
+        var property;
+        var amount;
+         subid = $('#subid').val();
+         property = $('#property').val();
+         amount = $('#amount').val();
+         if (subid == null || subid == '') {
+           //show error message
+           showStatusError("Warning: Invalid format of subid entered!");
+           return false;
+         } else if (property == null || property == '') {
+           //show error message
+           showStatusError("Warning: Invalid properties entered!");
+           return false;
+         } else if (amount == null || amount == '') {
+           //show error message
+           showStatusError("Warning: Invalid amount of properties entered!");
+           return false;
+         } else {
+           return true;
+         }
+         break;
+     default:
+       $('#detailModal').modal('hide');
+       showStatusError("Warning: invalid request!");
+   }
+}
+function validatePropertiesEditForm() {
+  // This function deals with validation of the dynamic created form fields
+   switch(currentAdminPage) {
+     case "articles":
+        var amountedit;
+         // subidedit = $('#subidEdit').val();
+         // propertyedit = $('#propertyEdit').val();
+         amountedit = $('#amountEdit').val();
+         if (amountedit == null || amountedit == '') {
+           //show error message
+           showStatusError("Warning: Invalid amount of edit property entered!");
+           return false;
+         } else {
+           return true;
+         }
+         break;
+     default:
+       $('#detailPropertiesModal').modal('hide');
+       showStatusError("Warning: invalid request!");
+   }
 }
 function validateEmail(email) {
     var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
