@@ -208,9 +208,9 @@ SimpleRequest.GET(PRODUCT_SERVICE,"category")
   $(document).on("click", ".editArticle", function() {
 
     var $tr = $(this).closest('tr');
-    var id = $tr.attr('data-value');
+    var id = $tr.attr('data-id');
     console.log("ID value of clicked edit Article: ");
-    console.log($tr.val());
+    console.log(id);
     lastArticleID = $tr.attr('data-id');
     var btnimg = '';
     btnimg = $tr.find('td.image img').attr('data-id');
