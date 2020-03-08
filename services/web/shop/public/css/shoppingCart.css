@@ -40,7 +40,7 @@
 }
 #shoppingCart-Content{
     padding: .5rem;
-    
+
     overflow: auto;
     scrollbar-color: white rgba(0,0,0,0);
     scrollbar-width: none;
@@ -63,7 +63,7 @@
     margin-bottom: .5rem;
 }
 #shoppingCart-Total-Caption{
-    
+
 }
 #shoppingCart-Total{
     display: flex;
@@ -83,7 +83,7 @@
     border-radius: .5rem;
 }
 #shoppingCart-Checkout:hover{
-    background-color: #bd2a98;
+    background-color: #702632;
     color: white;
 }
 
@@ -124,5 +124,5 @@
 
 #shoppingCart-Close:hover
 {
-    color: #bd2a98;
+    color: #702632;
 }

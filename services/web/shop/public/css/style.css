@@ -43,7 +43,7 @@ main {
 }
 
 .button:hover {
-  color: #bd2a98;
+  color: #702632;
 }
 
 .info {
@@ -122,3 +122,9 @@ main {
   text-decoration: none;
   color:#C5C3C6;
 }
+#price {
+  color: #8E2323
+}
+.link {
+  /* background-color:#46494C; */
+  color:#111111;
