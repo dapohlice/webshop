@@ -158,9 +158,9 @@ $(function (){
           if (id == btnid) {
             console.log($category.categoryname);
             $tr.find('td.name').html($category.categoryname);
-            var string = 'http://localhost:3004/' + $category.picturepath;
-            console.log(string);
-            $tr.find('td.image img').attr('src', 'http://localhost:3004/' + $category.picturepath);
+            var urlstring = 'http://localhost:3004/' + $category.picturepath;
+            console.log(urlstring);
+            $tr.find('td.image img').attr('src', urlstring);
           }
         });
       })
@@ -283,7 +283,6 @@ $(function (){
     var src = document.getElementById('editcategorypicture').files[0];
     var data = new FormData();
     data.append("photo", src);
-
 
     SimpleRequest.POST(PICTURE_SERVICE)
     .onSuccess(function (image) {

@@ -26,7 +26,7 @@ $(function (){
   function addEmpty(empty) {
     $articles.append(Mustache.render(emptyTemplate, empty));
   }
-  function addArticleDetail(article, id, categoryID) {
+  function addArticleDetail(article, id, categoryID, btnimg) {
     if (lastID == id) {
       console.log("nichts passiert");
     } else {
@@ -46,9 +46,7 @@ $(function (){
         $deleteImageEdit.attr('disabled', 'disabled');
         $editImageBtn.removeAttr('disabled', 'disabled');
       }
-      var input = $('#editcategory').attr('data-id');
-      console.log("categoryID: ");
-      console.log(categoryID);
+      // var input = $('#editcategory').attr('data-id');
       // Get all categories for a valid new article
 
       SimpleRequest.GET(PRODUCT_SERVICE,"category")
@@ -59,15 +57,16 @@ $(function (){
             console.log(categoryID);
             $.each(categories, function(i, category) {
               console.log("searching for category id with input");
-              if (categoryID == category._id) {
+              if (categoryID == category.categoryname) {
                 $('#editcategory')
                 .append("<option selected data-id='" + category._id + "' value='" + category.categoryname + "'>" + category.categoryname + "</option>");
                 // $('#editcategory').find("option:selected").attr('value', category.categoryname);
-              } else if (categoryID != category._id) {
+              } else if (categoryID != category.categoryname) {
                 $('#editcategory')
                 .append("<option data-id='" + category._id + "' value='" + category.categoryname + "'>" + category.categoryname + "</option>");
               }
             });
+
           } else {
             $('#editcategory').find("option").remove().end()
             .append("No categories found!");
@@ -166,12 +165,16 @@ SimpleRequest.GET(PRODUCT_SERVICE,"category")
 
     var $tr = $(this).closest('tr');
     var id = $tr.attr('data-id');
+    var btnimg = '';
+    btnimg = $tr.find('td.image img').attr('data-id');
+    console.log(btnimg);
+
     SimpleRequest.GET(PRODUCT_SERVICE,"article/"+id)
     .onSuccess(function(article) {
       console.log("open ArticleDetails for Edit Modal");
       if ((JSON.stringify(article) !== JSON.stringify([]))) {
         console.log(article.description);
-        addArticleDetail(article, id, article.category);
+        addArticleDetail(article, id, article.category, btnimg);
       } else {
         renderErrorTableHTML();
       }
@@ -184,47 +187,62 @@ SimpleRequest.GET(PRODUCT_SERVICE,"category")
   });
 
   $(document).on("click", "#edit-article", function() {
-    // change vars
-    var $editname = $('#editname');
-    var $editdescription = $('#editdescription');
-    var $editprice = $('#editprice');
-    var $editstate = $('#editstate');
-    var $editcategory = $('#editcategory');
-    var $tr = $(this).closest('tr');
-    var id = $tr.attr('data-id');
 
-    var article = {
-      name: $editname.val(),
-      description: $editdescription.val(),
-      price: $editprice.val(),
-      category: $editcategory.val()
-    };
-    var $btn = $('#edit-article');
-    var btnid = $btn.attr('data-id');
+    if (validateEditForm()) {
+      // change vars
+      var $editname = $('#editname');
+      var $editdescription = $('#editdescription');
+      var $editprice = $('#editprice');
+      var $editstate = $('#editstate');
+      var $editcategory = $('#editcategory');
+      var $tr = $(this).closest('tr');
+      var id = $tr.attr('data-id');
+      var $deleteImageEdit = $('#deleteImageEdit');
 
-    SimpleRequest.PUT(PRODUCT_SERVICE,"article/"+btnid)
-    .onSuccess(function (newArticle) {
-      console.log("success");
-      $.each($('.editArticle'), function () {
-        $tr = $(this).closest('tr');
-        id = $tr.attr('data-id');
+      var article = {
+        name: $editname.val(),
+        description: $editdescription.val(),
+        price: $editprice.val(),
+        picturepath: $deleteImageEdit.attr('data-id'),
+        category: $editcategory.val()
+      };
+      var $btn = $('#edit-article');
+      var btnid = $btn.attr('data-id');
+
+      SimpleRequest.PUT(PRODUCT_SERVICE,"article/"+btnid)
+      .onSuccess(function (newArticle) {
+        console.log("success");
+        $.each($('.editArticle'), function () {
+          $tr = $(this).closest('tr');
+          id = $tr.attr('data-id');
+          $('#editcategory').find("option").remove();
+          if (id == btnid) {
+            $tr.find('td.name').html(article.name);
+            $tr.find('td.price').html(currencyConverter(article.price));
+            var urlstring = 'http://localhost:3004/' + article.picturepath;
+            console.log(urlstring);
+            $tr.find('td.image img').attr('src', urlstring);
+          }
+        });
+      })
+      .onFailure(function (errorcode,errortext, statusText) {
+        console.log("fail");
+        showStatusError(statusText + ": " + errorcode+ " - " + errortext + " while saving article");
         $('#editcategory').find("option").remove();
-        if (id == btnid) {
-          $tr.find('td.name').html(article.name);
-          $tr.find('td.price').html(currencyConverter(article.price));
-        }
-      });
-    })
-    .onFailure(function (errorcode,errortext, statusText) {
-      console.log("fail");
-      showStatusError(statusText + ": " + errorcode+ " - " + errortext + " while saving article");
-      $('#editcategory').find("option").remove();
-    })
-    .onError(function(error){
-      showStatusError("Network Error");
-    })
-    .addJson(article)
-    .send();
+      })
+      .onError(function(error){
+        showStatusError("Network Error");
+      })
+      .addJson(article)
+      .send();
+    } else {
+      // showStatusError("Form not valid");
+      event.preventDefault();
+      event.stopPropagation();
+      console.log("invalid form in article");
+      return 10;
+    }
+
   });
   $(document).on("click", "#edit-status", function() {
     // change vars
@@ -276,62 +294,10 @@ SimpleRequest.GET(PRODUCT_SERVICE,"category")
     .send();
   });
 
-  $(document).on("click", "#remove-article", function() {
-    // delete tr
-    var $articles = $('#articles');
-    var $tr = $articles.closest('tr');
-    var id = $tr.attr('data-id');
-
-    var $askRemoveArticleBtn = $('#askRemoveArticleBtn');
-    var $btn = $askRemoveArticleBtn
-    var btnid = $btn.attr('data-id');
-    console.log(btnid);
-    console.log(id);
-
-    SimpleRequest.DELETE(PRODUCT_SERVICE,"article/"+btnid)
-    .onSuccess(function (newCategory) {
-      console.log("success");
-      $.each($('.editArticle'), function () {
-        $tr = $(this).closest('tr');
-        id = $tr.attr('data-id');
-        if (id == btnid) {
-          $tr.remove();
-        }
-      });
-      $('#deleteModal').modal('hide');
-      $('#detailModal').modal('hide');
-    })
-    .onFailure( function (errorstatus,errorText, statusText) {
-      console.log("fail");
-      showStatusError(statusText + ": " + errorstatus + " - " + errorText + " while deleting article");
-    })
-    .onError(function(error){
-      showStatusError("Network Error");
-    })
-    .send();
-
-    // get btn id
-    var $deleteImageEdit = $('#deleteImageEdit');
-    var imgbtnid = $deleteImageEdit.attr('data-id');
-
-    SimpleRequest.DELETE(PICTURE_SERVICE,imgbtnid)
-    .onSuccess(function (newCategory) {
-      console.log("successfully deleted picture");
-    })
-    .onFailure( function (errorstatus,errorText, statusText) {
-      console.log("fail");
-      showStatusError(statusText + ": " + errorstatus + " - " + errorText + " while deleteing category picture");
-    })
-    .onError(function(error){
-      showStatusError("Network Error");
-    })
-    .send();
-  });
-
   $(document).on("click", "#add-image", function(event) {
     event.preventDefault();
     // get filedata
-    var $categoryname = $('#categoryname');
+    var $name = $('#name');
     var $picturesrc = $('#picturesrc');
     //get buttons
     var $deleteImageAdd = $('#deleteImageAdd');
@@ -371,7 +337,7 @@ SimpleRequest.GET(PRODUCT_SERVICE,"category")
   $(document).on("click", "#edit-image", function(event) {
     event.preventDefault();
     // get filedata
-    var $editcategoryname = $('#editcategoryname');
+    var $editname = $('#editname');
     var $editpicturesrc = $('#editpicturesrc');
     var $deleteImageEdit = $('#deleteImageEdit');
 
@@ -412,7 +378,7 @@ SimpleRequest.GET(PRODUCT_SERVICE,"category")
   $(document).on("click", "#deleteImageAdd", function(event) {
     event.preventDefault();
 
-    var $categoryname = $('#categoryname');
+    var $name = $('#name');
     var $picturesrc = $('#picturesrc');
     // get btn id
     var $deleteImageAdd = $('#deleteImageAdd');
@@ -440,19 +406,19 @@ SimpleRequest.GET(PRODUCT_SERVICE,"category")
   $(document).on("click", "#deleteImageEdit", function(event) {
     event.preventDefault();
     // get filedata
-    var $editcategoryname = $('#editcategoryname');
+    var $editname = $('#editname');
     var $editpicturesrc = $('#editpicturesrc');
     // get btn id
     var $deleteImageEdit = $('#deleteImageEdit');
     var btnid = $deleteImageEdit.attr('data-id');
+    //release add new image button to mind errors:
+    $editpicturesrc.attr('src', '');
+    $deleteImageEdit.attr("data-id", "");
+    $deleteImageEdit.attr("disabled", "disabled");
+    $('#editImageBtn').removeAttr("disabled", "disabled");
 
     SimpleRequest.DELETE(PICTURE_SERVICE,btnid)
     .onSuccess(function () {
-      //set any default category image here:
-      $editpicturesrc.attr('src', '');
-      $deleteImageEdit.attr("data-id", "");
-      $deleteImageEdit.attr("disabled", "disabled");
-      $('#editImageBtn').removeAttr("disabled", "disabled");
       showStatusInfo("Image removed");
     })
     .onFailure( function (errorstatus,errorText, statusText) {
@@ -463,7 +429,6 @@ SimpleRequest.GET(PRODUCT_SERVICE,"category")
       showStatusError("Network Error");
     })
     .send();
-
   });
 
 });

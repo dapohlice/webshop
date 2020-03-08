@@ -112,6 +112,35 @@ block article_detail
                         | {{description}}
                     div.invalid-feedback
                       | invalid description
+              div.form-row
+                div.col.lg-6.mb-3
+                  div.form-group.w-50
+                    img.float-right.img-fluid#editpicturesrc(
+                      type="image/jpeg,image/png,image/gif"
+                      src="{{ picturepath | imgpath }}"
+                      alt="image"
+                      required
+                    )
+                div.col.lg-4.mb-3
+                  button.float-left.btn.btn-danger#deleteImageEdit(
+                    data-id="{{picturepath}}"
+                    type="button"
+                    data-tooltip="tooltip"
+                    data-placement="bottom"
+                    title="Delete this image immediately"
+                    required
+                    )
+                    i.fa.fa-trash
+                div.col.lg-2.mb-3
+                  button.float-right.btn.btn-secondary#editImageBtn(
+                    type="button"
+                    data-tooltip="tooltip"
+                    data-placement="bottom"
+                    title="Upload a new image"
+                    data-toggle="modal"
+                    data-target="#imgEditModal"
+                    )
+                    | Upload Image
               div.form-row     
                 div.col
                   hr
@@ -162,19 +191,7 @@ block article_detail
               hr
                 //- div.modal-footer-temp
               div.form-row
-                div.col.md-6.mb-3
-                  button.float-left#askRemoveArticleBtn.btn.btn-danger(
-                    type="button"
-                    data-id="{{_id}}"
-                    data-tooltip="tooltip" 
-                    data-placement="bottom" 
-                    title="Delete this group" 
-                    data-toggle="modal"
-                    data-target="#deleteModal"
-                    )
-                    i.fa.fa-trash
-                      |  Delete
-                div.col.md-6.mb-3
+                div.col.md-12.mb-3
                   button.float-right#edit-article.btn.btn-success(
                     data-id="{{productid}}"
                     type="submit"

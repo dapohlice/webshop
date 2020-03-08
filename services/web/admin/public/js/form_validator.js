@@ -51,13 +51,13 @@ function validateForm() {
   var txt = '';
    switch(currentAdminPage) {
      case "articles":
-      var name;
-      var nr;
-      var desc;
-      var price;
-      var category;
-      var img;
-      var $deleteImageAdd = $('#deleteImageAdd');
+        var name;
+        var nr;
+        var desc;
+        var price;
+        var category;
+        var img;
+        var $deleteImageAdd = $('#deleteImageAdd');
        name = $('#name').val();
        nr = $('#productid').val();
        desc = $('#description').val();
@@ -150,11 +150,18 @@ function validateEditForm() {
   var txt = '';
    switch(currentAdminPage) {
      case "articles":
-      var editName;
-      var editImg;
-      var $deleteImageEdit = $('#deleteImageEdit');
-      var $editcategoryname = $('#editcategoryname');
-       editName = $editcategoryname.val(),
+        var editName;
+        var editNr;
+        var editPrice;
+        var editCategory;
+        var editDescription;
+        var editImg;
+        var $deleteImageEdit = $('#deleteImageEdit');
+       editName = $('#editname').val(),
+       editNr = $('#editproductid').val(),
+       editPrice = $('#editprice').val(),
+       editCategory = $('#editcategory').val(),
+       editDescription = $('#editdescription').val(),
        editImg = $deleteImageEdit.attr('data-id')
        console.log("editName of category:");
        console.log(editName);
@@ -163,6 +170,22 @@ function validateEditForm() {
        if (editName == null || editName == '') {
          //show error message
          showStatusError("Warning: Invalid name entered!");
+         return false;
+       } else if (editNr == null || editNr == '') {
+         //show error message
+         showStatusError("Invalid item number entered!");
+         return false;
+       } else if (editDescription == null || editDescription == '') {
+         //show error message
+         showStatusError("Invalid description entered!");
+         return false;
+       } else if (editPrice == null || editPrice == '') {
+         //show error message
+         showStatusError("Invalid price format entered!");
+         return false;
+       } else if (editCategory == null || editCategory == '') {
+         //show error message
+         showStatusError("Invalid category entered!");
          return false;
        } else if (editImg == null || editImg == '') {
          //show error message

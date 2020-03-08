@@ -65,7 +65,7 @@ Mustache.Formatters = {
     if (path != null) {
       pathstring = "http://localhost:3004/" + path;
     } else {
-      pathstring = "/img/category/shirt.png";
+      pathstring = "";
     }
 
     return pathstring;

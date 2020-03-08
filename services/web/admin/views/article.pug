@@ -29,15 +29,17 @@ block content
         thead
           tr
             th
-              | ID
+              | Number
             th
               | Name
-            th
-              | Properties
-            th
-              | Amount
+            //- th
+            //-   | Properties
+            //- th
+            //-   | Amount
             th
               | Price
+            th
+              | Image
         tbody#articles    
           template#articles-template
             tr.editArticle.table-row(
@@ -52,12 +54,18 @@ block content
                 | {{productid}}
               td.name
                 | {{name}}
-              td
-                | {{#propertys}}{{property}}{{/propertys}}
-              td
-                | {{#propertys}}{{amount}}{{/propertys}} pcs
+              //- td
+              //-   | {{#propertys}}{{property}}{{/propertys}}
+              //- td
+              //-   | {{#propertys}}{{amount}}{{/propertys}} pcs
               td.price
                 | {{ price | euro }}
+              td.image.w-25
+                img.img-fluid(
+                  data-id="{{picturepath}}"
+                  src="{{ picturepath | imgpath }}"
+                  alt="image"
+                  )
           template#empty-template
             tr.table-row
               td(
