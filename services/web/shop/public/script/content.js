@@ -4,7 +4,7 @@ function openArticleFromPreview(event)
     console.log(event.target);
     var index = event.target.getAttribute("article_id");
     console.log("click art "+index);
-    
+    $('#article-container').modal('show');
 }
 
 function createPreviewArticle(article, index)

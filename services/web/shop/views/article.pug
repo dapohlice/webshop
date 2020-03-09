@@ -1,74 +1,70 @@
 block article
-  div.article-container
-    div.row(style='padding-top:20px')
-      div.col-sm-6.p-3
-        img.card-img-top(src="https://www.w3schools.com/bootstrap4/cinqueterre.jpg" alt="Cinque Terre")
-        
-      div.col-sm-6.p-3
-        div.card.bg-light
-          div.card-header
-            h2
-              | Name of the product
-              
-          div.card-body
-            p.card-text
-              | Some quick example text to build on the card title and make up the bulk of the card's content.
-            p#price
-              | price: 00,00 €
-              
-            div.dropdown.p-3
-              button.btn.btn-secondary.btn-lg.dropdown-toggle(type="button" data-toggle="dropdown")
-                | size
-              ul.dropdown-menu
-                li
-                  a.dropdown-item(href="#")
-                    | XS
-                li
-                  a.dropdown-item(href="#")
-                    | S
-                li
-                  a.dropdown-item(href="#")
-                    | M
-                li
-                  a.dropdown-item(href="#")
-                    | L
-                li
-                  a.dropdown-item(href="#")
-                    | XL
-                    
-            div.dropdown.p-3
-              button.btn.btn-secondary.btn-lg.dropdown-toggle(type="button" data-toggle="dropdown")
-                | color
-              ul.dropdown-menu
-                li
-                  a.dropdown-item(href="#")
-                    | red
-                li
-                  a.dropdown-item(href="#")
-                    | blue
-                li
-                  a.dropdown-item(href="#")
-                    | green
-                li
-                  a.dropdown-item(href="#")
-                    | white
-                li
-                  a.dropdown-item(href="#")
-                    | black
-             
-            div.pt-3
-              p.font-weight-bold
-                | product detail:
-            div
-              ul
-                li
-                  | some text
-                li
-                  | some text
-                li
-                  | some text
-                li
-                  | some text
-          div.card-footer.bg-transparent
-            a.btn.btn-secondary(href="#" data-toggle="tooltip" title="add in shopping card")
-              i.fas.fa-plus(style='font-size:24px')
+  div.modal#article-container
+      img(src="https://www.w3schools.com/bootstrap4/cinqueterre.jpg" alt="Cinque Terre")
+      div.card.bg-light
+        div.card-header
+          h2
+            | Name of the product
+            
+        div.card-body
+          p.card-text
+            | Some quick example text to build on the card title and make up the bulk of the card's content.
+          p#price
+            | price: 00,00 €
+            
+          div.dropdown.p-3
+            button.btn.btn-secondary.btn-lg.dropdown-toggle(type="button" data-toggle="dropdown")
+              | size
+            ul.dropdown-menu
+              li
+                a.dropdown-item(href="#")
+                  | XS
+              li
+                a.dropdown-item(href="#")
+                  | S
+              li
+                a.dropdown-item(href="#")
+                  | M
+              li
+                a.dropdown-item(href="#")
+                  | L
+              li
+                a.dropdown-item(href="#")
+                  | XL
+                  
+          div.dropdown.p-3
+            button.btn.btn-secondary.btn-lg.dropdown-toggle(type="button" data-toggle="dropdown")
+              | color
+            ul.dropdown-menu
+              li
+                a.dropdown-item(href="#")
+                  | red
+              li
+                a.dropdown-item(href="#")
+                  | blue
+              li
+                a.dropdown-item(href="#")
+                  | green
+              li
+                a.dropdown-item(href="#")
+                  | white
+              li
+                a.dropdown-item(href="#")
+                  | black
+            
+          div.pt-3
+            p.font-weight-bold
+              | product detail:
+          div
+            ul
+              li
+                | some text
+              li
+                | some text
+              li
+                | some text
+              li
+                | some text
+        div.card-footer.bg-transparent
+          a.btn.btn-secondary(href="#" data-toggle="tooltip" title="add in shopping card")
+            i.fas.fa-plus(style='font-size:24px')
