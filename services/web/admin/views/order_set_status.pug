@@ -1,0 +1,50 @@
+block order_set_status
+
+  div#setOrderStatusModal.modal.fade
+    div.modal-dialog.modal-dialog-centered.modal-md
+      div.modal-content
+        //- Modal Header
+        div.modal-header
+          h4#modalSetOrderTitel.modal-title
+            | Set Order Status
+          button.close(
+            type="button"
+            data-dismiss="modal"
+            data-tooltip="tooltip" 
+            data-placement="bottom" 
+            title="Close status asker window" 
+          ) 
+            | &times;
+        //- Modal Body
+        div.modal-body
+          div.container
+            div.row
+              div.col.col-lg-4
+                h5 Set status:
+                select.form-control#orderStatus(
+                  )
+                
+              div.col.col-lg-8
+                h5 Information:
+                textarea.form-control#setStatiMessage(rows="3")
+          hr
+          div.form-row
+            div.col.md-6.mb-3
+              button#close-edit-status.btn.btn-danger(
+                type="button"
+                data-dismiss="modal"
+                data-tooltip="tooltip" 
+                data-placement="bottom"
+                title="Abort to set status" 
+              )
+                i.fa.fa-close
+                  | Cancel 
+            div.col.md-12.mb-3
+              button.float-right.btn.btn-success#edit-status.mb-3(
+                data-tooltip="tooltip" 
+                data-placement="bottom"
+                title="Set order status now" 
+                )
+                i.fa.fa-check
+                  | Okay
+                        

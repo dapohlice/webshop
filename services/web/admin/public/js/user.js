@@ -9,6 +9,8 @@ SimpleRequest.GET(USER_SERVICE,'me')
     document.getElementById('user-lname').value = data.lastname;
     document.getElementById('user-mail').value = data.mail;
 
+    showOrderStatusButton(user);
+
 })
 .onFailure(function(errorstatus){
     showStatusError("Error loading user details "+errorstatus);
@@ -23,6 +25,17 @@ function passwordError(message)
     document.getElementById('password-newfirst').classList.add('is-invalid');
     document.getElementById('password-newsecound').classList.add('is-invalid');
     document.getElementById('password-help').innerHTML = message;
+}
+
+function showOrderStatusButton(user)
+{
+  console.log("user Objekt:");
+  console.log(user.auth.auth_allOrders);
+  if (user.auth.auth_allOrders) {
+    $('#editStatusCol').addClass('show');
+  } else {
+    $('#changeStatusCol').addClass('show');
+  }
 }
 
 document.getElementById('btn-change-password').addEventListener('click',function(e){
@@ -40,7 +53,7 @@ document.getElementById('btn-change-password').addEventListener('click',function
         passwordError(res);
     }
 
-    
+
 })
 
 document.getElementById('btn-change-password-open').addEventListener('click',function(e){
@@ -81,4 +94,3 @@ document.getElementById('btn-change-password-cancel').addEventListener('click',f
     $('#password_modal').modal('hide');
     $('#user_modal').modal('hide');
 });
-

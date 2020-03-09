@@ -34,12 +34,22 @@ block order_details
                 div.row
                   div#curStatusButton.col
                     
-                  div.col
+                  div.col#changeStatusCol
                     button#changeStatusButton.btn.btn-danger(
                       type="button"
                       data-tooltip="tooltip"
                       data-placement="bottom"
-                      title="Ask you, if you want to set a new status" 
+                      title="Ask you, if you want to set the status to the next status"
+                    )
+                      | Change
+                  div.col#editStatusCol
+                    button#editStatus.btn.btn-danger(
+                      type="button"
+                      data-tooltip="tooltip"
+                      data-placement="bottom"
+                      title="Ask you, if you want to set a new status"
+                      data-toggle="modal"
+                      data-target="#setOrderStatusModal"
                     )
                       | Change
                   div.col

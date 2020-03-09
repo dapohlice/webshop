@@ -96,6 +96,19 @@ i.fa {font-family: "FontAwesome", "Roboto", sans-serif}
   background-color: darkgrey;
 }
 
+#changeStatusCol {
+  display: none;
+}
+#editStatusCol {
+  display: none;
+}
+#changeStatusCol.show {
+  display: block;
+}
+#editStatusCol.show {
+  display: block;
+}
+
 #mySidebar {
   width: 250px;
 }
