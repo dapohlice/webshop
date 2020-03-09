@@ -68,6 +68,21 @@ export default class MyUserRouter extends BaseRouter{
             return;
         }
 
+        let auth;
+        [auth,err] = await resolve(UserMapper.getUserPermission(id));
+        if(err !== null)
+        {
+            res.sendStatus(500);
+            return;   
+        }
+        if(auth === undefined)
+        {
+            res.sendStatus(404);
+            return;
+        }
+        delete result.groups;
+        result.auth = auth;
+
         res.json(result);
     }
 
