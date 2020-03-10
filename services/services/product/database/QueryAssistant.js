@@ -1,5 +1,6 @@
 const DBConnection = require('./DBConnection.js');
 const Models = require('./Models.js');
+const Errors = require('../Exceptions/AllOwnErrors.js');
 
 const connection = new DBConnection();
 
@@ -64,8 +65,15 @@ const DBOps = {};
     /*Erstellen einen neuen Produktdatensatzes*/
     createProduct: async function(dataset) {
       try {
-        let article = new Models.ProductModel(dataset);
-        return await article.save();
+        let pid = dataset.productid;
+        if (Number.isInteger(pid)) {
+          return await new Models.ProductModel(dataset).save();
+        }
+        else {
+          let msg = "Value is not an Integer!";
+          let at = "ProductID";
+          throw new Errors.WrongTypeError(msg,at);
+        }
       } catch (err) {
         throw err;
       }
@@ -76,7 +84,9 @@ const DBOps = {};
         await DBOps.Helper.removeEmptyFieldsInJSON(dataset);
         let dest =  await Models.ProductModel.findOne({productid: id}).exec();
         if (dest == null) {
-          throw {name: 'NotFound'};
+          let msg = "Document not Found!";
+          let searched = "ProductID: " + id;
+          throw new Errors.NotFoundError(msg, searched);
         }
         return dest.updateOne(dataset);
       } catch (err) {
@@ -86,11 +96,15 @@ const DBOps = {};
     /*Ändern des Status eines Produktdatensatzes*/
     changeState: async function(id, state){
       try {
-        let dest =  await Models.ProductModel.findOne({productid: id}).exec();
+        search = {productid: id};
+        state  = {state: state};
+        opt    = {new: true};
+        let dest = await Models.ProductModel.findOneAndUpdate(search, state, opt);
         if (dest == null) {
-          throw {name: 'NotFound'};
+          let msg = "Document not Found!";
+          let searched = "ProductID: " + id;
+          throw new Errors.NotFoundError(msg, searched);
         }
-        return dest.updateOne({state: state});
       } catch (err) {
         throw err;
       }
@@ -116,17 +130,24 @@ const DBOps = {};
       try {
         let dest = await Models.ProductModel.findOne({productid: id}).exec();
         if (dest == null) {
-          throw {name: 'NotFound'};
+          let msg = "Document not Found!";
+          let searched = "ProductID: " + id;
+          throw new Errors.NotFoundError(msg, searched);
         }
         return dest;
       } catch (err) {
         throw err;
       }
     },
-    /*Gibt alle Eigenschaftsdatensätze zu  einem Artikel zurück*/
+    /*Gibt alle Eigenschaftsdatensätze zu einem Artikel zurück*/
     getAllPropertys: async function(id){
       try {
         let article = await Models.ProductModel.findOne({productid: id});
+        if (article == null) {
+          let msg = "Document not Found!";
+          let searched = "ProductID: " + id;
+          throw new Errors.NotFoundError(msg, searched);
+        }
         return article.propertys;
       } catch (err) {
         throw err;
@@ -136,18 +157,28 @@ const DBOps = {};
     changePropertyAmount: async function(id, subid, amount){
       try {
         let article = await Models.ProductModel.findOne({productid: id});
-        if(!article){
-          throw {name: 'NotFound'};
+        if(article == null){
+          let msg = "Document not Found!";
+          let searched = "ProductID: " + id;
+          throw new Errors.NotFoundError(msg, searched);
         }
-        let check = false;
-        for (let property of article.propertys) {
-          if (property.subid == subid) {
-            property.amount += amount.amount;
-            check = true;
-            break;
-          }
-          if(check == false){
-            throw {name: 'NotFound'};
+        else {
+          let check = false;
+          for (let property of article.propertys) {
+            if (property.subid == subid) {
+              console.log(property.amount >= !amount);
+              if (property.amount >= !amount) {
+                throw new Errors.NotEnoughItemsError(property.amount);
+              }
+              property.amount += amount.amount;
+              check = true;
+              break;
+            }
+            if(check == false){
+              let msg = "Property not Found!";
+              let searched = "PropertyID: " + subid;
+              throw new Errors.NotFoundError(msg, searched);
+            }
           }
         }
         return article.save();
@@ -158,24 +189,27 @@ const DBOps = {};
     /*Lege einen neuen Eigeschaftsdatensatz zu einem Artikel an*/
     createProperty: async function(id, sub){
       try {
-        let article = await Models.ProductModel.findOne({productid: id});
-        if (article) {
-          if (Array.isArray(sub)) {
-            for(let property of sub){
-              article.propertys.push(property);
-            }
-          }
-          else {
-            article.propertys.push(sub);
-          }
-          return await article.save();
+        search = {productid: id};
+        opt = {new: true};
+        let dest = await Models.ProductModel.findOneAndUpdate(search, {$addToSet: {propertys: sub}}, opt);
+        if (dest == null) {
+          let msg = "Document not Found!";
+          let searched = "ProductID: " + id;
+          throw new Errors.NotFoundError(msg, searched);
         }
-        else {
-          throw {name: 'NotFound'};
-        }
+        return dest;
       } catch (err) {
         throw err;
       }
-    }
+    },
+
+    /*Bearbeite einen Eigenschaftsdatensatz*/
+    /*updateProperty: async function(id, subid, subset){
+      try {
+        let dest = await Models.ProductModel.
+      } catch (err) {
+        throw err;
+      }
+    }*/
   }
 module.exports = DBOps;
