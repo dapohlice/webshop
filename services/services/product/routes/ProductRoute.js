@@ -88,6 +88,16 @@ ProductRoute.get("/:id/propertys", async function(req, res) {
     res.status(result.statuscode).send(result);
   }
 });
+/*PUT-Request zum bearbeiten eines Eigeschaftsdatensatzes*/
+ProductRoute.put("/:id/:subid",async function(req, res) {
+  try {
+    let result = await Assistant.Product.updateProperty(req.params.id, req.params.subid, req.body);
+    res.status(200).send(result);
+  } catch (err) {
+    let result = await ErrorHandler.StdHandler.checkError(err);
+    res.status(result.statuscode).send(result);
+  }
+});
 /*POST-Request zum erstellen eines/mehrere SubArtikel zu einem Artikel*/
 ProductRoute.post("/:id/propertys", async function(req, res) {
   try {
@@ -99,11 +109,10 @@ ProductRoute.post("/:id/propertys", async function(req, res) {
   }
 });
 /*PATCH-Request zum ändern der Artikelmenge*/
-ProductRoute.patch("/:id/property/:subid", async function(req, res)
-{
+ProductRoute.patch("/:id/:subid", async function(req, res) {
   try {
     let result = await Assistant.Product.changePropertyAmount(req.params.id, req.params.subid, req.body);
-    res.send(result);
+    res.status(200).send(result);
   } catch (err) {
     let result = await ErrorHandler.StdHandler.checkError(err);
     res.status(result.statuscode).send(result);

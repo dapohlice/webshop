@@ -190,8 +190,9 @@ const DBOps = {};
     createProperty: async function(id, sub){
       try {
         search = {productid: id};
-        opt = {new: true};
-        let dest = await Models.ProductModel.findOneAndUpdate(search, {$addToSet: {propertys: sub}}, opt);
+        create = {$addToSet: {propertys: sub}};
+        opt    = {new: true};
+        let dest = await Models.ProductModel.findOneAndUpdate(search, create, opt);
         if (dest == null) {
           let msg = "Document not Found!";
           let searched = "ProductID: " + id;
@@ -203,13 +204,23 @@ const DBOps = {};
       }
     },
 
-    /*Bearbeite einen Eigenschaftsdatensatz*/
-    /*updateProperty: async function(id, subid, subset){
+    /*Bearbeiten einen Eigenschaftsdatensatz*/
+    updateProperty: async function(id, subid, subset){
       try {
-        let dest = await Models.ProductModel.
+        opt = {new: true};
+        let dest = await Models.ProductModel.findOneAndUpdate({productid: id, "propertys.subid": subid},
+                                                              {
+                                                                "$set":{"propertys.$": subset}
+                                                              },opt);
+        if (dest == null) {
+          let msg = "Document not Found!";
+          let searched = "ProductID: " + id + " SubID: " + subid;
+          throw new Errors.NotFoundError(msg, searched);
+        }
+          return dest;
       } catch (err) {
         throw err;
       }
-    }*/
+    }
   }
 module.exports = DBOps;
