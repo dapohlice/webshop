@@ -9,10 +9,17 @@ function NotFoundError(msg, searched) {
 
 // Exception für das eingeben eines Falschen Datentypes
 function WrongTypeError(msg, at) {
-  this.name = "WrongTypeError";
+  this.name = 'WrongTypeError';
   this.msg  = msg;
   this.at   = at;
+}
+// Exception für den Fall das es nicht mehr genug Artikel gibt
+function NotEnoughItemsError(left) {
+  this.name = 'NotEnoughItemsError'
+  this.msg  = 'Not enought Items left!'
+  this.left = left;
 }
 
 exports.NotFoundError = NotFoundError;
 exports.WrongTypeError = WrongTypeError;
+exports.NotEnoughItemsError = NotEnoughItemsError;

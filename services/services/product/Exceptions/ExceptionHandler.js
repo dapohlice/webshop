@@ -1,10 +1,10 @@
 //Handler-Namespace definiert
 const EHandler = {};
 
-function ReturnObject(status, msg, place) {
+function ReturnObject(status, msg, reason) {
   this.statuscode = status;
   this.msg = msg;
-  this.place = place;
+  this.reason = reason;
 }
 
 EHandler.StdHandler = {
@@ -27,6 +27,9 @@ EHandler.StdHandler = {
      }
      else if (err.name === 'WrongTypeError') {
        return new ReturnObject(400, err.msg, err.at)
+     }
+     else if (err.name === 'NotEnoughItemsError') {
+       return new ReturnObject(400, err.msg, err.left)
      }
    }
 }
