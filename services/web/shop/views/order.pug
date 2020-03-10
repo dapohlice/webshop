@@ -1,0 +1,52 @@
+extends layout
+
+block content
+  div.container.container-padding 
+    h1.text-center.pt-3
+      | Delivery address
+    div.form#container
+      div.form-group
+        label(for="email")
+          | Mail:
+        input.form-control(type="email" placeholder="Enter email" id="email" required)
+      div.row
+        div.col
+          div.form-group
+            label(for="fname")
+              | Firstname:
+            input.form-control(type="text" placeholder="Enter firstname" id="fname" required)
+        div.col
+          div.form-group
+            label(for="lname")
+              | Lastname:
+            input.form-control(type="text" placeholder="Enter lastname" id="lname" required)
+      div.form-group
+        label(for="street")
+          | Street:
+        input.form-control(type="text" placeholder="Enter street" id="street" required)
+      div.form-group
+        label(for="streetnum")
+          | Streetnumber:
+        input.form-control(type="text" placeholder="Enter streetnumber" id="streetnum" required)
+      div.row
+        div.col
+          div.form-group
+            label(for="post")
+              | Post code:
+            input.form-control(type="text" placeholder="Enter post code" id="post" required)
+        div.col
+          div.form-group
+            label(for="town")
+              | Town:
+            input.form-control(type="text" placeholder="Enter town" id="town" required)
+      div.form-group
+        label(for="state")
+          | State:
+        input.form-control(type="text" placeholder="Enter state" id="state")
+      div.form-group
+        label(for="country")
+          | Country:
+        input.form-control(type="text" placeholder="Enter country" id="country" required)
+        
+      input.button.btn.btn-primary(type="submit" value="submit")
+      
