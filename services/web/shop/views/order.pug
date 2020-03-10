@@ -4,7 +4,7 @@ block content
   div.container.container-padding 
     h1.text-center.pt-3
       | Delivery address
-    div.form#container
+    form#order-form
       div.form-group
         label(for="email")
           | Mail:
@@ -49,4 +49,5 @@ block content
         input.form-control(type="text" placeholder="Enter country" id="country" required)
         
       input.button.btn.btn-primary(type="submit" value="submit")
-      
+block append scripts              
+  script(type='text/javascript' src='js/order.js')
