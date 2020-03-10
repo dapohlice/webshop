@@ -16,7 +16,11 @@ function XHR(type, url, data, contentType) {
     console.log('Sucessfull data check');
     console.log('XHR liefert folgendes Ergebnis zurück:');
     console.log(data);
-    response(data);
+    if (data.length == 0) {
+      renderErrorTableHTML();
+    } else {
+      response(data);
+    }
   });
 
   promise.fail(function (xhr, statusText, errorThrown) {
@@ -27,4 +31,3 @@ function XHR(type, url, data, contentType) {
     // return false;
   });
 }
-

@@ -267,15 +267,21 @@ function renderOrderDetailsHTML(data) {
   htmlString += "<thead><tr><th>Name</th><th>Property</th><th>Amount</th><th>Price</th>";
   htmlString += "</tr></thead>";
   htmlString += "<tbody>";
-  for(let i = 0; i < data.article.length; i++) {
-    amountPrice = ((data.article[i].price)*(data.article[i].amount));
+  if (data.length == undefined || data.length == null || data.length == 0) {
     htmlString += "<tr>";
-    htmlString += "<td class=\"id\">" + data.article[i].name + "</td>";
-    htmlString += "<td>" + data.article[i].property + "</td>";
-    htmlString += "<td>" + data.article[i].amount + "</td>";
-    htmlString += "<td>" + currencyConverter(amountPrice) + "</td>";
+    htmlString += "<td colspan=\"4\">No entries available! Try again later.</td>";
     htmlString += "</tr>";
-    total += amountPrice;
+  } else {
+    for(let i = 0; i < data.article.length; i++) {
+      amountPrice = ((data.article[i].price)*(data.article[i].amount));
+      htmlString += "<tr>";
+      htmlString += "<td class=\"id\">" + data.article[i].name + "</td>";
+      htmlString += "<td>" + data.article[i].property + "</td>";
+      htmlString += "<td>" + data.article[i].amount + "</td>";
+      htmlString += "<td>" + currencyConverter(amountPrice) + "</td>";
+      htmlString += "</tr>";
+      total += amountPrice;
+    }
   }
   htmlString += "<tr class=\"orderTotal\">";
   htmlString += "<td></td>";
@@ -501,19 +507,22 @@ function renderOrderShippingAddressHTML(data) {
   // htmlString += "<thead><tr><th></th>";
   // htmlString += "</tr></thead>";
   htmlString += "<tbody>";
-
-  htmlString += "<tr><td>" + data.address.firstname + " " + data.address.lastname + "<br/>";
-  htmlString += data.address.street + " " + data.address.streetnumber + "<br/>";
-  htmlString += data.address.plz + " " + data.address.town + "<br/>";
-  if (data.address.state != null) {
-    htmlString += data.address.state;
+  if (data.length == undefined || data.length == null || data.length == 0) {
+    htmlString += "<tr>";
+    htmlString += "<td colspan=\"1\">No entries available! Try again later.</td>";
+    htmlString += "</tr>";
+  } else {
+    htmlString += "<tr><td>" + data.address.firstname + " " + data.address.lastname + "<br/>";
+    htmlString += data.address.street + " " + data.address.streetnumber + "<br/>";
+    htmlString += data.address.plz + " " + data.address.town + "<br/>";
+    if (data.address.state != null) {
+      htmlString += data.address.state;
+    }
+    if (data.address.country != null) {
+      htmlString += data.address.country;
+    }
+    htmlString += "</td></tr>";
   }
-  if (data.address.country != null) {
-    htmlString += data.address.country;
-  }
-  htmlString += "</td></tr>";
-
-
   htmlString += "</tbody>";
   htmlString += "</table>"
 
@@ -556,13 +565,19 @@ function renderOrderLogHTML(data) {
   htmlString += "</tr>";
   htmlString += "</thead>";
   htmlString += "<tbody>";
-  for(let i = 0; i < data.logs.length; i++) {
+  if (data.length == undefined || data.length == null || data.length == 0) {
     htmlString += "<tr>";
-    htmlString += "<td>" + data.logs[i].user + "</td>";
-    htmlString += "<td>" + data.logs[i].info + "</td>";
-    htmlString += "<td>" + data.logs[i].status + "</td>";
-    htmlString += "<td>" + timeConverter(data.logs[i].timestamp) + "</td>";
+    htmlString += "<td colspan=\"4\">No entries available! Try again later.</td>";
     htmlString += "</tr>";
+  } else {
+    for(let i = 0; i < data.logs.length; i++) {
+      htmlString += "<tr>";
+      htmlString += "<td>" + data.logs[i].user + "</td>";
+      htmlString += "<td>" + data.logs[i].info + "</td>";
+      htmlString += "<td>" + data.logs[i].status + "</td>";
+      htmlString += "<td>" + timeConverter(data.logs[i].timestamp) + "</td>";
+      htmlString += "</tr>";
+    }
   }
   htmlString += "</tbody>";
   htmlString += "</table>";
