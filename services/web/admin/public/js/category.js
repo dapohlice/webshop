@@ -71,6 +71,9 @@ $(function (){
 
       SimpleRequest.POST(PRODUCT_SERVICE,"category")
       .onSuccess(function (newCategory) {
+          if ($('#emptyRow').length) {
+            $('#emptyRow').remove();
+          }
           addCategory(newCategory);
           showStatusInfo("Category added");
           if ($deleteImageAdd.attr('data-id')) {
@@ -205,6 +208,10 @@ $(function (){
       });
       $('#deleteModal').modal('hide');
       $('#detailModal').modal('hide');
+      var rowCount = $('#categories tr').length;
+      if (rowCount == 0) {
+        addEmpty(categories);
+      }
     })
     .onFailure( function (errorstatus,errorText, statusText) {
       console.log("fail");

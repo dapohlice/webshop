@@ -166,7 +166,7 @@ SimpleRequest.GET(PRODUCT_SERVICE,"category")
 
     if (validateForm()) {
       var article = {
-        productid: $productid.val(),
+        productid: parseInt($productid.val()),
         name: $name.val(),
         description: $description.val(),
         picturepath: $deleteImageAdd.attr('data-id'),
@@ -181,6 +181,9 @@ SimpleRequest.GET(PRODUCT_SERVICE,"category")
       SimpleRequest.POST(PRODUCT_SERVICE,"article")
       .addJson(article)
       .onSuccess(function (newArticle) {
+        if ($('#emptyRow').length) {
+          $('#emptyRow').remove();
+        }
         addArticle(newArticle);
         if ($deleteImageAdd.attr('data-id')) {
           // attr is not blank
@@ -339,10 +342,12 @@ SimpleRequest.GET(PRODUCT_SERVICE,"category")
   });
   $(document).on("click", ".editProperty", function() {
 
-    var $tr = $(this).closest('tr');
-    var id = $tr.attr('data-id');
+    var $trProp = $(this).closest('tr');
+    var idProp = $trProp.attr('data-id');
+    console.log("Property ID");
+    console.log(idProp);
 
-    SimpleRequest.GET(PRODUCT_SERVICE,"article/"+id+"/propertys")
+    SimpleRequest.GET(PRODUCT_SERVICE,"article/"+idProp+"/propertys")
     .onSuccess(function(property) {
       console.log("open Property details for Edit Prop Modal");
       if ((JSON.stringify(property) !== JSON.stringify([]))) {
