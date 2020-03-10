@@ -11,10 +11,9 @@
 - Suche: Anfragen die für eine Suche gestellt werden können
 
 ## Product-Service
-- Article: bzgl. Preis: Einigung auf cents! Kein "Punkt" oder "Komma" im input zulassen.
-- Propertys: Einigung auf eventuell bestimmte Formate
-- Suche: Anfragen die für eine Suche gestellt werden können
-- Bilder bei Producten
+- Preis: Einigung auf cents! Kein "Punkt" oder "Komma" im input zulassen.
+- Nur Angelegte Subartikel zurückgeben bei erfolg
+- Doku aktualisieren
 
 ## Picture-Service
 - Funktionsweise noch unklar, wie können Bilder im service gespeichert werden?
