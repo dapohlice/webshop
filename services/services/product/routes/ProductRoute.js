@@ -1,7 +1,7 @@
 const BParser = require('body-parser');
 const Express = require('express');
 const Assistant = require('../database/QueryAssistant.js');
-const ErrorHandler = require('./ErrorHandler.js');
+const ErrorHandler = require('../Exceptions/ExceptionHandler.js');
 const ProductRoute = Express.Router();
 
 ProductRoute.use(BParser.json());
