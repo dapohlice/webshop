@@ -1,4 +1,8 @@
-#container {
+#border {
   border-radius: 5px;
   background-color: #f2f2f2;
   padding: 20px;
+}
+#add-padding{
+  padding-bottom: 50px;
+}
