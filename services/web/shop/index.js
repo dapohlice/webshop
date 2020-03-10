@@ -41,7 +41,9 @@ app.get('/products', (req, res) => {
 app.get('/article', (req, res) => {
   res.render('article');
 });
-
+app.get('/order', (req, res) => {
+  res.render('order');
+});
 
 /**
  * Starten

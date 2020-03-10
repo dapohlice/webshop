@@ -1,7 +1,11 @@
 var shoppingCart = [];
 
-function addArticle(article){
-    shoppingCart.push(article);
+function addArticle(article,property){
+    shoppingCart.push({
+        article: article,
+        property: property,
+        amount: 1,
+    });
     createShoppingCartTable();
 }
 
@@ -57,14 +61,14 @@ function createTableHeader(content)
     return header;
 }
 
-function createTableRecord(article,index)
+function createTableRecord(cartItem,index)
 {   
     var record = document.createElement('TR');
     
     var name = document.createElement('TD');
     var name_content = document.createElement("SPAN");
     name_content.setAttribute("list_index",index);
-    name_content.innerHTML = article.name + " " + article.property;
+    name_content.innerHTML = cartItem.article.name + " " + cartItem.property.property;
     var btn_delete = document.createElement("BUTTON")
     btn_delete.classList.add("fas");
     btn_delete.classList.add("fa-trash");
@@ -80,7 +84,7 @@ function createTableRecord(article,index)
     
     
     var price = document.createElement('TD');
-    price.innerHTML = article.price/100+" $";
+    price.innerHTML = cartItem.article.price/100+" $";
     price.classList.add("shoppingCart-table-price")
     record.appendChild(price);
 
@@ -111,7 +115,7 @@ function createTableRecord(article,index)
         decrementAmount(i);
     });
     var text_amount = document.createElement('span');
-    text_amount.innerHTML =  article.amount;
+    text_amount.innerHTML =  cartItem.amount;
     amount.appendChild(dec_amount);
     amount.appendChild(text_amount);
     amount.appendChild(inc_amount);
@@ -119,7 +123,7 @@ function createTableRecord(article,index)
     amount.classList.add("shoppingCart-table-amount");
     record.appendChild(amount);
 
-    var total = article.price * article.amount;
+    var total = cartItem.article.price * cartItem.amount;
 
     var total_rec = document.createElement('TD');
     total_rec.innerHTML = total/100+" $";
@@ -155,34 +159,6 @@ function createShoppingCartTable()
 
 
 
-addArticle({
-    name: "T-Shirt V-Must Have Blue",
-    property: "XXL",
-    price: 1000,
-    amount: 1,
-    article_id: 1,
-    property_id: 1
-});
-addArticle({
-    name: "Calender 2020 big",
-    property: "",
-    price: 1000,
-    amount: 10,
-    article_id: 1,
-    property_id: 1
-});
-
 createShoppingCartTable();
-/*
-document.getElementById('add').addEventListener("click",function()
-    {addArticle({
-        name: "Calender 2020 big",
-        property: "",
-        price: 1000,
-        amount: 10,
-        article_id: 1,
-        property_id: 1
-    });}
-);*/
 
 document.getElementById("shoppingCart-btn").addEventListener("click", toggleShoppingCart);

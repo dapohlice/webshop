@@ -63,6 +63,8 @@ block content
     
     include order_change_status
     
+    include order_set_status
+    
     include order_log
 
     div#jsonTableObjekt
@@ -71,4 +73,7 @@ block content
 
 block append scripts
   script(type='text/javascript' src='js/order.js' defer='defer')
+  script(type='text/javascript' src='js/mustache/mustache.js')
+  script(type='text/javascript' src='js/mustache/mustache-wax.js')
+  script(type='text/javascript' src='js/formatters.js')
       

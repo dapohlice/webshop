@@ -4,10 +4,12 @@ function openArticleFromPreview(event)
     console.log(event.target);
     var index = event.target.getAttribute("article_id");
     console.log("click art "+index);
-    
+    var art = articles.get(index);
+
+    openArtilce(art);
 }
 
-function createPreviewArticle(article, index)
+function createPreviewArticle(article)
 {
     var card = document.createElement("div");
     card.classList.add("card");
@@ -18,7 +20,7 @@ function createPreviewArticle(article, index)
     img.classList.add("card-img-top");
     img.src = PICTURE_SERVICE+"/"+article.picturepath;
     img.addEventListener('click',openArticleFromPreview)
-    img.setAttribute('article_id',index);
+    img.setAttribute('article_id',article._id);
 
     var card_body = document.createElement("div");
     card_body.classList.add("card-body");
@@ -26,7 +28,7 @@ function createPreviewArticle(article, index)
     var title = document.createElement("a");
     title.classList.add("card-title");
     title.addEventListener('click',openArticleFromPreview)
-    title.setAttribute('article_id',index);
+    title.setAttribute('article_id',article._id);
     title.innerText = article.name;
     
     var text = document.createElement("p");
@@ -87,11 +89,11 @@ function changeCategorie(index)
         el_art.removeChild(el_art.lastChild);
     }
 
-    for(var i = 0; i < articles.length; i++)
+    for(var art of articles.values())
     {
-        if(articles[i].categoryid === cat._id)
+        if(art.categoryid === cat._id)
         {
-            var element = createPreviewArticle(articles[i], i);
+            var element = createPreviewArticle(art);
             el_art.appendChild(element);
         }
     }

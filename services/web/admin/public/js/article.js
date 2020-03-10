@@ -95,6 +95,7 @@ $(function (){
         SimpleRequest.GET(PRODUCT_SERVICE,"article/"+id+"/propertys")
         .onSuccess(function(properties) {
           if ((JSON.stringify(properties) !== JSON.stringify([]))) {
+            $properties.children().remove();
             $.each(properties, function(i, property) {
               addProperty(property);
             });
@@ -274,6 +275,7 @@ SimpleRequest.GET(PRODUCT_SERVICE,"category")
             $tr.find('td.image img').attr('src', urlstring);
           }
         });
+        showStatusInfo("Article processed");
       })
       .onFailure(function (errorcode,errortext, statusText) {
         console.log("fail");
@@ -306,15 +308,15 @@ SimpleRequest.GET(PRODUCT_SERVICE,"category")
         subid: $subid.val(),
         property: $property.val()
       };
-      console.log(property.property);
 
       SimpleRequest.POST(PRODUCT_SERVICE,"article/"+id+"/propertys")
       .addJson(property)
       .onSuccess(function(newProperty) {
         console.log("open property add Modal");
         if ((JSON.stringify(newProperty) !== JSON.stringify([]))) {
-          console.log(property.description);
+          console.log(property.property);
           addProperty(newProperty);
+          showStatusInfo("Property created");
         } else {
           showStatusError("Error: Response empty property objekt");
         }
@@ -349,6 +351,7 @@ SimpleRequest.GET(PRODUCT_SERVICE,"category")
       } else {
         showStatusError("Error: Response empty property objekt");
       }
+      showStatusInfo("Property processed");
     })
     .onFailure(function (errorcode, errortext, statusText) {
       console.log("fail");
@@ -391,6 +394,7 @@ SimpleRequest.GET(PRODUCT_SERVICE,"category")
             $tr.find('td.amount').html(property.amount);
           }
         });
+        showStatusInfo("Property added");
       })
       .onFailure(function (errorcode, errortext, statusText) {
         console.log("fail");

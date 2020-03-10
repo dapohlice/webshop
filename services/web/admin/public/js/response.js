@@ -521,7 +521,7 @@ function renderOrderShippingAddressHTML(data) {
 }
 
 function renderOrderStatusButtonHTML(data) {
-  var htmlString = "<button class=\"btn btn-secondary disabled\" type=\"button\" data-tooltip=\"tooltip\" data-placement=\"top\" title=\"Current Status\">";
+  var htmlString = "<button class=\"btn btn-secondary disabled\" id=\"currentStatusBtn\" data-id=\"" + data.status + "\" type=\"button\" data-tooltip=\"tooltip\" data-placement=\"top\" title=\"Current Status\">";
   htmlString += getStatus(data.status);
   htmlString += "</button>";
 
