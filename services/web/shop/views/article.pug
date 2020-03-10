@@ -1,70 +1,52 @@
 block article
-  div.modal#article-container
-      img(src="https://www.w3schools.com/bootstrap4/cinqueterre.jpg" alt="Cinque Terre")
+  div#article-modal.article-modal-invisible
+    div#article-container
+      img#article-detail-img
       div.card.bg-light
         div.card-header
-          h2
+          h2#article-detail-name
             | Name of the product
-            
+          button#article-container-close
+            i.fas.fa-times
+
         div.card-body
-          p.card-text
+          p.card-text#article-detail-description
             | Some quick example text to build on the card title and make up the bulk of the card's content.
-          p#price
-            | price: 00,00 €
-            
-          div.dropdown.p-3
-            button.btn.btn-secondary.btn-lg.dropdown-toggle(type="button" data-toggle="dropdown")
-              | size
-            ul.dropdown-menu
-              li
-                a.dropdown-item(href="#")
-                  | XS
-              li
-                a.dropdown-item(href="#")
-                  | S
-              li
-                a.dropdown-item(href="#")
-                  | M
-              li
-                a.dropdown-item(href="#")
-                  | L
-              li
-                a.dropdown-item(href="#")
-                  | XL
-                  
-          div.dropdown.p-3
-            button.btn.btn-secondary.btn-lg.dropdown-toggle(type="button" data-toggle="dropdown")
-              | color
-            ul.dropdown-menu
-              li
-                a.dropdown-item(href="#")
-                  | red
-              li
-                a.dropdown-item(href="#")
-                  | blue
-              li
-                a.dropdown-item(href="#")
-                  | green
-              li
-                a.dropdown-item(href="#")
-                  | white
-              li
-                a.dropdown-item(href="#")
-                  | black
-            
-          div.pt-3
-            p.font-weight-bold
-              | product detail:
-          div
-            ul
-              li
-                | some text
-              li
-                | some text
-              li
-                | some text
-              li
-                | some text
-        div.card-footer.bg-transparent
-          a.btn.btn-secondary(href="#" data-toggle="tooltip" title="add in shopping card")
-            i.fas.fa-plus(style='font-size:24px')
+          
+          div#price-container
+            i.fas.fa-dollar-sign#currency
+            span#price-first
+             | 00
+            span#price-comma
+             | ,
+            span#price-last
+             | 00
+
+          div#article-option
+            h3="Options:"   
+            div.dropdown.p-3#article-property
+              button.dropdown-toggle#artilce-select-btn
+               | choose
+              ul#artilce-select-options.artilce-select-options-invisble
+                li
+                  a
+                    | red
+                li
+                  a
+                    | blue
+                li
+                  a
+                    | green
+                li
+                  a
+                    | white
+                li
+                  a
+                    | black
+
+
+
+
+        div.card-footer
+          a.btn#article-add-cart(data-toggle="tooltip" title="add in shopping card")
+            | ADD TO CART

@@ -6,7 +6,11 @@ var categories = null;
 
 SimpleRequest.GET(PRODUCT_SERVICE,'article')
 .onSuccess(function(data){
-    articles = data;
+    articles = new Map();
+    for(var i = 0; i < data.length; i++)
+    {
+        articles.set(data[i]._id,data[i]);
+    }
     console.log(articles);
 })
 .send();
