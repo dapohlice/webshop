@@ -315,6 +315,9 @@ SimpleRequest.GET(PRODUCT_SERVICE,"category")
       SimpleRequest.POST(PRODUCT_SERVICE,"article/"+id+"/propertys")
       .addJson(property)
       .onSuccess(function(newProperty) {
+        if ($('#emptyPropRow').length) {
+          $('#emptyPropRow').remove();
+        }
         console.log("open property add Modal");
         if ((JSON.stringify(newProperty) !== JSON.stringify([]))) {
           console.log(property.property);
@@ -323,6 +326,7 @@ SimpleRequest.GET(PRODUCT_SERVICE,"category")
         } else {
           showStatusError("Error: Response empty property objekt");
         }
+        $('#propertiesModal').modal('hide');
       })
       .onFailure(function (errorcode, errortext, statusText) {
         console.log("fail");
@@ -340,33 +344,34 @@ SimpleRequest.GET(PRODUCT_SERVICE,"category")
     }
 
   });
-  $(document).on("click", ".editProperty", function() {
-
-    var $trProp = $(this).closest('tr');
-    var idProp = $trProp.attr('data-id');
-    console.log("Property ID");
-    console.log(idProp);
-
-    SimpleRequest.GET(PRODUCT_SERVICE,"article/"+idProp+"/propertys")
-    .onSuccess(function(property) {
-      console.log("open Property details for Edit Prop Modal");
-      if ((JSON.stringify(property) !== JSON.stringify([]))) {
-        console.log(property.description);
-        addPropertyDetail(property, id);
-      } else {
-        showStatusError("Error: Response empty property objekt");
-      }
-      showStatusInfo("Property processed");
-    })
-    .onFailure(function (errorcode, errortext, statusText) {
-      console.log("fail");
-      showStatusError(statusText + ": " + errorcode+ " - " + errortext + " while edit property");
-    })
-    .onError(function(error){
-      showStatusError("Network Error");
-    }).send();
-
-  });
+  // INFO: edit properties function in product db not implemented
+  // $(document).on("click", ".editProperty", function() {
+  //
+  //   var $trProp = $(this).closest('tr');
+  //   var idProp = $trProp.attr('data-id');
+  //   console.log("Property ID");
+  //   console.log(idProp);
+  //
+  //   SimpleRequest.GET(PRODUCT_SERVICE,"article/"+idProp+"/propertys")
+  //   .onSuccess(function(property) {
+  //     console.log("open Property details for Edit Prop Modal");
+  //     if ((JSON.stringify(property) !== JSON.stringify([]))) {
+  //       console.log(property.description);
+  //       addPropertyDetail(property, id);
+  //     } else {
+  //       showStatusError("Error: Response empty property objekt");
+  //     }
+  //     showStatusInfo("Property processed");
+  //   })
+  //   .onFailure(function (errorcode, errortext, statusText) {
+  //     console.log("fail");
+  //     showStatusError(statusText + ": " + errorcode+ " - " + errortext + " while edit property");
+  //   })
+  //   .onError(function(error){
+  //     showStatusError("Network Error");
+  //   }).send();
+  //
+  // });
 
   $(document).on("click", "#edit-property", function() {
 

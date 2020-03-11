@@ -183,9 +183,10 @@ block article_detail
                   data-tooltip="tooltip"
                   data-placement="bottom"
                   title="Edit this property"
-                  data-toggle="modal"
-                  data-target="#detailPropertiesModal"
                   )
+                  //- INFO: edit properties function in product db not implemented
+                  //- data-toggle="modal"
+                  //- data-target="#detailPropertiesModal"
                   td.subid 
                     | {{subid}}
                   td.property
@@ -197,7 +198,7 @@ block article_detail
                   td.amount
                     | {{ amount }} pcs
               template#empty-prop-template
-                tr.table-row
+                tr.table-row#emptyPropRow
                   td(
                     colspan="3"
                     )

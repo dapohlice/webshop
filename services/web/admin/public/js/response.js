@@ -267,7 +267,7 @@ function renderOrderDetailsHTML(data) {
   htmlString += "<thead><tr><th>Name</th><th>Property</th><th>Amount</th><th>Price</th>";
   htmlString += "</tr></thead>";
   htmlString += "<tbody>";
-  if (data.length == undefined || data.length == null || data.length == 0) {
+  if (data.length == 0) {
     htmlString += "<tr>";
     htmlString += "<td colspan=\"4\">No entries available! Try again later.</td>";
     htmlString += "</tr>";
@@ -507,7 +507,7 @@ function renderOrderShippingAddressHTML(data) {
   // htmlString += "<thead><tr><th></th>";
   // htmlString += "</tr></thead>";
   htmlString += "<tbody>";
-  if (data.length == undefined || data.length == null || data.length == 0) {
+  if (data.length == 0) {
     htmlString += "<tr>";
     htmlString += "<td colspan=\"1\">No entries available! Try again later.</td>";
     htmlString += "</tr>";
@@ -565,7 +565,7 @@ function renderOrderLogHTML(data) {
   htmlString += "</tr>";
   htmlString += "</thead>";
   htmlString += "<tbody>";
-  if (data.length == undefined || data.length == null || data.length == 0) {
+  if (data.length == 0) {
     htmlString += "<tr>";
     htmlString += "<td colspan=\"4\">No entries available! Try again later.</td>";
     htmlString += "</tr>";
