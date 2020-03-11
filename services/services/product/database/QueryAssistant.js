@@ -27,7 +27,13 @@ const DBOps = {};
     /*Selektiere Kategorie durch ID ->  ID ist die erzeugte ID der MongoDB*/
     getCategoryByID: async function(id){
       try {
-        return await Models.CategoryModel.findOne({_id: id}).exec();
+        let cat = await Models.CategoryModel.findOne({_id: id}).exec();
+        if (cat == null) {
+          let msg = "Document not Found!";
+          let searched = "CategoryID: " + id;
+          throw new Errors.NotFoundError(msg, searched);
+        }
+        return cat;
       } catch (err) {
         throw err;
       }
@@ -45,8 +51,12 @@ const DBOps = {};
   updateCategory: async function(id, dataset) {
     try {
       await DBOps.Helper.removeEmptyFieldsInJSON(dataset);
-      let dest =  await Models.CategoryModel.findOne({_id: id}).exec();
-      return dest.updateOne(dataset);
+      let dest =  await Models.CategoryModel.findOneAndUpdate({_id: id}, dataset).exec();
+      if (dest == null) {
+        let msg = "Document not Found!";
+        let searched = "CategoryID: " + id;
+        throw new Errors.NotFoundError(msg, searched);
+      }
     } catch (err) {
       throw err;
     }
@@ -198,7 +208,7 @@ const DBOps = {};
           let searched = "ProductID: " + id;
           throw new Errors.NotFoundError(msg, searched);
         }
-        return dest;
+        return sub;
       } catch (err) {
         throw err;
       }

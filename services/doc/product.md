@@ -56,6 +56,13 @@
 #### Rückgabe
   - 200 (OK)
   - 404 (Not Found)
+  ```json
+  {
+      "statuscode": 404,
+      "msg": "Document not Found!",
+      "reason": "ProductID: 33"
+  }
+  ```
 
 ### GET category/
   - Query aller Kategoriedatensätze
@@ -80,7 +87,13 @@
 ]
 ```
   - 404 (Not-Found)
-
+```json
+{
+    "statuscode": 404,
+    "msg": "Document not Found!",
+    "reason": "ProductID: 33"
+}
+```
 ### GET categroy/:id
   - Query eines Kategoriedatensatzes über seine ID
 
@@ -98,7 +111,13 @@
 }
 ```
   - 404 (Not-Found)
-
+  ```json
+  {
+      "statuscode": 404,
+      "msg": "Document not Found!",
+      "reason": "ProductID: 33"
+  }
+  ```
 ## Produkte
   - Arbeiten mit Artikeldatensätze inkl. Eigenschaftsdatensätze zu einem Artikel
 
@@ -112,7 +131,7 @@
 	  "name": "Testartikel",
 	  "description": "Artikel zum Testen",
 	  "picturepath":"asd",
-	  "price": "12.4",
+	  "price": 120,
 	  "state": true,
 	  "propertys": [{
 	                "subid": 1,
@@ -130,7 +149,7 @@
     "productid": 100,
     "name": "Testartikel",
     "description": "Artikel zum Testen",
-    "price": 12.4,
+    "price": 120,
     "state": true,
     "propertys": [
         {
@@ -166,6 +185,13 @@
 #### Rückgabe
   - 200 (OK)
   - 404 (Not Found)
+  ```json
+  {
+      "statuscode": 404,
+      "msg": "Document not Found!",
+      "reason": "ProductID: 33"
+  }
+  ```
 
 ### PATCH article/:id
   - Ändern des Status eines Artikeldatensatzes
@@ -230,8 +256,14 @@
     }
 ]
 ```
-  - 404 (Not Found)
-
+- 404 (Not Found)
+  ```json
+  {
+      "statuscode": 404,
+      "msg": "Document not Found!",
+      "reason": "ProductID: 33"
+  }
+  ```
 ### GET 7article/:id
   - Artikelsdatensatz durch seine ID zurückgeben
 
@@ -262,6 +294,13 @@
 }
 ```
   - 404 (Not Found)
+  ```json
+  {
+      "statuscode": 404,
+      "msg": "Document not Found!",
+      "reason": "ProductID: 33"
+  }
+  ```
 ### GET article/:id/propertys
   - Eigenschaftsdatensätze zu einem Artikel anzeigen
 
@@ -281,23 +320,72 @@
 ]
 ```
  - 404 (Not Found)
+ ```json
+ {
+     "statuscode": 404,
+     "msg": "Document not Found!",
+     "reason": "ProductID: 33"
+ }
+ ```
 
 ### POST /article/:id/Propertys
   - Einen oder Mehrere Eigenschaftsdatensätze zu einem Artikel anlegen
 
 #### Eingaben
-  -
+```JSON
+{
+	"subid": 43,
+	"property": "blau, xxl",
+	"amount": 10
+}
+```
 #### Rückgabe
   - 201 (Created)
 ```json
+{
+	"subid": 43,
+	"property": "blau, xxl",
+	"amount": 10
+}
 ```
   - 404 (Not Found)
-
-### Patch /article/:id/property/:subid
+```json
+{
+    "statuscode": 404,
+    "msg": "Document not Found!",
+    "reason": "ProductID: 33"
+}
+```
+  - 400 (Bad Request)
+```JSON
+{
+    "statuscode": 400,
+    "msg": "Wrong Input!",
+    "reason": "propertys"
+}
+```
+### Patch /article/:id/:subid
   - Ändern der Menge eines Eigenschaftsdatensatzes
 
 #### Eingaben
-
+```json
+{
+	"amount": -100
+}
+```
+- Oder
+```json
+{
+	"amount": -100
+}
+```
 #### Rückgabe
   - 200 (OK)
   - 404 (Not Found)
+  ```json
+  {
+      "statuscode": 404,
+      "msg": "Document not Found!",
+      "reason": "ProductID: 33"
+  }
+  ```

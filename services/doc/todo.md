@@ -13,7 +13,6 @@
 ## Product-Service
 - Preis: Einigung auf cents! Kein "Punkt" oder "Komma" im input zulassen.
 - Nur Angelegte Subartikel zurückgeben bei erfolg
-- Doku aktualisieren
 
 ## Picture-Service
 - Funktionsweise noch unklar, wie können Bilder im service gespeichert werden?
