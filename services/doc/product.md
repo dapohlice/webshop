@@ -60,7 +60,7 @@
   {
       "statuscode": 404,
       "msg": "Document not Found!",
-      "reason": "ProductID: 33"
+      "reason": "CategoryID: 33"
   }
   ```
 
@@ -264,7 +264,7 @@
       "reason": "ProductID: 33"
   }
   ```
-### GET 7article/:id
+### GET article/:id
   - Artikelsdatensatz durch seine ID zurückgeben
 
 #### Eingabe
@@ -278,7 +278,7 @@
     "productid": 100,
     "name": "Testartikel",
     "description": "Artikel zum Testen",
-    "price": 12.4,
+    "price": 124,
     "state": true,
     "propertys": [
         {
