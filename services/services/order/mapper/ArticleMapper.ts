@@ -2,6 +2,7 @@ import {getRepository} from "typeorm";
 import {ArticleEntity} from '../entity/ArticleEntity' 
 import { OrderEntity } from "../entity/OrderEntity";
 import { ArticleOrderEntity } from "../entity/ArticleOrderEntity";
+import * as ProductServiceMapper from "../mapper/ProductServiceMapper";
 
 /**
  * Erstellt einen neuen Artikel
@@ -14,7 +15,7 @@ export async function createArticle(article)
         return undefined;
 
     let price = parseInt(article.price);
-    let id = parseInt(article.article_id);
+    let id = parseInt(article.productid);
     if((!price && isNaN(price)) || !article.name || (!id && isNaN(id)))
         return undefined;
     
@@ -25,35 +26,6 @@ export async function createArticle(article)
     return entity.save();    
 }
 
-/**
- * Ruft einen Produktdatensatz von dem enstrechenden Service ab
- * @param articleId Artikel Id
- * @returns Produktdatensatz | undefined 
- */
-async function getProduct(articleId: number)
-{
-    return {
-        article_id: 1,
-        name: "T-Shirt",
-        timestamp: new Date("2019-01-19"),
-        price: 1200
-    }
-}
-
-/**
- * Ruft einen Unterartikeldatensatz von dem entrechenden Service ab
- * @param subarticleId Unterartikeldatensatz
- * @param amount Anzahl des gekauften Unterartikels
- * @returns Unterdatensatz mit der Reservierten Anzahl | undefined
- */
-async function getSubarticle(subarticleId: number, amount: number)
-{
-    return {
-        subarticle_id: 1,
-        amount: amount,
-        property: "M"
-    }
-}
 
 /**
  * Gibt einen Artikeldatensatz zurück
@@ -63,9 +35,19 @@ async function getSubarticle(subarticleId: number, amount: number)
  */
 async function getArticle(articleId: number):Promise<ArticleEntity>
 {
+
+
     if(isNaN(articleId) || articleId === undefined)
         throw new Error(`${articleId} ist not a number`);
-    let o_product = await getProduct(articleId)
+
+    let status,product;
+    [status,product] = await ProductServiceMapper.getProduct(articleId);
+   
+    if(status !== 200)
+    {
+        return undefined;  
+    }
+
     let article = await getRepository(ArticleEntity)
                     .createQueryBuilder("article")
                     .where("article.article_id = :id",{id: articleId})
@@ -74,12 +56,9 @@ async function getArticle(articleId: number):Promise<ArticleEntity>
                     .getOne();
     
     
-    if(o_product === undefined)
-        return undefined;
-
-    if(article == undefined || o_product.timestamp > article.timestamp)
+    if(article == undefined || product.timestamp > article.timestamp)
     {
-        article = await createArticle(o_product);
+        article = await createArticle(product);
     }
     return article;
 }
@@ -92,26 +71,34 @@ async function getArticle(articleId: number):Promise<ArticleEntity>
  */
 export async function addArticle(article, order: OrderEntity)
 {
-
     // TODO: bessere Rückgabe bei nicht möglichem Erstellen 
     if(article === undefined)
-        return undefined;
+        return {
+            state: "article not found."
+        };
     
     let amount = parseInt(article.amount);
     let articleId = parseInt(article.articleId);
     let subarticleId = parseInt(article.subarticleId);
     
     if(isNaN(amount) || isNaN(articleId) || isNaN(subarticleId))
-        return undefined;
-    
+        return {
+            state: "article not found."
+        };
 
     let article_entitiy = await getArticle(articleId);
-    if(article === undefined)
+    if(article_entitiy === undefined)
+    {
+        return {
+            state: "article not found."
+        };
+    }    
+    let status,subarticle;
+    [status,subarticle] = await ProductServiceMapper.reserveSubProdukt(articleId,subarticleId,amount);
+    if(status !== 200 || subarticle === undefined )
         return undefined;
 
-    let subarticle = await getSubarticle(subarticleId,amount);
-    if(subarticle === undefined )
-        return undefined;
+    
 
     let orderarticle = new ArticleOrderEntity();
     orderarticle.amount = subarticle.amount;

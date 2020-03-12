@@ -176,12 +176,13 @@ const DBOps = {};
           let check = false;
           for (let property of article.propertys) {
             if (property.subid == subid) {
-              console.log(property.amount >= !amount);
-              if (property.amount >= !amount) {
-                throw new Errors.NotEnoughItemsError(property.amount);
-              }
+
               property.amount += amount.amount;
               check = true;
+
+              if (property.amount < 0) {
+                throw new Errors.NotEnoughItemsError(property.amount);
+              }
               break;
             }
             if(check == false){

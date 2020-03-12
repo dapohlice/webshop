@@ -73,6 +73,7 @@ ProductRoute.get("/:id", async function (req,res) {
     res.status(200).send(result);
   } catch (err) {
     let result = await ErrorHandler.StdHandler.checkError(err);
+    console.error(err);
     res.status(result.statuscode).send(result);
   }
 });
