@@ -11,11 +11,6 @@ function getJwtCookie(){
     var jwt = getCookie("jwt");
     return jwt;
 }
-var jwt = getJwtCookie();
-if(jwt !== undefined){
-    window.open(adminservice,"_top");
-}
-
 
 function setJwtCookie(auth){
     if(auth != null)
@@ -25,6 +20,13 @@ function setJwtCookie(auth){
         document.cookie = `jwt=${auth};expires=${d.toUTCString()};samesite=strict;`;
     }
 }
+/*
+window.history.back();
+var jwt = getJwtCookie();
+if(jwt !== undefined){
+    window.open(adminservice,"_top");
+}*/
+
 
 
 document.getElementById('signin').addEventListener("submit", function(e)
