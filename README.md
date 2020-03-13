@@ -12,6 +12,7 @@ Webshop
 - Alexander Pohl
 
 ## Benötigte Umgebung
+- Linux-System
 - docker
 - docker-compose
 
