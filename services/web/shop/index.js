@@ -35,15 +35,6 @@ app.use(express.static(__dirname + '/public'));
 app.get('/', (req, res) => {
   res.render('index');
 });
-app.get('/products', (req, res) => {
-  res.render('products');
-});
-app.get('/article', (req, res) => {
-  res.render('article');
-});
-app.get('/order', (req, res) => {
-  res.render('order');
-});
 
 /**
  * Starten

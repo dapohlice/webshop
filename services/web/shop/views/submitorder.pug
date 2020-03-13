@@ -1,0 +1,38 @@
+block submitorder
+  div.container#submitorder-container.unvisible
+    h1.text-center.pt-3
+      | Submit Order
+    div#order
+        .order-record
+            span.record-title="Mail: "
+            span.record-data#record-data-mail
+        .order-record
+            span.record-title="Firstname: "
+            span.record-data#record-data-fname
+        .order-record
+            span.record-title="Lastname: "
+            span.record-data#record-data-lname
+        .order-record
+            span.record-title="Street: "
+            span.record-data#record-data-street
+        .order-record
+            span.record-title="Streetnumber: "
+            span.record-data#record-data-number
+        .order-record
+            span.record-title="Post Code: "
+            span.record-data#record-data-code
+        .order-record
+            span.record-title="Town: "
+            span.record-data#record-data-town
+        .order-record
+            span.record-title="State: "
+            span.record-data#record-data-state
+        .order-record
+            span.record-title="Country: "
+            span.record-data#record-data-country
+
+        div#record-articles
+          
+        input.button.btn.btn-primary#order-submit(value="submit")
+
+

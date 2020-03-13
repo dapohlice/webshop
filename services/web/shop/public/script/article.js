@@ -42,7 +42,7 @@ function openArtilce(art){
         options.appendChild(li);
     }
 
-    document.getElementById('article-modal').classList.remove('article-modal-invisible')
+    document.getElementById('article-modal').classList.remove('unvisible')
 }
 
 function chooseProperty(e)
@@ -66,7 +66,7 @@ function chooseProperty(e)
 }
 
 function closeArticle(){
-    document.getElementById('article-modal').classList.add('article-modal-invisible')
+    document.getElementById('article-modal').classList.add('unvisible')
 }
 
 document.getElementById('article-container-close').addEventListener('click',function(e){

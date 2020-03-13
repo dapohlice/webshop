@@ -27,7 +27,7 @@ body {
 }
 
 main {
-  padding: 100px 0 0 0;
+  padding-top: 4.5rem;
 }
 .button {
   color: white;
@@ -126,3 +126,8 @@ main {
 .link {
   /* background-color:#46494C; */
   color:#111111;
+}
+
+.unvisible{
+  display: none;
+}

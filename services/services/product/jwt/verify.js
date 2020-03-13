@@ -11,7 +11,7 @@ function verifyJWT(token)
 {
     let publicKey = fs.readFileSync(__dirname+'/key.pub');
     try{
-        let res = jwt.verify(token, publicKey, { algorithms: ['RS256'],maxAge: "3h" });
+        let res = jwt.verify(token, publicKey, { algorithms: ['RS256'] });
         if(
             res === undefined ||
             res.name === undefined|| 

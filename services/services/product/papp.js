@@ -45,8 +45,12 @@ function checkPermission(req,res,next)
         return;
     }
     let auth = req.get('Authorization');
+    console.log(auth);
+    
     let status, jwt;
     [status,jwt] = JWT.processJwt(auth);
+    console.log(status);
+    console.log(jwt);
     console.log(req.method);
     if(req.method !== "GET")
     {

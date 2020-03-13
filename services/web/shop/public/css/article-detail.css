@@ -8,9 +8,7 @@
     padding: 10vw;
     padding-top: 10vh;
 }
-.article-modal-invisible{
-    display: none;
-}
+
 #article-container{ 
     display: flex;
 

@@ -162,3 +162,7 @@ function createShoppingCartTable()
 createShoppingCartTable();
 
 document.getElementById("shoppingCart-btn").addEventListener("click", toggleShoppingCart);
+
+document.getElementById('shoppingCart-Checkout').addEventListener('click',function(e){
+    showOrder();
+})
