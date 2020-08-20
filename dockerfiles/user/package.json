@@ -16,7 +16,7 @@
     "mysql": "^2.14.1",
     "reflect-metadata": "^0.1.10",
     "typeorm": "0.2.22",
-    "bcrypt": "^3.0.7",
+    "bcrypt": "^5.0.0",
     "jsonwebtoken": "^8.5.1"
   },
   "scripts": {
